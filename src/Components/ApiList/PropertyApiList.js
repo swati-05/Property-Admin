@@ -220,7 +220,7 @@ export default function PropertyApiList() {
     searchDmr: baseUrl + '/',
     searchDecisionMakingReport: baseUrl + '/',
     searchHoldingWithElectricityDetailReport: baseUrl + '/',
-    searchPropIndividualDemandCollection: baseUrl + '/',
+    searchPropIndividualDemandCollection: baseUrl + '/api/property/reports/property/individual-demand-collection',
     searchGovDcbReport: baseUrl + '/',
     searchGovSafIndividualDemandCollection: baseUrl + '/',
     searchWardWiseDemand: baseUrl + '/',
