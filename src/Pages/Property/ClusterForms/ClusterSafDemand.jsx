@@ -178,11 +178,11 @@ function ClusterSafDemand(props) {
                                         <>
 
                                             <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.totalDemand)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.totalDues)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.lateAssessmentPenalty)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.totalOnePercPenalty)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.rebateAmount)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.specialRebateAmount)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.rebateAmt)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.specialRebateAmt)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.demand?.payableAmount)}</td>
 
 
@@ -270,7 +270,7 @@ function ClusterSafDemand(props) {
                                             </div>
                                         </div>
                                         <div className='text-right flex-1'>
-                                            {demandDetail?.basicDetails?.doc_upload_status == 1 && <button onClick={() => navigate(`/property-payment/${id}/saf`)} type="submit" className=" px-8 py-2 border border-white bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <span><BiRightArrowAlt className="inline font-bold text-xl" /></span></button>}
+                                           <button onClick={() => navigate(`/property-payment/${id}/cluster-saf`)} type="submit" className=" px-8 py-2 border border-white bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <span><BiRightArrowAlt className="inline font-bold text-xl" /></span></button>
                                         </div>
                                     </>
                                 </div>

@@ -243,7 +243,7 @@ function ClusterHoldingDemand(props) {
                                             </div>
                                         </div>
                                         <div className='text-right flex-1'>
-                                            <button onClick={() => navigate(`/property-payment/${id}/holding`)} type="submit" className=" px-6 py-1 bg-green-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <img src={pay2} alt="pay image" className='inline w-5' /></button>
+                                            <button onClick={() => navigate(`/property-payment/${id}/cluster-holding`)} type="submit" className=" px-6 py-1 bg-green-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <img src={pay2} alt="pay image" className='inline w-5' /></button>
                                         </div>
                                     </>
                                 </div>
