@@ -283,7 +283,7 @@ function App(props) {
                 <Route path="/date-ward-wise-generated-notice" element={<DateWardWiseGeneratedNotice />} /> {/* Date & Ward Wise Generated Notice */}
                 <Route path="/deactivated-holding" element={<DeactivatedHolding />} /> {/* Deactivated Holding */}
 
-                <Route path='/bank-recon' element={<BankReconcile />} />
+                <Route path='/bank-reconcile' element={<BankReconcile />} />
                 <Route path='/cash-verification' element={<CashVerification />} />
 
               </Routes>
