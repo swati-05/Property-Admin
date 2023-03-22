@@ -1,0 +1,17 @@
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: red;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: skyblue;
+  /* border: 3px solid transparent; */
+  border-radius: 9px;
+  background-clip: content-box;
+}
