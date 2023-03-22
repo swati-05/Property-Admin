@@ -238,10 +238,24 @@ function WaterHarvestingForm(props) {
                             <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Name </label>
                         </div> */}
                      
-                        <div className='col-span-1'>
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm poppins">Holding No.:  &nbsp;&nbsp;&nbsp;</label>
-                            <span className='font-semibold text-sm poppins'>{harvestingDetails?.holding_no}</span>
-                        </div>
+                     {harvestingDetails?.holding_no == '' && harvestingDetails?.new_holding_no == '' ? <></> :
+        <div className="col-span-1">
+          <label className="form-label inline-block mb-1 text-gray-600 text-sm poppins">
+            Holding No.: &nbsp;&nbsp;&nbsp;
+          </label>
+          <span className="font-semibold text-sm poppins">
+            {harvestingDetails?.new_holding_no == '' ? harvestingDetails?.holding_no : harvestingDetails?.new_holding_no}
+          </span>
+        </div>}
+
+        <div className="col-span-1">
+          <label className="form-label inline-block mb-1 text-gray-600 text-sm poppins">
+            Property Tax No.: &nbsp;&nbsp;&nbsp;
+          </label>
+          <span className="font-semibold text-sm poppins">
+            {harvestingDetails?.pt_no}
+          </span>
+        </div>
 
                         <div className='col-span-1'>
                             <label className="form-label inline-block mb-1 text-gray-600 text-sm poppins">Ward No.:  &nbsp;&nbsp;&nbsp;</label>

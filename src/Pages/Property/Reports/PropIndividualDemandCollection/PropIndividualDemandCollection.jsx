@@ -6,7 +6,7 @@ import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import { useState } from 'react'
 import { RotatingLines } from 'react-loader-spinner'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import BarLoader from '@/Components/Common/BarLoader'
 import { CSVDownload, CSVLink } from 'react-csv'
 import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
@@ -19,6 +19,8 @@ const PropIndividualDemandCollection = () => {
     const { get_MasterData, searchPropIndividualDemandCollection } = PropertyApiList()
 
     useSetTitle('Property Individual Demand And Collection')
+
+    const navigate = useNavigate()
 
     const [wardList, setwardList] = useState()
     const [dataList, setdataList] = useState()
@@ -44,7 +46,7 @@ const PropIndividualDemandCollection = () => {
         setloader(true)
 
         let body = {
-            wardId: formik.values.wardId,
+            wardMstrId: formik.values.wardId,
             page: pageCount,    // this constant is from ListTable2 constant
             perPage: perPageCount   // this constant is from ListTable2 constant
         }
@@ -92,7 +94,7 @@ const PropIndividualDemandCollection = () => {
         },
         {
             Header: "Ward No",
-            accessor: "ward_no",
+            accessor: "ward_name",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
                     return (
@@ -106,15 +108,15 @@ const PropIndividualDemandCollection = () => {
         },
         {
             Header: "Holding No",
-            accessor: "holding_no",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
+            // accessor: "holding_no",
+            Cell: ({cell}) => {
+                if (cell?.row?.original?.holding_no == null || cell?.row?.original?.holding_no == '' || cell?.row?.original?.holding_no == undefined) {
                     return (
                         <i className="font-semibold ">N/A</i>
                     );
                 }
-                if (props?.value != null) {
-                    return props?.value;
+                if (cell?.row?.original?.holding_no != null) {
+                    return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.id)}>{cell?.row?.original?.holding_no}</div>;
                 }
             }
         },
@@ -190,7 +192,7 @@ const PropIndividualDemandCollection = () => {
         },
         {
           Header: "Total Collection",
-          accessor: "total_collection",
+          accessor: "collection_amount",
           Cell: (props) => {
               if (props?.value == null || props?.value == '' || props?.value == undefined) {
                   return (
@@ -204,7 +206,7 @@ const PropIndividualDemandCollection = () => {
       },
       {
         Header: "Total Remaining",
-        accessor: "total_remaining",
+        accessor: "balance_amount",
         Cell: (props) => {
             if (props?.value == null || props?.value == '' || props?.value == undefined) {
                 return (
@@ -265,7 +267,7 @@ const PropIndividualDemandCollection = () => {
 
         // body will be changed as per requirement to get all data
         let body = {
-            wardId: formik.values.wardId,
+            wardMstrId: formik.values.wardId,
             page: '',
             perPage: totalCount
         }
@@ -374,5 +376,4 @@ const PropIndividualDemandCollection = () => {
         </>
     )
 }
-
 export default PropIndividualDemandCollection
