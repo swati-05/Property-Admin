@@ -84,7 +84,7 @@ function UlbWorkFlowMaping() {
     error: errorWorkflowList,
   } = useQuery("UlbWorkFlowListDatas", () => {
     return axios.get(
-      `http://192.168.0.166/api/admin/workflows/${roleUlb}`,
+      `http://192.168.0.166/api/property/workflows/${roleUlb}`,
       header
     );
   });

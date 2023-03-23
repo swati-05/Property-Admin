@@ -194,7 +194,7 @@ export default function PropertyApiList() {
 
     // ==========Reports API List============
     get_collectorList: `${baseUrl}/api/workflow/ward-user/list-tc`,
-    get_taxCollectorList : baseUrl + '/',
+    get_taxCollectorList : baseUrl + '/api/workflow/ward-user/list-tc',
     searchPropertyCollection: `${baseUrl}/api/property/reports/property/collection`,
     searchSafCollection: `${baseUrl}/api/property/reports/saf/collection`,
     searchPropSafIndDemCollection: `${baseUrl}/api/property/reports/property/prop-saf-individual-demand-collection`,
@@ -209,7 +209,7 @@ export default function PropertyApiList() {
     searchHoldingDcb: baseUrl + '/api/property/reports/property/dcb',
     searchWardWiseCollectionSummary: baseUrl + '/',
     searchGbSafCollection: baseUrl + '/api/property/reports/property/gbsaf-collection',
-    searchTaxRecieptBulkPrint: baseUrl + '/',
+    searchTaxRecieptBulkPrint: baseUrl + '/api/property/reports/print-bulk-receipt',
     searchHoldingWiseRebate: baseUrl + '/',
     searchSafCollectionReportwithRebatePenalty: baseUrl + '/',
     searchPropCollectionReportwithRebatePenalty: baseUrl + '/',

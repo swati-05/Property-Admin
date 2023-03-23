@@ -9,7 +9,7 @@ export default defineConfig({
     port : 3000
   },
   build: {
-    chunkSizeWarningLimit: 2000 // increase the chunk size limit to 1000kb
+    chunkSizeWarningLimit: 3000 // increase the chunk size limit to 1000kb
   },
   resolve: {
     alias: {

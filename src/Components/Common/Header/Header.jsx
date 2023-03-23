@@ -21,6 +21,8 @@ import Modal from 'react-modal';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import NotificationComponent from './NotificationComponent'
+import {TiArrowRightThick} from 'react-icons/ti'
+
 const customStyles = {
   content: {
     top: '50%',
@@ -103,6 +105,12 @@ function Header(props) {
     console.log(`${id} has been removed`)
   }
 
+  const [module, setmodule] = useState('property')
+
+  const handleModule = () => {
+    window.location.replace(`/${module}`)
+  }
+
   return (
     <>
 
@@ -110,6 +118,7 @@ function Header(props) {
       {((location.pathname != '/landing') && (location.pathname != '/') && (location.pathname != '/error')) && <div className="flex flex-col transition-all duration-500 ease-in-out ">
         {/* Navbar */}
         <nav className="w-full bg-white z-50 fixed flex flex-row flex-nowrap items-center justify-between mt-0 py-2  px-6 darks:bg-gray-800 shadow-sm transition-all duration-500 ease-in-out" id="desktop-menu">
+          <div className='flex items-center'>
           <div class=" text-center py-3">
             <a href="#" class="relative">
               <h2 class="text-2xl font-semibold text-gray-200 px-4 max-h-9 overflow-hidden hidden-compact">
@@ -140,7 +149,24 @@ function Header(props) {
             </a>
           </div>
 
-          {/* sidenav button*/}
+          <form className="hidden sm:inline-block md:inline-block mx-5">
+            <div className="flex flex-wrap items-stretch w-full relative">
+              <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" placeholder="Search…" aria-label="Search" >
+                <option value="property">Property</option>
+                <option value="water">Water</option>
+                <option value="trade">Trade</option>
+                <option value="advertisement">Advertisement</option>
+              </select>
+              <div className="flex -mr-px">
+                <button onClick={() => handleModule()} className="flex items-center py-2 px-4 ltr:-ml-1 rtl:-mr-1 ltr:rounded-r rtl:rounded-l leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0" type="button">
+                  {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2="16.65" y2="16.65" /></svg> */}
+                  <TiArrowRightThick className='text-white inline' />
+                </button>
+              </div>
+            </div>
+          </form>
+
+                   {/* sidenav button*/}
           <Tooltip anchorId="navButton_icon" />
           <button id='navButton_icon' data-tooltip-content="Click to Toggle Sidebar" onClick={navToggle} type="button" className="inline-flex items-center justify-center text-gray-800 hover:text-gray-600 darks:text-gray-300 darks:hover:text-gray-200 focus:outline-none focus:ring-0" aria-controls="sidebar-menu" aria-expanded="false" >
             <span className="sr-only">Mobile menu</span>
@@ -154,6 +180,10 @@ function Header(props) {
             </svg>
             {/* <i class="text-2xl fas fa-bars"></i> */}
           </button>
+
+          </div>
+
+ 
           {/* Search */}
           <form className="hidden sm:inline-block md:hidden lg:inline-block mx-5">
             {/* <div className="flex flex-wrap items-stretch w-full relative">
@@ -166,7 +196,7 @@ function Header(props) {
             </div> */}
           </form>
           {/* menu */}
-          <ul className="flex ltr:ml-auto rtl:mr-auto mt-2">
+          <ul className="flex ltr:ml-auto rtl:mr-auto mt-2 ">
             {/* Customizer (Only for demo purpose) */}
             <li x-data="{ open: false }" className="relative">
               <a href="javascript:;" className="py-3 px-4 flex text-sm rounded-full focus:outline-none" aria-controls="mobile-canvas" aria-expanded="false" >

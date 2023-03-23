@@ -1,0 +1,41 @@
+@media print{
+
+  *{
+      margin: 0;
+      padding: 0;
+  }
+
+  button{
+      visibility: hidden;
+  }
+
+
+    /* hide unnecessary elements */
+    body {
+      /* margin: 0.5in; */
+      visibility: hidden;
+    }
+  
+    /* adjust spacing between receipts */
+    .receipt {
+      /* width: 8.5in; */
+    height: 100vh;
+      /* margin-bottom: 100vh; */
+      page-break-after: always;
+      page-break-before: always;
+    }
+    
+    /* show only the container element */
+    #receipts-container, #receipts-container * {
+      visibility: visible !important;
+      page-break-after: always !important;
+    }
+    
+    /* set container element to full page */
+    /* #receipts-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+    } */
+
+}

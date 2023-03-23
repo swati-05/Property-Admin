@@ -62,7 +62,7 @@ function SearchIndex() {
           setreadymadeListData(res?.data?.data)
           setreadymadeListStatus(true)
           // TO CHANGE THE URL TO REFETCH DATA WHEN COME BACK
-          changeUrl(`/admin/search/fresh/${encodeURIComponent(data?.filterBy)}/${encodeURIComponent(data?.parameter)}`)
+          changeUrl(`/property/search/fresh/${encodeURIComponent(data?.filterBy)}/${encodeURIComponent(data?.parameter)}`)
         } else {
           notify('Something went wrong!!', 'error')
         }

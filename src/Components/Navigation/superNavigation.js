@@ -1,5 +1,5 @@
 export function superNavigation(e, url, navigate) {
-    let basePath = '/admin'
+    let basePath = '/property'
     if (e.ctrlKey) {
         window.open(`${basePath}${url}`, "_blank");
     } else {
