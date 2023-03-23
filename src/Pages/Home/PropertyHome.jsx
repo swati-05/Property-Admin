@@ -147,6 +147,8 @@ function PropertyHome() {
             })
     }
 
+    console.log('selected applications...',activeApplicationType)
+
     return (
         <>
             {
@@ -302,13 +304,13 @@ function PropertyHome() {
                 </div>
                 <div className="mt-4 px-4">
                     <div className="w-full flex">
-                        <button className={`mr-4 ${activeApplicationType == 'saf' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('saf')}>SAF</button>
+                        <button className={`mr-4 ${activeApplicationType == 'saf' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}   px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('saf')}>SAF</button>
 
-                        <button className={`mr-4 ${activeApplicationType == 'Concession' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Concession')}>Concession</button>
+                        <button className={`mr-4 ${activeApplicationType == 'Concession' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Concession')}>Concession</button>
 
-                        <button className={`mr-4 ${activeApplicationType == 'Harvesting' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Harvesting')}>Harvesting</button>
-                        <button className={`mr-4 ${activeApplicationType == 'Objection' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Objection')}>Objection</button>
-                        <button className={`mr-4 ${activeApplicationType == 'Deactivation' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Deactivation')}>Deactivation</button>
+                        <button className={`mr-4 ${activeApplicationType == 'Harvesting' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Harvesting')}>Harvesting</button>
+                        <button className={`mr-4 ${activeApplicationType == 'Objection' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Objection')}>Objection</button>
+                        <button className={`mr-4 ${activeApplicationType == 'Deactivation' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Deactivation')}>Deactivation</button>
                     </div>
                 </div>
             </div>

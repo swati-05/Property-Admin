@@ -54,7 +54,6 @@ function LandingHomeDashBoard() {
     const [currenRoleView, setcurrenRoleView] = useState(role)
     const [isLoading, setisLoading] = useState(false)
     const [currentRole, setcurrentRole] = useState('jsk')
-    const [activeModuleType, setactiveModuleType] = useState('property')
     const imageRef = useRef()
     const { api_editAdminProfile } = ProjectApiList()
     const notify = useToast()
@@ -184,16 +183,7 @@ function LandingHomeDashBoard() {
                     <BarLoader />
                 </div>
             }
-            <div className="mt-4">
-                <div className="w-full flex justify-end">
-                    <button className={`mr-4 ${activeModuleType == 'property' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => changeModuleType('property')}>Property</button>
-
-                    <button className={`mr-4 ${activeModuleType == 'water' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => changeModuleType('water')}>Water</button>
-
-                    <button className={`mr-4 ${activeModuleType == 'trade' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500'} bg-white  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => changeModuleType('trade')}>Trade</button>
-
-                </div>
-            </div>
+           
             <div className='w-full bg-white shadow-xl p-10 mt-4'>
                 <div className="flex">
                     <div className="flex-initial">
@@ -229,14 +219,7 @@ function LandingHomeDashBoard() {
                 </div>
             </div>
 
-            {/* // PROPERTY LANDING DASHBOARD */}
-            {activeModuleType == 'property' && <PropertyHome />}
-
-            {/* // WATER LANDING DASHBOARD */}
-            {/* {activeModuleType == 'water' && <WaterJskDashboard />} */}
-
-            {/* // TRADE LANDING DASHBOARD */}
-            {/* {activeModuleType == 'trade' && 'trade'} */}
+            <PropertyHome />
 
             <div className='w-full h-40'></div>
 
