@@ -149,7 +149,7 @@ function Header(props) {
             </a>
           </div>
 
-          <form className="hidden sm:inline-block md:hidden lg:inline-block mx-5">
+          <form className="hidden sm:inline-block md:inline-block mx-5">
             <div className="flex flex-wrap items-stretch w-full relative">
               <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" placeholder="Search…" aria-label="Search" >
                 <option value="property">Property</option>
