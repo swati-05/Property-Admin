@@ -170,7 +170,7 @@ function App(props) {
       {/* passing context data to all component enclosed */}
       <contextVar.Provider value={contextData}>
         <CustomErrorBoundaryForRoutes errorMsg="Something went wrong !!" >
-          <BrowserRouter basename="/admin">
+          <BrowserRouter basename="/property">
             {/* common notify toast to run from anywhere */}
             <ToastContainer position="top-right" autoClose={2000} />
             <Header />

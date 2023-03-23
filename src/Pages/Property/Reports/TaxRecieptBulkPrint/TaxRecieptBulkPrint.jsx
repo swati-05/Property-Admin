@@ -44,7 +44,7 @@ const TaxRecieptBulkPrint = () => {
             fromDate : '',
             uptoDate : '',
             userId : '',
-            tranType: 'property'
+            tranType: 'Property'
         },
         enableReinitialize : true,
 
@@ -61,9 +61,9 @@ const TaxRecieptBulkPrint = () => {
 
            let body = {
             fromDate : formik.values.fromDate,
-            uptoDate : formik.values.uptoDate,
-            userId : formik.values.wardId,                          
-            tranType : formik.values.paymentMode,
+            toDate : formik.values.uptoDate,
+            userId : formik.values.userId,                                    
+            tranType : formik.values.tranType,
         }
 
         // console.log('data before hitting api => ', body)
@@ -72,7 +72,7 @@ const TaxRecieptBulkPrint = () => {
         .then((res) => {
             if(res?.data?.status == true){
                 console.log('search success => ', res)
-                setdataList(res?.data?.data)
+                setdataList(res?.data)
             } else {
                 console.log('error while search => ', res)
             }
@@ -175,8 +175,8 @@ const TaxRecieptBulkPrint = () => {
                     </div>
                     <div className="col-span-6">
                         <select name="tranType" id="" className={commonInputStyle}>
-                            <option value='property' selected>Property</option>
-                            <option value="saf" >SAF</option>
+                            <option value='Property' selected>Property</option>
+                            <option value="Saf" >SAF</option>
                         </select>
                     </div>
                 </div>
@@ -201,13 +201,11 @@ const TaxRecieptBulkPrint = () => {
         </form>
 
         {
-            (dataList != undefined && dataList?.length != 0) ? <>
+            (dataList?.data != undefined && dataList?.data?.length != 0) ? <>
             
-              {
-                dataList?.map((elem) => <>
-                  <PaymentReceiptIndex data={elem} />
-                </>)
-              }
+
+                  <PaymentReceiptIndex data={dataList} />
+
 
               <div className='mb-6'></div>
 

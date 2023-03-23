@@ -81,8 +81,8 @@ function SafWorkflowEntry() {
       departmentalPostFor: 'SAF',
       workflowId: 4,
       moduleId: 1,
-      formUrl: '/admin/safform/bo-edit',
-      fullDetailsUrl: '/admin/propApplicationDetails'
+      formUrl: '/property/safform/bo-edit',
+      fullDetailsUrl: '/property/propApplicationDetails'
     },
 
     tableColumns: [
