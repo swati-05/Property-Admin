@@ -21,6 +21,8 @@ import Modal from 'react-modal';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import NotificationComponent from './NotificationComponent'
+import {TiArrowRightThick} from 'react-icons/ti'
+
 const customStyles = {
   content: {
     top: '50%',
@@ -149,7 +151,7 @@ function Header(props) {
 
           <form className="hidden sm:inline-block md:hidden lg:inline-block mx-5">
             <div className="flex flex-wrap items-stretch w-full relative">
-              <select onChange={(e) => setmodule(e.target.value)} className="flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" placeholder="Search…" aria-label="Search" >
+              <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" placeholder="Search…" aria-label="Search" >
                 <option value="property">Property</option>
                 <option value="water">Water</option>
                 <option value="trade">Trade</option>
@@ -157,7 +159,8 @@ function Header(props) {
               </select>
               <div className="flex -mr-px">
                 <button onClick={() => handleModule()} className="flex items-center py-2 px-4 ltr:-ml-1 rtl:-mr-1 ltr:rounded-r rtl:rounded-l leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0" type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2="16.65" y2="16.65" /></svg>
+                  {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2="16.65" y2="16.65" /></svg> */}
+                  <TiArrowRightThick className='text-white inline' />
                 </button>
               </div>
             </div>
