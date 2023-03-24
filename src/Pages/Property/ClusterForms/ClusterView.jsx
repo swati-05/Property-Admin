@@ -41,6 +41,7 @@ const ClusterView = (props) => {
     const [resultData, setresultData] = useState([])
     const [multiData, setmultiData] = useState([])
     const [userData, setuserData] = useState()
+    const [refresh, setrefresh] = useState(0)
 
     const navigate = useNavigate()
 
@@ -64,7 +65,7 @@ const ClusterView = (props) => {
 
     useEffect(() => {
       fetchData()
-    },[])
+    },[refresh])
 
     // ===================Function to view cluster=========================
   const fetchData = () => {
@@ -371,11 +372,11 @@ const ClusterView = (props) => {
 
       let body = addCont == 'Holding' ? {
         clusterId: id,
-	      holdingNo: multiData
+	      holdingNo: [...new Set(multiData)]
       } : 
       {
         clusterId: id,
-	      safNo: multiData
+	      safNo: [...new Set(multiData)]
       }
 
       console.log('before mapping data  => ', body)
@@ -388,7 +389,7 @@ const ClusterView = (props) => {
         setloader(false)
         toast.success("Mapping successfull !!!")
         closeModal()
-        props.refresh()
+        setrefresh(refresh+1)
         }
 
         if(res?.data?.status == false){
@@ -586,7 +587,7 @@ const ClusterView = (props) => {
                     Selected {addCont} &nbsp; : &nbsp; &nbsp; </div>
                     <div className='w-full md:w-[80%]'>
                           <div className='flex flex-row flex-wrap gap-x-2 gap-y-1  px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md'>
-                          {multiData?.map((elem, index) => <div className='w-max'>
+                          {[...new Set(multiData)]?.map((elem, index) => <div className='w-max'>
                           <span className='bg-indigo-100 text-gray-800 flex flex-row items-cente poppins text-xs px-2 py-1.5 rounded-md font-semibold'>{elem}&nbsp;<RiDeleteBackLine className='inline text-red-600 font-semibold text-sm cursor-pointer hover:text-red-700' onClick={() => funRemove(index)}/></span>
                           </div>)}
                         
