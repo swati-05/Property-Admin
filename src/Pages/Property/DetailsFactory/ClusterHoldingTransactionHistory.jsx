@@ -35,13 +35,13 @@ function ClusterHoldingTransactionHistory(props) {
     const navigate = useNavigate()
 
     // LIST OF API'S
-    const { api_getSpecificHoldingTranscationHistory, } = CitizenApplyApiList()
-    const { api_getPropHoldingDetailsById } = PropertyApiList()
+    const { api_getClusterPropertyPaymentHistory, } = CitizenApplyApiList()
+    const { api_getClusterBasicDeatilsById } = PropertyApiList()
 
     const transactionRules = {
         api: {
             // 1 - API TO FETCH TRANSACTION HISTORY LIST
-            api_getTranscationHistory: { method: 'get', url: api_getSpecificHoldingTranscationHistory },
+            api_getTranscationHistory: { method: 'get', url: api_getClusterPropertyPaymentHistory },
         },
         transactionInfo: {
             title: '',
@@ -119,11 +119,11 @@ function ClusterHoldingTransactionHistory(props) {
         setreadyMadeListStatus(false)
         setisLoading(true)
         let requestBody = {
-            propId: id
+            clusterId: id
         }
 
         console.log('before fetch factory data')
-        axios.post(api_getSpecificHoldingTranscationHistory, requestBody, ApiHeader())
+        axios.post(api_getClusterPropertyPaymentHistory, requestBody, ApiHeader())
             .then(function (response) {
                 console.log("all transcation list at holding specific----- ", response.data);
 
@@ -153,13 +153,13 @@ function ClusterHoldingTransactionHistory(props) {
                 Accept: 'application/json',
             }
         }
-        axios.post(`${api_getPropHoldingDetailsById}`,
+        axios.post(`${api_getClusterBasicDeatilsById}`,
             {
-                propertyId: id
+                clusterId: id
             },
             header)
             .then(function (response) {
-                console.log('view prop prop full details...', response.data.data)
+                console.log('view prop prop full details of cluster...', response.data.data)
                 setapplicationFullData(response.data.data)
                 setisLoading(false)
             })
@@ -177,25 +177,25 @@ function ClusterHoldingTransactionHistory(props) {
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
                 {transactionRules?.transactionInfo.title != '' && <div className='px-1 font-semibold font-serif text-2xl '>{transactionRules?.transactionInfo?.title}</div>}
                 {/* <div className='text-xs opacity-60'>(select ward above to get collection in specific ward)</div> */}
-                <TopTabsCluster title={`Payment History`} type="holding" id={id} safNo={''} active="payment" />
+                <TopTabsCluster title={`Cluster Payment History`} type="holding" id={id} safNo={''} active="payment" />
                 <div className=''>
                     <div className='py-6 mt-2 bg-white rounded-lg shadow-lg p-4'>
                         <div className="flex space-x-5 pl-4 ">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>Ward No.</div>
+                                <div className='font-bold text-sm'>{applicationFullData?.cluster_name ? applicationFullData?.cluster_name : "N/A"}</div>
+                                <div className='text-gray-500 text-xs'>Cluster Name</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>New Ward No</div>
+                                <div className='font-semibold text-lg'>{applicationFullData?.cluster_type ? applicationFullData?.cluster_type : "N/A"}</div>
+                                <div className='text-gray-500 text-xs'>Cluster Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.ownership_type ? applicationFullData?.ownership_type : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>Ownership Type</div>
+                                <div className='font-semibold text-md'>{applicationFullData?.address ? applicationFullData?.address : "N/A"}</div>
+                                <div className='text-gray-500 text-xs'>Address</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.property_type ? applicationFullData?.property_type : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>Property Type</div>
+                                <div className='font-bold text-sm'>{applicationFullData?.created_at ? applicationFullData?.created_at : "N/A"}</div>
+                                <div className='text-gray-500 text-xs'>Created At</div>
                             </div>
                             <div className='flex-1'>
                                 <div className='font-bold text-sm'>{applicationFullData?.zone_mstr_id ? applicationFullData?.zone_mstr_id : "N/A"}</div>
@@ -299,9 +299,7 @@ function ClusterHoldingTransactionHistory(props) {
                     </div>
                 }
 
-                <div className='mt-10'>
-                    <button onClick={() => navigate(`/viewDemandHoldingProperty/${id}`)} type="button" className="float-right px-6 py-2.5 bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay</button>
-                </div>
+               
                 <div className='w-full h-40'></div>
             </div>
         </>

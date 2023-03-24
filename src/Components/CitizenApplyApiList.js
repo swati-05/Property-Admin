@@ -126,6 +126,9 @@ export default function CitizenApplyApiList() {
 
         api_editPropertyDetails: `${baseUrl}/api/property/basic-edit`,
 
+        // API TO GET CLUSTER PROPERTY TRANSACTION HISTORY
+        api_getClusterPropertyPaymentHistory: `${baseUrl}/api/property/cluster/payment-history`,
+
 
 
 

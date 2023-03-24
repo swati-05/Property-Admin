@@ -88,7 +88,7 @@ function ClusterHoldingDemand(props) {
                 autoClose={2000} />
             <div className='w-full mx-auto px-6'>
                 <div className='pt-10'>
-                    <TopTabsCluster title={`Demand-Details`} type="holding" id={id} safNo={''} active="demand" />
+                    <TopTabsCluster title={`Cluster Demand-Details`} type="holding" id={id} safNo={''} active="demand" />
                 </div>
 
                 <div className='w-full bg-white shadow-xl mb-6'>
@@ -96,23 +96,23 @@ function ClusterHoldingDemand(props) {
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
 
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.holding_no)}</div>
-                                <div className='text-gray-500 text-xs'>Holding No.</div>
+                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.cluster_name)}</div>
+                                <div className='text-gray-500 text-xs'>Cluster Name</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.old_ward_no)}</div>
-                                <div className='text-gray-500 text-xs'>Ward No.</div>
+                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.cluster_type)}</div>
+                                <div className='text-gray-500 text-xs'>Cluster Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{nullToNA(demandDetail?.basicDetails?.old_ward_no)}</div>
-                                <div className='text-gray-500 text-xs'>New Ward No</div>
+                                <div className='font-semibold text-lg'>{nullToNA(demandDetail?.basicDetails?.address)}</div>
+                                <div className='text-gray-500 text-xs'>Address</div>
                             </div>
                             <div className='flex-1'>
                                 <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.ownership_type)}</div>
                                 <div className='text-gray-500 text-xs'>Ownership Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.property_type)}</div>
+                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.property_type)}</div>
                                 <div className='text-gray-500 text-xs'>Property Type</div>
                             </div>
 
@@ -120,11 +120,11 @@ function ClusterHoldingDemand(props) {
 
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id)}</div>
+                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id)}</div>
                                 <div className='text-gray-500 text-xs'>Zone</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.is_mobile_tower)}</div>
+                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.is_mobile_tower)}</div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                             </div>
                             <div className='flex-1'>
@@ -136,7 +136,7 @@ function ClusterHoldingDemand(props) {
                                 <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm' >{nullToNA(demandDetail?.basicDetails?.is_water_harvesting)}</div>
+                                <div className='font-bold text-md' >{nullToNA(demandDetail?.basicDetails?.is_water_harvesting)}</div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
                         </div>

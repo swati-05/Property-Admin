@@ -176,6 +176,8 @@ export default function PropertyApiList() {
     postSafVerify: `${baseUrl}/api/property/saf/doc-status`, // DOUBT
     // 50 API TO GET DATA BY HOLDING OR PROPID
     api_getPropHoldingDetailsById: `${baseUrl}/api/property/saf/get-prop-byholding`, // DUPLICATE
+    // 50 API TO GET CLUSTER DATA BY CLUSTER ID
+    api_getClusterBasicDeatilsById: `${baseUrl}/api/property/cluster/basic-details`, // DUPLICATE
     // 51 API TO GET TC COMPARISON DATA
     api_getTcComparisonData: `${baseUrl}/api/property/saf/verifications-comp`,
     // 52 API TO DEACTIVATE HOLDING
