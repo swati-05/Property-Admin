@@ -97,7 +97,7 @@ const NotPaidFrom = () => {
       },
       {
           Header: "Ward No",
-          accessor: "ward_no",
+          accessor: "ward_name",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -109,6 +109,20 @@ const NotPaidFrom = () => {
             }
           }
       },
+      {
+        Header: "Property Tax No",
+        accessor: "pt_no",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+              <i className="font-semibold ">N/A</i>
+          );
+        }
+        if (props?.value != null) {
+            return props?.value;
+        }
+        }
+    },
       {
           Header: "Holding No",
           accessor: "holding_no",
@@ -198,6 +212,20 @@ const NotPaidFrom = () => {
         if (props?.value != null) {
             return props?.value;
           }
+        }
+    },
+    {
+        Header: "Property Tax No",
+        accessor: "pt_no",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+              <i className="font-semibold ">N/A</i>
+          );
+        }
+        if (props?.value != null) {
+            return props?.value;
+        }
         }
     },
     {
@@ -359,7 +387,7 @@ const NotPaidFrom = () => {
             }
     
         <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
-            <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Collection Report</h1>
+            <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Report</h1>
 
             <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
 

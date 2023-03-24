@@ -499,7 +499,7 @@ const ArrearCurrentCollectionSummary = () => {
                             <option value=''>All</option>
                             {
                                 collectorList?.map((elem) => <>
-                                    <option value={elem?.id}>{elem?.user_name}&nbsp;({elem?.user_type})</option>
+                                    <option value={elem?.id}><span className="capitalize">{elem?.user_name}</span>&nbsp;<span className="uppercase">({elem?.user_type})</span></option>
                                 </>)
                             }
                         </select>

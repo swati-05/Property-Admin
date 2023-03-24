@@ -70,7 +70,7 @@ const ComponentToPrint = ({index , paymentData}) => {
                                             <h1 className='flex font-sans font-semibold pl-2 '>{paymentData?.newWardNo}</h1>
                                         </div>
                                         <div className='flex p-1 '>
-                                            <h1 className='flex text-gray-900 font-sans '>{'Holding No.'} </h1>
+                                            <h1 className='flex text-gray-900 font-sans '>Holding No. </h1>
                                             <h1 className='flex font-sans font-semibold pl-2 '>{paymentData?.applicationNo}</h1>
                                         </div>
 
