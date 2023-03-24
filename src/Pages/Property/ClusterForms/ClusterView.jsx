@@ -466,6 +466,13 @@ const ClusterView = (props) => {
                     <div className='text-xs'>Authorized Person Name</div>
                     <div className='text-sm font-semibold'>{userData?.authorized_person_name}</div>
                 </div>
+
+                {/* ==============Created At=======================*/}
+                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                    <div className='text-xs'>Created At</div>
+                    <div className='text-sm font-semibold'>{new Date(userData?.created_at).toLocaleDateString("en-GB")}</div>
+                </div>
+
             </div>
 
         </div>

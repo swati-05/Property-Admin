@@ -13,6 +13,7 @@ import ApiHeader from '@/Components/ApiList/ApiHeader';
 import { contextVar } from '@/Components/Context/Context';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
 import TopTabsCluster from './TopTabsCluster';
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions';
 
 
 
@@ -182,28 +183,33 @@ function ClusterHoldingTransactionHistory(props) {
                     <div className='py-6 mt-2 bg-white rounded-lg shadow-lg p-4'>
                         <div className="flex space-x-5 pl-4 ">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.cluster_name ? applicationFullData?.cluster_name : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.cluster_name)}</div>
                                 <div className='text-gray-500 text-xs'>Cluster Name</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{applicationFullData?.cluster_type ? applicationFullData?.cluster_type : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.cluster_type)}</div>
                                 <div className='text-gray-500 text-xs'>Cluster Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.address ? applicationFullData?.address : "N/A"}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(applicationFullData?.authorized_person_name)}</div>
+                                <div className='text-gray-500 text-xs'>Authorized Person Name</div>
+                            </div>
+                            <div className='flex-1'>
+                                <div className='font-semibold text-sm'>{nullToNA(applicationFullData?.mobile_no)}</div>
+                                <div className='text-gray-500 text-xs'>Mobile No.</div>
+                            </div>
+                            <div className='flex-1'>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.address)}</div>
                                 <div className='text-gray-500 text-xs'>Address</div>
                             </div>
+
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.created_at ? applicationFullData?.created_at : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(new Date(applicationFullData?.created_at).toLocaleDateString("en-GB"))}</div>
                                 <div className='text-gray-500 text-xs'>Created At</div>
-                            </div>
-                            <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.zone_mstr_id ? applicationFullData?.zone_mstr_id : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>Zone</div>
                             </div>
                         </div>
 
-                        <div className="flex space-x-10  pl-4 mt-4">
+                        {/* <div className="flex space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
                                 <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower ? applicationFullData?.is_mobile_tower : "N/A"}</div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
@@ -223,7 +229,7 @@ function ClusterHoldingTransactionHistory(props) {
                             <div className='flex-1'>
 
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>
