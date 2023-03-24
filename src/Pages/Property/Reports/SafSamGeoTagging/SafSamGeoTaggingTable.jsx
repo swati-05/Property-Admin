@@ -1,5 +1,14 @@
 
 const SafSamGeoTaggingTable = (props) => {
+  
+  const getSum = (key) => {
+    let sum = 0;
+    props?.data?.forEach((item) => {
+      sum += parseInt(item[key]);
+    });
+    return sum;
+  }
+  
   return (
     <>
 
@@ -21,27 +30,27 @@ const SafSamGeoTaggingTable = (props) => {
   props?.data?.map((data, index) => 
   <tr>
     <td className="border-[1px] border-gray-700 pl-1">{index + 1}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.transaction_mode}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.holding_count}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.tran_count}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1">{data?.amount}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.ward_no}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.total_saf}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.total_sam}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.total_fam}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.total_geotaging}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.total_btc}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.pending_sam}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{data?.pending_fam}</td>
 </tr>
   )
 }
 
 <tr>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold" colSpan={2}>Total</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.holding_count}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.tran_count}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.amount}</td>
-    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{props?.data?.amount}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold text-center" colSpan={2}>Total</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('total_saf')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('total_sam')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('total_fam')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('total_geotaging')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('total_btc')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('pending_sam')}</td>
+    <td className="border-[1px] border-gray-700 pl-1 font-semibold">{getSum('pending_fam')}</td>
 </tr>
 
 </table>

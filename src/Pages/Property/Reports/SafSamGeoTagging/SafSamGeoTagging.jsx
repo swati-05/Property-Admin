@@ -169,7 +169,7 @@ const SafSamGeoTagging = () => {
         {
             (dataList != undefined && dataList?.length != 0) ? <>
 
-            <SafSamGeoTaggingTable data={dataList?.collection} />
+            <SafSamGeoTaggingTable data={dataList} />
 
             </> : 
             <>

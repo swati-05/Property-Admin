@@ -44,7 +44,7 @@ const GovSafIndividualDemandCollection = () => {
         setloader(true)
 
         let body = {
-            wardId: formik.values.wardId,
+            wardMstrId: formik.values.wardId,
             page: pageCount,    // this constant is from ListTable2 constant
             perPage: perPageCount   // this constant is from ListTable2 constant
         }
@@ -92,7 +92,7 @@ const GovSafIndividualDemandCollection = () => {
         },
         {
             Header: "Ward No",
-            accessor: "ward_no",
+            accessor: "ward_name",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
                     return (
@@ -106,7 +106,7 @@ const GovSafIndividualDemandCollection = () => {
         },
         {
             Header: "Application No",
-            accessor: "application_no",
+            accessor: "saf_no",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
                     return (
@@ -120,7 +120,7 @@ const GovSafIndividualDemandCollection = () => {
         },
         {
             Header: "Building Colony Name",
-            accessor: "new_holding_no",
+            accessor: "gb_office_name",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
                     return (
@@ -134,7 +134,7 @@ const GovSafIndividualDemandCollection = () => {
         },
         {
             Header: "Building Colony Address",
-            accessor: "owner_name",
+            accessor: "prop_address",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
                     return (
@@ -147,7 +147,7 @@ const GovSafIndividualDemandCollection = () => {
             }
         },
         {
-            Header: "Total Demand",
+            Header: "Total Demand (in ₹)",
             accessor: "total_demand",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
@@ -161,8 +161,8 @@ const GovSafIndividualDemandCollection = () => {
             }
         },
         {
-          Header: "Total Collection",
-          accessor: "total_collection",
+          Header: "Total Collection (in ₹)",
+          accessor: "collection_amount",
           Cell: (props) => {
               if (props?.value == null || props?.value == '' || props?.value == undefined) {
                   return (
@@ -175,8 +175,8 @@ const GovSafIndividualDemandCollection = () => {
           }
       },
       {
-        Header: "Total Remaining",
-        accessor: "total_remaining",
+        Header: "Total Remaining (in ₹)",
+        accessor: "balance_amount",
         Cell: (props) => {
             if (props?.value == null || props?.value == '' || props?.value == undefined) {
                 return (
@@ -237,7 +237,7 @@ const GovSafIndividualDemandCollection = () => {
 
         // body will be changed as per requirement to get all data
         let body = {
-            wardId: formik.values.wardId,
+            wardMstrId: formik.values.wardId,
             page: '',
             perPage: totalCount
         }

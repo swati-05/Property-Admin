@@ -12,7 +12,7 @@ import { CSVDownload, CSVLink } from 'react-csv'
 import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const NotPaidFrom = () => {
 
@@ -23,6 +23,8 @@ const NotPaidFrom = () => {
     const [loader, setloader] = useState(false)
 
     const {year} = useParams()
+
+    const navigate = useNavigate()
 
     useSetTitle(year == 'current' ? 'Previous Year Paid But Not paid Current Year' : 'Not paid From 2016-2017')
 
@@ -123,20 +125,20 @@ const NotPaidFrom = () => {
         }
         }
     },
-      {
-          Header: "Holding No",
-          accessor: "holding_no",
-          Cell: (props) => {
-          if (props?.value == null || props?.value == '' || props?.value == undefined) {
-            return (
-                <i className="font-semibold ">N/A</i>
-            );
-          }
-          if (props?.value != null) {
-              return props?.value;
-          }
-          }
-      },
+    {
+        Header: "Holding No",
+        // accessor: "holding_no",
+        Cell: ({cell}) => {
+            if (cell?.row?.original?.holding_no == null || cell?.row?.original?.holding_no == '' || cell?.row?.original?.holding_no == undefined) {
+                return (
+                    <i className="font-semibold ">N/A</i>
+                );
+            }
+            if (cell?.row?.original?.holding_no != null) {
+                return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.property_id)}>{cell?.row?.original?.holding_no}</div>;
+            }
+        }
+    },
       {
           Header: "Unique House No",
           accessor: "new_holding_no",
