@@ -107,6 +107,19 @@ const PropIndividualDemandCollection = () => {
             }
         },
         {
+            Header: "Property Tax No",
+            Cell: ({cell}) => {
+                if (cell?.row?.original?.pt_no == null || cell?.row?.original?.pt_no == '' || cell?.row?.original?.pt_no == undefined) {
+                    return (
+                        <i className="font-semibold ">N/A</i>
+                    );
+                }
+                if (cell?.row?.original?.pt_no != null) {
+                    return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.id)}>{cell?.row?.original?.pt_no}</div>;
+                }
+            }
+        },
+        {
             Header: "Holding No",
             // accessor: "holding_no",
             Cell: ({cell}) => {

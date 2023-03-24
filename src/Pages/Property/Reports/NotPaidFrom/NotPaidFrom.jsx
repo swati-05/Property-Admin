@@ -113,16 +113,15 @@ const NotPaidFrom = () => {
       },
       {
         Header: "Property Tax No",
-        accessor: "pt_no",
-        Cell: (props) => {
-        if (props?.value == null || props?.value == '' || props?.value == undefined) {
-          return (
-              <i className="font-semibold ">N/A</i>
-          );
-        }
-        if (props?.value != null) {
-            return props?.value;
-        }
+        Cell: ({cell}) => {
+            if (cell?.row?.original?.pt_no == null || cell?.row?.original?.pt_no == '' || cell?.row?.original?.pt_no == undefined) {
+                return (
+                    <i className="font-semibold ">N/A</i>
+                );
+            }
+            if (cell?.row?.original?.pt_no != null) {
+                return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.property_id)}>{cell?.row?.original?.pt_no}</div>;
+            }
         }
     },
     {
