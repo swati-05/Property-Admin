@@ -47,7 +47,7 @@ const NotPaidFrom = () => {
         setloader(true)
 
         let body = {
-                wardId : formik.values.wardId,                             
+                wardMstrId : formik.values.wardId,                             
                 page : pageCount,
                 perPage : perPageCount
         }
@@ -346,7 +346,7 @@ const NotPaidFrom = () => {
             setcsvStatus(false)
 
             let body = {
-                wardId : formik.values.wardId,                              
+                wardMstrId : formik.values.wardId,                              
                 page : '',
                 perPage : totalCount
         }
