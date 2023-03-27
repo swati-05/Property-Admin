@@ -29,6 +29,18 @@ Create a file Named NavigatePage and give index route just above login route
 
 ```
 
+```
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
+function NavigatePage() {
+    const navigate = useNavigate()
+    navigate('/home')
+}
+
+export default NavigatePage
+```
+
 
 Adjust your login route
 ```
