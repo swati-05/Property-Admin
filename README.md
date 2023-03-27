@@ -48,7 +48,7 @@ Adjust your login route
 
 ```
 
-> Step 2 - Login.js (Adjust these codes)
+> <h1>Step 2 - Login.js (Adjust these codes)</h1>
 Add these codes just above your login jsx (we dont need jsk view)
 ```
   // 3 CHANGE FOR SINGLE AUTH
@@ -121,7 +121,7 @@ Add these codes just above your login jsx (we dont need jsk view)
 ```
 
 
-> Step 3 - Header.js (Adjust these codes)
+> <h3>Step 3 - Header.js (Adjust these codes)</h3>
 Add module selectbox to the view
 ```
    <form className="hidden sm:inline-block md:inline-block mx-5 ml-20">
