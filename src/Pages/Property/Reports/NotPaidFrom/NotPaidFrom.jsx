@@ -203,7 +203,7 @@ const NotPaidFrom = () => {
     },
     {
         Header: "Ward No",
-        accessor: "ward_no",
+        accessor: "ward_name",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (

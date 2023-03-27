@@ -217,7 +217,7 @@ export default function PropertyApiList() {
     searchPropCollectionReportwithRebatePenalty: baseUrl + '/',
     searchArrearCurrentCollectionSummary: baseUrl + '/',
     searchSafSamGeoTagging: baseUrl + '/api/property/reports/saf/saf-sam-fam-geotagging',
-    searchPreviousYearPaidButNotPaidCurrentYear: baseUrl + '/',
+    searchPreviousYearPaidButNotPaidCurrentYear: baseUrl + '/api/property/reports/previous-year-paid-not-current-year',
     searchNotPaidFrom20162017: baseUrl + '/api/property/reports/not-paid-from-2016',
     searchDmr: baseUrl + '/',
     searchDecisionMakingReport: baseUrl + '/',
