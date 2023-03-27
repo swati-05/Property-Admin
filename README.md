@@ -1,6 +1,13 @@
 ### Changes in admin modules for single login redirect
 
 > Step 1 - App.js (Adjust these codes)
+Add state variable to track menulist fetching
+```
+ const [menuFetchStatus, setmenuFetchStatus] = useState(false);
+
+```
+
+To manage auto login and auto logout 
 ```
  const navigate = useNavigate()
   let token = window.localStorage.getItem('token')
@@ -13,5 +20,18 @@
   if (token == null) {
     navigate('/login/fresh')
   }
+
+```
+
+Create a file Named NavigatePage and give index route just above login route
+```
+ <Route index element={<NavigatePage />} />
+
+```
+
+
+Adjust your login route
+```
+  <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
 
 ```
