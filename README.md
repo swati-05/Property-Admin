@@ -7,7 +7,7 @@ Add state variable to track menulist fetching
 
 ```
 
-To manage auto login and auto logout 
+To manage auto login and auto logout (make sure to add BrowserRouter to your index.js or main.jsx page)
 ```
  const navigate = useNavigate()
   let token = window.localStorage.getItem('token')
