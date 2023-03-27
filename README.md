@@ -49,6 +49,9 @@ Adjust your login route
 ```
 
 
+
+
+
 > <h1>Step 2 - Login.js (Adjust these codes)</h1>
 Add these codes just above your login jsx (we dont need jsk view)
 ```
@@ -120,6 +123,9 @@ Add these codes just above your login jsx (we dont need jsk view)
     return
 
 ```
+
+
+
 
 
 > <h3>Step 3 - Header.js (Adjust these codes)</h3>
