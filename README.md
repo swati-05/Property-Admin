@@ -1,6 +1,6 @@
-### Changes in admin modules for single login redirect
+# Changes in admin modules for single login redirect
 
-> Step 1 - App.js (Adjust these codes)
+>### Step 1 - App.js (Adjust these codes)
 Add state variable to track menulist fetching
 ```
  const [menuFetchStatus, setmenuFetchStatus] = useState(false);
