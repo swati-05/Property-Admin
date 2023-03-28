@@ -245,7 +245,7 @@ function PropertyAddOwnerObjection(props) {
         fd.append('objectionFor', "Clerical Mistake")
         fd.append('docCode', docCode)
         fd.append('document', document)
-        fd.append('owners', ownerPreviewList)
+        fd.append('owners', JSON.stringify(ownerPreviewList))
 
         console.log("before fetch data => ", requestBody)
 
