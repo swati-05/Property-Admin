@@ -184,6 +184,20 @@ const PropSafSearchCollection = () => {
                 }
             },
             {
+                Header: "Property Tax No",
+                accessor: "pt_no",
+                Cell: (props) => {
+                if (props?.value == null || props?.value == '' || props?.value == undefined) {
+                  return (
+                      <i className="font-semibold ">N/A</i>
+                  );
+                }
+                if (props?.value != null) {
+                    return props?.value;
+                }
+                }
+            },
+            {
                 Header: "Holding No",
                 accessor: "holding_no",
                 Cell: (props) => {
@@ -699,7 +713,7 @@ const PropSafSearchCollection = () => {
                             <option value=''>All</option>
                             {
                                 collectorList?.map((elem) => <>
-                                    <option value={elem?.id}>{elem?.user_name}&nbsp;({elem?.user_type})</option>
+                                    <option value={elem?.id}><span className="capitalize">{elem?.user_name}</span>&nbsp;<span className="uppercase">({elem?.user_type})</span></option>
                                 </>)
                             }
                         </select>

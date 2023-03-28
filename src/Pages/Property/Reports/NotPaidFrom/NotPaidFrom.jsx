@@ -12,7 +12,7 @@ import { CSVDownload, CSVLink } from 'react-csv'
 import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const NotPaidFrom = () => {
 
@@ -23,6 +23,8 @@ const NotPaidFrom = () => {
     const [loader, setloader] = useState(false)
 
     const {year} = useParams()
+
+    const navigate = useNavigate()
 
     useSetTitle(year == 'current' ? 'Previous Year Paid But Not paid Current Year' : 'Not paid From 2016-2017')
 
@@ -47,7 +49,7 @@ const NotPaidFrom = () => {
         setloader(true)
 
         let body = {
-                wardId : formik.values.wardId,                             
+                wardMstrId : formik.values.wardId,                             
                 page : pageCount,
                 perPage : perPageCount
         }
@@ -97,7 +99,7 @@ const NotPaidFrom = () => {
       },
       {
           Header: "Ward No",
-          accessor: "ward_no",
+          accessor: "ward_name",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -110,19 +112,32 @@ const NotPaidFrom = () => {
           }
       },
       {
-          Header: "Holding No",
-          accessor: "holding_no",
-          Cell: (props) => {
-          if (props?.value == null || props?.value == '' || props?.value == undefined) {
-            return (
-                <i className="font-semibold ">N/A</i>
-            );
-          }
-          if (props?.value != null) {
-              return props?.value;
-          }
-          }
-      },
+        Header: "Property Tax No",
+        Cell: ({cell}) => {
+            if (cell?.row?.original?.pt_no == null || cell?.row?.original?.pt_no == '' || cell?.row?.original?.pt_no == undefined) {
+                return (
+                    <i className="font-semibold ">N/A</i>
+                );
+            }
+            if (cell?.row?.original?.pt_no != null) {
+                return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.property_id)}>{cell?.row?.original?.pt_no}</div>;
+            }
+        }
+    },
+    {
+        Header: "Holding No",
+        // accessor: "holding_no",
+        Cell: ({cell}) => {
+            if (cell?.row?.original?.holding_no == null || cell?.row?.original?.holding_no == '' || cell?.row?.original?.holding_no == undefined) {
+                return (
+                    <i className="font-semibold ">N/A</i>
+                );
+            }
+            if (cell?.row?.original?.holding_no != null) {
+                return <div className='cursor-pointer underline' onClick={() => navigate('/holdingPropertyDetails/' + cell?.row?.original?.property_id)}>{cell?.row?.original?.holding_no}</div>;
+            }
+        }
+    },
       {
           Header: "Unique House No",
           accessor: "new_holding_no",
@@ -188,7 +203,7 @@ const NotPaidFrom = () => {
     },
     {
         Header: "Ward No",
-        accessor: "ward_no",
+        accessor: "ward_name",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
@@ -198,6 +213,20 @@ const NotPaidFrom = () => {
         if (props?.value != null) {
             return props?.value;
           }
+        }
+    },
+    {
+        Header: "Property Tax No",
+        accessor: "pt_no",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+              <i className="font-semibold ">N/A</i>
+          );
+        }
+        if (props?.value != null) {
+            return props?.value;
+        }
         }
     },
     {
@@ -318,7 +347,7 @@ const NotPaidFrom = () => {
             setcsvStatus(false)
 
             let body = {
-                wardId : formik.values.wardId,                              
+                wardMstrId : formik.values.wardId,                              
                 page : '',
                 perPage : totalCount
         }
@@ -359,7 +388,7 @@ const NotPaidFrom = () => {
             }
     
         <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
-            <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Collection Report</h1>
+            <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Report</h1>
 
             <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
 

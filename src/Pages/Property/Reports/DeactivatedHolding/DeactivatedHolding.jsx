@@ -119,6 +119,20 @@ const DeactivatedHolding = () => {
           }
       },
       {
+        Header: "Property Tax No",
+        accessor: "pt_no",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+              <i className="font-semibold ">N/A</i>
+          );
+        }
+        if (props?.value != null) {
+            return props?.value;
+        }
+        }
+    },
+      {
           Header: "Applicant Name",
           accessor: "owner_name",
           Cell: (props) => {

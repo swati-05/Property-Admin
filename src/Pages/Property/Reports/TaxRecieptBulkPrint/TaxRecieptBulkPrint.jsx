@@ -35,7 +35,7 @@ const TaxRecieptBulkPrint = () => {
         fromDate : yup.string().required('Field Required'),
         uptoDate : yup.string().required('Field Required'),
         // wardId : yup.string().required('Field Required'),
-        // userId : yup.string().required('Field Required'),
+        userId : yup.string().required('Field Required'),
         // paymentMode : yup.string().required('Field Required'),
     })
 
@@ -159,13 +159,16 @@ const TaxRecieptBulkPrint = () => {
                     </div>
                     <div className="col-span-6">
                         <select name="userId" id="" className={commonInputStyle}>
-                            <option value=''>All</option>
+                            <option value=''>Select</option>
                             {
                                 collectorList?.map((elem) => <>
-                                    <option value={elem?.id}>{elem?.user_name}</option>
+                                    <option className='capitalize' value={elem?.id}>{elem?.user_name}</option>
                                 </>)
                             }
                         </select>
+                    </div>
+                    <div className="col-span-12 text-end">
+                        {formik.touched.userId && formik.errors.userId && <><span className="text-red-600 text-xs">{formik.errors.userId}</span></>}
                     </div>
                 </div>
 

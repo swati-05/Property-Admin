@@ -554,7 +554,7 @@ function WorkflowList(props) {
         Add
       </button>
       <ToastContainer position="top-right" autoClose={2000} />
-      {isLoading && <LoadingAnimation2 />}
+      {isLoading && <BarLoader />}
       {isError && <ErrorPage />}
       {!isLoading && !isError && (
         <ListTable columns={COLUMNS} dataList={data?.data}>

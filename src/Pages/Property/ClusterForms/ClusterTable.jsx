@@ -152,7 +152,7 @@ const ClusterTable = (props) => {
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
-            <div className="w-full flex flex-row justify-center items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <i className="font-semibold ">N/A</i>
             </div>
           );
@@ -170,7 +170,7 @@ const ClusterTable = (props) => {
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
-            <div className="w-full flex flex-row justify-center items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <i className="font-semibold ">N/A</i>
             </div>
           );
@@ -188,7 +188,7 @@ const ClusterTable = (props) => {
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
-            <div className="w-full flex flex-row justify-center items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <i className="font-semibold ">N/A</i>
             </div>
           );
@@ -205,7 +205,7 @@ const ClusterTable = (props) => {
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
-            <div className="w-full flex flex-row justify-center items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <i className="font-semibold ">N/A</i>
             </div>
           );
@@ -222,7 +222,7 @@ const ClusterTable = (props) => {
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
-            <div className="w-full flex flex-row justify-center items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <i className="font-semibold ">N/A</i>
             </div>
           );

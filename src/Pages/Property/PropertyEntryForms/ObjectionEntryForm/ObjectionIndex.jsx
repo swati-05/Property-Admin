@@ -22,6 +22,9 @@ import ObjectionFormIndex from './ObjectionFormIndex'
 import ObjectionForgery from './ObjectionForgery'
 import { ImCross } from 'react-icons/im'
 import ApplicationSubmitScreen from '../ApplicationSubmitScreen'
+import assessment from './assets/images/assessment.png'
+import objection from './assets/images/objection.png'
+import forgery from './assets/images/forgery.png'
 
 // Modal
 const customStyles = {
@@ -107,7 +110,7 @@ const ObjectionIndex = () => {
         {/* ====Card 1====== */}
         <div className='md:w-[30%] rounded-sm shadow-sm bg-zinc-50 hover:scale-105 transition-all duration-300 hover:shadow-md'>
           <div className='bg-gradient-to-r from-blue-200 to-blue-100 h-[25vh] flex items-center rounded-sm'>
-            <img src={require('./assets/images/objection.png')} alt="" srcset="" className='rounded-sm hover:scale-110 transition-all duration-300' />
+            <img src={objection} alt="" srcset="" className='rounded-sm hover:scale-110 transition-all duration-300' />
           </div>
           <div className='poppins font-semibold px-4 py-1.5'>
             Clerical Mistake
@@ -126,7 +129,7 @@ const ObjectionIndex = () => {
           {/* ====Card 2====== */}
           <div className='md:w-[30%] rounded-sm shadow-sm bg-zinc-50 hover:scale-105 transition-all duration-300 hover:shadow-md'>
           <div className='bg-gradient-to-r from-blue-200 to-blue-100 h-[25vh] flex flex-row justify-center items-center rounded-sm'>
-            <img src={require('./assets/images/assessment.png')} alt="" srcset="" className=' rounded-sm hover:scale-110 transition-all duration-300' />
+            <img src={assessment} alt="" srcset="" className=' rounded-sm hover:scale-110 transition-all duration-300' />
           </div>
           <div className='poppins font-semibold px-4 py-1.5'>
             Assessment Error
@@ -145,7 +148,7 @@ const ObjectionIndex = () => {
           {/* ====Card 3====== */}
           <div className='md:w-[30%] rounded-sm shadow-sm bg-zinc-50 hover:scale-105 transition-all duration-300 hover:shadow-md'>
           <div className='bg-gradient-to-r from-blue-200 to-blue-100 h-[25vh] flex items-center rounded-sm'>
-            <img src={require('./assets/images/forgery.png')} alt="" srcset="" className='rounded-sm hover:scale-110 transition-all duration-300' />
+            <img src={forgery} alt="" srcset="" className='rounded-sm hover:scale-110 transition-all duration-300' />
           </div>
           <div className='poppins font-semibold px-4 py-1.5'>
             Forgery

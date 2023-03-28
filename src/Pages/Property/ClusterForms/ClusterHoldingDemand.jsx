@@ -95,30 +95,35 @@ function ClusterHoldingDemand(props) {
                     <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
 
-                            <div className='flex-1'>
-                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.cluster_name)}</div>
+                        <div className='flex-1'>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.cluster_name)}</div>
                                 <div className='text-gray-500 text-xs'>Cluster Name</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.cluster_type)}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.cluster_type)}</div>
                                 <div className='text-gray-500 text-xs'>Cluster Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{nullToNA(demandDetail?.basicDetails?.address)}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(demandDetail?.basicDetails?.authorized_person_name)}</div>
+                                <div className='text-gray-500 text-xs'>Authorized Person Name</div>
+                            </div>
+                            <div className='flex-1'>
+                                <div className='font-semibold text-sm'>{nullToNA(demandDetail?.basicDetails?.mobile_no)}</div>
+                                <div className='text-gray-500 text-xs'>Mobile No.</div>
+                            </div>
+                            <div className='flex-1'>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.address)}</div>
                                 <div className='text-gray-500 text-xs'>Address</div>
                             </div>
+
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.ownership_type)}</div>
-                                <div className='text-gray-500 text-xs'>Ownership Type</div>
-                            </div>
-                            <div className='flex-1'>
-                                <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.property_type)}</div>
-                                <div className='text-gray-500 text-xs'>Property Type</div>
+                                <div className='font-bold text-sm'>{nullToNA(new Date(demandDetail?.basicDetails?.created_at).toLocaleDateString("en-GB"))}</div>
+                                <div className='text-gray-500 text-xs'>Created At</div>
                             </div>
 
                         </div>
 
-                        <div className="flex flex-col md:flex-row space-y-2 md:space-x-10  pl-4 mt-4">
+                        {/* <div className="flex flex-col md:flex-row space-y-2 md:space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
                                 <div className='font-bold text-md'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id)}</div>
                                 <div className='text-gray-500 text-xs'>Zone</div>
@@ -139,7 +144,7 @@ function ClusterHoldingDemand(props) {
                                 <div className='font-bold text-md' >{nullToNA(demandDetail?.basicDetails?.is_water_harvesting)}</div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

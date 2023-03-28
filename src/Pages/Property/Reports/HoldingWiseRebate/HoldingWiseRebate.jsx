@@ -43,6 +43,7 @@ const HoldingWiseRebate = () => {
     const searchFun = (values) => {
 
         setloader(true)
+        setloader2(true)
 
         let body = {
             wardId: formik.values.wardId,
@@ -135,7 +136,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "Payable Amount",
-          accessor:  "new_holding_no",
+          accessor:  "total_demand",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -149,7 +150,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "Amount Paid",
-          accessor: "owner_name",
+          accessor: "paid_amt",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -163,7 +164,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "First Quarter Rebate",
-          accessor: "mobile_no",
+          accessor: "first_qtr_rebate",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -177,7 +178,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "JSK (2.5%)",
-          accessor: "prop_address",
+          accessor: "jsk_rebate",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -191,7 +192,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "Online (5%)",
-          accessor: "fyear",
+          accessor: "online_rebate",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -205,7 +206,7 @@ const HoldingWiseRebate = () => {
       },
       {
           Header: "Total Rebate",
-          accessor: "balance",
+          accessor: "total_rebate",
           Cell: (props) => {
           if (props?.value == null || props?.value == '' || props?.value == undefined) {
             return (
@@ -251,8 +252,8 @@ const HoldingWiseRebate = () => {
 
     // =========on changing page no. refetching to data================
     useEffect(() => {
-        setloader2(true)
-        searchFun()
+        // setloader2(true)
+      formik.values.fiYear != '' && searchFun()
     }, [pageCount, perPageCount])
 
 

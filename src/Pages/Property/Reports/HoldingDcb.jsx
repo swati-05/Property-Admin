@@ -124,6 +124,20 @@ const HoldingDcb = () => {
                     }
                 },
                 {
+                    Header: "Property Tax No",
+                    accessor: "pt_no",
+                    Cell: (props) => {
+                    if (props?.value == null || props?.value == '' || props?.value == undefined) {
+                      return (
+                          <i className="font-semibold ">N/A</i>
+                      );
+                    }
+                    if (props?.value != null) {
+                        return props?.value;
+                    }
+                    }
+                },
+                {
                     Header: "Holding No",
                     accessor: "holding_no",
                     Cell: (props) => {

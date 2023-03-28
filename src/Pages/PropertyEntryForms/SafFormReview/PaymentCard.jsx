@@ -19,7 +19,6 @@ function PaymentCard(props) {
   const [isLoading, setisLoading] = useState(false);
   const [currentTransactionNo, setcurrentTransactionNo] = useState(null);
 
-
   const navigate = useNavigate()
   console.log('saf submit response data at payment...', props.safSubmitResponse)
 
@@ -274,7 +273,7 @@ function PaymentCard(props) {
 
 
               {
-                moduleType != 'saf' && <>
+                (moduleType != 'saf' && moduleType != 'cluster-saf') && <>
                   <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold"><small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small>Payment Upto Year</label>
                     <select {...formik.getFieldProps('paymentUptoYear')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
@@ -381,7 +380,7 @@ function PaymentCard(props) {
 
               {/* text details */}
               {/* SHOW IN CASE OF HOLDING */}
-              {moduleType != 'saf' && <div className='bg-white col-span-12 grid grid-cols-12 pt-6 mb-4 border border-gray-200'>
+              {(moduleType != 'saf' && moduleType != 'cluster-saf' && moduleType != 'cluster-holding') && <div className='bg-white col-span-12 grid grid-cols-12 pt-6 mb-4 border border-gray-200'>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
                   <span>Rebate :</span> <span className='font-mono font-semibold'>{props?.paymentDetails?.rebateAmt}</span>
                 </div>
@@ -416,6 +415,38 @@ function PaymentCard(props) {
                   <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{props?.safPaymentDetailsData?.payableAmount}</span></div>
                 </div>
               </div>}
+
+              {(moduleType == 'cluster-saf') && <> <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>₹{props?.safPaymentDetailsData?.lateAssessmentPenalty}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>Rebate :</span> <span className='font-mono font-semibold'>₹{props?.safPaymentDetailsData?.rebateAmt}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>₹{props?.safPaymentDetailsData?.specialRebateAmt}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>₹{props?.safPaymentDetailsData?.totalOnePercPenalty}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>₹{props?.safPaymentDetailsData?.payableAmount}</span></div>
+                </div>
+              </>}
+
+              {(moduleType == 'cluster-holding') && <> 
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>Rebate :</span> <span className='font-mono font-semibold'>₹{props?.paymentDetails?.rebateAmt}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>₹{props?.paymentDetails?.specialRebateAmt}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>₹{props?.paymentDetails?.onePercPenalty}</span>
+                </div>
+                <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
+                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>₹{props?.paymentDetails?.payableAmount}</span></div>
+                </div>
+              </>}
 
 
               <div className="col-span-12 grid grid-cols-2 mt-10">
