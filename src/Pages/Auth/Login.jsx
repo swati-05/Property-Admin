@@ -7,8 +7,8 @@
 //    Component  - Login page
 //    DESCRIPTION - Login Page to authenticate user credentails
 //////////////////////////////////////////////////////////////////////////////////////
-import { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { connect } from "react-redux";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -25,6 +25,7 @@ import meeting from '@/Components/Media/meeting.svg'
 import CommonModal from '@/Components/GlobalData/CommonModal';
 import ServerErrorCard from '@/Components/Errors/ServerErrorCard';
 import useSetToast from '@/Components/GlobalData/useSetToast';
+import ApiHeader from '@/Components/ApiList/ApiHeader';
 
 const { api_login } = ProjectApiList()
 
@@ -42,6 +43,9 @@ function Login(props) {
     const [reset, setreset] = useState(false)
     const [errorMsg, seterrorMsg] = useState('')
     const [erroState, seterroState] = useState(false);
+    const { tokenPassed } = useParams()
+
+    const { api_getFreeMenuList } = ProjectApiList()
 
 
     const notify = useSetToast()
@@ -118,6 +122,70 @@ function Login(props) {
         setreset(true)
     }
 
+    // 3 CHANGE FOR SINGLE AUTH
+    const fetchMenuList = () => {
+        props?.setmenuFetchStatus(true)
+        let requestBody = {
+            moduleId:1
+        }
+
+        axios.post(api_getFreeMenuList, requestBody, ApiHeader())
+            .then(function (response) {
+                console.log('fetched menu list.....', response)
+                // return
+                if (response.data.status == true) {
+                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data))
+                    // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+
+                    setmenuList(response?.data?.data)
+                    // setuserName(response?.data?.data?.userDetails?.userName)
+                    // setroles(response?.data?.data?.userDetails?.role)
+
+                } else {
+                    console.log('false...')
+                    setLoaderStatus(false)
+                    seterrorMsg(response.data.message)
+                    notify(response.data.message, 'error') //toast message if wrong credentails
+                }
+                props?.setmenuFetchStatus(false)
+            })
+            .catch(function (error) {
+                setLoaderStatus(false)
+                seterroState(true)
+                console.log('--2--login error...', error)
+                props?.setmenuFetchStatus(false)
+                notify('Something went wrongg!! ', 'error') //catching the error
+            })
+
+
+    }
+
+    // 2 CHANGE FOR SINGLE AUTH
+    const setAuthState = () => {
+        if (tokenPassed == 'fresh') {
+            // PRODUCTION CASE WHEN ALL MODULES ARE HOSTED AT SINGLE PORT
+            // navigate(`/admin-login`)
+
+            // DEVELOPMENT CASE ONLY FOR DEVELOPMENT
+            window.location.href = "http://127.0.0.1:5173/admin-login"
+            return
+        }
+
+        console.log('token not defined......')
+        window.localStorage.setItem('token', tokenPassed)
+        fetchMenuList()
+        navigate(`/home`)
+    }
+
+    // 1 CHANGE FOR SINGLE AUTH
+    useEffect(() => {
+
+        console.log('routes... parama via naviate.', tokenPassed)
+        setAuthState()
+    }, [])
+
+    return
     if (mobileCardStatus) {
         return (
             <>

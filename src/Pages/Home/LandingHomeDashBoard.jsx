@@ -197,7 +197,7 @@ function LandingHomeDashBoard() {
                         </div>
                     </div>
                     <div className="flex-initial ml-4">
-                        <div className='text-2xl font-bold text-black google-roboto'>Good Morning, {localStorage.getItem('userName')}</div>
+                        <div className='text-2xl font-bold text-black google-roboto'>Welcome to Property {localStorage.getItem('userName')}</div>
                         <div className='mt-2'>
                             <span className='text-gray-600'><MdVerified className="inline text-green-500 text-xl" /> verified Account</span>
                             <span className='text-gray-600 ml-10'><FaRegBuilding className="inline" /> {profileData?.ulb}</span>

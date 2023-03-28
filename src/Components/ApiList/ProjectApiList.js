@@ -168,9 +168,12 @@ export default function ProjectApiList() {
         // PERMISSION API TO GET PERMISSION BY LOGIN USER
         api_getPermissionByUser: `${baseUrl}/api/permissions/get-user-permission`,
 
+        // PERMISSION API TO GET PERMISSION BY LOGIN USER
+        api_getFreeMenuList: `${baseUrl}/api/menu/by-module`,
+
         //gb saf apply
-        gbSafApply : baseUrl + '/api/property/saf/gb-apply',
-        ulbList : baseUrl + '/api/get-all-ulb',
+        gbSafApply: baseUrl + '/api/property/saf/gb-apply',
+        ulbList: baseUrl + '/api/get-all-ulb',
 
     }
 

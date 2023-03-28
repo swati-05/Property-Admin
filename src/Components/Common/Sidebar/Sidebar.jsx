@@ -21,6 +21,8 @@ import { contextVar } from '@/Components/Context/Context';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import ProjectApiList from '@/Components/ApiList/ProjectApiList';
 import axios from 'axios';
+import { RotatingLines } from "react-loader-spinner";
+
 
 function Sidebar(props) {
 
@@ -176,7 +178,17 @@ function Sidebar(props) {
                 <CollapseMenu key={`sidebar_menu${index}`} title={data.menuName} path={data.menuPath} subMenu={data.subMenu} subMenuStatus={data.subMenuStatus} icon={data.icon} />
               ))
             } */}
-            {menuList != '' &&
+            {props?.menuFetchStatus &&
+              <div className='w-full flex justify-center items-center'>
+                <RotatingLines
+              strokeColor="white"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="25"
+              visible={true}
+          /></div>
+            }
+            {!props?.menuFetchStatus && menuList != '' &&
               menuList?.map((data, index) => (
                 <CollapseMenu key={`sidebar_menu${index}`} title={data.name} path={data?.path} subMenu={data?.children} subMenuStatus={data?.children?.length != 0 ? true : false} icon={<FcFlowChart size={14} />} />
               ))

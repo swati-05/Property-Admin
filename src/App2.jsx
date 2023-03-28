@@ -187,7 +187,7 @@ function App(props) {
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             {/* <Route index element={<Login />} /> */}
-              <Route index element={<NavigatePage />} />
+            <Route index element={<NavigatePage />} />
 
             <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
           </Routes>
@@ -197,93 +197,79 @@ function App(props) {
             <TitleBar titleText={titleText} />
 
             <Routes>
-              <Route path="/change-password/:type" element={<Login />} />
+              {/* Home */}
               <Route path="/home" element={<LandingHomeDashBoard />} />
-              <Route path="/user-permission" element={<UserPermission />} />
+
+              {/* User Role */}
               <Route path="/user-role" element={<UserRole />} />
+
+              {/* Workflow Master */}
               <Route path="/workflow-mstr" element={<WorkflowMaster />} />
+
+              {/* SAF Workflow */}
               <Route path="/saf-workflow" element={<SafWorkflowEntry />} />
+              {/* GBSAF Workflow */}
               <Route path="/gbsaf-workflow" element={<GBSafWorkflow />} />
+              {/* Concession Workflow */}
               <Route path="/concession-workflow" element={<ConcessionWorkflowEntry />} />
+              {/* Harvesting Workflow */}
               <Route path="/harvesting-workflow" element={<HarvestingWorkflowEntry />} />
+              {/* Objection Workflow */}
               <Route path="/objection-workflow" element={<ObjectionWorkflowEntry />} />
+              {/* Deactivation Workflow */}
               <Route path="/deactivation-workflow" element={<HoldingDeactivationWorkflowEntry />} />
 
-              <Route path="/waterHarvesting/:id" element={<WaterHarvestingForm />} />
-              <Route path='/paymentReceipt/:paymentId/:module' element={<SafPaymentReceiptIndex />} />
-              <Route path="/safform/edit/:id" element={<CitizenPropSafUpdateFormIndex />} />
-              <Route path="/propFullDetails/:safId" element={<PropApplicationDetailById />} />
-              <Route path="/activeSafFullDetails/:safId/:type" element={<ActiveSafApplicationDeatilsByid />} />
-              <Route path="/activeSafDemandDetails/:safId" element={<ActiveSafDemandDetails />} />
-              <Route path="/propertyDemandDetails/:safId" element={<PropertyDemandDetails />} />
-              <Route path="/activeSafPayment" element={<ActiveSafPaymentDetail />}
-              />
-              <Route path="/propertyPayment" element={<PropertyPaymentDetails />} />
-              <Route path="/payment-dashboard" element={<PaymentDashboard />} />
-              <Route path="/con-form/:id" element={<ConcessionForm />} />
-
-              <Route path="/gov-form" element={<GovSafApplicationFormIndex />} />
-              <Route path="/colony" element={<ColonySafApplicationFormIndex />} />
-
-              <Route path="/objection/:id" element={<ObjectionIndex />} />
-              <Route path="/objection-clerical-mistake/:id" element={<ObjectionRectificationTable />} />
-              <Route path="/objection-forgery/:id" element={<ObjectionForgery />} />
-              <Route path="/objection-assessment-error/:id" element={<ObjectionFormIndex />} />
+              {/* SAF Entry */}
               <Route path="/saf-entry" element={<CitizenSafEntryScreenForm />} />
-              <Route path="/ulb-workflow-roles" element={<UlbWorkflowRolesIndex />} />
-              <Route path='/safform/:safType/:safId' element={<CitizenPropSafApplicationFormIndex />} />
-              <Route path='/basic-property-edit/:propId' element={<BasicEditFormIndex />} />
-              <Route path="/search/:type/:filterParam/:searchValueParam" element={<SearchIndex />} />
-              <Route path="/searchAppliedProperty/:filterParam/:searchValueParam" element={<AppliedApplicationSearch />} />
-              <Route path='/propApplicationDetails/:id' element={<SafDetailsEntry />} />
-              <Route path='/concession-details/:id' element={<ConcessionDetailsEntry />} />
-              <Route path='/objection-details/:id' element={<ObjectionDetailsEntry />} />
-              <Route path='/harvesting-details/:id' element={<HarvestingDetailsEntry />} />
-              <Route path='/holding-deactivatioin-details/:id' element={<HoldingDeactivationDetailsEntry />} />
 
-              <Route path='/viewDemand/:id' element={<ViewDemandDetails />} />
+              {/* Apply New-Assessment */}
+              <Route path='/safform/new/0' element={<CitizenPropSafApplicationFormIndex />} />
+              {/* Apply Bifurcation */}
+              <Route path='/safform/bi/0' element={<CitizenPropSafApplicationFormIndex />} />
+              {/* Apply Amalgamation */}
+              <Route path='/safform/am/0' element={<CitizenPropSafApplicationFormIndex />} />
+              {/* Apply GBSAF */}
+              <Route path="/gov-form" element={<GovSafApplicationFormIndex />} />
 
-              <Route path='/holdingPropertyDetails/:id' element={<PropApplicationFullDetail_Property />} />
-              <Route path='/viewDemandHoldingProperty/:id' element={<DemandDetailsHoldingProperty />} />
+              {/* Payment Dashboard */}
+              <Route path="/payment-dashboard" element={<PaymentDashboard />} />
 
-              <Route path='/holding-deactivation/:id' element={<DeactivationFormComponent />} />
-              <Route path='/tc-comparision/:id/:type' element={<TcComparision />} />
-              <Route path='/holding-transactions/:id' element={<HoldingTransactionHistory />} />
-              <Route path='/comparative-demand/:id' element={<ComparativeDemand />} />
-              <Route path='/property-payment/:id/:moduleType' element={<PropertyPayment />} />
 
+
+              {/* Search Holdings */}
+              <Route path="/search/fresh/direct/direct" element={<SearchIndex />} />
+              {/* Search Applications */}
+              <Route path="/searchAppliedProperty/direct/direct" element={<AppliedApplicationSearch />} />
+
+              {/* Cluster List */}
               <Route path="/cluster" element={<ClusterFormIndex />} />
-              <Route path="/viewCluster/:id" element={<ClusterView />} />
-              <Route path='/viewDemandCluster/:id' element={<ClusterSafDemand />} />
-              <Route path='/viewDemandHoldingPropertyCluster/:id' element={<ClusterHoldingDemand />} />
-              <Route path='/cluster-holding-transactions/:id' element={<ClusterHoldingTransactionHistory />} />
-              <Route path='/cluster-payment/:id/:moduleType' element={<ClusterPayment />} />
-              <Route path='/cluster-payment-receipt/:paymentId/:module' element={<ClusterPaymentReceiptIndex />} />
 
-              <Route path='/sam-reciept/:id' element={<SamReciept />} />
-              <Route path='/fam-reciept/:id' element={<PrintPage />} />
-              <Route path='/comparative-demand-reciept/:id' element={<ComparativeDemandReciept />} />
-              <Route path="/rmc-reciept/:id" element={<RmcPrint />} />
-              <Route path="/demand-reciept/:id" element={<DemandPrint />} />
+              {/* Bank Reconcilliation */}
+              <Route path='/bank-reconcile' element={<BankReconcile />} />
+              {/* Cash Verification */}
+              <Route path='/cash-verification' element={<CashVerification />} />
 
-              <Route path='/report/:type' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
-              <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
+              <Route path='/report/property' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
+              <Route path='/report/saf' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
+              <Route path='/report/gbSaf' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
+
+              <Route path='/payment-mode-wise-summary/property' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
+              <Route path='/payment-mode-wise-summary/saf' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
               {/* here ('/collection-demand-report') is the detailing of the ListTable2 which is used while backend pagination*/}
               <Route path='/collection-demand-report' element={<PropSafIndDemCollection />} />{/*property/saf individual demand and collection */}
               <Route path='/level-wise-pending-report' element={<LevelWisePendingReport />} />{/*Level Wise Pending */}
-              <Route path="/ward-wise-details/:id" element={<WardWiseDetails />} />{/* Inside Level Wise Pending */}
-              <Route path="/saf-wise-details/:id" element={<SafWiseDetails />} />{/* Inside Level Wise Pending */}
-              <Route path="/employee-wise-details/:id" element={<EmployeeWiseDetails />} />{/* Inside Level Wise Pending */}
               <Route path="/ward-wise-holding-report" element={<WardWiseHolding />} />{/*Ward Wise Holding */}
               <Route path='/ward-wise-dcb' element={<WardWiseDcb />} /> {/* Ward Wise Dcb */}
               <Route path='/holding-dcb' element={<HoldingDcb />} /> {/* Holding Dcb */}
               <Route path="/ward-wise-collection-summary" element={<WardWiseCollectionSummary />} /> {/* Ward Wise Collection Summary */}
               <Route path="/tax-reciept-bulk-print" element={<TaxRecieptBulkPrint />} /> {/* Tax Receipt Bulk Print */}
               <Route path="/holding-wise-rebate" element={<HoldingWiseRebate />} /> {/* Holding Wise Rebate */}
-              <Route path="/collection-with-rebate-penalty/:type" element={<PropSafCollectionReportwithRebatePenalty />} /> {/*type= property/saf,  Property, SAF Collection Report With Rebate, Penalty */}
+              <Route path="/collection-with-rebate-penalty/property" element={<PropSafCollectionReportwithRebatePenalty />} /> {/*type= property/saf,  Property, SAF Collection Report With Rebate, Penalty */}
+              <Route path="/collection-with-rebate-penalty/saf" element={<PropSafCollectionReportwithRebatePenalty />} /> {/*type= property/saf,  Property, SAF Collection Report With Rebate, Penalty */}
               <Route path="/arrear-current-collection-summary" element={<ArrearCurrentCollectionSummary />} /> {/* Arrear and Current Collection Summary */}
               <Route path="/saf-sam-geo-tagging" element={<SafSamGeoTagging />} /> {/* SAF, SAM, Geo Tagging */}
-              <Route path="/not-paid-from/:year" element={<NotPaidFrom />} /> {/* year=current/2016,  Previous Year Paid But Not paid current year, Not paid from 2016-2017 */}
+              <Route path="/not-paid-from/current" element={<NotPaidFrom />} /> {/* year=current/2016,  Previous Year Paid But Not paid current year, Not paid from 2016-2017 */}
+              <Route path="/not-paid-from/2016" element={<NotPaidFrom />} /> {/* year=current/2016,  Previous Year Paid But Not paid current year, Not paid from 2016-2017 */}
               <Route path="/dmr" element={<DecisionMakingReport />} /> {/* DMR */}
               <Route path='/decision-making-report' element={<DecisionMakingReportTable />} /> {/* Decision Making Report */}
               <Route path="/holding-with-electricity-detail-report" element={<HoldingWithElectricityDetailReport />} /> {/* Holding with electricity detail report */}
@@ -295,8 +281,7 @@ function App(props) {
               <Route path="/date-ward-wise-generated-notice" element={<DateWardWiseGeneratedNotice />} /> {/* Date & Ward Wise Generated Notice */}
               <Route path="/deactivated-holding" element={<DeactivatedHolding />} /> {/* Deactivated Holding */}
 
-              <Route path='/bank-reconcile' element={<BankReconcile />} />
-              <Route path='/cash-verification' element={<CashVerification />} />
+
 
             </Routes>
           </div>
