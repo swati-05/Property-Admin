@@ -189,3 +189,11 @@ create navigateModule function and add these codes
   }
 
 ```
+
+> <h1>You need to uncomment url to work in production and development environment in three places</h1>
+
+```
+1 - Login.js (at setAuthState)
+2 - Header.js (at logout function)
+3 - Header.js (at navigateModule function)
+```
