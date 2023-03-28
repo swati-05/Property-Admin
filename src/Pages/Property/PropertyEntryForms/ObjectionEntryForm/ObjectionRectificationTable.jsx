@@ -634,7 +634,7 @@ const ObjectionRectificationTable = (props) => {
                               {nameDocList?.map((elem) => (
                                 <>
                                   <option
-                                    value={elem?.nameCode}
+                                    value={elem?.documentCode}
                                     className="poppins"
                                   >
                                     {elem?.docVal}
@@ -757,7 +757,7 @@ const ObjectionRectificationTable = (props) => {
                                 {addrDocList?.map((elem) => (
                                   <>
                                     <option
-                                      value={elem?.addrCode}
+                                      value={elem?.documentCode}
                                       className="poppins"
                                     >
                                       {elem?.docVal}

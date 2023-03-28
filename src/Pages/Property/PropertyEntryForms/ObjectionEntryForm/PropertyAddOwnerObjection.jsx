@@ -38,13 +38,22 @@ function PropertyAddOwnerObjection(props) {
     const [loader, setloader] = useState(false)
     const [docCode, setdocCode] = useState(null)
     const [document, setdocument] = useState(null)
+    const [nameDocList, setnameDocList] = useState()
 
     const { notify } = useContext(contextVar)
 
-    const {clerical_add_member} = apiLinks()
+    const {clerical_add_member, getClericalDocCode} = apiLinks()
 
     console.log('current date at owner ', getCurrentDate())
 
+        useEffect(() => {
+        axios.post(getClericalDocCode, { doc: 'addOwner' }, ApiHeader())
+      .then((res) => {
+        console.log(`getting doc code of addOwner => `, res)
+          setnameDocList(res?.data?.data?.masters)
+      })
+      .catch((err) => console.log(`getting doc code of addOwner error => `, err))
+    },[])
 
     const validationSchema = yup.object({
         ownerName: yup.string().required('Enter owner name').max(50, 'Enter maximum 50 characters'),
@@ -330,16 +339,16 @@ function PropertyAddOwnerObjection(props) {
                               <option value="" selected>
                                 Select
                               </option>
-                              {/* {nameDocList?.map((elem) => (
+                              {nameDocList?.map((elem) => (
                                 <>
                                   <option
-                                    value={elem?.nameCode}
+                                    value={elem?.documentCode}
                                     className="poppins"
                                   >
                                     {elem?.docVal}
                                   </option>
                                 </>
-                              ))} */}
+                              ))}
                             </select>
                           </span>
                         </div>
