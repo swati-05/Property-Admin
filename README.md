@@ -190,10 +190,11 @@ create navigateModule function and add these codes
 
 ```
 
-> <h1>You need to uncomment url as per production or development mode</h1>
+> <h1>You need to uncomment url as per production or development mode (because we have different url's for production and development mode)</h1>
 
 ```
 1 - Login.js (at setAuthState function)
 2 - Header.js (at logout function)
 3 - Header.js (at navigateModule function)
+4 - Login.js (at authUser function after login response)
 ```
