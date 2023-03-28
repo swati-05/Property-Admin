@@ -196,5 +196,5 @@ create navigateModule function and add these codes
 1 - Login.js (at setAuthState function)
 2 - Header.js (at logout function)
 3 - Header.js (at navigateModule function)
-4 - Login.js (at authUser function after login response)
+4 - Login.js (at authUser function after login response in admin-login project)
 ```
