@@ -25,6 +25,7 @@ import apiLinks from '@/Components/ApiList/ObjectionRectificationApi'
 import axios from 'axios'
 import BarLoader from '@/Components/Common/BarLoader'
 import { useParams } from 'react-router-dom'
+import ApiHeader2 from '@/Components/ApiList/ApiHeader2'
 
 
 function PropertyAddOwnerObjection(props) {
@@ -33,8 +34,10 @@ function PropertyAddOwnerObjection(props) {
     const [ownerPreviewForm, setownerPreviewForm] = useState({ isArmedForce: '0', isSpeciallyAbled: '0' })
     const [editStatus, setEditStatus] = useState(false) //to check edit or add of form
     const [editIndex, setEditIndex] = useState() //to carry the index to edit if edistatus is true
-    const [AddOwnerForm, setAddOwnerForm] = useState('-translate-y-full -top-[400px]') //to hide and show ownerform with animation
+    const [AddOwnerForm, setAddOwnerForm] = useState('hidden') //to hide and show ownerform with animation
     const [loader, setloader] = useState(false)
+    const [docCode, setdocCode] = useState(null)
+    const [document, setdocument] = useState(null)
 
     const { notify } = useContext(contextVar)
 
@@ -97,111 +100,6 @@ function PropertyAddOwnerObjection(props) {
         , validationSchema
     })
 
-    useEffect(() => {
-        if (ownerList?.length == 0 && props?.safType != 're' && props?.safType != 'mu') {
-            setAddOwnerForm('translate-y-0 top-[100px]')
-        }
-    }, [])
-
-    useEffect(() => {
-
-        if (props?.safType == 're' || props?.safType == 'mu') {
-            feedPropertyData()
-        }
-    }, [props?.existingPropertyDetails])
-
-    console.log('existing property details...', props?.existingPropertyDetails?.data?.data)
-
-    const feedPropertyData = () => {
-        console.log('inside feed owner dat..')
-        //* making matching floor key to ajust in existing code since key coming is different
-        if (props?.existingPropertyDetails?.data?.data?.owners?.length != 0) {
-            console.log('inside lenght >0..')
-
-            let ownersMake = props?.existingPropertyDetails?.data?.data?.owners.map((owner) => {
-                let rel
-                let arm
-                let spl
-
-                // if (owner?.relation_type == 'S/O') {
-                //     rel = "1"
-                // }
-                // if (owner?.relation_type == 'D/O') {
-                //     rel = "2"
-                // }
-                // if (owner?.relation_type == 'W/O') {
-                //     rel = "3"
-                // }
-                // if (owner?.relation_type == 'C/O') {
-                //     rel = "4"
-                // }
-
-                //checking armed force
-                if (owner?.is_armed_force) {
-                    arm = "1"
-                }
-                if (owner?.is_armed_force == false) {
-                    arm = "0"
-                }
-
-                //checking specially abeld
-                if (owner?.is_specially_abled) {
-                    spl = "1"
-                }
-                if (owner?.is_specially_abled == false) {
-                    spl = "0"
-                }
-
-                return {
-                    ownerName: owner?.owner_name,
-                    gender: owner?.gender,
-                    dob: owner?.dob,
-                    guardianName: owner?.guardian_name,
-                    relation: owner?.relation_type,
-                    mobileNo: owner?.mobile_no,
-                    aadhar: owner?.aadhar_no,
-                    pan: owner?.pan_no,
-                    email: owner?.email,
-                    isArmedForce: arm,
-                    isSpeciallyAbled: spl,
-                }
-            })
-
-            let previewOwnersMake = props?.existingPropertyDetails?.data?.data?.owners.map((owner) => {
-                let gen
-                if (owner?.gender == '1') {
-                    gen = "Male"
-                }
-                if (owner?.gender == '2') {
-                    gen = "Female"
-                }
-                if (owner?.gender == '3') {
-                    gen = "Other"
-                }
-                return {
-                    ownerName: owner?.owner_name,
-                    gender: gen,
-                    dob: owner?.dob,
-                    guardianName: owner?.guardian_name,
-                    relation: owner?.relation_type,
-                    mobileNo: owner?.mobile_no,
-                    aadhar: owner?.aadhar_no,
-                    pan: owner?.pan_no,
-                    email: owner?.email,
-                    isArmedForce: owner?.is_armed_force,
-                    isSpeciallyAbled: owner?.is_specially_abled,
-                }
-            })
-
-            console.log('owner make...', ownersMake,' previewonwer make',previewOwnersMake)
-            props.collectFormDataFun('ownerDetails', ownersMake, previewOwnersMake) //sending OwnerDetails data to parent to store all form data at one container
-            setOwnerList(ownersMake)
-            setownerPreviewList(previewOwnersMake)
-          
-        }
-
-    }
-
     const checkDuplicateOwner = (currentOwner) => {
         let duplicateStatus = false
         let message = ''
@@ -251,10 +149,10 @@ function PropertyAddOwnerObjection(props) {
     }
 
     const toggleForm = () => {
-        if (AddOwnerForm === 'translate-y-0 top-[100px]') {
-            setAddOwnerForm('-translate-y-full -top-[400px]')
+        if (AddOwnerForm === 'translate-y-0 top-[200px]') {
+            setAddOwnerForm('hidden')
         } else {
-            setAddOwnerForm('translate-y-0 top-[100px]')
+            setAddOwnerForm('translate-y-0 top-[200px]')
         }
         // (AddOwnerForm == 'translate-y-0 top-40' && setAddOwnerForm('-translate-y-full -top-80'))
         // (AddOwnerForm == '-translate-y-full -top-80' && setAddOwnerForm('translate-y-0 top-40'))
@@ -302,7 +200,7 @@ function PropertyAddOwnerObjection(props) {
     }
     const checkMinimumOwner = () => {
         if (ownerList.length === 0) {
-            props.toastFun('Add minimum one owner')
+            toast.error('Add minimum one owner')
         } else {
             submitOwnerFun()
         }
@@ -312,20 +210,37 @@ function PropertyAddOwnerObjection(props) {
 
     const submitOwnerFun = () =>{
 
+        if(docCode == null){
+            toast.error('Select Document !!!')
+            return
+        }
+
+        if(document == null){
+            toast.error('Select Document !!!')
+            return
+        }
+
         setloader(true)
 
         console.log("owner data => ", ownerPreviewList)
 
-        let requestBody ={
-            propId : props?.id,
-            ulbId : props?.ulbId,
-            objectionFor : "Clerical Mistake",
-            owners : ownerPreviewList
-        }
+        // let requestBody ={
+        //     propId : props?.id,
+        //     ulbId : props?.ulbId,
+        //     objectionFor : "Clerical Mistake",
+        //     owners : ownerPreviewList
+        // }
+
+        let fd = new FormData()
+        fd.append('propId', props?.id)
+        fd.append('objectionFor', "Clerical Mistake")
+        fd.append('docCode', docCode)
+        fd.append('document', document)
+        fd.append('owners', ownerPreviewList)
 
         console.log("before fetch data => ", requestBody)
 
-        axios.post(clerical_add_member, requestBody, ApiHeader())
+        axios.post(clerical_add_member, fd, ApiHeader2())
         .then((res) => {
             if(res?.data?.status == true ){
                 console.log("successfully added", res)
@@ -368,16 +283,84 @@ function PropertyAddOwnerObjection(props) {
         }
 
     }
+
     console.log('owner preview list...', ownerPreviewList)
+
+    const handleDocument = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        {name == 'docCode' && setdocCode(value)}
+        
+        if(name == 'document'){
+            let file = e.target.files[0];
+            setdocument(e.target.files[0]);
+            console.log("--1-- document on change..", file);
+        }
+    }
+
+  let commonInputStyle = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-max`;
+
     return (
         <>
         
         {loader && <BarLoader/>}
 
         {!loader && <div className=" w-[70vw] h-[40vh]">
-                <h1 className='block mb-2 font-serif font-semibold text-gray-600 2xl:text-base text-sm'><FaUserNurse className="inline mr-2" />Add SAF Owner </h1>
 
-                <div className={`${AddOwnerForm} transition-all relative block px-4 w-full 2xl:py-6 rounded-lg shadow-lg  md:w-full absolute top-14 bg-sky-100 z-50`}>
+        <div className="shadow-md grid grid-cols-12 text-sm px-6 py-2 mt-2 my-2 mb-4 font-base poppins bg-zinc-50 rounded-sm mb-2">
+                        <div className="col-span-12 md:col-span-4 poppins 2xls:text-base md:text-sm text-xs">
+                          Agreement Deed : 
+                          <span className="font-semibold 2xls:text-base md:text-sm text-sm poppins">
+                           
+                          </span>
+                        </div>
+                        <div className="col-span-12 md:col-span-4 poppins  2xls:text-base md:text-sm text-xs">
+                          <span className="poppins">Select Document :</span>{" "}
+                          <br />
+                          <span className='w-full'>
+                            <select
+                              name="docCode"
+                              onChange={handleDocument}
+                              className={
+                                commonInputStyle +
+                                ` poppins  2xls:text-base md:text-sm text-xs w-full`
+                              }
+                            >
+                              <option value="" selected>
+                                Select
+                              </option>
+                              {/* {nameDocList?.map((elem) => (
+                                <>
+                                  <option
+                                    value={elem?.nameCode}
+                                    className="poppins"
+                                  >
+                                    {elem?.docVal}
+                                  </option>
+                                </>
+                              ))} */}
+                            </select>
+                          </span>
+                        </div>
+                        <div className="col-span-12 md:col-span-4 poppins flex flex-col  2xls:text-base md:text-sm text-xs">
+                          Upload Document : <br />
+                          <span>
+                            <input
+                              type="file"
+                              onChange={handleDocument}
+                              className={commonInputStyle + ` poppins `}
+                              accept=".pdf,.jpg,.jpeg"
+                              name="document"
+                              id=""
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                <h1 className='block mb-2 font-serif font-semibold text-gray-600 2xl:text-base md:text-sm text-sm'><FaUserNurse className="inline mr-2" />Add SAF Owner </h1>
+
+                <div className={`${AddOwnerForm} transition-all block px-4 w-full 2xl:py-6 rounded-lg shadow-lg  md:w-full absolute top-20 -left-2 bg-sky-100 z-50`}>
                     <button onClick={toggleForm}><TiDelete className='absolute top-2 right-2 text-red-500 text-3xl hover:scale-125' /></button>
                     <form onSubmit={formik.handleSubmit} onChange={handleChange}>
                         <div className="grid grid-cols-1 md:grid-cols-5">
@@ -472,9 +455,7 @@ function PropertyAddOwnerObjection(props) {
                     </form>
                 </div>
 
-               
-
-                <div className={`${AddOwnerForm == 'translate-y-0 top-[100px]' ? 'hidden' : 'block'}   p-4 mt-2 w-full md:py-4 md:px-0 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto  overflow-x-hidden -mt-64`}>
+                <div className={`${AddOwnerForm == 'translate-y-0 top-[200px]' ? 'hidden' : 'block'}   p-4 mt-2 w-full md:py-4 md:px-0 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto  overflow-x-hidden -mt-64`}>
 
                     {ownerPreviewList?.length != 0 && <table className='w-full leading-normal mt-4 2xl:mt-0'>
                         <thead className='font-bold text-left text-sm bg-sky-50'>
@@ -491,7 +472,7 @@ function PropertyAddOwnerObjection(props) {
                                 <th className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left poppins text-xs capitalize text-left">email</th>
                                 <th className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left poppins text-xs capitalize text-left">IsArmed</th>
                                 <th className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left poppins text-xs capitalize text-left">IsSpecially</th>
-                                {props?.safType != 're' && <th className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left poppins text-xs capitalize text-left">Action</th>}
+                                <th className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left poppins text-xs capitalize text-left">Action</th>
                             </tr>
                         </thead>
                         <tbody className="text-sm">
@@ -511,7 +492,7 @@ function PropertyAddOwnerObjection(props) {
                                             <td className="px-2 py-2 2xl:text-sm text-xs poppins text-left">{(data.email == '' || data.email == null) ? 'N/A' : data.email}</td>
                                             <td className="px-2 py-2 2xl:text-sm text-xs poppins text-left">{data.isArmedForce == '0' ? 'No' : 'Yes'}</td>
                                             <td className="px-2 py-2 2xl:text-sm text-xs poppins text-left">{data.isSpeciallyAbled == '0' ? 'No' : 'Yes'}</td>
-                                            {props?.safType != 're' && <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editOwner(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' /><RiDeleteBack2Line onClick={() => removeOwner(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' /></td>}
+                                            <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editOwner(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' /><RiDeleteBack2Line onClick={() => removeOwner(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' /></td>
                                         </tr>
                                     </>
                                 ))
@@ -519,14 +500,14 @@ function PropertyAddOwnerObjection(props) {
                         </tbody>
                     </table>}
                     <div>
-                        <div className=' mx-6 my-1 bg-red-50 text-red-400 px-2 py-2 rounded-sm shadow-lg opacity-80 2xl:mt-10 mt-5 2xl:text-base text-sm'>
+                        <div className=' mx-6 my-1 bg-red-50 text-red-400 px-2 py-2 rounded-sm shadow-lg opacity-80 2xl:mt-10 mt-5 2xl:text-sm text-sm'>
                             <AiFillInfoCircle className="inline mr-2" />
                             Click below <b>Add Owner</b> button to add saf owner of the property, You can add multiple owners by repeating the same method
                         </div>
                     </div>
                 </div>
 
-                <div className={`${AddOwnerForm == 'translate-y-0 top-[100px]' ? 'hidden' : 'block'} p-4 mt-4 w-full md:py-4 md:w-full mx-auto  bottom-4 `}>
+                <div className={`${AddOwnerForm == 'translate-y-0 top-[200px]' ? 'hidden' : 'block'} p-4 mt-4 w-full md:py-4 md:w-full mx-auto  bottom-4 `}>
                     <div className="grid grid-cols-1 md:grid-cols-5 ">
                         <div className="col-span-5 grid grid-cols-3">
                             <div className='2xl:px-10 px-5'>
@@ -534,7 +515,6 @@ function PropertyAddOwnerObjection(props) {
                             </div>
                             <div className='md:px-4 text-center'>
                             <button onClick={toggleForm} type="button" className=" px-3 py-1.5 2xl:px-6 2xl:py-2.5 bg-gray-200 text-black font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Add Owner <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>
-                                {/* {props?.safType != 're' && <button onClick={toggleForm} type="button" className=" px-6 py-2.5 bg-gray-200 text-black font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Add Owner <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>} */}
                             </div>
                             <div className='md:px-10 text-right'>
                                 <button type="button" onClick={checkMinimumOwner} className="bg-green-600 hover:bg-green-700 px-3 py-1.5 2xl:px-6 2xl:py-2.5 text-white font-medium text-xs  poppins  rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Submit</button>

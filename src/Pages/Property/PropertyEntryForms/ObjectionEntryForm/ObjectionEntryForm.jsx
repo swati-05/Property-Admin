@@ -151,7 +151,9 @@ function ObjectionEntryForm(props) {
       setformDoc(e.target.files[0]);
       formik.setFieldValue("objFormDoc", e.target.files[0])
       // console.log("--1-- objFormDoc file on change..", file);
-    } else if (e.target.name == "objEvidenceDoc") {
+    } 
+    
+    if (e.target.name == "objEvidenceDoc") {
       let file = e.target.files[0];
       setevidenceDoc(e.target.files[0]);
       // console.log("--3-- objEvidenceDoc file on change..", file);

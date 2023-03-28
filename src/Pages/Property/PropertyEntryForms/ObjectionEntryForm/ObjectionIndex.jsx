@@ -179,7 +179,7 @@ const ObjectionIndex = () => {
                 onAfterOpen={afterOpenModal}
                 // onRequestClose={closeModal}
                 // style={customStyles}
-                className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center overflow-auto"
+                className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center ml-10 overflow-auto"
                 contentLabel="Example Modal"
             >
 
