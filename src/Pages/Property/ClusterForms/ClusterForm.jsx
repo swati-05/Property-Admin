@@ -6,7 +6,7 @@
 // Description : Cluster Add and View Component
 //////////////////////////////////////////////////////////////////////
 
-import React from "react";
+import React, { useState } from "react";
 import { RiBuilding2Fill } from "react-icons/ri";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -16,6 +16,9 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import CitizenApplyApiList from "@/Components/CitizenApplyApiList";
+import ProjectApiList from "@/Components/ApiList/ProjectApiList";
+import BarLoader from "@/Components/Common/BarLoader";
 
 export const ClusterForm = (props) => {
   // ===========Navigate Constant================
@@ -23,9 +26,88 @@ export const ClusterForm = (props) => {
 
   // ===========Destructing Api==================
   const { addCluster, updateCluster } = apiList();
+  const { api_wardByUlb, api_newWardByOldWard } = CitizenApplyApiList()
+  const {ulbList} = ProjectApiList()
+
+  // ===========constants==============
+  const [ulbData, setulbData] = useState()
+  const [wardByUlb, setwardByUlb] = useState()
+  const [newWardList, setnewWardList] = useState()
+  const [loader, setloader] = useState(false)
+
+  // ============Getting dependent List================
+  useEffect(() => {
+
+    setloader(false)
+
+    axios.get(ulbList, ApiHeader())
+        .then((res) => {
+          if(res?.data?.status){
+            console.log("ulb list => ", res)
+            setulbData(res?.data?.data)
+          } else {
+            toast.error("Something went wrong !!!")
+            props?.backFun()
+          }
+        })
+        .catch((error) => {
+          toast.error("Something went wrong !!!")
+            props?.backFun()
+        })
+        .finally(() => setloader(false))
+  },[])
+
+  const getDependentList = (e) => {
+    setloader(true)
+
+    axios.post(api_wardByUlb, {ulbId : e?.target?.value}, ApiHeader())
+    .then((res) => {
+        if(res?.data?.status){
+          console.log("ward by ulb list => ", res)
+          setwardByUlb(res?.data?.data) 
+        } else {
+          toast.error("Something went wrong !!!")
+          console.log("false getting ward", res)
+          props?.backFun()
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong !!!")
+        console.log("error getting ward", error)
+          props?.backFun()
+      })
+      .finally(() => setloader(false))
+}
+
+const fetchNewWardByOldWard = (e) => {
+  let requestBody = {
+      oldWardMstrId: e.target.value,
+      ulbId: formik.values.ulbId 
+  }
+  console.log('before fetch wardby old ward...', requestBody)
+
+  axios.post(api_newWardByOldWard, requestBody, ApiHeader())
+      .then(function (response) {
+        if(response?.data?.status){
+          console.log('wardlist by oldward list ....', response.data.data)
+          setnewWardList(response.data.data)
+        }else {
+          toast.error("Something went wrong !!!")
+          props?.backFun()
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong !!!")
+          props?.backFun()
+      })
+      .finally(() => setloader(false))
+}
 
   // ==============Form Validation=====================
   const validationSchema = yup.object({
+    ulbId : yup.string().required('Select ulb id'),
+    wardId : yup.string().required('Select ward'),
+    newWardId : yup.string().required('Select new ward'),
     clusterName: yup.string().required("Enter name"),
     clusterType: yup.string().required("Select type"),
     clusterAddress: yup.string().required("Enter address"),
@@ -55,6 +137,9 @@ export const ClusterForm = (props) => {
   const formik = useFormik({
     initialValues: {
       id: props?.userData?.id,
+      ulbId : props?.userData?.ulbId,
+      wardId: props?.userData?.wardId,
+      newWardId: props?.userData?.newWardId,
       clusterName: props?.userData?.cluster_name,
       clusterType: props?.userData?.cluster_type,
       clusterAddress: props?.userData?.address,
@@ -102,6 +187,9 @@ export const ClusterForm = (props) => {
 
   return (
     <>
+    {/* ===============Loader============ */}
+    {loader && <BarLoader />}
+
       {/* ==============For toastify================ */}
       <ToastContainer position="top-right" autoClose={2000} />
 
@@ -113,8 +201,92 @@ export const ClusterForm = (props) => {
 
       {/* ================Form======================== */}
       <div className=" block mt-[4rem] md:mt-[5rem] p-4 w-full md:py-6 md:px-14 shadow-lg bg-white mx-auto border border-gray-200">
-        <form onSubmit={formik.handleSubmit} className="text-xs">
+        <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="text-xs">
           <div className="grid grid-cols-12 md:gap-x-8 gap-y-6">
+
+            {/* =================ULB================== */}
+            <div className="md:col-span-4 col-span-12">
+              <label className="form-label inline-block mb-1 text-gray-600 font-semibold">
+                <small className=" mt-1 text-sm font-semibold text-red-600 inline ">
+                  *
+                </small>
+                ULB
+              </label>
+              <select
+                value={formik.values.ulbId}
+                onChange={getDependentList}
+                name="ulbId"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+              >
+                <option value="" >Select</option>
+                                {
+                                    ulbData?.map((data) => (
+                                        <option value={data.id}>{data.ulb_name}</option>
+                                    ))
+                                }
+              </select>
+               <span className="text-red-600 absolute text-xs">
+                {formik.touched.ulbId && formik.errors.ulbId
+                  ? formik.errors.ulbId
+                  : null}
+              </span>
+            </div>
+
+            {/* =================Ward No.================== */}
+            <div className="md:col-span-4 col-span-12">
+              <label className="form-label inline-block mb-1 text-gray-600 font-semibold">
+                <small className=" mt-1 text-sm font-semibold text-red-600 inline ">
+                  *
+                </small>
+                Ward No.
+              </label>
+              <select
+                value={formik.values.wardId}
+                onChange={fetchNewWardByOldWard}
+                name="wardId"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+              >
+                <option value="" >Select</option>
+                                {
+                                    wardByUlb?.map((data) => (
+                                        <option value={data.id}>{data.ward_name}</option>
+                                    ))
+                                }
+              </select>
+               <span className="text-red-600 absolute text-xs">
+                {formik.touched.wardId && formik.errors.wardId
+                  ? formik.errors.wardId
+                  : null}
+              </span>
+            </div>
+
+            {/* =================New Ward No.================== */}
+            <div className="md:col-span-4 col-span-12">
+              <label className="form-label inline-block mb-1 text-gray-600 font-semibold">
+                <small className=" mt-1 text-sm font-semibold text-red-600 inline ">
+                  *
+                </small>
+                New Ward No.
+              </label>
+              <select
+                value={formik.values.newWardId}
+                name="newWardId"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+              >
+                <option value="" >Select</option>
+                                {
+                                    newWardList?.map((data) => (
+                                        <option value={data.id}>{data.ward_name}</option>
+                                    ))
+                                }
+              </select>
+               <span className="text-red-600 absolute text-xs">
+                {formik.touched.newWardId && formik.errors.newWardId
+                  ? formik.errors.newWardId
+                  : null}
+              </span>
+            </div>
+
             {/* =================Name================== */}
             <div className="md:col-span-4 col-span-12">
               <label className="form-label inline-block mb-1 text-gray-600 font-semibold">
@@ -128,11 +300,11 @@ export const ClusterForm = (props) => {
                 value={formik.values.clusterName}
                 onChange={formik.handleChange}
                 name="clusterName"
-                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                 placeholder="Enter your name.."
               />
                <span className="text-red-600 absolute text-xs">
-                {formik.touched.clusterName || formik.errors.clusterName
+                {formik.touched.clusterName && formik.errors.clusterName
                   ? formik.errors.clusterName
                   : null}
               </span>
@@ -150,7 +322,7 @@ export const ClusterForm = (props) => {
                 value={formik.values.clusterType}
                 onChange={formik.handleChange}
                 name="clusterType"
-                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" disabled selected>
                   --Select Type--
@@ -159,7 +331,7 @@ export const ClusterForm = (props) => {
                 <option value="gb-saf">GB-SAF</option>
               </select>
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clusterType || formik.errors.clusterType
+                {formik.touched.clusterType && formik.errors.clusterType
                   ? formik.errors.clusterType
                   : null}
               </span>
@@ -178,11 +350,11 @@ export const ClusterForm = (props) => {
                 onChange={formik.handleChange}
                 type="text"
                 name="clusterAddress"
-                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                 placeholder="Enter your address.."
               />
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clusterAddress || formik.errors.clusterAddress
+                {formik.touched.clusterAddress && formik.errors.clusterAddress
                   ? formik.errors.clusterAddress
                   : null}
               </span>
@@ -202,11 +374,11 @@ export const ClusterForm = (props) => {
                 type="text"
                 maxLength={10}
                 name="clusterMobileNo"
-                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                 placeholder="Enter your mobile no..."
               />
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clusterMobileNo || formik.errors.clusterMobileNo
+                {formik.touched.clusterMobileNo && formik.errors.clusterMobileNo
                   ? formik.errors.clusterMobileNo
                   : null}
               </span>
@@ -225,18 +397,19 @@ export const ClusterForm = (props) => {
                 onChange={formik.handleChange}
                 type="text"
                 name="clusterAuthPersonName"
-                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                 placeholder="Enter authorized person name.."
               />
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clusterAuthPersonName || formik.errors.clusterAuthPersonName
+                {formik.touched.clusterAuthPersonName && formik.errors.clusterAuthPersonName
                   ? formik.errors.clusterAuthPersonName
                   : null}
               </span>
             </div>
 
             {/* ==============Buttons================== */}
-            <div className="col-span-6">
+            <div className="col-span-12 flex justify-between">
+
               {/* ===================Back Button====================== */}
               <button
                 onClick={props.backFun}
@@ -245,17 +418,17 @@ export const ClusterForm = (props) => {
               >
                 Back
               </button>
-            </div>
 
-            {/* ============Add and Update common button====================== */}
-            <div className="col-span-6 text-end">
+               {/* ============Add and Update common button====================== */}
               <button
                 type="submit"
                 className="md:mt-2 px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
               >
                 {props.editState ? <>Update</> : <>Add</>}
               </button>
+
             </div>
+
           </div>
         </form>
       </div>
