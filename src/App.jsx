@@ -123,9 +123,9 @@ function App(props) {
 
     props.LOGIN();
   }
-  if (token == null) {
-    navigate('/login/fresh')
-  }
+  // if (token == null) {
+  //   navigate('/login/fresh')
+  // }
 
   useEffect(() => {
     if (props.navOriginalCloseStatus == true) {
@@ -186,10 +186,10 @@ function App(props) {
           <Sidebar menuFetchStatus={menuFetchStatus} />
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
-            {/* <Route index element={<Login />} /> */}
-              <Route index element={<NavigatePage />} />
+            <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+              {/* <Route index element={<NavigatePage />} /> */}
 
-            <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}
           </Routes>
           <div
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll`}

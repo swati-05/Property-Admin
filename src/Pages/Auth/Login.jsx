@@ -83,17 +83,18 @@ function Login(props) {
                 if (response.data.status == true) {
                     console.log('--2--login response...', response)
                     window.localStorage.setItem('token', response?.data?.data?.token)
-                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
-                    window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+                    // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
+                    // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
 
                     ///*** setting the data to global container to use everywhere ***\\\
-                    setmenuList(response?.data?.data?.userDetails?.menuPermission)
-                    setuserName(response?.data?.data?.userDetails?.userName)
-                    setroles(response?.data?.data?.userDetails?.role)
+                    // setmenuList(response?.data?.data?.userDetails?.menuPermission)
+                    // setuserName(response?.data?.data?.userDetails?.userName)
+                    // setroles(response?.data?.data?.userDetails?.role)
 
 
                     props.LOGIN() //set global login state to true
+                    fetchMenuList()
                     navigate('/home') //navigate to home page after login
 
                 } else {
@@ -165,10 +166,10 @@ function Login(props) {
     const setAuthState = () => {
         if (tokenPassed == 'fresh') {
             // PRODUCTION CASE WHEN ALL MODULES ARE HOSTED AT SINGLE PORT
-            // navigate(`/admin-login`)
+            navigate(`/admin-login`)
 
             // DEVELOPMENT CASE ONLY FOR DEVELOPMENT
-            window.location.href = "http://127.0.0.1:5173/admin-login"
+            // window.location.href = "http://127.0.0.1:5173/admin-login"
             return
         }
 
@@ -179,13 +180,13 @@ function Login(props) {
     }
 
     // 1 CHANGE FOR SINGLE AUTH
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log('routes... parama via naviate.', tokenPassed)
-        setAuthState()
-    }, [])
+    //     console.log('routes... parama via naviate.', tokenPassed)
+    //     setAuthState()
+    // }, [])
 
-    return
+    // return
     if (mobileCardStatus) {
         return (
             <>

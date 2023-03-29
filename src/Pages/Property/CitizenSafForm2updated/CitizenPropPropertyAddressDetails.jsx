@@ -41,15 +41,15 @@ function CitizenPropPropertyAddressDetails(props) {
     const [formOpen, setformOpen] = useState(true)
     const validationSchema = yup.object({
         addressCheckbox: yup.boolean(),
-        khataNo: yup.string().max(50, 'Enter maximum 50 characters'),
-        plotNo: yup.string(),
-        village_mauja: yup.string(),
-        plotArea: yup.string(),
-        roadWidth: yup.string(),
-        city: yup.string(),
-        district: yup.string(),
-        state: yup.string(),
-        pin: yup.string().min(6, 'Enter minimum 6 digit'),
+        khataNo: yup.string().required('Select Khata no.').max(50, 'Enter maximum 50 characters'),
+        plotNo: yup.string().required('Select PlotNo'),
+        village_mauja: yup.string().required(''),
+        plotArea: yup.string().required(''),
+        roadWidth: yup.string().required(''),
+        city: yup.string().required(''),
+        district: yup.string().required(''),
+        state: yup.string().required(''),
+        pin: yup.string().required('').min(6, 'Enter minimum 6 digit'),
         locality: yup.string(),
         c_city: yup.string().when('addressCheckbox', {
             is: true,
@@ -85,6 +85,53 @@ function CitizenPropPropertyAddressDetails(props) {
         // c_locality: yup.string().required('Enter locality '),
 
     })
+
+    // const validationSchema = yup.object({
+    //     addressCheckbox: yup.boolean(),
+    //     khataNo: yup.string().required('Enter khat no.').max(50, 'Enter maximum 50 characters'),
+    //     plotNo: yup.string().required('Enter plot no'),
+    //     village_mauja: yup.string().required('Enter village/mauja name'),
+    //     plotArea: yup.string().required('Enter area of plot'),
+    //     roadWidth: yup.string().required('Enter road width'),
+    //     city: yup.string().required('Enter city'),
+    //     district: yup.string().required('Enter district'),
+    //     state: yup.string().required('Enter state'),
+    //     pin: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
+    //     locality: yup.string().required('Enter locality '),
+    //     c_city: yup.string().when('addressCheckbox', {
+    //         is: true,
+    //         then: yup.string().required('Enter city')
+    //     }),
+    //     c_district: yup.string().when('addressCheckbox', {
+    //         is: true,
+    //         then: yup.string().required('Enter district')
+    //     }),
+    //     c_state: yup.string().when('addressCheckbox', {
+    //         is: true,
+    //         then: yup.string().required('Enter state')
+    //     }),
+    //     c_pin: yup.string().when('addressCheckbox', {
+    //         is: true,
+    //         then: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
+    //     }),
+    //     c_locality: yup.string().when('addressCheckbox', {
+    //         is: true,
+    //         then: yup.string().required('Enter locality')
+    //     }),
+
+    //     // APT-7 EXTRA DATA
+    //     buildingName: yup.string(),
+    //     streetName: yup.string().required('Enter streetName  '),
+    //     location2: yup.string().required('Enter location  '),
+    //     landmark: yup.string().required('Enter landmark  '),
+    //     // EXTRA DATA
+    //     // c_city: yup.string().required('Enter city'),
+    //     // c_district: yup.string().required('Enter district'),
+    //     // c_state: yup.string().required('Enter state'),
+    //     // c_pin: yup.string().required('Enter pin'),
+    //     // c_locality: yup.string().required('Enter locality '),
+
+    // })
     
     const formik = useFormik({
         initialValues: {

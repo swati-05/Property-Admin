@@ -59,26 +59,26 @@ function CitizenPropBasicDetail3(props) {
 
     const { api_verifyHolding } = CitizenApplyApiList()
 
-    const validationSchema = yup.object({
-        dateOfPurchase: yup.string(),
-        transferMode: yup.string(),
-        wardNo: yup.string(),
-        newWardNo: yup.string(),
-        ownerShiptype: yup.string(),
-        propertyType: yup.string(),
-        apartment: yup.string(),
-        landOccupationDate: yup.string()
-    })
     // const validationSchema = yup.object({
     //     dateOfPurchase: yup.string(),
     //     transferMode: yup.string(),
-    //     wardNo: yup.string().required('Select ward'),
-    //     newWardNo: yup.string().required('Select new ward'),
-    //     ownerShiptype: yup.string().required('Select ownership type'),
-    //     propertyType: yup.string().required('Select property'),
+    //     wardNo: yup.string(),
+    //     newWardNo: yup.string(),
+    //     ownerShiptype: yup.string(),
+    //     propertyType: yup.string(),
     //     apartment: yup.string(),
     //     landOccupationDate: yup.string()
     // })
+    const validationSchema = yup.object({
+        dateOfPurchase: yup.string(),
+        transferMode: yup.string(),
+        wardNo: yup.string().required('Select ward'),
+        newWardNo: yup.string().required('Select new ward'),
+        ownerShiptype: yup.string().required('Select ownership type'),
+        propertyType: yup.string().required('Select property'),
+        apartment: yup.string(),
+        landOccupationDate: yup.string()
+    })
 
     const initialValues = {
         transferMode: '',
