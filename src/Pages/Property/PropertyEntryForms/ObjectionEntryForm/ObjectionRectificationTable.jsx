@@ -443,12 +443,12 @@ const ObjectionRectificationTable = (props) => {
                 </>
               )}
 
-              <div
+             {!addMember && <> <div
                 className="flex items-center w-max poppins text-xs text-gray-800 ml-4 font-semibold px-2 py-1 rounded-sm shadow-sm cursor-pointer bg-green-200 hover:bg-green-300"
                 onClick={() => setaddMember(true)}
               >
                 <BsPlusCircle /> &nbsp; Add SAF Owner
-              </div>
+              </div></>}
 
               {addMember == true && (
                 <div
@@ -629,12 +629,12 @@ const ObjectionRectificationTable = (props) => {
                               }
                             >
                               <option value="" selected>
-                                ==Select==
+                                Select
                               </option>
                               {nameDocList?.map((elem) => (
                                 <>
                                   <option
-                                    value={elem?.nameCode}
+                                    value={elem?.documentCode}
                                     className="poppins"
                                   >
                                     {elem?.docVal}
@@ -752,12 +752,12 @@ const ObjectionRectificationTable = (props) => {
                                 }
                               >
                                 <option value="" selected>
-                                  ==Select==
+                                  Select
                                 </option>
                                 {addrDocList?.map((elem) => (
                                   <>
                                     <option
-                                      value={elem?.addrCode}
+                                      value={elem?.documentCode}
                                       className="poppins"
                                     >
                                       {elem?.docVal}
@@ -965,7 +965,6 @@ const ObjectionRectificationTable = (props) => {
             <PropertyAddOwnerObjection
               closePopUp={props.closePopUp}
               id={id?.id}
-              ulbId={ulbId}
               submit={submitOwner}
             />
           )}
