@@ -440,7 +440,7 @@ const ClusterView = (props) => {
 
                 {/* =============Ward================ */}
                 <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
-                    <div className='text-xs'>Ward No.</div>
+                    <div className='text-xs'>Old Ward No.</div>
                     <div className='text-sm font-semibold'>{nullToNA(userData?.ward_no)}</div>
                 </div>
 
