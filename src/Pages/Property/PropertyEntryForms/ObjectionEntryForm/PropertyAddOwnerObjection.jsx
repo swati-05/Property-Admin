@@ -101,7 +101,7 @@ function PropertyAddOwnerObjection(props) {
             setOwnerList([...ownerList, values])
 
             //* Adding ownerpreviewlist to preview data
-            let tempOwnerPreviewList = [...ownerPreviewList, ownerPreviewForm] //taking copy of array adding latest values since setstate does not update immediatly
+            let tempOwnerPreviewList = [...ownerPreviewList, values] //taking copy of array adding latest values since setstate does not update immediatly
             setownerPreviewList([...ownerPreviewList, ownerPreviewForm])
 
             // collectFormDataFun('ownerDetails', tempOwnerList, tempOwnerPreviewList) //sending OwnerDetails data to parent to store all form data at one container
