@@ -147,6 +147,40 @@ const ClusterTable = (props) => {
         Cell: ({ row }) => <div>{row?.index + 1}</div>,
       },
       {
+        Header: "Old Ward No.",
+        accessor: "wardNo",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+            <div className="w-full flex flex-row justify-start items-center">
+              <i className="font-semibold ">N/A</i>
+            </div>
+          );
+        }
+
+        if (props?.value != null) {
+          return props?.value;
+        }
+      }
+      },
+      {
+        Header: "New Ward No.",
+        accessor: "newWardNo",
+        Cell: (props) => {
+        if (props?.value == null || props?.value == '' || props?.value == undefined) {
+          return (
+            <div className="w-full flex flex-row justify-start items-center">
+              <i className="font-semibold ">N/A</i>
+            </div>
+          );
+        }
+
+        if (props?.value != null) {
+          return props?.value;
+        }
+      }
+      },
+      {
         Header: "Name",
         accessor: "name",
         Cell: (props) => {

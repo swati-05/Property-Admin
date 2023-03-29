@@ -28,6 +28,7 @@ import {RiDeleteBackLine} from 'react-icons/ri'
 import { toast } from 'react-toastify';
 import BarLoader from '@/Components/Common/BarLoader';
 import { useEffect } from 'react';
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions';
 
 const ClusterView = (props) => {
 
@@ -437,40 +438,52 @@ const ClusterView = (props) => {
             {/* ===================Details======================== */}
             <div  className='bg-white rounded-md shadow-lg w-full px-4 py-2.5 pb-4 mt-4 flex flex-wrap flex-row space-y-4'>
 
+                {/* =============Ward================ */}
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
+                    <div className='text-xs'>Ward No.</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.ward_no)}</div>
+                </div>
+
+                {/* =============New Ward================ */}
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
+                    <div className='text-xs'>New Ward No.</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.new_ward_no)}</div>
+                </div>
+
                 {/* =============Name================ */}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Name</div>
-                    <div className='text-sm font-semibold'>{userData?.cluster_name}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.cluster_name)}</div>
                 </div>
 
                 {/* ===============Type===================== */}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Type</div>
-                    <div className='text-sm font-semibold'>{userData?.cluster_type}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.cluster_type)}</div>
                 </div>
 
                 {/* =============Address======================== */}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Address</div>
-                    <div className='text-sm font-semibold'>{userData?.address}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.address)}</div>
                 </div>
 
                 {/* ====================Mobile No.========================== */}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Mobile No.</div>
-                    <div className='text-sm font-semibold'>{userData?.mobile_no}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.mobile_no)}</div>
                 </div>
 
                 {/* ==============Authorized Person Name=================== */}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Authorized Person Name</div>
-                    <div className='text-sm font-semibold'>{userData?.authorized_person_name}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(userData?.authorized_person_name)}</div>
                 </div>
 
                 {/* ==============Created At=======================*/}
-                <div className='flex flex-col-reverse poppins space-y-1  hover:bg-blue-200 cursor-pointer  w-[15rem]'>
+                <div className='flex flex-col-reverse poppins space-y-1 w-[15rem]'>
                     <div className='text-xs'>Created At</div>
-                    <div className='text-sm font-semibold'>{new Date(userData?.created_at).toLocaleDateString("en-GB")}</div>
+                    <div className='text-sm font-semibold'>{nullToNA(new Date(userData?.created_at).toLocaleDateString("en-GB"))}</div>
                 </div>
 
             </div>

@@ -106,8 +106,8 @@ const fetchNewWardByOldWard = (e) => {
   // ==============Form Validation=====================
   const validationSchema = yup.object({
     ulbId : yup.string().required('Select ulb id'),
-    wardId : yup.string().required('Select ward'),
-    newWardId : yup.string().required('Select new ward'),
+    wardNo : yup.string().required('Select ward'),
+    newWardNo : yup.string().required('Select new ward'),
     clusterName: yup.string().required("Enter name"),
     clusterType: yup.string().required("Select type"),
     clusterAddress: yup.string().required("Enter address"),
@@ -138,8 +138,8 @@ const fetchNewWardByOldWard = (e) => {
     initialValues: {
       id: props?.userData?.id,
       ulbId : props?.userData?.ulbId,
-      wardId: props?.userData?.wardId,
-      newWardId: props?.userData?.newWardId,
+      wardNo: props?.userData?.wardNo,
+      newWardNo: props?.userData?.newWardNo,
       clusterName: props?.userData?.cluster_name,
       clusterType: props?.userData?.cluster_type,
       clusterAddress: props?.userData?.address,
@@ -241,9 +241,9 @@ const fetchNewWardByOldWard = (e) => {
                 Ward No.
               </label>
               <select
-                value={formik.values.wardId}
+                value={formik.values.wardNo}
                 onChange={fetchNewWardByOldWard}
-                name="wardId"
+                name="wardNo"
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" >Select</option>
@@ -254,8 +254,8 @@ const fetchNewWardByOldWard = (e) => {
                                 }
               </select>
                <span className="text-red-600 absolute text-xs">
-                {formik.touched.wardId && formik.errors.wardId
-                  ? formik.errors.wardId
+                {formik.touched.wardNo && formik.errors.wardNo
+                  ? formik.errors.wardNo
                   : null}
               </span>
             </div>
@@ -269,8 +269,8 @@ const fetchNewWardByOldWard = (e) => {
                 New Ward No.
               </label>
               <select
-                value={formik.values.newWardId}
-                name="newWardId"
+                value={formik.values.newWardNo}
+                name="newWardNo"
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" >Select</option>
@@ -281,8 +281,8 @@ const fetchNewWardByOldWard = (e) => {
                                 }
               </select>
                <span className="text-red-600 absolute text-xs">
-                {formik.touched.newWardId && formik.errors.newWardId
-                  ? formik.errors.newWardId
+                {formik.touched.newWardNo && formik.errors.newWardNo
+                  ? formik.errors.newWardNo
                   : null}
               </span>
             </div>
