@@ -245,7 +245,19 @@ function PropertyAddOwnerObjection(props) {
         fd.append('objectionFor', "Clerical Mistake")
         fd.append('docCode', docCode)
         fd.append('document', document)
-        fd.append('owners', JSON.stringify(ownerPreviewList))
+        ownerList?.forEach((obj, index) => {
+            fd.append(`owners[${index}][ownerName]`, obj?.ownerName);
+            fd.append(`owners[${index}][gender]`, obj?.gender);
+            fd.append(`owners[${index}][dob]`, obj?.dob);
+            fd.append(`owners[${index}][guardianName]`, obj?.guardianName);
+            fd.append(`owners[${index}][relation]`, obj?.relation);
+            fd.append(`owners[${index}][mobileNo]`, obj?.mobileNo);
+            fd.append(`owners[${index}][aadhar]`, obj?.aadhar);
+            fd.append(`owners[${index}][pan]`, obj?.pan);
+            fd.append(`owners[${index}][email]`, obj?.email);
+            fd.append(`owners[${index}][isArmedForce]`, obj?.isArmedForce);
+            fd.append(`owners[${index}][isSpeciallyAbled]`, obj?.isSpeciallyAbled);
+          });
 
         console.log("before fetch data => ", requestBody)
 
