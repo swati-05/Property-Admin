@@ -59,12 +59,12 @@ function PropertyAddOwnerObjection(props) {
         ownerName: yup.string().required('Enter owner name').max(50, 'Enter maximum 50 characters'),
         gender: yup.string().required('Select gender'),
         dob: yup.date().required('Select DOB'),
-        guardianName: yup.string(),
-        relation: yup.string(),
+        guardianName: yup.string().required('Enter guardian name'),
+        relation: yup.string().required('Select relation'),
         mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
-        aadhar: yup.string(),
-        pan: yup.string(),
-        email: yup.string(),
+        aadhar: yup.string().required('Enter aadhar'),
+        pan: yup.string().required('Enter pan'),
+        email: yup.string().required('Enter email'),
         isArmedForce: yup.string().required('Select armed force status'),
         isSpeciallyAbled: yup.string().required('Select specially-abled status'),
 
@@ -101,7 +101,7 @@ function PropertyAddOwnerObjection(props) {
             setOwnerList([...ownerList, values])
 
             //* Adding ownerpreviewlist to preview data
-            let tempOwnerPreviewList = [...ownerPreviewList, ownerPreviewForm] //taking copy of array adding latest values since setstate does not update immediatly
+            let tempOwnerPreviewList = [...ownerPreviewList, values] //taking copy of array adding latest values since setstate does not update immediatly
             setownerPreviewList([...ownerPreviewList, ownerPreviewForm])
 
             // collectFormDataFun('ownerDetails', tempOwnerList, tempOwnerPreviewList) //sending OwnerDetails data to parent to store all form data at one container
@@ -245,7 +245,19 @@ function PropertyAddOwnerObjection(props) {
         fd.append('objectionFor', "Clerical Mistake")
         fd.append('docCode', docCode)
         fd.append('document', document)
-        fd.append('owners', JSON.stringify(ownerPreviewList))
+        ownerList?.forEach((obj, index) => {
+            fd.append(`owners[${index}][ownerName]`, obj?.ownerName);
+            fd.append(`owners[${index}][gender]`, obj?.gender);
+            fd.append(`owners[${index}][dob]`, obj?.dob);
+            fd.append(`owners[${index}][guardianName]`, obj?.guardianName);
+            fd.append(`owners[${index}][relation]`, obj?.relation);
+            fd.append(`owners[${index}][mobileNo]`, obj?.mobileNo);
+            fd.append(`owners[${index}][aadhar]`, obj?.aadhar);
+            fd.append(`owners[${index}][pan]`, obj?.pan);
+            fd.append(`owners[${index}][email]`, obj?.email);
+            fd.append(`owners[${index}][isArmedForce]`, obj?.isArmedForce);
+            fd.append(`owners[${index}][isSpeciallyAbled]`, obj?.isSpeciallyAbled);
+          });
 
         console.log("before fetch data => ", requestBody)
 
