@@ -51,6 +51,7 @@ function CitizenPropBasicDetail3(props) {
     // const [selectedUlbId, setselectedUlbId] = useState()
     const [holdingNoList, setholdingNoList] = useState([])
 
+    console.log('geting apartmetn list in basic details...', props?.apartmentList)
     // const [apartmentList, setapartmentList] = useState()
     const [apartmentName, setapartmentName] = useState('')
     const [holdingVerificationStatus, setholdingVerificationStatus] = useState(false)
@@ -59,26 +60,38 @@ function CitizenPropBasicDetail3(props) {
 
     const { api_verifyHolding } = CitizenApplyApiList()
 
-    // const validationSchema = yup.object({
-    //     dateOfPurchase: yup.string(),
-    //     transferMode: yup.string(),
-    //     wardNo: yup.string(),
-    //     newWardNo: yup.string(),
-    //     ownerShiptype: yup.string(),
-    //     propertyType: yup.string(),
-    //     apartment: yup.string(),
-    //     landOccupationDate: yup.string()
-    // })
-    const validationSchema = yup.object({
-        dateOfPurchase: yup.string(),
-        transferMode: yup.string(),
-        wardNo: yup.string().required('Select ward'),
-        newWardNo: yup.string().required('Select new ward'),
-        ownerShiptype: yup.string().required('Select ownership type'),
-        propertyType: yup.string().required('Select property'),
-        apartment: yup.string(),
-        landOccupationDate: yup.string()
-    })
+    let validationSchema
+    if (props?.safType == 'mu') {
+        validationSchema = yup.object({
+            dateOfPurchase: yup.string().required('Select date of purchase'),
+            transferMode: yup.string().required('Select transfer mode'),
+            wardNo: yup.string().required('Select ward'),
+            newWardNo: yup.string().required('Select new ward'),
+            ownerShiptype: yup.string().required('Select ownership type'),
+            propertyType: yup.string().required('Select property'),
+            apartment: yup.string(),
+            // apartment: yup.string('enter numbers only').when('propertyType', {
+            //     is: '3',
+            //     then: yup.string().required('Select flat')
+            // }),
+            landOccupationDate: yup.string()
+        })
+    } else {
+        validationSchema = yup.object({
+            dateOfPurchase: yup.string(),
+            transferMode: yup.string(),
+            wardNo: yup.string().required('Select ward'),
+            newWardNo: yup.string().required('Select new ward'),
+            ownerShiptype: yup.string().required('Select ownership type'),
+            propertyType: yup.string().required('Select property'),
+            apartment: yup.string(),
+            // apartment: yup.string('enter numbers only').when('propertyType', {
+            //     is: '3',
+            //     then: yup.string().required('Select flat')
+            // }),
+            landOccupationDate: yup.string()
+        })
+    }
 
     const initialValues = {
         transferMode: '',
@@ -203,6 +216,19 @@ function CitizenPropBasicDetail3(props) {
 
         formik.setFieldValue('ownerShiptype', props?.basicDetails?.ownerShiptype)
         formik.setFieldValue('propertyType', props?.basicDetails?.propertyType)
+
+        // if (props.basicDetails?.propertyType == 3) {
+        //     // FETCHING APARTMENTLIST
+        //     props?.fetchApartmentByOldWard(props?.basicDetails?.wardNo)
+        // }
+
+        // OPEN APARTMENT LIST IF PROPERTY IS FLAT
+        //    if(props?.basicDetails?.propertyType==3){
+        //        props?.setapartmentStatus(true)
+        //    }else{
+        //        props?.setapartmentStatus(false)
+        //    }
+
         // 2 VACCANT LAND REASSESSMENT / MUTATION CASE
         props?.setpropertyTypeState(props?.basicDetails?.propertyType)
         setbasicViewForm(props?.basicDetailsPreview)

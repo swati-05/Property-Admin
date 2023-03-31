@@ -137,7 +137,21 @@ function HoldingNoCard(props) {
                             <div class="max-w-sm mx-auto md:max-w-lg">
                                 <div class="w-full">
                                     <div class="bg-white py-8 rounded text-center shadow-xl relative">
-                                        <div class="text-2xl font-bold px-10">Applying for &nbsp;
+
+                                        <button
+                                            onClick={() => props?.closeModal(false)}
+                                            type="button"
+                                            class="absolute top-6 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
+                                        >
+                                            <svg class="w-5 h-5" fill="currentColor">
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                        </button>
+                                        <div class="text-2xl font-bold px-10">Applying.... for &nbsp;
                                             {props?.safType == 'bi' && 'Bifurcation'}
                                             {props?.safType == 'am' && 'Amalgamation'}
                                             {props?.safType == 'mu' && 'Mutation'}</div>

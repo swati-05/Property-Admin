@@ -12,6 +12,10 @@ import BarLoader from '@/Components/Common/BarLoader'
 import CitizenApplyApiList from '@/Components/CitizenApplyApiList'
 import { contextVar } from '@/Components/Context/Context'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import ApiHeader from '@/Components/ApiList/ApiHeader'
 
 
 
@@ -32,6 +36,8 @@ function DemandDetailsHoldingProperty(props) {
     const [responseScreenStatus, setResponseScreenStatus] = useState('')
     const [isLoading, setisLoading] = useState(false);
     const [paymentData, setpaymentData] = useState();
+    const [erroState, seterroState] = useState(false);
+
 
     // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
     useSetTitle('Holding Demand Details')
@@ -43,29 +49,17 @@ function DemandDetailsHoldingProperty(props) {
     const fetchDemandDetail = () => {
 
         setisLoading(true)
-        let token = window.localStorage.getItem('token')
-        // console.log('token at basic details is  get method...', token)
-        const header = {
-            headers:
-            {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            }
-        }
-        axios.post(`${api_getHoldingDemandById}`,
-            {
-                propId: id
-            },
-            header)
+        seterroState(false)
+        axios.post(`${api_getHoldingDemandById}`, { propId: id }, ApiHeader())
             .then(function (response) {
                 console.log('view deamnd details at property in egov...', response.data)
                 setdemandDetail(response.data.data)
                 setfullData(response?.data)
-                setpaymentDataFun(response.data.data)
                 setisLoading(false)
             })
             .catch(function (error) {
-                console.log('==2 details by id error...', error)
+                console.log('at error part.', error)
+                seterroState(true)
                 setisLoading(false)
             })
     }
@@ -75,80 +69,19 @@ function DemandDetailsHoldingProperty(props) {
     }, [])
 
 
-    const setpaymentDataFun = (data) => {
 
-        setpaymentData(
-            {
-                propId: id,
-                amount: data?.duesList?.payableAmount,
-                departmentId: 1,
-                workflowId: 4,
-                uldId: 2
-            }
-        )
-
-    }
-    console.log("demand.......", demandDetail?.demand?.payableAmount)
-
-
-    //// PAYMENT METHOD  ////
-    const dreturn = (data) => {   // In (DATA) this function returns the Paymen Status, Message and Other Response data form Razorpay Server
-        console.log('Payment Status =>', data.status)
-        console.log('Payment Status =>', data.message)
-        setResponseScreenStatus(data.status)
-        if (data?.status) {
-            toast.success('Payment success !')
-            navigate(`/paymentReceipt/${data?.data?.razorpay_payment_id}`)
-        } else {
-            toast.error('Payment failed....')
-        }
-    }
-
-    const getOrderId = async () => { // This Function is used to Order Id Generation
-        setisLoading(true)
-
-        const orderIdPayload = {
-            propId: id,
-            amount: demandDetail?.duesList?.payableAmount,
-            departmentId: 1,
-            workflowId: 4,
-            uldId: 2
-        }
-
-        let token = window.localStorage.getItem('token')
-        console.log('token at basic details is post method...', token)
-        const header = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            }
-        }
-        axios.post(propertyGenerateHoldingOrderId, orderIdPayload, header)  // This API will generate Order ID
-            .then((res) => {
-                console.log("Order Id Response after ", res.data)
-                if (res.data.status === true) {
-                    console.log("OrderId Generated True in holding", res.data.data)
-                    RazorpayPaymentScreen(res.data.data, dreturn);  //Send Response Data as Object (amount, orderId, ulbId, departmentId, applicationId, workflowId, userId, name, email, contact) will call razorpay payment function to show payment popup                                      
-                }
-                else {
-                    // props.showLoader(false)
-                }
-                setisLoading(false)
-            })
-            .catch((err) => {
-                alert("Backend Server error. Unable to Generate Order Id");
-                console.log("ERROR :-  Unable to Generate Order Id ", err)
-                setisLoading(false)
-            })
-
-
-    }
-
-    if (responseScreenStatus == true) {
+    if (isLoading) {
         return (
             <>
-                <PaymentTranscationScreen />
+                <BrandLoader />
             </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
         )
     }
 

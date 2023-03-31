@@ -99,6 +99,7 @@ import ClusterPaymentReceiptIndex from '@/Pages/Property/Reports/TaxRecieptBulkP
 import CitizenPropSafApplicationFormIndex from './Pages/Property/CitizenSafForm2updated/CitizenPropSafApplicationFormIndex';
 import UlbWorkflowRolesIndex from '@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex';
 import NavigatePage from './Pages/NavigatePage';
+import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
 
 
 
@@ -229,7 +230,7 @@ function App(props) {
               <Route path="/objection-clerical-mistake/:id" element={<ObjectionRectificationTable />} />
               <Route path="/objection-forgery/:id" element={<ObjectionForgery />} />
               <Route path="/objection-assessment-error/:id" element={<ObjectionFormIndex />} />
-              <Route path="/saf-entry" element={<CitizenSafEntryScreenForm />} />
+              <Route path="/saf-entry" element={<SafApplyCard />} />
               <Route path="/ulb-workflow-roles" element={<UlbWorkflowRolesIndex />} />
               <Route path='/safform/:safType/:safId' element={<CitizenPropSafApplicationFormIndex />} />
               <Route path='/basic-property-edit/:propId' element={<BasicEditFormIndex />} />

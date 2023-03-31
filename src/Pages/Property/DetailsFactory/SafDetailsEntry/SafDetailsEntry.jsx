@@ -12,6 +12,9 @@ import { MdTag } from 'react-icons/md'
 import TopTabs from '../TopTabs'
 import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import CommonModal from '@/Components/GlobalData/CommonModal'
 
 
 const customStyles = {
@@ -56,6 +59,8 @@ function SafDetailsEntry() {
     const { id } = useParams()
     const [applicationFullData, setapplicationFullData] = useState()
     const [isLoading, setisLoading] = useState(false);
+    const [erroState, seterroState] = useState(false);
+
 
 
     useEffect(() => {
@@ -103,8 +108,6 @@ function SafDetailsEntry() {
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [docUrl, setDocUrl] = useState('')
-    let subtitle;
-
     const openModal = () => setIsOpen(true)
     const closeModal = () => setIsOpen(false)
     const afterOpenModal = () => { }
@@ -117,6 +120,7 @@ function SafDetailsEntry() {
 
     // GET APPLICATION DETAILS
     const getApplicationDetail = () => {
+        seterroState(false)
         setisLoading(true)
         let token = window.localStorage.getItem('token')
         // console.log('token at basic details is  get method...', token)
@@ -130,11 +134,16 @@ function SafDetailsEntry() {
         axios.post(api_getStaticSafDetails, { applicationId: id }, header)
             .then(function (response) {
                 console.log('get saf data in saf view ...', response.data.data)
-                setapplicationFullData(response.data.data)
+                if (response?.data?.status) {
+                    setapplicationFullData(response.data.data)
+                } else {
+                    seterroState(true)
+                }
                 setisLoading(false)
             })
             .catch(function (error) {
                 console.log('saf data error...', error)
+                seterroState(true)
                 setisLoading(false)
             })
     }
@@ -143,13 +152,27 @@ function SafDetailsEntry() {
         getApplicationDetail()
     }, [])
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
+
     console.log('doc url modal => ', docUrl)
     return (
 
         <CustomErrorBoundary errorMsg="Bug in TransactionHistoryFactory" >
-            {
-                isLoading && <BarLoader />
-            }
+           
             <div>
                 <>
                     {/* {location == 'workflow' && <div className='px-4'>
@@ -575,19 +598,19 @@ function SafDetailsEntry() {
                                 <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
                                     <div className="flex space-x-10  pl-4 mt-4">
                                         <div className='flex-1'>
-                                            <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower ? applicationFullData?.is_mobile_tower : "N/A"}</div>
+                                            <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower == 1 ? 'Yes' : 'No'}</div>
                                             <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                                         </div>
                                         <div className='flex-1'>
-                                            <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board ? applicationFullData?.is_hoarding_board : "N/A"} </div>
+                                            <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board == 1 ? 'Yes' : 'No'} </div>
                                             <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                                         </div>
                                         <div className='flex-1'>
-                                            <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump ? applicationFullData?.is_petrol_pump : "N/A"}</div>
+                                            <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump == 1 ? 'Yes' : 'No'}</div>
                                             <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                                         </div>
                                         <div className='flex-1'>
-                                            <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting ? applicationFullData?.is_water_harvesting : "N/A"}</div>
+                                            <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting == 1 ? 'Yes' : 'No'}</div>
                                             <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                                         </div>
                                         <div className='flex-1'>

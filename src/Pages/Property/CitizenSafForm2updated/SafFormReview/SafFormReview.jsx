@@ -31,6 +31,7 @@ import { MdViewInAr } from 'react-icons/md'
 // import OtpScreen from '../../../../Components/OtpScreen'
 import moment from 'moment'
 import { TiDelete } from 'react-icons/ti'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 
 
@@ -85,26 +86,26 @@ function SafFormReview(props) {
     return (
         <>
             <div className={` block p-4 mt-4 w-full md:py-4 md:pb-0 md:pt-0 rounded-lg  md:w-full mx-auto  overflow-x-auto md:px-20`}>
-                <h1 className='px-2 font-semibold mt-0 text-center text-gray-700 font-serif py-2 text-xl mb-10'>Review and submit your form details.</h1>
+                <h1 className='px-2 font-semibold mt-0 text-center text-gray-700 font-serif py-2 text-2xl mb-10'>Review your form details and submit.</h1>
                 <div className='mt-4 mx-auto'>
                     <div>
                         <h1 className='px-1 font-semibold font-serif text-xs'><img src={folder} alt="pin" className='w-5 inline' /> Basic Details</h1>
                         <div className='bg-white rounded-lg shadow-lg py-6'>
                             <div className="flex space-x-10 pl-4 ">
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.basicDetailsPreview?.wardNo}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.basicDetailsPreview?.wardNo)}</div>
                                     <div className='text-gray-500'>Ward No.</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-semibold text-sm'>{props?.basicDetailsPreview?.newWardNo}</div>
+                                    <div className='font-semibold text-sm'>{nullToNA(props?.basicDetailsPreview?.newWardNo)}</div>
                                     <div className='text-gray-500'>New Ward No</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-semibold text-sm'>{props?.basicDetailsPreview?.ownerShiptype}</div>
+                                    <div className='font-semibold text-sm'>{nullToNA(props?.basicDetailsPreview?.ownerShiptype)}</div>
                                     <div className='text-gray-500'>Ownership Type</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.basicDetailsPreview?.propertyType} BUILDING</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.basicDetailsPreview?.propertyType)} BUILDING</div>
                                     <div className='text-gray-500'>Property Type</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
@@ -121,46 +122,46 @@ function SafFormReview(props) {
                     <div className='bg-white rounded-lg shadow-lg py-6'>
                         <div className="flex space-x-10 pl-4 ">
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.khataNo}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.khataNo)}</div>
                                 <div className='text-gray-500'>Khata No.</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.propAddressDetails?.plotNo}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.plotNo)}</div>
                                 <div className='text-gray-500'>Plot No</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.propAddressDetails?.village_mauja}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.village_mauja)}</div>
                                 <div className='text-gray-500'>Village/Mauja Name</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.plotArea}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.plotArea)}</div>
                                 <div className='text-gray-500'>Area of Plot(decimal)</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.roadWidth}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.roadWidth)}</div>
                                 <div className='text-gray-500'>Road Width(ft)</div>
                             </div>
                         </div>
 
                         <div className="flex space-x-10  pl-4 mt-4">
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.city}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.city)}</div>
                                 <div className='text-gray-500'>City</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.propAddressDetails?.district}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.district)}</div>
                                 <div className='text-gray-500'>District</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.propAddressDetails?.state}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.state)}</div>
                                 <div className='text-gray-500'>State</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.pin}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.pin)}</div>
                                 <div className='text-gray-500'>Pin</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.propAddressDetails?.locality}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.locality)}</div>
                                 <div className='text-gray-500'>Locality</div>
                             </div>
                         </div>
@@ -176,23 +177,23 @@ function SafFormReview(props) {
                         {props?.propAddressDetails?.addressCheckbox != true ? <div className='pl-4 font-bold text-sm text-center'>Same as Property Address</div> :
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.propAddressDetails?.c_city == '' ? 'N/a' : props?.propAddressDetails?.c_city}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_city) }</div>
                                     <div className='text-gray-500'>City</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-semibold text-sm'>{props?.propAddressDetails?.c_district == '' ? 'N/a' : props?.propAddressDetails?.c_district}</div>
+                                    <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.c_district) }</div>
                                     <div className='text-gray-500'>District</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-semibold text-sm'>{props?.propAddressDetails?.c_state == '' ? 'N/a' : props?.propAddressDetails?.c_state}</div>
+                                    <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.c_state)}</div>
                                     <div className='text-gray-500'>State</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.propAddressDetails?.c_pin == '' ? 'N/a' : props?.propAddressDetails?.c_pin}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_pin) }</div>
                                     <div className='text-gray-500'>Pin</div>
                                 </div>
                                 <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.propAddressDetails?.c_locality == '' ? 'N/a' : props?.propAddressDetails?.c_locality}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_locality) }</div>
                                     <div className='text-gray-500'>Locality</div>
                                 </div>
                             </div>
@@ -204,19 +205,19 @@ function SafFormReview(props) {
                     <div className='bg-white rounded-lg shadow-lg py-6'>
                         <div className="flex space-x-10 pl-4 ">
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.elecWaterDetails?.electricityKNo == '' ? 'N/a' : props?.elecWaterDetails?.electricityKNo}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.electricityKNo)}</div>
                                 <div className='text-gray-500'>Electricity K. No</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.elecWaterDetails?.accNo == '' ? 'N/a' : props?.elecWaterDetails?.accNo}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.accNo)}</div>
                                 <div className='text-gray-500'>ACC No.</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.elecWaterDetails?.bindBookNo == '' ? 'N/a' : props?.elecWaterDetails?.bindBookNo}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.bindBookNo) }</div>
                                 <div className='text-gray-500'>BIND/BOOK No.</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.elecWaterDetails?.electrictyConsumerNo == '' ? 'N/a' : props?.elecWaterDetails?.electrictyConsumerNo}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.electrictyConsumerNo) }</div>
                                 <div className='text-gray-500'>Electricity Consumer Category</div>
                             </div>
                             <div className='flex-1 text-xs'>
@@ -227,19 +228,19 @@ function SafFormReview(props) {
 
                         <div className="flex space-x-10  pl-4 mt-4">
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.elecWaterDetails?.bpApprovalNo == '' ? 'N/a' : props?.elecWaterDetails?.bpApprovalNo}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.bpApprovalNo) }</div>
                                 <div className='text-gray-500'>Building Plan Approval No.</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.elecWaterDetails?.bpApprovalDate == '' ? 'N/a' : props?.elecWaterDetails?.bpApprovalDate}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.bpApprovalDate) }</div>
                                 <div className='text-gray-500'>Building Plan Approval Date</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-semibold text-sm'>{props?.elecWaterDetails?.waterConsumerNo == '' ? 'N/a' : props?.elecWaterDetails?.waterConsumerNo}</div>
+                                <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.waterConsumerNo)}</div>
                                 <div className='text-gray-500'>Water Consumer No.</div>
                             </div>
                             <div className='flex-1 text-xs'>
-                                <div className='font-bold text-sm'>{props?.elecWaterDetails?.waterConnectionDate == '' ? 'N/a' : props?.elecWaterDetails?.waterConnectionDate}</div>
+                                <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.waterConnectionDate)}</div>
                                 <div className='text-gray-500'>Water Connection Date</div>
                             </div>
                             <div className='flex-1 text-xs'>
@@ -276,17 +277,17 @@ function SafFormReview(props) {
                                     <>
                                         <tr className="bg-white shadow-lg border-b border-gray-200">
                                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.ownerName}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.gender}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.dob}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.guardianName}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.relation}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.mobileNo}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{(owner.aadhar == '' || owner.aadhar == null) ? 'N/A' : owner.aadhar}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{(owner.pan == '' || owner.pan == null) ? 'N/A' : owner.pan}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{(owner.email == '' || owner.email == null) ? 'N/A' : owner.email}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.isArmedForce}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{owner?.isSpeciallyAbled}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.ownerName)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.gender)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.dob)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.guardianName)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.relation)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.mobileNo)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner.aadhar)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner.pan)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner.email)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.isArmedForce)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(owner?.isSpeciallyAbled)}</td>
 
                                         </tr>
                                     </>
@@ -321,13 +322,13 @@ function SafFormReview(props) {
                                     <>
                                         <tr className="bg-white shadow-lg border-b border-gray-200">
                                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.floorNo}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.useType}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.occupancyType}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.constructionType}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.buildupArea}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{floor?.dateFrom}</td>
-                                            <td className="px-2 py-2 text-sm text-left">{(floor?.dateUpto == '' || floor?.dateUpto == null) ? 'N/A' : floor?.dateUpto}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.floorNo)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.useType)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.occupancyType)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.constructionType)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.buildupArea)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.dateFrom)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(floor?.dateUpto)}</td>
 
                                         </tr>
                                     </>
@@ -343,7 +344,7 @@ function SafFormReview(props) {
                         <div className='bg-white rounded-lg shadow-lg py-6'>
                             <div className="flex space-x-10  pl-4 mt-4">
                                 {props?.zoneValue && <div className='flex-1 text-xs'>
-                                    <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.zone}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.zone)}</div>
                                     <div className='text-gray-500'>Zone</div>
                                 </div>}
                                 <div className='flex-1 text-xs'>
@@ -372,19 +373,19 @@ function SafFormReview(props) {
                                 </div>}
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.mobileTowerStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.mobileTowerDate}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.mobileTowerDate)}</div>
                                         <div className='text-gray-500'>Mobile Tower Area ?</div>
                                     </div>}
                                 </div>
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.hoardingStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.hoardingDate}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.hoardingDate)}</div>
                                         <div className='text-gray-500'>Hoarding Board Area ?</div>
                                     </div>}
                                 </div>
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.petrolPumpStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.petrolPumpDate}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.petrolPumpDate)}</div>
                                         <div className='text-gray-500'>Petrol Pump Area ?</div>
                                     </div>}
                                 </div>
@@ -401,19 +402,19 @@ function SafFormReview(props) {
                                 </div>}
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.mobileTowerStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.mobileTowerDate}</div>
+                                        <div className='font-bold text-sm'>{(nullToNAprops?.additionalDetailsPreview?.mobileTowerDate)}</div>
                                         <div className='text-gray-500'>Mobile Tower Installation Date</div>
                                     </div>}
                                 </div>
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.hoardingStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.mobileTowerArea}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.mobileTowerArea)}</div>
                                         <div className='text-gray-500'>Hoarding Board Installation Date</div>
                                     </div>}
                                 </div>
                                 <div className='flex-1 text-xs'>
                                     {props?.additionalDetailsPreview?.petrolPumpStatus == '1' && <div className='flex-1 text-xs'>
-                                        <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.mobileTowerArea}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.mobileTowerArea)}</div>
                                         <div className='text-gray-500'>Petrol Pump Construction Date</div>
                                     </div>}
                                 </div>
@@ -457,12 +458,12 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet1?.floors?.map((data, index) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.mUsageType}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.rentalValue}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.buildupArea}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.dateFrom}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.mUsageType)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rentalValue)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.buildupArea)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
 
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.arv}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
 
                                                     </tr>
                                                 ))}
@@ -495,14 +496,14 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet1?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.effectingFrom}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.arv}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.holdingTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.waterTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.latrineTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.educationTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.healthTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.quaterlyTax}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.waterTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.latrineTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.educationTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.healthTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.quaterlyTax)}</span></td>
 
 
                                                     </tr>
@@ -587,12 +588,12 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet2?.floors?.map((data, index) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.multiFactor}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.occupancyFactor}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.rentalRate}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.carpetArea}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.dateFrom}</td>
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.arv}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.multiFactor)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.occupancyFactor)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rentalRate)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.carpetArea)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
                                                     </tr>
                                                 ))
                                                 }
@@ -622,11 +623,11 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet2?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.effectingFrom}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.arv}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.holdingTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.rwhPenalty}</td>
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.quaterlyTax}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rwhPenalty)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.quaterlyTax)}</span></td>
                                                     </tr>
                                                 ))}
 
@@ -709,14 +710,14 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet3?.floors?.map((data, index) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.circleRate}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.buildupArea}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.occupancyFactor}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.taxPerc}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.calculationFactor}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.matrixFactor}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.dateFrom}</td>
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.arv}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.circleRate)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.buildupArea)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.occupancyFactor)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.taxPerc)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.calculationFactor)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.matrixFactor)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
                                                     </tr>
                                                 ))
                                                 }
@@ -745,11 +746,11 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet3?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.effectingFrom}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.arv}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.holdingTax}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{data?.rwhPenalty}</td>
-                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{data?.quaterlyTax}</span></td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rwhPenalty)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.quaterlyTax)}</span></td>
 
 
                                                     </tr>
@@ -873,6 +874,8 @@ function SafFormReview(props) {
             >
                 {/* <OtpScreen allFormData={props?.formReviewData} submitFun={props.submitFun} closeOtpModaal={closeOtpModaal} /> */}
             </Modal>
+
+            <div className='w-full mt-48'></div>
 
         </>
     )

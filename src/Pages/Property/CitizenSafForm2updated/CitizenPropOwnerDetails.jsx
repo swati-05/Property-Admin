@@ -30,7 +30,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { RiDeleteBack2Line } from 'react-icons/ri'
 import { TbEdit } from 'react-icons/tb'
-import { allowCharacterNumberInput, allowCharacterSpaceCommaInput, allowMailInput, allowNumberInput, getCurrentDate } from '../../../Components/Common/PowerUps/PowerupFunctions'
+import { allowCharacterNumberInput, allowCharacterSpaceCommaInput, allowMailInput, allowNumberInput, getCurrentDate, nullToNA } from '../../../Components/Common/PowerUps/PowerupFunctions'
 import { TiDelete } from 'react-icons/ti'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import { contextVar } from '@/Components/Context/Context'
@@ -54,20 +54,39 @@ function CitizenPropOwnerDetails(props) {
     const armedRef = useRef(null);
     const speciallyAbledRef = useRef(null);
 
-    const validationSchema = yup.object({
-        ownerName: yup.string().required('Enter owner name').max(50, 'Enter maximum 50 characters'),
-        gender: yup.string().required('Select gender'),
-        dob: yup.date().required('Select DOB'),
-        guardianName: yup.string().required('Enter guardian name'),
-        relation: yup.string().required('Select relation'),
-        mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
-        aadhar: yup.string().required('Enter aadhar no').min(12, 'Enter 12 digit aadhar no.'),
-        pan: yup.string().required('Enter PAN no.').min(10, 'enter 10 digit PAN no.'),
-        email: yup.string().required('Enter email address').min(11, 'enter atleast 11 character'),
-        isArmedForce: yup.string().required('Select armed force status'),
-        isSpeciallyAbled: yup.string().required('Select specially-abled status'),
+    let validationSchema
+    if (props?.safType == 're') {
+        validationSchema = yup.object({
+            ownerName: yup.string().max(50, 'Enter maximum 50 characters'),
+            gender: yup.string(),
+            dob: yup.date(),
+            guardianName: yup.string(),
+            relation: yup.string().required('Select relation'),
+            mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
+            aadhar: yup.string().min(12, 'Enter 12 digit aadhar no.'),
+            pan: yup.string().min(10, 'enter 10 digit PAN no.'),
+            email: yup.string().required('Enter email address').min(11, 'enter atleast 11 character'),
+            isArmedForce: yup.string(),
+            isSpeciallyAbled: yup.string(),
 
-    })
+        })
+    } else {
+        validationSchema = yup.object({
+            ownerName: yup.string().required('Enter owner name').max(50, 'Enter maximum 50 characters'),
+            gender: yup.string().required('Select gender'),
+            dob: yup.date().required('Select DOB'),
+            guardianName: yup.string().required('Enter guardian name'),
+            relation: yup.string().required('Select relation'),
+            mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
+            aadhar: yup.string().required('Enter aadhar no').min(12, 'Enter 12 digit aadhar no.'),
+            pan: yup.string().required('Enter PAN no.').min(10, 'enter 10 digit PAN no.'),
+            email: yup.string().required('Enter email address').min(11, 'enter atleast 11 character'),
+            isArmedForce: yup.string().required('Select armed force status'),
+            isSpeciallyAbled: yup.string().required('Select specially-abled status'),
+
+        })
+    }
+
     const formik = useFormik({
         initialValues: {
             ownerName: '',
@@ -328,13 +347,17 @@ function CitizenPropOwnerDetails(props) {
         console.log('inside minimum check....')
         if (ownerList.length === 0) {
             notify('Add minimum one owner', 'error')
-        } else {
-            if (ownerList.length > props?.oldownerDetailsPreview?.length) {
-                props.nextFun(4)
-            } else {
-                notify('Add minimum one owner', 'error')
+        }
+        //  else {
+        //     if (ownerList.length > props?.oldownerDetailsPreview?.length) {
+        //         props.nextFun(4)
+        //     } else {
+        //         notify('Add minimum one owner', 'error')
 
-            }
+        //     }
+        // }
+        else {
+            props.nextFun(4)
         }
     }
     console.log('owner list preview...', ownerList?.length, 'owner old owner list...', props?.oldownerDetailsPreview?.length)
@@ -426,21 +449,21 @@ function CitizenPropOwnerDetails(props) {
                                             <>
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.ownerName}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.gender}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.dob}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.guardianName}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.relation}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.mobileNo}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.aadhar == '' || data?.aadhar == null) ? 'N/A' : data?.aadhar}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.pan == '' || data?.pan == null) ? 'N/A' : data?.pan}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.email == '' || data?.email == null) ? 'N/A' : data?.email}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.ownerName)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.gender)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dob)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.guardianName)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.relation)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.mobileNo)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.aadhar)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.pan)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{ nullToNA(data?.email)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">
 
-                                                        {(data?.isArmedForce == '' || data?.isArmedForce == null) ? 'N/A' : data?.isArmedForce}
+                                                        {nullToNA(data?.isArmedForce)}
                                                     </td>
                                                     <td className="px-2 py-2 text-sm text-left">
-                                                        {(data?.isSpeciallyAbled == '' || data?.isSpeciallyAbled == null) ? 'N/A' : data?.isSpeciallyAbled}
+                                                        {nullToNA(data?.isSpeciallyAbled)}
                                                     </td>
                                                 </tr>
                                             </>
@@ -477,21 +500,21 @@ function CitizenPropOwnerDetails(props) {
                                             <>
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.ownerName}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.gender}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.dob}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.guardianName}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.relation}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.mobileNo}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.aadhar == '' || data?.aadhar == null) ? 'N/A' : data?.aadhar}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.pan == '' || data?.pan == null) ? 'N/A' : data?.pan}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{(data?.email == '' || data?.email == null) ? 'N/A' : data?.email}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.ownerName)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.gender)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dob)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.guardianName)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.relation)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.mobileNo)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.aadhar)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.pan)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.email)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">
 
-                                                        {(data?.isArmedForce == '' || data?.isArmedForce == null) ? 'N/A' : data?.isArmedForce}
+                                                        {nullToNA(data?.isArmedForce)}
                                                     </td>
                                                     <td className="px-2 py-2 text-sm text-left">
-                                                        {(data?.isSpeciallyAbled == '' || data?.isSpeciallyAbled == null) ? 'N/A' : data?.isSpeciallyAbled}
+                                                        {nullToNA(data?.isSpeciallyAbled)}
                                                     </td>
                                                     <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editOwner(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' />
                                                         {(props?.safType != 're' && props?.safType != 'bo-edit') && <RiDeleteBack2Line onClick={() => removeOwner(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' />}
@@ -528,13 +551,13 @@ function CitizenPropOwnerDetails(props) {
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold ">Owner Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small> </label>
                                     {/* // IF EDITINDEX IS 0 THEN DISABLE OWNER INPUT TO RESTRICT OWNER NAME CHANGE AS THIS IS FIRST OWNER */}
                                     {/* // FOR NEW EDIT CASE CHECK IF OWNERLENGHT IS ZERO THEN RESTRICT, OR OTHER CASE CHECK EDITINDEX IS ZERO OR NOT */}
-                                    <input disabled={inputConditionState?.ownerName?.readOnly}  {...formik.getFieldProps('ownerName')} type="text" className={`cypress_owner_name form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.ownerName?.style}`}
+                                    <input disabled={inputConditionState?.ownerName?.readOnly}  {...formik.getFieldProps('ownerName')} type="text" className={`cypress_owner_name form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.ownerName?.style}`}
                                         aria-describedby="emailHelp" placeholder="Enter owner name" />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.ownerName && formik.errors.ownerName ? formik.errors.ownerName : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Gender<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <select disabled={inputConditionState?.gender?.readOnly} ref={genderRef} {...formik.getFieldProps('gender')} className={`cypress_gender form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.gender?.style}`} >
+                                    <select disabled={inputConditionState?.gender?.readOnly} ref={genderRef} {...formik.getFieldProps('gender')} className={`cypress_gender form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.gender?.style}`} >
                                         <option value="" >Select</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -544,18 +567,18 @@ function CitizenPropOwnerDetails(props) {
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">DOB<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.dob?.readOnly} {...formik.getFieldProps('dob')} type="date" className={`cypress_dob block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.dob?.style}`} />
+                                    <input disabled={inputConditionState?.dob?.readOnly} {...formik.getFieldProps('dob')} type="date" className={`cypress_dob block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.dob?.style}`} />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.dob && formik.errors.dob ? formik.errors.dob : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Guardian Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.guardianName?.readOnly} {...formik.getFieldProps('guardianName')} type="text" className={`cypress_guardian_name form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.guardianName?.style}`}
+                                    <input disabled={inputConditionState?.guardianName?.readOnly} {...formik.getFieldProps('guardianName')} type="text" className={`cypress_guardian_name form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.guardianName?.style}`}
                                         placeholder="Enter guardian name" />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.guardianName && formik.errors.guardianName ? formik.errors.guardianName : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Relation<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <select disabled={inputConditionState?.relation?.readOnly} ref={relationRef} {...formik.getFieldProps('relation')} className={`cypress_relation form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.relation?.style}`} >
+                                    <select disabled={inputConditionState?.relation?.readOnly} ref={relationRef} {...formik.getFieldProps('relation')} className={`cypress_relation form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.relation?.style}`} >
                                         <option value="" >Select</option>
                                         <option value="S/O">S/O</option>
                                         <option value="D/O">D/O</option>
@@ -567,30 +590,30 @@ function CitizenPropOwnerDetails(props) {
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Mobile No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.mobileNo?.readOnly} {...formik.getFieldProps('mobileNo')} type="text" className={`cypress_mobile form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.mobileNo?.style}`} placeholder='Enter mobileNo no' />
+                                    <input disabled={inputConditionState?.mobileNo?.readOnly} {...formik.getFieldProps('mobileNo')} type="text" className={`cypress_mobile form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.mobileNo?.style}`} placeholder='Enter mobileNo no' />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.mobileNo && formik.errors.mobileNo ? formik.errors.mobileNo : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Aadhar No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.aadhar?.readOnly} {...formik.getFieldProps('aadhar')} type="text" className={`cypress_aadhar form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.aadhar?.style}`}
+                                    <input disabled={inputConditionState?.aadhar?.readOnly} {...formik.getFieldProps('aadhar')} type="text" className={`cypress_aadhar form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.aadhar?.style}`}
                                         placeholder="Enter aadhar no." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.aadhar && formik.errors.aadhar ? formik.errors.aadhar : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">PAN No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.pan?.readOnly} {...formik.getFieldProps('pan')} type="text" className={`cypress_pan form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.pan?.style}`}
+                                    <input disabled={inputConditionState?.pan?.readOnly} {...formik.getFieldProps('pan')} type="text" className={`cypress_pan form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.pan?.style}`}
                                         placeholder="Enter pan no." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.pan && formik.errors.pan ? formik.errors.pan : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Email<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.email?.readOnly}  {...formik.getFieldProps('email')} type="email" className={`cypress_email form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.email?.style}`}
+                                    <input disabled={inputConditionState?.email?.readOnly}  {...formik.getFieldProps('email')} type="email" className={`cypress_email form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.email?.style}`}
                                         placeholder="Enter email." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.email && formik.errors.email ? formik.errors.email : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Armed Force ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <select disabled={inputConditionState?.isArmedForce?.readOnly} ref={armedRef} {...formik.getFieldProps('isArmedForce')} className={`cypress_armed form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.isArmedForce?.style}`} >
+                                    <select disabled={inputConditionState?.isArmedForce?.readOnly} ref={armedRef} {...formik.getFieldProps('isArmedForce')} className={`cypress_armed form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.isArmedForce?.style}`} >
                                         <option value="" >Select</option>
                                         <option value='0'>No</option>
                                         <option value='1'>Yes</option>
@@ -599,7 +622,7 @@ function CitizenPropOwnerDetails(props) {
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Specially Abled ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small><span className='text-xs text-gray-500'>{restrictSpeciallyAbled && '(You cannot be specialy-abled as you are armed force)'}</span> </label>
-                                    <select disabled={inputConditionState?.isSpeciallyAbled?.readOnly} ref={speciallyAbledRef} {...formik.getFieldProps('isSpeciallyAbled')} className={`cypress_specially_abled form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.isSpeciallyAbled?.style}`} >
+                                    <select disabled={inputConditionState?.isSpeciallyAbled?.readOnly} ref={speciallyAbledRef} {...formik.getFieldProps('isSpeciallyAbled')} className={`cypress_specially_abled form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.isSpeciallyAbled?.style}`} >
                                         <option value="" >Select</option>
                                         <option value='0'>No</option>
                                         <option value='1'>Yes</option>

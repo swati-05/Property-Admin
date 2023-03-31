@@ -13,6 +13,10 @@ import { FiInfo } from 'react-icons/fi'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import BottomTabsCondition from './BottomTabsCondition'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+
 // import brief from '@/Components/Media/brief'
 // import home from '@/Components/Media/home'
 // import user from '@/Components/Media/user'
@@ -35,23 +39,30 @@ function PropApplicationFullDetail_Property() {
     const [applicationFullData, setapplicationFullData] = useState()
     const [isLoading, setisLoading] = useState(false);
     const [permissionData, setpermissionData] = useState(null);
+    const [erroState, seterroState] = useState(false);
+
 
     // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
     useSetTitle('Holding Details')
 
     ///////////{*** APPLICATION FULL DETAIL FOR RE-ASSESSMENT***}/////////
     const getApplicationDetail = () => {
-
+        seterroState(false)
         setisLoading(true)
 
         axios.post(api_getPropHoldingDetailsById, { propertyId: id }, ApiHeader())
             .then(function (response) {
                 console.log('view prop prop full details at property ...', response.data.data)
-                setapplicationFullData(response.data.data)
-                setisLoading(false)
+                if (response?.data?.status) {
+                    setapplicationFullData(response.data.data)
+                    setisLoading(false)
+                } else {
+                    seterroState(true)
+                }
             })
             .catch(function (error) {
                 console.log('==2 details by id error...', error)
+                seterroState(true)
                 setisLoading(false)
             })
     }
@@ -82,13 +93,25 @@ function PropApplicationFullDetail_Property() {
         fetchPermission()
     }, [])
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
 
     // console.log("appliocation full detail to view", applicationFullData?.owners[0]?.id)
     return (
         <>
-            {
-                isLoading && <BarLoader />
-            }
 
             <div className='grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-2 container mx-auto w-full'>
 
@@ -522,19 +545,19 @@ function PropApplicationFullDetail_Property() {
                         <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower ? applicationFullData?.is_mobile_tower : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower == 1 ? 'Yes' : 'No'}</div>
                                     <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board ? applicationFullData?.is_hoarding_board : "N/A"} </div>
+                                    <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board == 1 ? 'Yes' : 'No'} </div>
                                     <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump ? applicationFullData?.is_petrol_pump : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump == 1 ? 'Yes' : 'No'}</div>
                                     <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting ? applicationFullData?.is_water_harvesting : "N/A"}</div>
+                                    <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting == 1 ? 'Yes' : 'No'}</div>
                                     <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                                 </div>
                                 <div className='flex-1'>

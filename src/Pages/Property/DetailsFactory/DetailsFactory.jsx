@@ -6,6 +6,9 @@ import folders from '../../../Components/Media/folders.png'
 import { ColorRing } from "react-loader-spinner";
 import TopTabs from './TopTabs'
 import BarLoader from '@/Components/Common/BarLoader'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 
 
 function DetailsFactory(props) {
@@ -20,12 +23,14 @@ function DetailsFactory(props) {
     const [applicationFullData, setapplicationFullData] = useState()
     const [showDetails, setshowDetails] = useState(false)
     const [isLoading, setisLoading] = useState(false);
+    const [erroState, seterroState] = useState(false);
+
 
 
 
     ///////////{*** APPLICATION FULL DETAIL FOR RE-ASSESSMENT***}/////////
     const getApplicationDetail = () => {
-
+        seterroState(false)
         setisLoading(true)
         let token = window.localStorage.getItem('token')
         // console.log('token at basic details is  get method...', token)
@@ -44,10 +49,15 @@ function DetailsFactory(props) {
             .then(function (response) {
                 setisLoading(false)
                 console.log('view full details...', response.data)
-                setapplicationFullData(response?.data?.data)
+                if (response?.data?.status) {
+                    setapplicationFullData(response?.data?.data)
+                } else {
+                    seterroState(true)
+                }
             })
             .catch(function (error) {
                 setisLoading(false)
+                seterroState(true)
                 console.log('==2 details by id error...', error)
             })
     }
@@ -56,12 +66,25 @@ function DetailsFactory(props) {
         getApplicationDetail()
     }, [])
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
 
     return (
         <>
-            {
-                isLoading && <BarLoader />
-            }
+
             <div className='w-full mx-auto md:px-6'>
 
                 {/* <h1 className='px-2 font-semibold text-center text-gray-600 font-serif py-2 xl md:text-3xl mt-2'>{props?.detailRules?.detailInfo?.title}</h1> */}

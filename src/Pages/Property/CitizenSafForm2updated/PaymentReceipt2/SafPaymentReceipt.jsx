@@ -1,3 +1,4 @@
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
 import React from 'react'
 import { AiFillPrinter } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
@@ -15,18 +16,11 @@ class ComponentToPrint extends React.Component {
         return (
             <>
 
-                <div>
-                    <div className='md:px-0 flex-1 '>
-                        <Link to='/propertyDashboard'>
-                            <button type="button" className="pl-4 pr-6 py-1 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-gray-500 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">back</button>
-                        </Link>
-                    </div>
-                    <div className='md:px-0 flex-1 '>
-                        <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
+                <div className='fixed bottom-10 text-center  justify-center items-center  w-screen'>
+                        <button onClick={() => window.print()} className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">
                             <AiFillPrinter className='inline text-lg' />
                             print
                         </button>
-                    </div>
                 </div>
                 <div id="printableArea" className='h-screen flex items-center justify-center'>
 
@@ -64,35 +58,35 @@ class ComponentToPrint extends React.Component {
                                         <td className=' '>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Receipt No. :</h1>
-                                                <h1 className='flex font-sans font-semibold  pl-2'> {this.props?.paymentData?.transactionNo}</h1>
+                                                <h1 className='flex font-sans font-semibold  pl-2'> {nullToNA(this.props?.paymentData?.transactionNo)}</h1>
                                             </div>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Department/Section :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.departmentSection}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.departmentSection)}</h1>
                                             </div>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Account Description :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.accountDescription
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.accountDescription)
                                                 }</h1>
                                             </div>
                                             <div className='flex p-1 '>
                                                 {/* <h1 className='flex text-gray-900 font-sans '>Holding No. :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.holdingNo
+                                                nullToNA(<h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.holdingNo)
                                                 }</h1> */}
                                             </div>
                                         </td>
                                         <td className=' '>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Date :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.transactionDate}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.transactionDate)}</h1>
                                             </div>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Ward No. :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.newWardNo}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.newWardNo)}</h1>
                                             </div>
                                             <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>{this?.props?.module=='holding'?'Holding No.':'Application No. '} </h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.applicationNo}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.applicationNo)}</h1>
                                             </div>
 
                                             <div className='flex p-1 '>  </div>
@@ -112,23 +106,23 @@ class ComponentToPrint extends React.Component {
                                         <td className=' '>
                                             <div className='flex p-1'>
                                                 <h1 className='flex text-gray-900 font-sans '>Received From Mr/Mrs/Miss :</h1>
-                                                <h1 className='flex font-sans font-semibold  pl-2'>{this.props?.paymentData?.customerName}</h1>
+                                                <h1 className='flex font-sans font-semibold  pl-2'>{nullToNA(this.props?.paymentData?.customerName)}</h1>
                                             </div>
                                             <div className='flex p-1'>
                                                 <h1 className='flex text-gray-900 font-sans '>Address :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.address}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.address)}</h1>
                                             </div>
                                             <div className='flex p-1'>
                                                 <h1 className='flex text-gray-900 font-sans '>A Sum of Rs.  :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.totalPaidAmount}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.totalPaidAmount)}</h1>
                                             </div>
                                             <div className='flex p-1'>
                                                 <h1 className='flex text-gray-900 font-sans '>(in words ):</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 border-b border-dashed border-gray-600 '>{this.props?.paymentData?.paidAmtInWords}</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 border-b border-dashed border-gray-600 '>{nullToNA(this.props?.paymentData?.paidAmtInWords)}</h1>
                                             </div>
                                             <div className='flex p-1'>
-                                                <h1 className='flex text-gray-900 font-sans '>towards : <span className=' font-sans font-semibold ml-1'>{this.props?.paymentData?.towards}</span></h1>
-                                                <h1 className='flex text-gray-900 font-sans  ml-8 '>Vide : {this.props?.paymentData?.paymentMode} <span className=' font-sans font-semibold ml-1'></span></h1>
+                                                <h1 className='flex text-gray-900 font-sans '>towards : <span className=' font-sans font-semibold ml-1'>{nullToNA(this.props?.paymentData?.towards)}</span></h1>
+                                                <h1 className='flex text-gray-900 font-sans  ml-8 '>Vide : {nullToNA(this.props?.paymentData?.paymentMode)} <span className=' font-sans font-semibold ml-1'></span></h1>
                                             </div>
                                         </td>
 
@@ -226,27 +220,27 @@ class ComponentToPrint extends React.Component {
                                                     <td className='flex-1 text-center '>
                                                         <tr className='flex  '>
                                                             <td className='flex-1 text-center '>
-                                                                <h1 className='font-sans font-semibold  border-r border-gray-500 text-[0.7rem]'>{this.props?.paymentData?.paidFromQtr}</h1>
+                                                                <h1 className='font-sans font-semibold  border-r border-gray-500 text-[0.7rem]'>{nullToNA(this.props?.paymentData?.paidFromQtr)}</h1>
                                                             </td>
                                                             <td className='flex-1 text-center '>
-                                                                <h1 className='font-sans font-semibold  border-r border-gray-500 text-[0.7rem]'>{this.props?.paymentData?.paidFrom}</h1>
+                                                                <h1 className='font-sans font-semibold  border-r border-gray-500 text-[0.7rem]'>{nullToNA(this.props?.paymentData?.paidFrom)}</h1>
                                                             </td>
                                                         </tr>
                                                     </td>
                                                     <td className='flex-1   text-center'>
                                                         <tr className='flex  '>
                                                             <td className='flex-1 text-center '>
-                                                                <h1 className=' font-sans font-semibold border-r border-gray-500 text-[0.7rem]'>{this.props?.paymentData?.paidUptoQtr}</h1>
+                                                                <h1 className=' font-sans font-semibold border-r border-gray-500 text-[0.7rem]'>{nullToNA(this.props?.paymentData?.paidUptoQtr)}</h1>
                                                             </td>
                                                             <td className='flex-1 text-center'>
-                                                                <h1 className=' font-sans font-semibold text-[0.7rem]'>{this.props?.paymentData?.paidUpto}</h1>
+                                                                <h1 className=' font-sans font-semibold text-[0.7rem]'>{nullToNA(this.props?.paymentData?.paidUpto)}</h1>
                                                             </td>
                                                         </tr>
                                                     </td>
                                                 </tr>
                                             </td>
                                             <td className='text-center border-l w-48'>
-                                                <h1 className=' font-sans font-semibold '>{this.props?.paymentData?.demandAmount}</h1>
+                                                <h1 className=' font-sans font-semibold '>{nullToNA(this.props?.paymentData?.demandAmount)}</h1>
                                             </td>
                                         </tr>
 
@@ -270,14 +264,14 @@ class ComponentToPrint extends React.Component {
                                                         <td className='flex-1 text-right'>
                                                             <tr className=' '>
                                                                 <td className=' '>
-                                                                    <h1 className='-ml-16 font-sans font-semibold text-sm'>{items?.keyString}</h1>
+                                                                    <h1 className='-ml-16 font-sans font-semibold text-sm'>{nullToNA(items?.keyString)}</h1>
                                                                 </td>
                                                             </tr>
                                                         </td>
                                                     </tr>
                                                 </td>
                                                 <td className=' text-center border-l border-gray-500 w-48'>
-                                                    <h1 className=' font-sans font-semibold '>{items?.value}</h1>
+                                                    <h1 className=' font-sans font-semibold '>{nullToNA(items?.value)}</h1>
                                                 </td>
                                             </tr>
                                             // {/* <tr className='flex border-b border-gray-500  text-xl '>

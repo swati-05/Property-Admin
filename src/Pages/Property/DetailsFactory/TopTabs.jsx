@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom"
+import { BiRightArrowAlt } from 'react-icons/bi'
+import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions"
+import {BsCurrencyRupee} from 'react-icons/bs'
 
 function TopTabs(props) {
     const navigate = useNavigate()
     const { id, location, tabIndex } = useParams()
 
-    console.log('id direct at topnav...',id)
+    console.log('id direct at topnav...', id)
     // conditons :
     // # for saf application
     // 1 property details
@@ -34,10 +37,11 @@ function TopTabs(props) {
         <>
             <div className="flex py-2 justify-center items-center">
                 <div className="flex-1 flex pl-2 font-bold text-2xl text-gray-700">
-                  {props?.title}
+                    {props?.title}
+                    {props?.payButton && <button onClick={() => navigate(`/property-payment/${id}/${props?.type == 'holding' ? 'holding' : 'saf'}`)} type="button" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(props?.payableAmount)} <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>}
                 </div>
                 <div className="flex justify-right items-center">
-                   { <button className={`mr-4 ${props?.active == 'property' ? 'bg-indigo-500  text-white' : 'bg-white border border-indigo-500 text-indigo-500'} px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(properyDetailsRoute)}>Property-Details</button>}
+                    {<button className={`mr-4 ${props?.active == 'property' ? 'bg-indigo-500  text-white' : 'bg-white border border-indigo-500 text-indigo-500'} px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(properyDetailsRoute)}>Property-Details</button>}
 
                     <button className={`mr-4 ${props?.active == 'demand' ? 'bg-indigo-500  text-white' : 'bg-white border border-indigo-500 text-indigo-500'} px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(demandDetailsRoute)}>Demand-Details</button>
 

@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
+import PaymentCard from "@/Pages/PropertyEntryForms/SafFormReview/PaymentCard";
 import CitizenApplyApiList from "@/Components/CitizenApplyApiList";
 import ApiHeader2 from "@/Components/ApiList/ApiHeader2";
-import ClusterPaymentCard from "./ClusterPaymentCard";
+import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
 
 
 
@@ -20,7 +21,7 @@ function ClusterPayment(props) {
 
     const { id, moduleType } = useParams()
 
-    const { propertyGenerateOrderId, propertyGenerateHoldingOrderId, api_getHoldingDemandById, api_getsafDemandById } = CitizenApplyApiList();
+    const { api_getHoldingDemandById, api_getsafDemandById, api_getClusterPropertyDemand, api_getClusterSafDemand } = CitizenApplyApiList();
 
     useSetTitle('Payment Screen')
 
@@ -30,17 +31,33 @@ function ClusterPayment(props) {
         let url
         let requestBody
 
-
+        // NORMAL HOLDING PAYMENT
         if (moduleType == 'holding') {
             url = api_getHoldingDemandById
             requestBody = {
                 propId: id
             }
         }
+        // NORMAL SAF PAYMENT
         if (moduleType == 'saf') {
             url = api_getsafDemandById
             requestBody = {
                 id: id
+            }
+        }
+        // CLUSTER SAF PAYMENT
+        if (moduleType == 'cluster-saf') {
+            url = api_getClusterSafDemand
+
+            requestBody = {
+                clusterId: id
+            }
+        }
+        // CLUSTER HOLDING PAYMENT
+        if (moduleType == 'cluster-holding') {
+            url = api_getClusterPropertyDemand
+            requestBody = {
+                clusterId: id
             }
         }
 
@@ -61,6 +78,7 @@ function ClusterPayment(props) {
         fetchDemandDetail()
     }, [])
 
+
     return (
         <>
             {isLoading && <BarLoader />}
@@ -68,30 +86,30 @@ function ClusterPayment(props) {
 
             <div className="p-10">
                 <div className='w-full bg-white shadow-xl mb-6'>
-                    <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
+                    {(moduleType != 'cluster-saf' && moduleType != 'cluster-holding') && <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
                             {moduleType != 'saf' && <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.holding_no ? demandDetail?.basicDetails?.holding_no : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.holding_no)}</div>
                                 <div className='text-gray-500 text-xs'>Holding No.</div>
                             </div>}
                             {moduleType == 'saf' && <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.saf_no ? demandDetail?.basicDetails?.saf_no : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.saf_no)}</div>
                                 <div className='text-gray-500 text-xs'>Application No.(Saf No)</div>
                             </div>}
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.old_ward_no ? demandDetail?.basicDetails?.old_ward_no : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.old_ward_no)}</div>
                                 <div className='text-gray-500 text-xs'>Ward No.</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{demandDetail?.basicDetails?.old_ward_no ? demandDetail?.basicDetails?.old_ward_no : "N/A"}</div>
+                                <div className='font-semibold text-lg'>{nullToNA(demandDetail?.basicDetails?.old_ward_no)}</div>
                                 <div className='text-gray-500 text-xs'>New Ward No</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{demandDetail?.basicDetails?.ownership_type ? demandDetail?.basicDetails?.ownership_type : "N/A"}</div>
+                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.ownership_type)}</div>
                                 <div className='text-gray-500 text-xs'>Ownership Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.property_type ? demandDetail?.basicDetails?.property_type : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.property_type)}</div>
                                 <div className='text-gray-500 text-xs'>Property Type</div>
                             </div>
 
@@ -99,32 +117,75 @@ function ClusterPayment(props) {
 
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.zone_mstr_id ? demandDetail?.basicDetails?.zone_mstr_id : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id)}</div>
                                 <div className='text-gray-500 text-xs'>Zone</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{demandDetail?.basicDetails?.is_mobile_tower ? demandDetail?.basicDetails?.is_mobile_tower : "N/A"}</div>
+                                <div className='font-bold text-sm'>
+                                    {nullToNA(demandDetail?.basicDetails?.is_mobile_tower)}
+                                </div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{demandDetail?.basicDetails?.is_hoarding_board ? demandDetail?.basicDetails?.is_hoarding_board : "N/A"} </div>
+                                <div className='font-semibold text-md'>
+                                    {nullToNA(demandDetail?.basicDetails?.is_hoarding_board)}
+                                </div>
                                 <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{demandDetail?.basicDetails?.is_petrol_pump ? demandDetail?.basicDetails?.is_petrol_pump : "N/A"}</div>
+                                <div className='font-semibold text-md'>
+                                    {nullToNA(demandDetail?.basicDetails?.is_petrol_pump)}
+                                </div>
                                 <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm' >{demandDetail?.basicDetails?.is_water_harvesting ? demandDetail?.basicDetails?.is_water_harvesting : "N/A"}</div>
+                                <div className='font-bold text-sm' >
+                                    {nullToNA(demandDetail?.basicDetails?.is_water_harvesting)}
+                                </div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
                         </div>
-                    </div>
+                    </div>}
+
+                    {(moduleType == 'cluster-saf' || moduleType == 'cluster-holding') &&
+                        <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
+                            <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
+
+                                <div className='flex-1'>
+                                    <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.cluster_name)}</div>
+                                    <div className='text-gray-500 text-xs'>Cluster Name</div>
+                                </div>
+                                <div className='flex-1'>
+                                    <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.cluster_type)}</div>
+                                    <div className='text-gray-500 text-xs'>Cluster Type</div>
+                                </div>
+                                <div className='flex-1'>
+                                    <div className='font-semibold text-sm'>{nullToNA(demandDetail?.basicDetails?.authorized_person_name)}</div>
+                                    <div className='text-gray-500 text-xs'>Authorized Person Name</div>
+                                </div>
+                                <div className='flex-1'>
+                                    <div className='font-semibold text-sm'>{nullToNA(demandDetail?.basicDetails?.mobile_no)}</div>
+                                    <div className='text-gray-500 text-xs'>Mobile No.</div>
+                                </div>
+                                <div className='flex-1'>
+                                    <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.address)}</div>
+                                    <div className='text-gray-500 text-xs'>Address</div>
+                                </div>
+
+                                <div className='flex-1'>
+                                    <div className='font-bold text-sm'>{nullToNA(new Date(demandDetail?.basicDetails?.created_at).toLocaleDateString("en-GB"))}</div>
+                                    <div className='text-gray-500 text-xs'>Created At</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
 
                 </div>
                 <div>
 
-                    <ClusterPaymentCard safPaymentDetailsData={demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
+                    <PaymentCard basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
                 </div>
             </div>
 

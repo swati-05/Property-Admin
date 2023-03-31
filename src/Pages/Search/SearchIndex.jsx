@@ -14,6 +14,8 @@ import ApiHeader from "@/Components/ApiList/ApiHeader";
 import { contextVar } from "@/Components/Context/Context";
 import { superNavigation, changeUrl } from "@/Components/Navigation/superNavigation";
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
+import CommonModal from "@/Components/GlobalData/CommonModal";
+import ServerErrorCard from "@/Components/Common/ServerErrorCard";
 
 function SearchIndex() {
   const [searchBy, setSearchBy] = useState();
@@ -22,6 +24,8 @@ function SearchIndex() {
   const [readymadeListData, setreadymadeListData] = useState();
   const [readymadeListStatus, setreadymadeListStatus] = useState(false);
   const { notify } = useContext(contextVar)
+  const [erroState, seterroState] = useState(false);
+
 
   // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
   useSetTitle('Search Holding')
@@ -44,7 +48,7 @@ function SearchIndex() {
   //Fetch Data API
 
   const fetchData = (data) => {
-
+    seterroState(false)
     setreadymadeListStatus(false)
     setisLoading(true)
     const payload = {
@@ -72,7 +76,7 @@ function SearchIndex() {
       .catch((err) => {
         console.log("Error while fetching Filter Data", err)
         notify('Something went wrong!!', 'error')
-
+        seterroState(true)
         setisLoading(false)
         setreadymadeListStatus(false)
       });
@@ -171,11 +175,13 @@ function SearchIndex() {
   }, []);
 
 
-
-  // return(
-  //   <>
-  //   <div>hello</div></>
-  // )
+  if (erroState) {
+    return (
+      <CommonModal>
+        <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+      </CommonModal>
+    )
+  }
 
   return (
 
@@ -260,7 +266,7 @@ function SearchIndex() {
             <div className="mt-4">
               <button
                 type="submit"
-                className="w-full border border-indigo-700 bg-indigo-600 hover:bg-indigo-500 text-white hover:text-black shadow-lg rounded-sm text-base font-semibold px-5 m-3 py-1"
+                className="w-full border rounded-md border-indigo-700 bg-indigo-600 hover:bg-indigo-700 text-white  shadow-lg text-base font-semibold px-5 m-3 py-1"
               >
                 {" "}
                 <p className="flex">

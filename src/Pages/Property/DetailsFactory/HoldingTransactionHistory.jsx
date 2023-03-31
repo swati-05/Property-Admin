@@ -12,6 +12,9 @@ import BarLoader from '@/Components/Common/BarLoader';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import { contextVar } from '@/Components/Context/Context';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
+import BrandLoader from '@/Components/Common/BrandLoader';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
 
 
 
@@ -23,6 +26,8 @@ function HoldingTransactionHistory(props) {
     const [applicationFullData, setapplicationFullData] = useState()
     const [submitButtonStatus, setSubmitButtonStatus] = useState(true)
     const [readyMadeListStatus, setreadyMadeListStatus] = useState(false);
+    const [erroState, seterroState] = useState(false);
+
 
     // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
     useSetTitle('Holding Payment History')
@@ -116,6 +121,7 @@ function HoldingTransactionHistory(props) {
 
     const fetchTranscationList = () => {
         setreadyMadeListStatus(false)
+        seterroState(false)
         setisLoading(true)
         let requestBody = {
             propId: id
@@ -126,8 +132,13 @@ function HoldingTransactionHistory(props) {
             .then(function (response) {
                 console.log("all transcation list at holding specific----- ", response.data);
 
-                setreadyMadeListData(response?.data?.data)
-                setreadyMadeListStatus(true)
+                if (response?.data?.status) {
+                    setreadyMadeListData(response?.data?.data)
+                    setreadyMadeListStatus(true)
+                } else {
+                    seterroState(true)
+
+                }
                 setisLoading(false)
 
 
@@ -135,6 +146,7 @@ function HoldingTransactionHistory(props) {
             .catch(function (error) {
                 console.log('error at transactions fetch ', error);
                 setreadyMadeListStatus(true)
+                seterroState(true)
                 setisLoading(false)
             })
 
@@ -171,6 +183,21 @@ function HoldingTransactionHistory(props) {
     useEffect(() => {
         getApplicationDetail()
     }, [])
+
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
     return (
         <>
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
@@ -227,9 +254,6 @@ function HoldingTransactionHistory(props) {
 
                 </div>
 
-                {isLoading && (
-                    <BarLoader />
-                )}
                 {
                     readyMadeListData?.length == 0 &&
                     <div className='text-center mt-10'>

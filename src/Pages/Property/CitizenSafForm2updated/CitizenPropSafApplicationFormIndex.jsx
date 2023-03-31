@@ -95,6 +95,9 @@ import { contextVar } from '@/Components/Context/Context'
 import HoldingNoCard from '@/Pages/Workflow/Property/CitizenAuth/HoldingNoCard'
 import SafFormReview from './SafFormReview/SafFormReview'
 import SafFormDemand from './SafFormReview/SafFormDemand'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 function CitizenPropSafApplicationFormIndex() {
 
@@ -133,23 +136,62 @@ function CitizenPropSafApplicationFormIndex() {
     const [wardByUlb, setwardByUlb] = useState()
     const [newWardList, setnewWardList] = useState()
     const [selectedUlbId, setselectedUlbId] = useState()
-    const [apartmentList, setapartmentList] = useState()
+    const [apartmentList, setapartmentList] = useState([])
+    const [erroState, seterroState] = useState(false);
+
 
 
 
     // STATES TO HOLD ALL PAGE DATA OPEN
-    const [basicDetails, setbasicDetails] = useState(null)
-    const [propAddressDetails, setpropAddressDetails] = useState(null)
+    const [basicDetails, setbasicDetails] = useState(
+        {
+            ulbId: '',
+            wardNo: '',
+            newWardNo: '',
+            ownerShiptype: '',
+            propertyType: '',
+            landOccupationDate: '',
+            apartment: '',
+        }
+    )
+    const [propAddressDetails, setpropAddressDetails] = useState({
+        khataNo: '',
+        plotNo: '',
+        village_mauja: '',
+        plotArea: '',
+        roadWidth: '',
+        city: '',
+        district: '',
+        state: '',
+        pin: '',
+        locality: '',
+        c_city: '',
+        c_district: '',
+        c_state: '',
+        c_pin: '',
+        c_locality: '',
+        buildingName: '',
+        streetName: '',
+        location2: '',
+        landmark: '',
+    })
     const [elecWaterDetails, setelecWaterDetails] = useState(null)
     const [ownerDetails, setownerDetails] = useState([])
     // OLD OWNER IN CASE OF MUTATION
     const [oldOwnerDetails, setoldOwnerDetails] = useState([])
     const [floorDetails, setfloorDetails] = useState([])
     const [additionalDetails, setadditionalDetails] = useState({
+        zone: '',
         mobileTowerStatus: 0,
         hoardingStatus: 0,
         petrolPumpStatus: 0,
         waterHarvestingStatus: 0,
+        mobileTowerArea: '',
+        mobileTowerDate: '',
+        hoardingArea: '',
+        hoardingDate: '',
+        petrolPumpArea: '',
+        petrolPumpDate: '',
     })
 
     const [basicDetailsPreview, setbasicDetailsPreview] = useState(null)
@@ -212,14 +254,16 @@ function CitizenPropSafApplicationFormIndex() {
     const fetchApartmentByOldWard = (oldWardId) => {
         let requestBody = {
             wardMstrId: oldWardId,
-            ulbId: selectedUlbId
         }
         console.log('before fetch apartment by old ward...', requestBody)
 
         axios.post(api_getApartmentListByWard, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('apartment list ....', response.data.data)
-                setapartmentList(response.data.data)
+                console.log('apartment list .... after fetch', response)
+                console.log('apartment list .... after fetch', response?.data?.data)
+                setapartmentList(response?.data?.data)
+                // setapartmentStatus(true)
+
             })
             .catch(function (error) {
                 console.log('apartment error.... ', error);
@@ -348,6 +392,7 @@ function CitizenPropSafApplicationFormIndex() {
 
     ///////////{*** NEW ASSESSMENT TYPE SUBMIT FUNCTION***}/////////
     const submitSafForm = () => {
+        seterroState(false)
         setLoaderStatus(true)
         let token = window.localStorage.getItem('token')
         console.log('token at basic details is post method...', token)
@@ -358,7 +403,7 @@ function CitizenPropSafApplicationFormIndex() {
                 Accept: 'application/json',
             }
         }
-        
+
         let url
         let requestBody
         let payloadData = payloadDataMake()
@@ -529,6 +574,7 @@ function CitizenPropSafApplicationFormIndex() {
                 console.log('error in submitting saf form ', 'error');
                 // notify('Something went wrong','error')
                 toast.error("Something went wrong !!")
+                seterroState(true)
                 setLoaderStatus(false)
             })
     }
@@ -759,7 +805,7 @@ function CitizenPropSafApplicationFormIndex() {
                 })
 
                 setoldOwnerDetails(ownersMake)
-                setownerDetails(ownersMake)
+                // setownerDetails(ownersMake)
                 setoldownerDetailsPreview(previewOwnersMake)
 
             }
@@ -946,6 +992,7 @@ function CitizenPropSafApplicationFormIndex() {
     }
 
     const submitRuelsetData = () => {
+        seterroState(false)
         // return
         setLoaderStatus(true);
         let payloadData = payloadDataMake()
@@ -963,6 +1010,7 @@ function CitizenPropSafApplicationFormIndex() {
             .catch(function (error) {
                 console.log("== 3 calcualte tax error== ", error);
                 notify(`Something went wrong`, "error");
+                seterroState(true)
                 setLoaderStatus(false)
             });
     };
@@ -971,15 +1019,26 @@ function CitizenPropSafApplicationFormIndex() {
     console.log('choosed ulb id...', choosedUlbId)
 
 
-
+    // IF DIRECT CLOSE HOLDING CARD THEN SHOW ULB WELCOME SCREEN AGAIN
+    const closeHoldingModal = (status) => {
+        navigate('/home')
+    }
 
 
     //SHOW WELCOME SCREEN FIRST
     if ((safType == 'bi' || safType == 'am') && holdingCardStatus) {
         return (
             <>
-                <HoldingNoCard setholdingCardStatus={setholdingCardStatus} fetchPropertyDetails={fetchPropertyDetails} setmutionHoldingId={setmutionHoldingId} choosedUlbId={choosedUlbId} funcSubmitHoldingList={funcSubmitHoldingList} safType={safType} />
+                <HoldingNoCard closeModal={closeHoldingModal} setholdingCardStatus={setholdingCardStatus} fetchPropertyDetails={fetchPropertyDetails} setmutionHoldingId={setmutionHoldingId} choosedUlbId={choosedUlbId} funcSubmitHoldingList={funcSubmitHoldingList} safType={safType} />
             </>
+        )
+    }
+
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
         )
     }
 
@@ -991,7 +1050,7 @@ function CitizenPropSafApplicationFormIndex() {
                 {loaderStatus && <BarLoader />}
                 {/* take a parent div ...style it as displayed below    ,....make it a grid with col-12 */}
                 <div className='w-full grid grid-cols-1 md:grid-cols-12 gap-2 lg:grid-cols-12 px-2 md:px-2 md:space-x-2'>
-                    <div className='col-span-12'>
+                    {formIndex < 7 && <div className='col-span-12'>
                         {/* {formHeadStatus && <span className='font-bold text-gray-700  text-2xl font-serif text-center float-center'>You Are Applying For {safType == 'new' && 'New Assessment'}  {safType == 're' && 'Re Assessment'}  {safType == 'mu' && 'Mutation'}
                             {safType == 'bi' && 'Bifurcation'}
                             {safType == 'am' && 'Amalgamation'}</span>} */}
@@ -1002,7 +1061,7 @@ function CitizenPropSafApplicationFormIndex() {
                             <Tooltip anchorId="preview-form-button" />
                             <span id="preview-form-button" data-tooltip-content={previewCloseStatus ? 'Click to open form preview' : 'Click to close form preview'} className='text-white'>{previewCloseStatus ? 'Show Preview' : 'Hide Preview'}</span>
                         </span>
-                    </div>
+                    </div>}
 
 
                     {/* Rest of the component will go here ....it has a col-span of 9*/}
@@ -1261,38 +1320,38 @@ function CitizenPropSafApplicationFormIndex() {
                 </div>
                 {
                     totalAmountData && formIndex < 8 &&
-                    <div className='fixed bottom-0 left-0 text-black w-auto p-2 bg-white'>
-                        <div className='bg-indigo-400'>
+                    <div style={{ 'zIndex': 1000 }} className='fixed bottom-0 left-0 text-black w-auto p-2 bg-white'>
+                        <div className='bg-gray-200'>
                             {taxSumFullDetailsStatus &&
                                 <>
 
                                     <div className='flex w-full'>
                                         <div className="flex-1  text-gray-800  px-4 py-2">Tax Amount :</div>
-                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {totalAmountData?.totalTax}</span></div>
+                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {nullToNA(totalAmountData?.totalTax)}</span></div>
                                     </div>
                                     <div className='flex w-full'>
                                         <div className="flex-1  text-gray-800  px-4 py-2">Late Assessment Penalty :</div>
-                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {totalAmountData?.lateAssessmentPenalty}</span></div>
+                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {nullToNA(totalAmountData?.lateAssessmentPenalty)}</span></div>
                                     </div>
                                     <div className='flex w-full'>
                                         <div className="flex-1  text-gray-800  px-4 py-2">1% Penalty :</div>
-                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {totalAmountData?.totalOnePercPenalty}</span></div>
+                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {nullToNA(totalAmountData?.totalOnePercPenalty)}</span></div>
                                     </div>
 
                                     <div className='flex w-full'>
                                         <div className="flex-1  text-gray-800  px-4 py-2">Rebate :</div>
-                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {totalAmountData?.rebateAmount}</span></div>
+                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {nullToNA(totalAmountData?.rebateAmount)}</span></div>
                                     </div>
                                     <div className='flex w-full'>
                                         <div className="flex-1  text-gray-800  px-4 py-2">Special Rebate :</div>
-                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {totalAmountData?.specialRebateAmount}</span></div>
+                                        <div className="flex-1"><span className=' text-lg ml-2'><BiRupee className="inline" /> {nullToNA(totalAmountData?.specialRebateAmount)}</span></div>
                                     </div>
                                 </>}
 
                             <hr />
                             <div className='flex w-full mt-2'>
                                 <div className="flex-1 font-semibold text-gray-800 text-xl  px-4 py-2">Total Payable Amount : </div>
-                                <div className="flex-1"><span className=' text-3xl font-bold ml-4 text-black'><BiRupee className="inline" /> {totalAmountData?.payableAmount}</span></div>
+                                <div className="flex-1"><span className=' text-3xl font-bold ml-4 text-black'><BiRupee className="inline" /> {nullToNA(totalAmountData?.payableAmount)}</span></div>
                             </div>
                             {/* <span className='font-semibold text-white text-xl  shadow-xl px-4 py-2 border-white'>Total Payable Amount : <span className=' text-3xl font-bold ml-4'><BiRupee className="inline" /> {totalAmountData?.payableAmount}</span></span> */}
                             <div className='cursor-pointer text-center' onClick={() => settaxSumFullDetailsStatus(!taxSumFullDetailsStatus)}>{taxSumFullDetailsStatus ? 'Hide View Details' : 'Click to View Details'}</div>

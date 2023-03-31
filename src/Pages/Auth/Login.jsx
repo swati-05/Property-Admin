@@ -127,7 +127,7 @@ function Login(props) {
     const fetchMenuList = () => {
         props?.setmenuFetchStatus(true)
         let requestBody = {
-            moduleId:1
+            moduleId: 1
         }
 
         axios.post(api_getFreeMenuList, requestBody, ApiHeader())
@@ -187,19 +187,12 @@ function Login(props) {
     // }, [])
 
     // return
-    if (mobileCardStatus) {
-        return (
-            <>
-                <MobileNoCard setverifedMobileNo={setverifedMobileNo} setmobileCardStatus={setmobileCardStatus} setotpCardStatus={setotpCardStatus} />
-            </>
-        )
+
+    const closeMobileModal = () => {
+        setmobileCardStatus(false)
     }
-    if (otpCardStatus) {
-        return (
-            <>
-                <OtpCard callback={callback} setotpCardStatus={setotpCardStatus} />
-            </>
-        )
+    const closeOtpModal = () => {
+        setotpCardStatus(false)
     }
 
     if (erroState) {
@@ -207,6 +200,17 @@ function Login(props) {
             <CommonModal>
                 <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
             </CommonModal>
+        )
+    }
+
+    if (mobileCardStatus) {
+        return (
+            <MobileNoCard closeMobileModal={closeMobileModal} headTitle="Forgot Password" title="Enter mobile to get OTP" desc="Enter your mobile no, which is attached to your account." setverifedMobileNo={setverifedMobileNo} setmobileCardStatus={setmobileCardStatus} setotpCardStatus={setotpCardStatus} />
+        )
+    }
+    if (otpCardStatus) {
+        return (
+            <OtpCard closeOtpModal={closeOtpModal} bottomNaviation={true} headTitle="Forgot OTP" callback={callback} setotpCardStatus={setotpCardStatus} />
         )
     }
 
@@ -363,8 +367,8 @@ function Login(props) {
                                                         <input {...formik.getFieldProps('password')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                         <span className='text-red-600'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
                                                     </div>
-                                                    <div className="mb-6">
-                                                        <input className="form-checkbox h-5 w-5 text-indigo-500 darks:bg-gray-700 border border-gray-300 darks:border-gray-700 rounded focus:outline-none" type="checkbox" defaultValue id="remember" />
+                                                    <div className="mb-6 flex items-center">
+                                                        <input className="form-checkbox h-5 w-5 text-indigo-500 darks:bg-gray-700 border border-gray-300 darks:border-gray-700 rounded focus:outline-none mr-2" type="checkbox" defaultValue id="remember" />
                                                         <label className="" htmlFor="remember">
                                                             Remember me
                                                         </label>
@@ -393,9 +397,11 @@ function Login(props) {
 
                                                 <div className="my-4">
                                                     <div className='flex flex-col items-center justify-center flex-wrap gapx-x-2 gap-y-2 w-full poppins'>
-                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => setmobileCardStatus(true)}>Forgot Password</span>
+                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() =>{ 
+                                                            // setmobileCardStatus(true)
+                                                        }
+                                                    }>Forgot Password</span>
                                                     </div>
-                                                    <p className="text-center mb-2">Don't have an account? <a className="hover:text-indigo-500" href="#">Register</a></p>
                                                 </div>
 
                                             </div>

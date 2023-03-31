@@ -129,6 +129,9 @@ export default function CitizenApplyApiList() {
         // API TO GET CLUSTER PROPERTY TRANSACTION HISTORY
         api_getClusterPropertyPaymentHistory: `${baseUrl}/api/property/cluster/payment-history`,
 
+          // API TO SEND OTP TO MOBILE NO 
+          api_sendMobileOtp: `${baseUrl}/api/user/send-otp`,
+
 
 
 

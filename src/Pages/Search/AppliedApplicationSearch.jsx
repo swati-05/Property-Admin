@@ -12,6 +12,9 @@ import BarLoader from "@/Components/Common/BarLoader";
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
 import { changeUrl } from "@/Components/Navigation/superNavigation";
 import UseSetConfirmBox from "@/Components/GlobalData/UseSetConfirmBox";
+import CommonModal from "@/Components/GlobalData/CommonModal";
+import ServerErrorCard from "@/Components/Common/ServerErrorCard";
+import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
 
 function AppliedApplicationSearch() {
   const [readymadeListData, setreadymadeListData] = useState();
@@ -23,6 +26,8 @@ function AppliedApplicationSearch() {
   const [disableWard, setDisableWard] = useState(false);
   const [serarachType, setSerarachType] = useState();
   const [isLoading, setisLoading] = useState(false);
+  const [erroState, seterroState] = useState(false);
+
 
   const { filterParam, searchValueParam } = useParams()
 
@@ -61,7 +66,7 @@ function AppliedApplicationSearch() {
   //Fetch Data API
 
   const fetchData = (data) => {
-
+    seterroState(false)
     setisLoading(true)
     setreadymadeListStatus(false)
     const requestBody = {
@@ -89,6 +94,7 @@ function AppliedApplicationSearch() {
       .catch((err) => {
         console.log("Error while fetching Filter Data", err)
         setreadymadeListStatus(false)
+        seterroState(true)
         setisLoading(false)
 
       });
@@ -124,30 +130,44 @@ function AppliedApplicationSearch() {
     {
       Header: "Ward No.",
       Cell: ({ cell }) => (
-        <span>{cell.row.original.new_ward_no == '' ? cell.row.original.old_ward_no : cell.row.original.new_ward_no}</span>
+        <span>{cell.row.original.new_ward_no == '' ? nullToNA(cell.row.original.old_ward_no) : nullToNA(cell.row.original.new_ward_no)}</span>
       )
     },
 
     {
       Header: "Application No",
-      accessor: "saf_no",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.saf_no)}</span>
+      )
+    },
+    {
+      Header: "Assessment Type",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.assessment_type)}</span>
+      )
     },
     {
       Header: "First Owner",
-      accessor: "owner_name",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.owner_name)}</span>
+      )
     },
     {
       Header: "Mobile No",
-      accessor: "mobile_no",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.mobile_no)}</span>
+      )
     },
     {
       Header: "Applied By",
-      accessor: "appliedby",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.appliedby)}</span>
+      )
     },
     {
       Header: "Current Level",
       Cell: ({ cell }) => (
-        <span className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl">{cell.row.original.currentRole}</span>
+        <span className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl">{nullToNA(cell.row.original.currentRole)}</span>
       )
     },
     {
@@ -181,7 +201,7 @@ function AppliedApplicationSearch() {
           {cell.row.original.payment_status == 0 && <button
             onClick={() =>
               navigate(
-                `/viewDemand/${cell.row.values.id}/direct/direct`
+                `/viewDemand/${cell.row.values.id}`
               )
             }
             className="ml-4 mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white"
@@ -198,25 +218,33 @@ function AppliedApplicationSearch() {
     {
       Header: "Ward No.",
       Cell: ({ cell }) => (
-        <span>{cell.row.original.new_ward_no == '' ? cell.row.original.old_ward_no : cell.row.original.new_ward_no}</span>
+        <span>{cell.row.original.new_ward_no == '' ? nullToNA(cell.row.original.old_ward_no) : nullToNA(cell.row.original.new_ward_no)}</span>
       )
     },
 
     {
       Header: "Application No",
-      accessor: "application_no",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.application_no)}</span>
+      )
     },
     {
       Header: "Holding No.",
-      accessor: "new_holding_no",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.new_holding_no)}</span>
+      )
     },
     {
       Header: "Applicant Name",
-      accessor: "owner_name",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.owner_name)}</span>
+      )
     },
     {
       Header: "Mobile No",
-      accessor: "mobile_no",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.mobile_no)}</span>
+      )
     },
     {
       Header: "Action",
@@ -263,6 +291,14 @@ function AppliedApplicationSearch() {
     { name == 'filterBy' && handleFilterBy(e) }
   }
 
+  if (erroState) {
+    return (
+      <CommonModal>
+        <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+      </CommonModal>
+    )
+  }
+
   return (
     <>
 
@@ -293,8 +329,6 @@ function AppliedApplicationSearch() {
                 <option value="objection">Objection</option>
                 <option value="rainWaterHarvesting">Rainwater Harvesting</option>
                 <option value="holdingDeactivation">Holding Deactivation</option>
-                <option value="amalgamation">Amalgamtion</option>
-                <option value="bifurcation">Bifurcation</option>
               </select>
               <p className="text-red-500 text-xs">
                 {formik.touched.filterBy && formik.errors.filterBy
@@ -341,7 +375,7 @@ function AppliedApplicationSearch() {
             <div className="mt-4">
               <button
                 type="submit"
-                className="w-full border border-indigo-500 bg-indigo-500 hover:bg-indigo-600 text-white hover:text-black shadow-lg rounded-sm text-base font-semibold px-5 m-3 py-1"
+                className="w-full border rounded-md border-indigo-500 bg-indigo-500 hover:bg-indigo-700 text-white  shadow-lg  text-base font-semibold px-5 m-3 py-1"
               >
                 {" "}
                 <p className="flex">

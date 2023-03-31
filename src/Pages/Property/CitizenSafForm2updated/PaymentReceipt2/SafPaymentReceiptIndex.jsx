@@ -1,3 +1,7 @@
+import BrandLoader from '@/Components/Common/BrandLoader';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import useSetTitle from '@/Components/GlobalData/useSetTitle';
 import axios from 'axios';
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,10 +19,21 @@ function SafPaymentReceiptIndex() {
     const { paymentId, module } = useParams()
     console.log("param payment id ..", paymentId)
 
+    let title
+    if (module == 'saf') {
+        title = 'SAF Payment Receipt'
+    } else {
+        title = 'Holding Payment Receipt'
+    }
+    useSetTitle(title)
 
     const componentRef = useRef();
     const [paymentData, setpaymentData] = useState();
     const [show, setshow] = useState(false)
+    const [erroState, seterroState] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
+
+
     // const [paymentId, setpaymentId] = useState('pay_KiI7acuJomb5eq');
 
     // const { licenseId, tranId } = useParams();
@@ -30,7 +45,8 @@ function SafPaymentReceiptIndex() {
     }, [])
 
     const fetchPaymentData = () => {
-        showLoader(true);
+        seterroState(false)
+        setisLoading(true)
 
         let token = window.localStorage.getItem('token')
         const header = {
@@ -54,30 +70,21 @@ function SafPaymentReceiptIndex() {
                 tranNo: paymentId
             }
         }
-        console.log('before fetch payment receipt....',requestBody)
+        console.log('before fetch payment receipt....', requestBody)
         axios.post(url, requestBody, ApiHeader())
             .then((response) => {
                 // console.log("payment data", response.data.data);
                 console.log("payment data at receipt.....", response);
                 if (response.data.status) {
-
                     setpaymentData(response.data.data);
-                    setTimeout(() => {
-                        showLoader(false);
-                    }, 500);
-
                 } else {
-
-
-                    showLoader(false);
+                    seterroState(true)
                 }
+                setisLoading(false)
             })
             .catch((error) => {
-                // showLoader(false);
-                setTimeout(() => {
-                    showLoader(false);
-                }, 500);
-
+                seterroState(true)
+                setisLoading(false)
                 console.log(error);
             })
     }
@@ -86,12 +93,24 @@ function SafPaymentReceiptIndex() {
         setshow(val);
     }
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
     return (
         <div>
-            {/* <NonBlockingLoader show={show} /> */}
-            {
-                show && <BarLoader />
-            }
+
             <ReactToPrint
                 trigger={() => <button></button>}
                 content={() => componentRef.current}
