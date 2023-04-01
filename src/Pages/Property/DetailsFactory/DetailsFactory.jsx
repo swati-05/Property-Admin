@@ -9,6 +9,8 @@ import BarLoader from '@/Components/Common/BarLoader'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import {MdTag} from 'react-icons/md'
 
 
 function DetailsFactory(props) {
@@ -62,6 +64,8 @@ function DetailsFactory(props) {
             })
     }
 
+    console.log('test ..........at details entry')
+
     useEffect(() => {
         getApplicationDetail()
     }, [])
@@ -94,7 +98,7 @@ function DetailsFactory(props) {
                     {props?.detailRules?.filters?.topButtons == false &&
                         <div>
                             <span className='font-bold text-gray-800 text-2xl'>
-                                {props?.detailRules?.detailInfo?.title}
+                                {(props?.detailRules?.detailInfo?.title)}
                             </span>
                         </div>}
                 </div>
@@ -109,8 +113,8 @@ function DetailsFactory(props) {
                                     {
                                         applicationFullData?.fullDetailsData?.cardArray?.data?.map((data) => (
                                             <div className="grid grid-cols-2">
-                                                <div className="px-4 py-2 font-semibold">{data?.displayString} : </div>
-                                                <div className="px-4 py-2">{data?.value}</div>
+                                                <div className="px-4 py-2 font-semibold">{nullToNA(data?.displayString)} : </div>
+                                                <div className="px-4 py-2">{nullToNA(data?.value)}</div>
                                             </div>
                                         ))
                                     }
@@ -137,16 +141,14 @@ function DetailsFactory(props) {
                                                     <div className="w-full">
                                                         <div className="py-3 rounded-sm">
                                                             <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
-                                                                <div className="tracking-wide flex-1"><img src={folders} alt="pin" className='w-5 inline' /> {data?.headerTitle}</div>
+                                                                <div className="tracking-wide flex-1 text-md"><MdTag className="inline" />  {data?.headerTitle}</div>
                                                             </div>
                                                             <div className='shadow-lg rounded-lg  py-6 bg-white'>
                                                                 <div className="grid grid-cols-10 space-y-2  pl-4 ">
                                                                     {data?.data?.map((data) => (
                                                                         <div className='col-span-2 text-xs'>
-                                                                            <div className='font-bold text-sm'>{data?.value || 'N/A'
-
-                                                                            }</div>
-                                                                            <div className='text-gray-500'>{data?.displayString}</div>
+                                                                            <div className='font-bold text-sm'>{nullToNA(data?.value) }</div>
+                                                                            <div className='text-gray-500'>{nullToNA(data?.displayString)}</div>
                                                                         </div>
                                                                     ))}
 
@@ -172,7 +174,7 @@ function DetailsFactory(props) {
                                                         <div className="w-full">
                                                             <div className="0 py-3 rounded-sm">
                                                                 <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
-                                                                    <span className="tracking-wide"><img src={building} alt="building image" className='inline w-4' /> {data?.headerTitle}</span>
+                                                                    <span className="tracking-wide"><MdTag className="inline" /> {nullToNA(data?.headerTitle)}</span>
                                                                 </div>
 
                                                                 <>
@@ -181,7 +183,7 @@ function DetailsFactory(props) {
                                                                             <tr>
                                                                                 <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
                                                                                 {data?.tableHead?.map((head) => (
-                                                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">{head}</th>
+                                                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">{nullToNA(head)}</th>
                                                                                 ))}
 
 
@@ -195,7 +197,7 @@ function DetailsFactory(props) {
                                                                                     <tr className="bg-white  border-b border-gray-200">
                                                                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                                                                         {dataIn?.map((dataIn2) => (
-                                                                                            <td className="px-2 py-2 text-sm text-left">{dataIn2 || 'N/A'}</td>
+                                                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(dataIn2) }</td>
                                                                                         ))}
                                                                                     </tr>
                                                                                 ))}
@@ -224,6 +226,8 @@ function DetailsFactory(props) {
 
                 </div>
             </div>
+
+            <div className='w-full mt-40'></div>
         </>
     )
 }

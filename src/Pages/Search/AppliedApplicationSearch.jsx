@@ -83,6 +83,8 @@ function AppliedApplicationSearch() {
         console.table('applied application. in at ...', res?.data)
         if (data.filterBy == 'saf') {
           setreadymadeListColumns(COLUMNS_SAF)
+        }else if(data.filterBy=='gbsaf'){
+          setreadymadeListColumns(COLUMNS_GBSAF)
         } else {
           setreadymadeListColumns(COLUMNS_OTHER)
         }
@@ -179,6 +181,94 @@ function AppliedApplicationSearch() {
             onClick={() =>
               navigate(
                 `/propApplicationDetails/${cell.row.values.id}`
+              )
+            }
+            className="mr-4 text-white bg-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-600 hover:text-white"
+          >
+            View
+          </button>
+          {/* // UPLOAD BUTTON WILL BE VISIBLE IF APPLIED BY CITIZEN */}
+          {(cell.row.original.doc_upload_status == 1
+            && cell.row.original.appliedby == 'Citizen') && <button
+              onClick={() =>
+                navigate(
+                  `/propApplicationDetails/${cell.row.values.id}`
+                )
+              }
+              className="ml-4 mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white"
+            >
+              Upload
+            </button>}
+
+          {cell.row.original.payment_status == 0 && <button
+            onClick={() =>
+              navigate(
+                `/viewDemand/${cell.row.values.id}`
+              )
+            }
+            className="ml-4 mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white"
+          >
+            Pay
+          </button>}
+
+
+        </>
+      ),
+    },
+  ];
+  const COLUMNS_GBSAF = [
+    {
+      Header: "Ward No.",
+      Cell: ({ cell }) => (
+        <span>{cell.row.original.new_ward_no == '' ? nullToNA(cell.row.original.old_ward_no) : nullToNA(cell.row.original.new_ward_no)}</span>
+      )
+    },
+
+    {
+      Header: "Application No",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.saf_no)}</span>
+      )
+    },
+    {
+      Header: "Officer's Name",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.officer_name)}</span>
+      )
+    },
+    {
+      Header: "Assessment Type",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.assessment_type)}</span>
+      )
+    },
+    {
+      Header: "Mobile No",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.mobile_no)}</span>
+      )
+    },
+    {
+      Header: "Apply Date",
+      Cell: ({ cell }) => (
+        <span>{nullToNA(cell.row.original.updated_at)}</span>
+      )
+    },
+    {
+      Header: "Current Level",
+      Cell: ({ cell }) => (
+        <span className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl">{nullToNA(cell.row.original.currentRole)}</span>
+      )
+    },
+    {
+      Header: "Action",
+      accessor: "id",
+      Cell: ({ cell }) => (
+        <>
+          <button
+            onClick={() =>
+              navigate(
+                `/gbsaf-details/${cell.row.values.id}`
               )
             }
             className="mr-4 text-white bg-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-600 hover:text-white"
@@ -325,6 +415,7 @@ function AppliedApplicationSearch() {
               >
                 <option value="">Select</option>
                 <option value="saf">SAF</option>
+                <option value="gbsaf">GBSAF</option>
                 <option value="concession">Concession</option>
                 <option value="objection">Objection</option>
                 <option value="rainWaterHarvesting">Rainwater Harvesting</option>

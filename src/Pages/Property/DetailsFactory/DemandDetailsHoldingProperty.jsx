@@ -99,7 +99,7 @@ function DemandDetailsHoldingProperty(props) {
             <div className='w-full mx-auto px-6'>
 
                 <div className='pt-10'>
-                    <TopTabs title={`Holding No. ${demandDetail?.holdingNo || ''}`} type="holding" id={id} safNo={''} active="demand" />
+                    <TopTabs title={`Demand Details`} type="holding" id={id} safNo={''} active="demand" />
                 </div>
 
                 <div className='w-full bg-white shadow-xl mb-6'>

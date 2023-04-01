@@ -18,14 +18,17 @@ function PropertyPayment(props) {
     const [demandDetail, setdemandDetail] = useState()
     const [fullData, setfullData] = useState()
     const [loader, setLoader] = useState(false) // Used when click on Pay Now
+    const [changeQtr, setchangeQtr] = useState(null)
+    const [selectedPaymentYear, setselectedPaymentYear] = useState(null)
+    const [selectedPaymentQtr, setselectedPaymentQtr] = useState(null)
 
     const { id, moduleType } = useParams()
 
-    const { api_getHoldingDemandById, api_getsafDemandById} = CitizenApplyApiList();
+    const { api_getHoldingDemandById, api_getsafDemandById } = CitizenApplyApiList();
 
     useSetTitle('Payment Screen')
 
-    const fetchDemandDetail = () => {
+    const fetchDemandDetail = (fYear = null, fQtr = null) => {
 
         setisLoading(true)
         let url
@@ -35,7 +38,9 @@ function PropertyPayment(props) {
         if (moduleType == 'holding') {
             url = api_getHoldingDemandById
             requestBody = {
-                propId: id
+                propId: id,
+                fYear: fYear,
+                qtr: fQtr
             }
         }
         // NORMAL SAF PAYMENT
@@ -59,9 +64,12 @@ function PropertyPayment(props) {
             })
     }
 
+
+
     useEffect(() => {
         fetchDemandDetail()
     }, [])
+
 
 
     return (
@@ -170,7 +178,7 @@ function PropertyPayment(props) {
                 </div>
                 <div>
 
-                    <PaymentCard basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
+                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
                 </div>
             </div>
 

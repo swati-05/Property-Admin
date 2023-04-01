@@ -7,7 +7,7 @@
 //    Component  - Home
 //    DESCRIPTION - Home Component
 //////////////////////////////////////////////////////////////////////////////////////
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import role from '@/Components/Media/role.png'
 import { MdVerified } from 'react-icons/md'
 import { FaRegBuilding } from 'react-icons/fa'
@@ -29,6 +29,7 @@ import BarLoader from '@/Components/Loaders/BarLoader'
 import axios from 'axios'
 import { useToast } from '@/Components/GlobalData/useSetGlobalData'
 import PropertyHome from './PropertyHome'
+import { contextVar } from '@/Components/Context/Context'
 
 
 const customStyles = {
@@ -57,6 +58,41 @@ function LandingHomeDashBoard() {
     const imageRef = useRef()
     const { api_editAdminProfile } = ProjectApiList()
     const notify = useToast()
+
+    const {
+        roles,
+        setroles,
+        setuserName,
+        userName,
+        userUlbName,
+        setuserUlbName,
+        userMobile,
+        setuserMobile,
+        userEmail,
+        setuserEmail,
+        userImage,
+        setuserImage
+    } = useContext(contextVar)
+
+    useEffect(() => {
+        ///*** setting global data ***\\\\
+        let lUser = userName == '' ? JSON.parse(window.localStorage.getItem('userName')) : userName
+        let lRoles = roles == '' ? JSON.parse(window.localStorage.getItem('roles')) : roles
+
+        let lulb = userUlbName == '' ? JSON.parse(window.localStorage.getItem('userUlbName')) : userUlbName
+        let lmobile = userMobile == '' ? JSON.parse(window.localStorage.getItem('userMobile')) : userMobile
+        let lemail = userEmail == '' ? JSON.parse(window.localStorage.getItem('userEmail')) : userEmail
+        let limage = userImage == '' ? JSON.parse(window.localStorage.getItem('userImage')) : userImage
+
+
+        setuserName(lUser)
+        setroles(lRoles)
+        // setuserUlbName(lulb)
+        // setuserMobile(lmobile)
+        // setuserEmail(lemail)
+        // setuserImage(limage)
+
+    }, [])
 
     function openModal() {
         feedProfileData(profileData)
@@ -183,7 +219,7 @@ function LandingHomeDashBoard() {
                     <BarLoader />
                 </div>
             }
-           
+
             <div className='w-full bg-white shadow-xl p-10 mt-4'>
                 <div className="flex">
                     <div className="flex-initial">

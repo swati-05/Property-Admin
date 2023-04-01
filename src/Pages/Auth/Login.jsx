@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 })
 
 function Login(props) {
-    const { setmenuList, setuserName, setroles } = useContext(contextVar)
+    const { setmenuList, setuserName, setroles,setuserUlbName,setuserMobile,setuserEmail,setuserImage } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
     const [mobileCardStatus, setmobileCardStatus] = useState(false)
     const [otpCardStatus, setotpCardStatus] = useState(false)
@@ -132,16 +132,27 @@ function Login(props) {
 
         axios.post(api_getFreeMenuList, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('fetched menu list.....', response)
+                console.log('fetched menu list.....', response?.data?.data)
                 // return
                 if (response.data.status == true) {
-                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data))
-                    // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
+                    window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+                    window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.roles))
 
-                    setmenuList(response?.data?.data)
-                    // setuserName(response?.data?.data?.userDetails?.userName)
-                    // setroles(response?.data?.data?.userDetails?.role)
+                    window.localStorage.setItem('userUlbName', JSON.stringify(response?.data?.data?.userDetails?.ulb))
+                    window.localStorage.setItem('userMobile', JSON.stringify(response?.data?.data?.userDetails?.mobileNo))
+                    window.localStorage.setItem('userEmail', JSON.stringify(response?.data?.data?.userDetails?.email))
+                    window.localStorage.setItem('userImage', JSON.stringify(response?.data?.data?.userDetails?.imageUrl))
+
+
+                    setmenuList(response?.data?.data?.permission)
+                    setuserName(response?.data?.data?.userDetails?.userName)
+                    setroles(response?.data?.data?.userDetails?.roles)
+
+                    setuserUlbName(response?.data?.data?.userDetails?.ulb)
+                    setuserMobile(response?.data?.data?.userDetails?.mobileNo)
+                    setuserEmail(response?.data?.data?.userDetails?.email)
+                    setuserImage(response?.data?.data?.userDetails?.imageUrl)
 
                 } else {
                     console.log('false...')

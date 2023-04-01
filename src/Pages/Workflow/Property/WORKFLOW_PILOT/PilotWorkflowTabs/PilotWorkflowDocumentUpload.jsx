@@ -114,6 +114,7 @@ function PilotWorkflowDocumentUpload(props) {
 
   const fetchDocumentsToUpload = () => {
     console.log('before fetch upload doc')
+    setloader(true)
     axios
     [props?.api?.api_uploadDocumentShow?.method](props?.api?.api_uploadDocumentShow?.url, { applicationId: props?.id }, ApiHeader())
       .then((res) => {
@@ -121,6 +122,7 @@ function PilotWorkflowDocumentUpload(props) {
         setdocumentListToUpload(res?.data?.data)
         // ALL DOCUMENT UPLOAD STATUS TO SEND LEVEL RESTRICT
         props?.setallDocumentUploadStatus(res?.data?.data?.docUploadStatus)
+        setloader(false)
 
       })
       .catch((err) => {
@@ -376,7 +378,7 @@ function PilotWorkflowDocumentUpload(props) {
             documentListToUpload?.ownerDocs &&
             <div className=" flex md:pl-4 bg-white font-sans overflow-x-auto mt-10">
               <div className="w-full lg:w-4/6">
-                <h1 className="text-xs">Owner Documents</h1>
+                <h1 className="text-md font-semibold">Owner Documents</h1>
                 <div className="bg-white shadow-md rounded my-2">
                   <table className="min-w-max w-full table-auto">
                     <thead>
@@ -471,7 +473,7 @@ function PilotWorkflowDocumentUpload(props) {
           {/* Property type */}
           <div className=" flex md:pl-4 bg-white font-sans overflow-x-auto mt-6">
             <div className="w-full lg:w-4/6">
-              <h1 className="text-xs">Property Documents</h1>
+              <h1 className="text-md font-semibold">Property Documents</h1>
               <div className="bg-white shadow-md rounded my-2">
                 <table className="min-w-max w-full table-auto">
                   <thead>
@@ -486,6 +488,7 @@ function PilotWorkflowDocumentUpload(props) {
                       <th className="py-3 px-6 text-center">Remarks</th>
                       <th className="py-3 px-6 text-center">Preview</th>
                       <th className="py-3 px-6 text-center">Upload</th>
+                      {/* <th className="py-3 px-6 text-center">Upload</th> */}
                     </tr>
                   </thead>
                   <tbody className="text-gray-600 text-sm font-light bg-white">
@@ -583,7 +586,7 @@ function PilotWorkflowDocumentUpload(props) {
                           {(doc?.uploadedDoc?.remarks == "" || doc?.uploadedDoc?.remarks == null) ? <i className="font-semibold">N/A</i> : doc?.uploadedDoc?.remarks}
                         </td>
 
-                        <td className="py-3 px-6 text-center">
+                        {/* <td className="py-3 px-6 text-center">
                           {
                             (doc?.docName == fileName && isImage == true) &&
 
@@ -595,7 +598,7 @@ function PilotWorkflowDocumentUpload(props) {
                             <div className="flex items-center justify-center font-semibold text-[26px] cursor-pointer" onClick={() => modalFun(settempDoc(!tempDoc))}>
                               <div className="text-[40px] text-center"><FcDocument /></div></div>
                           }
-                        </td>
+                        </td> */}
 
                         <td className="py-3 px-6 flex flex-wrap gap-2">
 
@@ -847,6 +850,9 @@ function PilotWorkflowDocumentUpload(props) {
         </div>
 
       </Modal>
+
+
+      <h1 className="w-full mt-20"></h1>
 
     </>
   );

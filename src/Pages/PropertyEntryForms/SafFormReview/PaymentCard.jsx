@@ -12,10 +12,24 @@ import ApiHeader from '@/Components/ApiList/ApiHeader'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
-import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { allowNumberInput, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 import { BsCurrencyRupee } from 'react-icons/bs'
-import { BiRightArrowAlt } from 'react-icons/bi'
-
+import { FiAlertCircle } from 'react-icons/fi'
+import Modal from 'react-modal';
+import { allowCharacterNumberInput, allowCharacterSpaceCommaInput } from '@/Components/PowerUps/PowerupFunctions'
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'white',
+    border: 'none'
+  },
+};
+Modal.setAppElement('#root');
 
 
 function PaymentCard(props) {
@@ -26,6 +40,7 @@ function PaymentCard(props) {
   const [isLoading, setisLoading] = useState(false);
   const [currentTransactionNo, setcurrentTransactionNo] = useState(null);
   const [erroState, seterroState] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate()
   console.log('saf submit response data at payment...', props.safSubmitResponse)
@@ -36,6 +51,10 @@ function PaymentCard(props) {
   const [paymentMode, setPaymentMode] = useState()
   const [advanceStatus, setadvanceStatus] = useState(false)
   let validationSchema
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   if (moduleType == 'holding') {
     validationSchema = yup.object({
@@ -142,14 +161,25 @@ function PaymentCard(props) {
 
     onSubmit: (values, resetForm) => {
       console.log('values at submit payment', values)
-      if (values?.paymentMode == 'ONLINE') {
-        getOrderId()
-      } else {
-        makePayment(values)
-      }
+      // if (values?.paymentMode == 'ONLINE') {
+      //   getOrderId()
+      // } else {
+      //   makePayment(values)
+      // }
+      setIsOpen(true)
     }
     , validationSchema
   })
+
+  // MODAL WILL CALL THIS GO PAYMENT FUNCTION
+  const goPayment = () => {
+    setIsOpen(false)
+    if (formik.values?.paymentMode == 'ONLINE') {
+      getOrderId()
+    } else {
+      makePayment(formik.values)
+    }
+  }
 
   const toggleForm = (e) => {
     console.log('checkbox is changing ', e.target.checked)
@@ -163,6 +193,14 @@ function PaymentCard(props) {
 
     { (name == 'paymentMode') && setPaymentMode(value) }
     { (name == 'payAdvance') && setadvanceStatus(e.target.checked) }
+
+    { (name == 'paymentUptoQuarter') && props?.fetchDemandDetail(formik.values.paymentUptoYear,value ) }
+
+    { name == 'remarks' && formik.setFieldValue("remarks", allowCharacterSpaceCommaInput(value, formik.values.remarks, 100)) }
+    { name == 'bankName' && formik.setFieldValue("bankName", allowCharacterSpaceCommaInput(value, formik.values.bankName, 100)) }
+    { name == 'branchName' && formik.setFieldValue("branchName", allowCharacterSpaceCommaInput(value, formik.values.branchName, 100)) }
+    { name == 'cheque_dd_no' && formik.setFieldValue("cheque_dd_no", allowCharacterNumberInput(value, formik.values.cheque_dd_no, 20)) }
+    { name == 'advanceAmount' && formik.setFieldValue("advanceAmount", allowNumberInput(value, formik.values.advanceAmount, 10)) }
   }
 
   //// PAYMENT METHOD  ////
@@ -254,22 +292,36 @@ function PaymentCard(props) {
     seterroState(false)
     setisLoading(true)
     let url
-    let requestBody = {
-      id: id,
-      amount: props?.paymentDetails?.totalDues,
-      paymentMode: data?.paymentMode,
-      ulbId: props?.basicDetails?.ulb_id,
-      chequeDate: data?.cheque_dd_date,
-      bankName: data?.bankName,
-      branchName: data?.branchName,
-      chequeNo: data?.cheque_dd_no
-    }
+    let requestBody
+
 
     if (moduleType == 'holding') {
       url = api_postPropertyPaymentOffline
+      requestBody = {
+        id: id,
+        amount: props?.paymentDetails?.totalDues,
+        paymentMode: data?.paymentMode,
+        ulbId: props?.basicDetails?.ulb_id,
+        chequeDate: data?.cheque_dd_date,
+        bankName: data?.bankName,
+        branchName: data?.branchName,
+        chequeNo: data?.cheque_dd_no,
+        fYear: formik.values.paymentUptoYear,
+        qtr: formik.values.paymentUptoQuarter,
+      }
     }
     if (moduleType == 'saf') {
       url = api_postSafPaymentOffline
+      requestBody = {
+        id: id,
+        amount: props?.paymentDetails?.totalDues,
+        paymentMode: data?.paymentMode,
+        ulbId: props?.basicDetails?.ulb_id,
+        chequeDate: data?.cheque_dd_date,
+        bankName: data?.bankName,
+        branchName: data?.branchName,
+        chequeNo: data?.cheque_dd_no
+      }
     }
 
 
@@ -291,6 +343,26 @@ function PaymentCard(props) {
   }
 
   const feedPaymentInput = () => {
+
+    console.log('inside feedpayment upto year.', props?.paymentDetails?.paymentUptoQtrs)
+    // PRESETTING THE PAYMENTUPTO YEAR
+    props?.paymentDetails?.paymentUptoYrs?.map((data, index) => {
+      console.log('hello mr ...', data)
+
+      if (index == 0) {
+        console.log('hello mr ...', data)
+        // formik.setFieldValue('paymentUptoYear', data)
+      }
+    })
+
+    props?.paymentDetails?.paymentUptoQtrs?.map((data, index) => {
+      console.log('hello mr ...', data)
+
+      if (index == 0) {
+        console.log('hello mr ...', data)
+        // formik.setFieldValue('paymentUptoYear', data)
+      }
+    })
     // formik.setFieldValue('paymentUptoYear', props?.paymentDetails?.paymentUptoYrs[0])
     // formik.setFieldValue('paymentUptoQuarter', props?.paymentDetails?.paymentUptoQtrs[0])
 
@@ -305,9 +377,12 @@ function PaymentCard(props) {
     // }
   }
 
-  // useEffect(() => {
-  //   feedPaymentInput()
-  // }, [])
+
+  useEffect(() => {
+    // if (moduleType == 'holding') {
+    feedPaymentInput()
+    // }
+  }, [])
 
   if (isLoading) {
     return (
@@ -323,6 +398,8 @@ function PaymentCard(props) {
       </CommonModal>
     )
   }
+
+
 
 
 
@@ -374,7 +451,7 @@ function PaymentCard(props) {
                         <option value={''} >{'Select'}</option>
                         {
                           props?.paymentDetails?.paymentUptoYrs?.map((data, index) => (
-                            <option selected={index == 0 ? true : false} value={data} >{data}</option>
+                            <option value={data} >{data}</option>
                           ))
                         }
                       </select>
@@ -476,37 +553,37 @@ function PaymentCard(props) {
               {/* SHOW IN CASE OF HOLDING */}
               {(moduleType === 'holding') && <div className='bg-white col-span-12 grid grid-cols-12 pt-6 mb-4 border border-gray-200'>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.paymentDetails?.rebateAmt)}</span>
+                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.rebateAmt)}</span>
                 </div>
                 {moduleType == 'saf' && <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>{nullToNA(props?.paymentDetails?.lateAssPenalty)}</span>
+                  <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.lateAssPenalty)}</span>
                 </div>}
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.paymentDetails?.rebatePerc)}</span>
+                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.rebatePerc)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.paymentDetails?.onePercPenalty)}</span>
+                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.onePercPenalty)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToNA(props?.paymentDetails?.payableAmount)}</span></div>
+                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToZero(props?.paymentDetails?.payableAmount)}</span></div>
                 </div>
               </div>}
               {/* SHOW IN CASE OF SAF */}
               {moduleType === 'saf' && <div className='bg-white col-span-12 grid grid-cols-12 pt-6 mb-4 border border-gray-200'>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.safPaymentDetailsData?.rebateAmount)}</span>
+                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.rebateAmount)}</span>
                 </div>
                 {moduleType == 'saf' && <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>{nullToNA(props?.safPaymentDetailsData?.lateAssessmentPenalty)}</span>
+                  <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.lateAssessmentPenalty)}</span>
                 </div>}
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.safPaymentDetailsData?.specialRebateAmount)}</span>
+                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.specialRebateAmount)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToNA(props?.safPaymentDetailsData?.totalOnePercPenalty)}</span>
+                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.totalOnePercPenalty)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToNA(props?.safPaymentDetailsData?.payableAmount)}</span></div>
+                  <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToZero(props?.safPaymentDetailsData?.payableAmount)}</span></div>
                 </div>
               </div>
 
@@ -523,7 +600,10 @@ function PaymentCard(props) {
                 </div>
                 <div className='md:pl-10 text-right'>
 
-                  <button type='submit' className="ml-4 font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(props?.safPaymentDetailsData?.payableAmount)} </button>
+                  <button type='submit' className="ml-4 font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />
+                    {moduleType == 'saf' && nullToNA(props?.safPaymentDetailsData?.payableAmount)}
+                    {moduleType == 'holding' && nullToNA(props?.paymentDetails?.payableAmount)}
+                  </button>
                 </div>
 
               </div>
@@ -534,6 +614,29 @@ function PaymentCard(props) {
 
 
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+
+        <div class="relative bg-white rounded-lg shadow-xl border-2 border-gray-50">
+          <button onClick={closeModal} type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
+            <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </button>
+          <div class="p-6 text-center">
+            <div className='w-full flex h-10'> <span className='mx-auto'><FiAlertCircle size={30} /></span></div>
+            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Confirm Payment</h3>
+            <button type="button" class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={goPayment}>
+              Yes, I'm sure
+            </button>
+
+          </div>
+        </div>
+
+      </Modal>
     </>
   )
 }
