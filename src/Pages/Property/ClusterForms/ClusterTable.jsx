@@ -345,16 +345,17 @@ const ClusterTable = (props) => {
       {isLoading && <BarLoader />}
 
     {/* ===========Table================ */}
-      <div className="mt-8">
+      <div className="">
         {(!isLoading && table) && ( 
           <>
-           <h1 className="mt-6 mb-2 font-serif font-semibold  text-gray-600">
+           
+            <div className="flex justify-between items-center">
+              <h1 className="mt-6 mb-2 font-serif font-semibold  text-gray-600">
         <RiBuilding2Fill className="inline mr-2" />
         Cluster List
       </h1>
-            <div>
               <button
-                className="bg-sky-400 px-3 pr-3  shadow-lg rounded py-1 text-white hover:shadow-2xl hover:bg-green-600 text-center absolute 2xl:right-40 right-16"
+                className="bg-sky-400 px-3 pr-3 shadow-lg rounded py-1 text-white hover:shadow-2xl hover:bg-green-600 text-center relative"
                 onClick={() => funAdd()}
               >
                 Add
