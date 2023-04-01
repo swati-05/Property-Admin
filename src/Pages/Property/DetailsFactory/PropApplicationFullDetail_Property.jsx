@@ -114,7 +114,7 @@ function PropApplicationFullDetail_Property() {
     return (
         <>
 
-            <div className='grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-2 container mx-auto w-full'>
+            <div className='grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-2 container mx-auto w-full overflow-x-auto'>
 
                 <div className="col-span-12 rounded-lg p-4">
                     {/* <h1 className='px-2 font-semibold mt-0 text-center text-gray-600 font-serif py-2 xl md:text-3xl '>PROPERTY DETAILS</h1> */}
@@ -122,7 +122,7 @@ function PropApplicationFullDetail_Property() {
                     {applicationFullData?.active_status == 1 &&
                         <>
                             <TopTabs title={`Holding No. - ${applicationFullData?.new_holding_no == '' ? applicationFullData?.holding_no : applicationFullData?.new_holding_no} `} type="holding" id={id} safNo={''} active="property" />
-                            <div className='mt-2 text-right'>
+                            <div className='mt-2 sm:text-right'>
                                 <BottomTabsCondition permissionData={permissionData} safId={applicationFullData?.saf_id} />
                             </div>
                         </>
@@ -139,53 +139,53 @@ function PropApplicationFullDetail_Property() {
 
 
                     {/* Basic  details */}
-                    <div className='p-4'>
+                    <div className='p-2 md:p-4'>
                         <div className=''>
                             <h1 className='px-1 font-semibold font-serif  text-gray-500'><MdTag className="inline" /> Basic Details</h1>
                             <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
-                                <div className="flex space-x-5 pl-4 ">
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.new_holding_no == '' ? nullToNA(applicationFullData?.holding_no) : nullToNA(applicationFullData?.new_holding_no)}</div>
-                                        <div className='text-gray-500 text-xs'>Holding no.</div>
+                                <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4  ">
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.new_holding_no == '' ? nullToNA(applicationFullData?.holding_no) : nullToNA(applicationFullData?.new_holding_no)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Holding no.</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.old_ward_no)}</div>
-                                        <div className='text-gray-500 text-xs'>Old Ward No.</div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.old_ward_no)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Old Ward No.</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-semibold text-lg'>{nullToNA(applicationFullData?.old_ward_no)}</div>
-                                        <div className='text-gray-500 text-xs'>New Ward No</div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-semibold text-lg'>{nullToNA(applicationFullData?.old_ward_no)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>New Ward No</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-semibold text-md'>{nullToNA(applicationFullData?.ownership_type)}</div>
-                                        <div className='text-gray-500 text-xs'>Ownership Type</div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.ownership_type)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Ownership Type</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.property_type)}</div>
-                                        <div className='text-gray-500 text-xs'>Property Type</div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.property_type)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Property Type</div>
                                     </div>
 
                                 </div>
 
-                                {applicationFullData?.apartment_code && <div className="flex space-x-10  pl-4 mt-4">
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.apartment_name)} , {nullToNA(applicationFullData?.corr_state)}</div>
-                                        <div className='text-gray-500 text-xs'>Apartment Name</div>
+                                {applicationFullData?.apartment_code && <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.apartment_name)} , {nullToNA(applicationFullData?.corr_state)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Apartment Name</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.apartment_code)} , {nullToNA(applicationFullData?.corr_state)}</div>
-                                        <div className='text-gray-500 text-xs'>Apartment Code</div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.apartment_code)} , {nullToNA(applicationFullData?.corr_state)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Apartment Code</div>
                                     </div>
-                                    <div className='flex-1'>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                     </div>
-                                    <div className='flex-1'>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                     </div>
-                                    <div className='flex-1'>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                     </div>
-                                    <div className='flex-1'>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                     </div>
                                 </div>}
@@ -196,59 +196,59 @@ function PropApplicationFullDetail_Property() {
                         {/* Property  details */}
                         <h1 className='px-1 font-semibold font-serif mt-10 text-gray-500'><MdTag className="inline" /> Property Address & Details</h1>
                         <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
-                            <div className="flex space-x-10 pl-4 ">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
-                                    <div className='text-gray-500 text-xs'>Khata No.</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-10 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Khata No.</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.plot_no)}</div>
-                                    <div className='text-gray-500 text-xs'>Plot No</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.plot_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Plot No</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.village_mauja_name)}</div>
-                                    <div className='text-gray-500 text-xs'>Village/Mauja Name</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.village_mauja_name)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Village/Mauja Name</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.area_of_plot)}</div>
-                                    <div className='text-gray-500 text-xs'>Area of Plot(decimal)</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.area_of_plot)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Area of Plot(decimal)</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.road_type)}</div>
-                                    <div className='text-gray-500 text-xs'>Road Width(ft)</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.road_type)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Road Width(ft)</div>
                                 </div>
                             </div>
 
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.prop_address)} , {nullToNA(applicationFullData?.prop_state)}</div>
-                                    <div className='text-gray-500 text-xs'>Property Address</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.prop_address)} , {nullToNA(applicationFullData?.prop_state)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Property Address</div>
                                 </div>
-                                {/* <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.prop_city ? applicationFullData?.prop_city : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>City</div>
+                                {/* <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.prop_city ? applicationFullData?.prop_city : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>City</div>
                                 </div> */}
-                                {/* <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.prop_dist ? applicationFullData?.prop_dist : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>District</div>
+                                {/* <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.prop_dist ? applicationFullData?.prop_dist : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>District</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.prop_state ? applicationFullData?.prop_state : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>State</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.prop_state ? applicationFullData?.prop_state : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>State</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.prop_pin_code ? applicationFullData?.prop_pin_code : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>Pin</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.prop_pin_code ? applicationFullData?.prop_pin_code : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Pin</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.prop_address ? applicationFullData?.prop_address : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>Locality</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.prop_address ? applicationFullData?.prop_address : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Locality</div>
                                 </div> */}
                             </div>
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.corr_address)} , {nullToNA(applicationFullData?.corr_state)}</div>
-                                    <div className='text-gray-500 text-xs'>Corresponding Address</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.corr_address)} , {nullToNA(applicationFullData?.corr_state)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Corresponding Address</div>
                                 </div>
                             </div>
 
@@ -261,33 +261,33 @@ function PropApplicationFullDetail_Property() {
                                 <div className="col-span-2 flex justify-center items-center w-full h-[1px] bg-gray-400"></div>
                             </div> */}
 
-                            {/* <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.corr_city ? applicationFullData?.corr_city : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>City</div>
+                            {/* <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.corr_city ? applicationFullData?.corr_city : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>City</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.corr_dist ? applicationFullData?.corr_dist : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>District</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.corr_dist ? applicationFullData?.corr_dist : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>District</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.corr_state ? applicationFullData?.corr_state : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>State</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.corr_state ? applicationFullData?.corr_state : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>State</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.corr_pin_code ? applicationFullData?.corr_pin_code : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>Pin</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.corr_pin_code ? applicationFullData?.corr_pin_code : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Pin</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.corr_address ? applicationFullData?.corr_address : "N/A"}</div>
-                                    <div className='text-gray-500 text-xs'>Locality</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.corr_address ? applicationFullData?.corr_address : "N/A"}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Locality</div>
                                 </div>
                             </div> */}
                         </div>
 
 
                         {/* owner details */}
-                        <div className='mt-10'>
+                        <div className='mt-10 md:w-auto w-[100vw] overflow-x-auto pr-4'>
                             <h1 className='px-1 font-semibold font-serif text-gray-500'><MdTag className="inline" /> Owner Details</h1>
 
                             <table className='min-w-full leading-normal mt-2 bg-white rounded-lg shadow-xl p-4'>
@@ -342,24 +342,24 @@ function PropApplicationFullDetail_Property() {
 
                         <h1 className='px-1 font-semibold font-serif mt-10 text-gray-500'><MdTag className="inline" /> Electricity Details</h1>
                         <div className='py-6  mt-2 bg-white shadow-xl rounded-lg p-4'>
-                            <div className="flex space-x-10 pl-4 ">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
-                                    <div className='text-gray-500 text-xs'>Electricity K. No</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-10 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Electricity K. No</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.elect_acc_no)}</div>
-                                    <div className='text-gray-500 text-xs'>ACC No.</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.elect_acc_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>ACC No.</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.elect_bind_book_no)}</div>
-                                    <div className='text-gray-500 text-xs'>BIND/BOOK No.</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.elect_bind_book_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>BIND/BOOK No.</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.elect_cons_category)}</div>
-                                    <div className='text-gray-500 text-xs'>Electricity Consumer Category</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.elect_cons_category)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Electricity Consumer Category</div>
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
                             </div>
@@ -369,23 +369,23 @@ function PropApplicationFullDetail_Property() {
                         {/* BUILDING DETAILS */}
                         <h1 className='px-1 font-semibold font-serif mt-10 text-gray-500'><MdTag className="inline" /> Building Details</h1>
                         <div className='py-6  mt-2 bg-white shadow-xl rounded-lg p-4'>
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.building_plan_approval_no)}</div>
-                                    <div className='text-gray-500 text-xs'>Building Plan Approval No.</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.building_plan_approval_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Building Plan Approval No.</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.building_plan_approval_date)}</div>
-                                    <div className='text-gray-500 text-xs'>Building Plan Approval Date</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.building_plan_approval_date)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Building Plan Approval Date</div>
                                 </div>
 
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
                             </div>
@@ -395,22 +395,22 @@ function PropApplicationFullDetail_Property() {
                         <h1 className='px-1 font-semibold font-serif mt-10 text-gray-500'><MdTag className="inline" /> Water Details</h1>
                         <div className='py-6  mt-2 bg-white shadow-xl rounded-lg p-4'>
 
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.khata_no)}</div>
-                                    <div className='text-gray-500 text-xs'>Water Consumer No.</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(applicationFullData?.khata_no)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Water Consumer No.</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.water_conn_date)}</div>
-                                    <div className='text-gray-500 text-xs'>Water Connection Date</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.water_conn_date)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Water Connection Date</div>
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
-                                <div className='flex-1'>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
 
                                 </div>
                             </div>
@@ -420,7 +420,7 @@ function PropApplicationFullDetail_Property() {
 
 
                         {/* floor details */}
-                        <div className='mt-10'>
+                        <div className='mt-10 md:w-auto w-[100vw] overflow-x-auto  pr-6'>
                             <h1 className='px-1 font-semibold font-serif text-gray-500 '><MdTag className="inline" /> Floor Details</h1>
 
                             <table className='min-w-full leading-normal mt-2 bg-white rounded-lg shadow-xl'>
@@ -464,26 +464,26 @@ function PropApplicationFullDetail_Property() {
 
                         <h1 className='px-1 font-semibold font-serif text-gray-500 mt-10'><MdTag className="inline" /> Additional Details</h1>
                         <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower == 1 ? 'Yes' : 'No'}</div>
-                                    <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
+                            <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{applicationFullData?.is_mobile_tower == 1 ? 'Yes' : 'No'}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board == 1 ? 'Yes' : 'No'} </div>
-                                    <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.is_hoarding_board == 1 ? 'Yes' : 'No'} </div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump == 1 ? 'Yes' : 'No'}</div>
-                                    <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-semibold text-md'>{applicationFullData?.is_petrol_pump == 1 ? 'Yes' : 'No'}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting == 1 ? 'Yes' : 'No'}</div>
-                                    <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm' >{applicationFullData?.is_water_harvesting == 1 ? 'Yes' : 'No'}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.zone_mstr_id)}</div>
-                                    <div className='text-gray-500 text-xs'>Zone</div>
+                                <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.zone_mstr_id)}</div>
+                                    <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Zone</div>
                                 </div>
                             </div>
                         </div>

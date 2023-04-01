@@ -179,12 +179,11 @@ const ObjectionIndex = () => {
                 onAfterOpen={afterOpenModal}
                 // onRequestClose={closeModal}
                 // style={customStyles}
-                className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center ml-10 overflow-auto"
+                className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center sm:ml-10 overflow-auto"
                 contentLabel="Example Modal"
             >
 
-                {/* <div class=" rounded-lg shadow-xl  bg-indigo-50 px-0" style={{ 'width': '60vw', 'height': '80vh' }}> */}
-                <div class=" rounded-lg md:ml-24 shadow-lg relative bg-gray-50 px-6 py-4 w-[80vw] h-[80vh] z-50 border-t-2 border-l-2 border-white overflow-auto" >
+                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] mt-16 sm:h-[85vh] w-full relative border-2 border-indigo-500 bg-gray-50 px-6 py-4 h-[88vh] border-t-2 border-l-2 overflow-auto" >
                 
                 <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-full p-2 cursor-pointer" onClick={closeModal}>
                     <ImCross fontSize={10}/>

@@ -35,7 +35,8 @@ const ObjectionRectificationTable = (props) => {
   let inputStyle =
     "shadow-md bg-white focus:outline-solid rounded-sm px-4 py-1";
 
-  let commonInputStyle = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-max`;
+  let commonInputStyle = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-full sm:w-max`;
+  let commonInputStyle2 = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-max`;
 
   // const [cname, setcname] = useState(false)
   // const [cmobile, setcmobile] = useState(false)
@@ -392,10 +393,10 @@ const ObjectionRectificationTable = (props) => {
         <>
           <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center uppercase text-base poppins mb-4 shadow-md py-2 rounded-md">
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-[30px]">
+          <span className="font-extrabold text-base sm:text-[30px]">
                 <FcDepartment />
               </span>
-              <span className="font-semibold poppins 2xl:text-xl text-lg">
+          <span className="font-semibold poppins 2xl:text-xl text-base sm:text-lg">
                 Clerical Objection
               </span>
             </div>
@@ -409,23 +410,23 @@ const ObjectionRectificationTable = (props) => {
 
           {/* <div className="w-full md:w-[15vw] border-b-2 mb-2"></div> */}
 
-          <div className="bg-white py-4 shadow-sm rounded-md transition-all duration-300">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between sm:pr-4">
             {/* ==============Clerical Selection=============== */}
 
-            <div className="w-full flex flex-row items-center justify-between pr-4">
+            <div className="poppins sm:px-4 mb-4 text-sm flex flex-col sm:flex-row sm:items-center">
               {(addMember == false || addMember == undefined) && (
                 <>
                   <div className="poppins px-4 mb-4 text-sm flex flex-row items-center">
                     <label
                       htmlFor="owners"
-                      className="poppins mr-4 font-semibold"
+                      className="poppins sm:mr-4 font-semibold"
                     >
                       Select the owner for clerical objection :
                     </label>
                     <select
                       name="owners"
                       id="owners"
-                      className={commonInputStyle + ` w-[10vw]`}
+                      className={commonInputStyle + ` w-full sm:w-[10vw] poppins text-xs`}
                       onChange={handleButtons}
                     >
                       <option value={null}>--Select--</option>
@@ -444,7 +445,7 @@ const ObjectionRectificationTable = (props) => {
               )}
 
              {!addMember && <> <div
-                className="flex items-center w-max poppins text-xs text-gray-800 ml-4 font-semibold px-2 py-1 rounded-sm shadow-sm cursor-pointer bg-green-200 hover:bg-green-300"
+                className="flex self-start sm:self-auto items-center w-max poppins text-xs text-gray-800 ml-4 font-semibold px-2 py-1 rounded-sm shadow-sm cursor-pointer bg-green-200 hover:bg-green-300"
                 onClick={() => setaddMember(true)}
               >
                 <BsPlusCircle /> &nbsp; Add SAF Owner
@@ -463,11 +464,11 @@ const ObjectionRectificationTable = (props) => {
             <form
               onSubmit={formik.handleSubmit}
               onChange={formik.handleChange}
-              className="poppins  rounded-md py-1.5 text-sm px-4 animate__animated animate__fadeIn animate__faster"
+              className="poppins  rounded-md py-1.5 text-sm sm:px-4 animate__animated animate__fadeIn animate__faster"
             >
               {/* ==============Owner Selection===================== */}
               {clericalStatus != false && addMember != true && (
-                <div className="w-full">
+                <div className="w-full sm:mt-0 mt-2 px-2">
                   <div className="poppins text-sm font-semibold">
                     Check the below option which you want to change ?
                   </div>
@@ -479,7 +480,7 @@ const ObjectionRectificationTable = (props) => {
                         name="name"
                         id="name"
                         onChange={handleButtons}
-                        className={commonInputStyle + ` shadow-sm`}
+                        className={commonInputStyle2 + ` shadow-sm`}
                       />{" "}
                       &nbsp;
                       <label
@@ -515,7 +516,7 @@ const ObjectionRectificationTable = (props) => {
                             name="address"
                             id="address"
                             onChange={handleButtons}
-                            className={commonInputStyle + ` shadow-sm`}
+                            className={commonInputStyle2 + ` shadow-sm`}
                           />{" "}
                           &nbsp;
                           <label
@@ -529,7 +530,7 @@ const ObjectionRectificationTable = (props) => {
                   </div>
 
                   <div className="w-full mb-4 mt-2">
-                    <div className="flex flex-row space-x-3">
+                    <div className="flex flex-wrap flex-row items-center space-x-3">
                       <label className="form-label inline-block mb-1 text-gray-00 text-sm font-semibold poppins">
                         <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
                           *
@@ -537,7 +538,7 @@ const ObjectionRectificationTable = (props) => {
                         For JSK: Do you want to upload documents ?{" "}
                       </label>
                       <input
-                        className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 sm:w-6 h-4 sm:h-6 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600"
                         type="radio"
                         id="docStatus"
                         name="docStatus"
@@ -553,7 +554,7 @@ const ObjectionRectificationTable = (props) => {
                       </label>
 
                       <input
-                        className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 sm:w-6 h-4 sm:h-6 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600"
                         type="radio"
                         id="docStatus"
                         name="docStatus"
@@ -583,7 +584,7 @@ const ObjectionRectificationTable = (props) => {
                   <div className="mt-4">
                     {/* Name Card */}
                     {nameStatus && (
-                      <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 text-sm px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
+                      <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 gap-y-2  text-sm px-2 sm:px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
                         <div className="col-span-12 md:col-span-3 poppins 2xl:text-base text-xs">
                           Name : <br />
                           <span className="font-semibold 2xl:text-base text-sm poppins">
@@ -600,7 +601,7 @@ const ObjectionRectificationTable = (props) => {
                               type="text"
                               onChange={formik.handleChange}
                               className={
-                                commonInputStyle +
+                                commonInputStyle2 +
                                 ` poppins  2xl:text-base text-xs`
                               }
                               name="ownerName"
@@ -675,7 +676,7 @@ const ObjectionRectificationTable = (props) => {
                     )}
                     {/* MObile Card */}{" "}
                     {mobileStatus && (
-                      <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 text-sm px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
+                      <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 gap-y-2  text-sm px-2 sm:px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
                         <div className="col-span-12 md:col-span-4 poppins 2xl:text-base text-xs">
                           Mobile No. : <br />
                           <span className="font-semibold 2xl:text-base text-sm poppins">
@@ -703,7 +704,7 @@ const ObjectionRectificationTable = (props) => {
                                 (verifyStatus
                                   ? `bg-green-500 hover:bg-green-600`
                                   : `bg-red-500 hover:bg-red-600`) +
-                                ` cursor-pointer w-max inline poppins px-2 py-1 rounded-md text-white 2xl:text-base text-xs`
+                                ` cursor-pointer w-max mt-2 sm:mt-0 block sm:inline poppins px-2 py-1 rounded-md text-white 2xl:text-base text-xs`
                               }
                               onClick={() => mobileVerify()}
                             >
@@ -716,7 +717,7 @@ const ObjectionRectificationTable = (props) => {
                               : null}
                           </div>
                         </div>
-                        <div className="col-span-3 poppins text-red-600 text-xs flex items-center">
+                        <div className="col-span-12 sm:col-span-3 poppins text-red-600 text-xs flex items-center">
                           {!verifyStatus && (
                             <>Verify your mobile no. to submit the form.</>
                           )}
@@ -725,9 +726,9 @@ const ObjectionRectificationTable = (props) => {
                     )}
                     {/* Address Card */}{" "}
                     {addressStatus &&
-                      ownerDetails?.corr_address != "" &&
-                      ownerDetails?.corr_address != undefined && (
-                        <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 text-sm px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
+                      ownerDetails?.corr_address == "" ||
+                      ownerDetails?.corr_address == undefined && (
+                        <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 gap-y-2 gap-x-2 sm:gap-x-0 text-sm px-2 sm:px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
                           <div className="col-span-12 md:col-span-3 poppins pr-4  2xl:text-base text-xs">
                             Corresponding Address : <br />
                             <span className="font-semibold 2xl:text-base text-sm poppins">
@@ -796,7 +797,7 @@ const ObjectionRectificationTable = (props) => {
                             )}
                           </div>
 
-                          <div className="col-span-3 my-1.5">
+                          <div className="col-span-6 sm:col-span-3 my-1.5">
                             <label
                               htmlFor=""
                               className="poppins  2xl:text-base text-xs"
@@ -818,7 +819,7 @@ const ObjectionRectificationTable = (props) => {
                                 : null}
                             </div>
                           </div>
-                          <div className="col-span-3 my-1.5">
+                          <div className="col-span-6 sm:col-span-3 my-1.5">
                             <label
                               htmlFor=""
                               className="poppins  2xl:text-base text-xs"
@@ -839,7 +840,7 @@ const ObjectionRectificationTable = (props) => {
                                 : null}
                             </div>
                           </div>
-                          <div className="col-span-3 my-1.5">
+                          <div className="col-span-6 sm:col-span-3 my-1.5">
                             <label
                               htmlFor=""
                               className="poppins  2xl:text-base text-xs"
@@ -860,7 +861,7 @@ const ObjectionRectificationTable = (props) => {
                                 : null}
                             </div>
                           </div>
-                          <div className="col-span-3 my-1.5">
+                          <div className="col-span-6 sm:col-span-3 my-1.5">
                             <label
                               htmlFor=""
                               className="poppins  2xl:text-base text-xs"
@@ -882,7 +883,7 @@ const ObjectionRectificationTable = (props) => {
                                 : null}
                             </div>
                           </div>
-                          <div className="col-span-3 my-1.5">
+                          <div className="col-span-6 sm:col-span-3 my-1.5">
                             <label
                               htmlFor=""
                               className="poppins  2xl:text-base text-xs"

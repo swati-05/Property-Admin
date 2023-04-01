@@ -320,16 +320,15 @@ function PropertyAddOwnerObjection(props) {
         }
     }
 
-  let commonInputStyle = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-max`;
-
+    let commonInputStyle = `form-control w-full px-3 text-xs 2xl:text-sm py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md w-full sm:w-max`;
     return (
         <>
         
         {loader && <BarLoader/>}
 
-        {!loader && <div className=" w-[70vw] h-[40vh]">
+        {!loader && <div className="w-full sm:w-[70vw] h-[40vh]">
 
-        <div className="shadow-md grid grid-cols-12 text-sm px-6 py-2 mt-2 my-2 mb-4 font-base poppins bg-zinc-50 rounded-sm mb-2">
+        <div className="shadow-md grid grid-cols-12 text-sm px-2 sm:px-6 py-2 mt-2 my-2 gap-y-2 font-base poppins bg-zinc-50 rounded-sm mb-2">
                         <div className="col-span-12 md:col-span-4 poppins 2xls:text-base md:text-sm text-xs">
                           Agreement Deed : 
                           <span className="font-semibold 2xls:text-base md:text-sm text-sm poppins">
@@ -476,7 +475,7 @@ function PropertyAddOwnerObjection(props) {
                     </form>
                 </div>
 
-                <div className={`${AddOwnerForm == 'translate-y-0 top-[200px]' ? 'hidden' : 'block'}   p-4 mt-2 w-full md:py-4 md:px-0 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto  overflow-x-hidden -mt-64`}>
+                <div className={`${AddOwnerForm == 'translate-y-0 top-[200px]' ? 'hidden' : 'block'}   p-4 mt-2  md:py-4 md:px-0 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto w-full overflow-x-scroll`}>
 
                     {ownerPreviewList?.length != 0 && <table className='w-full leading-normal mt-4 2xl:mt-0'>
                         <thead className='font-bold text-left text-sm bg-sky-50'>
@@ -521,7 +520,7 @@ function PropertyAddOwnerObjection(props) {
                         </tbody>
                     </table>}
                     <div>
-                        <div className=' mx-6 my-1 bg-red-50 text-red-400 px-2 py-2 rounded-sm shadow-lg opacity-80 2xl:mt-10 mt-5 2xl:text-sm text-sm'>
+                        <div className='sm:mx-6 my-1 bg-red-50 text-red-400 px-2 py-2 rounded-sm shadow-lg opacity-80 2xl:mt-10 mt-5 text-sm w-full'>
                             <AiFillInfoCircle className="inline mr-2" />
                             Click below <b>Add Owner</b> button to add saf owner of the property, You can add multiple owners by repeating the same method
                         </div>
@@ -531,7 +530,7 @@ function PropertyAddOwnerObjection(props) {
                 <div className={`${AddOwnerForm == 'translate-y-0 top-[200px]' ? 'hidden' : 'block'} p-4 mt-4 w-full md:py-4 md:w-full mx-auto  bottom-4 `}>
                     <div className="grid grid-cols-1 md:grid-cols-5 ">
                         <div className="col-span-5 grid grid-cols-3">
-                            <div className='2xl:px-10 px-5'>
+                            <div className='2xl:px-10 sm:px-5'>
                                 <button onClick={() => props.closePopUp()} type="button" className="px-3 py-1.5 2xl:px-6 2xl:py-2.5 cursor-pointer bg-blue-600 text-white font-medium text-xs  poppins rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Close</button>
                             </div>
                             <div className='md:px-4 text-center'>

@@ -28,6 +28,11 @@ code {
   background-clip: content-box;
 }
 
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
 @media print {
   body * {
     visibility: hidden;
