@@ -142,7 +142,7 @@ function App(props) {
 
   useEffect(() => {
     if (props.navOriginalCloseStatus == true) {
-      setBoxWidth({ width: "md:w-full", margin: "md:ml-16" });
+      setBoxWidth({ width: "md:w-full", margin: "md:px-6 md:mx-4" });
       console.log(boxWidth.width, " ", boxWidth.margin);
     } else {
       setBoxWidth({ width: "md:w-5/6", margin: "md:ml-60" });
@@ -215,7 +215,7 @@ function App(props) {
             {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}
           </Routes>
           <div
-            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll`}
+            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[20vh]`}
           >
             <TitleBar titleText={titleText} />
 
