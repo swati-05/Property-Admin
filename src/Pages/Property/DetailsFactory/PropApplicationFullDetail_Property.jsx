@@ -16,6 +16,7 @@ import BottomTabsCondition from './BottomTabsCondition'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 // import brief from '@/Components/Media/brief'
 // import home from '@/Components/Media/home'
@@ -118,7 +119,7 @@ function PropApplicationFullDetail_Property() {
                 <div className="col-span-12 rounded-lg p-4">
                     {/* <h1 className='px-2 font-semibold mt-0 text-center text-gray-600 font-serif py-2 xl md:text-3xl '>PROPERTY DETAILS</h1> */}
                     {/* <TopTabs id={id} safNo={applicationFullData?.saf_no} active="property" application={false} /> */}
-                    {applicationFullData?.status == 1 &&
+                    {applicationFullData?.active_status == 1 &&
                         <>
                             <TopTabs title={`Holding No. - ${applicationFullData?.new_holding_no == '' ? applicationFullData?.holding_no : applicationFullData?.new_holding_no} `} type="holding" id={id} safNo={''} active="property" />
                             <div className='mt-2 text-right'>
@@ -127,7 +128,7 @@ function PropApplicationFullDetail_Property() {
                         </>
                     }
                     {
-                        applicationFullData?.status == 0 &&
+                        applicationFullData?.active_status == 0 &&
                         <div className='pl-4'>
                             <span className='bg-red-500 text px-4 py-1 justify-center items-center font-semibold text-white shadow-xl'><FiInfo className="inline" /> This holding has been deactivated</span>
                         </div>
@@ -144,34 +145,35 @@ function PropApplicationFullDetail_Property() {
                             <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
                                 <div className="flex space-x-5 pl-4 ">
                                     <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                        <div className='font-bold text-sm'>{applicationFullData?.new_holding_no == '' ? nullToNA(applicationFullData?.holding_no) : nullToNA(applicationFullData?.new_holding_no)}</div>
+                                        <div className='text-gray-500 text-xs'>Holding no.</div>
+                                    </div>
+                                    <div className='flex-1'>
+                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.old_ward_no)}</div>
                                         <div className='text-gray-500 text-xs'>Old Ward No.</div>
                                     </div>
                                     <div className='flex-1'>
-                                        <div className='font-semibold text-lg'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                        <div className='font-semibold text-lg'>{nullToNA(applicationFullData?.old_ward_no)}</div>
                                         <div className='text-gray-500 text-xs'>New Ward No</div>
                                     </div>
                                     <div className='flex-1'>
-                                        <div className='font-semibold text-md'>{applicationFullData?.ownership_type ? applicationFullData?.ownership_type : "N/A"}</div>
+                                        <div className='font-semibold text-md'>{nullToNA(applicationFullData?.ownership_type)}</div>
                                         <div className='text-gray-500 text-xs'>Ownership Type</div>
                                     </div>
                                     <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.property_type ? applicationFullData?.property_type : "N/A"}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.property_type)}</div>
                                         <div className='text-gray-500 text-xs'>Property Type</div>
                                     </div>
-                                    <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.zone_mstr_id ? applicationFullData?.zone_mstr_id : "N/A"}</div>
-                                        <div className='text-gray-500 text-xs'>Zone</div>
-                                    </div>
+
                                 </div>
 
                                 {applicationFullData?.apartment_code && <div className="flex space-x-10  pl-4 mt-4">
                                     <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.apartment_name ? applicationFullData?.apartment_name : "N/A"} , {applicationFullData?.corr_state}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.apartment_name)} , {nullToNA(applicationFullData?.corr_state)}</div>
                                         <div className='text-gray-500 text-xs'>Apartment Name</div>
                                     </div>
                                     <div className='flex-1'>
-                                        <div className='font-bold text-sm'>{applicationFullData?.apartment_code ? applicationFullData?.apartment_code : "N/A"} , {applicationFullData?.corr_state}</div>
+                                        <div className='font-bold text-sm'>{nullToNA(applicationFullData?.apartment_code)} , {nullToNA(applicationFullData?.corr_state)}</div>
                                         <div className='text-gray-500 text-xs'>Apartment Code</div>
                                     </div>
                                     <div className='flex-1'>
@@ -196,30 +198,30 @@ function PropApplicationFullDetail_Property() {
                         <div className='py-6 mt-2 bg-white rounded-lg shadow-xl p-4'>
                             <div className="flex space-x-10 pl-4 ">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.khata_no ? applicationFullData?.khata_no : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
                                     <div className='text-gray-500 text-xs'>Khata No.</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.plot_no ? applicationFullData?.plot_no : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.plot_no)}</div>
                                     <div className='text-gray-500 text-xs'>Plot No</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.village_mauja_name ? applicationFullData?.village_mauja_name : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.village_mauja_name)}</div>
                                     <div className='text-gray-500 text-xs'>Village/Mauja Name</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.area_of_plot ? applicationFullData?.area_of_plot : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.area_of_plot)}</div>
                                     <div className='text-gray-500 text-xs'>Area of Plot(decimal)</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.road_type ? applicationFullData?.road_type : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.road_type)}</div>
                                     <div className='text-gray-500 text-xs'>Road Width(ft)</div>
                                 </div>
                             </div>
 
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.prop_address ? applicationFullData?.prop_address : "N/A"} , {applicationFullData?.prop_state}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.prop_address)} , {nullToNA(applicationFullData?.prop_state)}</div>
                                     <div className='text-gray-500 text-xs'>Property Address</div>
                                 </div>
                                 {/* <div className='flex-1'>
@@ -245,7 +247,7 @@ function PropApplicationFullDetail_Property() {
                             </div>
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.corr_address ? applicationFullData?.corr_address : "N/A"} , {applicationFullData?.corr_state}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.corr_address)} , {nullToNA(applicationFullData?.corr_state)}</div>
                                     <div className='text-gray-500 text-xs'>Corresponding Address</div>
                                 </div>
                             </div>
@@ -312,17 +314,17 @@ function PropApplicationFullDetail_Property() {
                                         {applicationFullData?.owners?.map((items) => (
                                             <tr className="bg-white shadow-xl border-b border-gray-200">
                                                 <td className="px-2 py-2 text-left text-gray-500 text-xs">#</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.owner_name ? items?.owner_name : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.gender ? items?.gender : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.dob ? items?.dob : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.guardian_name ? items?.guardian_name : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.relation_type ? items?.relation_type : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.mobile_no ? items?.mobile_no : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.aadhar_no ? items?.aadhar_no : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.pan_no ? items?.pan_no : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.email ? items?.email : "N/A"}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.is_armed_force == true ? 'yes' : 'No'}</td>
-                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{items?.is_specially_abled == true ? 'yes' : 'No'}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.owner_name)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.gender)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.dob)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.guardian_name)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.relation_type)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.mobile_no)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.aadhar_no)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.pan_no)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.email)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.is_armed_force)}</td>
+                                                <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.is_specially_abled)}</td>
 
                                             </tr>
                                         ))}
@@ -342,19 +344,19 @@ function PropApplicationFullDetail_Property() {
                         <div className='py-6  mt-2 bg-white shadow-xl rounded-lg p-4'>
                             <div className="flex space-x-10 pl-4 ">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.khata_no ? applicationFullData?.khata_no : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.khata_no)}</div>
                                     <div className='text-gray-500 text-xs'>Electricity K. No</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.elect_acc_no ? applicationFullData?.elect_acc_no : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.elect_acc_no)}</div>
                                     <div className='text-gray-500 text-xs'>ACC No.</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.elect_bind_book_no ? applicationFullData?.elect_bind_book_no : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.elect_bind_book_no)}</div>
                                     <div className='text-gray-500 text-xs'>BIND/BOOK No.</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.elect_cons_category ? applicationFullData?.elect_cons_category : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.elect_cons_category)}</div>
                                     <div className='text-gray-500 text-xs'>Electricity Consumer Category</div>
                                 </div>
                                 <div className='flex-1'>
@@ -369,11 +371,11 @@ function PropApplicationFullDetail_Property() {
                         <div className='py-6  mt-2 bg-white shadow-xl rounded-lg p-4'>
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.building_plan_approval_no ? applicationFullData?.building_plan_approval_no : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.building_plan_approval_no)}</div>
                                     <div className='text-gray-500 text-xs'>Building Plan Approval No.</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.building_plan_approval_date ? applicationFullData?.building_plan_approval_date : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.building_plan_approval_date)}</div>
                                     <div className='text-gray-500 text-xs'>Building Plan Approval Date</div>
                                 </div>
 
@@ -395,11 +397,11 @@ function PropApplicationFullDetail_Property() {
 
                             <div className="flex space-x-10  pl-4 mt-4">
                                 <div className='flex-1'>
-                                    <div className='font-semibold text-md'>{applicationFullData?.khata_no ? applicationFullData?.khata_no : "N/A"}</div>
+                                    <div className='font-semibold text-md'>{nullToNA(applicationFullData?.khata_no)}</div>
                                     <div className='text-gray-500 text-xs'>Water Consumer No.</div>
                                 </div>
                                 <div className='flex-1'>
-                                    <div className='font-bold text-sm'>{applicationFullData?.water_conn_date ? applicationFullData?.water_conn_date : "N/A"}</div>
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.water_conn_date)}</div>
                                     <div className='text-gray-500 text-xs'>Water Connection Date</div>
                                 </div>
                                 <div className='flex-1'>
@@ -438,99 +440,18 @@ function PropApplicationFullDetail_Property() {
                                 </thead>
                                 <tbody className="text-sm">
 
-                                    <>
-
+                                    {applicationFullData?.floors?.map((items, index) => (
                                         <tr className="bg-white shadow-xl border-b border-gray-200">
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">#</td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.floor_name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.usage_type}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.occupancy_type}</option>
-                                                        ))
-                                                    }
-                                                </select>
-
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.construction_type}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.builtup_area}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.date_from}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">
-                                                <select className="appearance-none form-control block w-full  py-1.5 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding  border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer "
-                                                    aria-describedby="emailHelp"  >
-
-                                                    {
-                                                        applicationFullData?.floors?.map((data) => (
-
-                                                            <option key={`floorName${data.id}`} value={data.id}>{data.date_upto}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{index + 1}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.floor_name)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.usage_type)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.occupancy_type)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.construction_type)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.builtup_area)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.date_from)}</td>
+                                            <td className="px-2 py-2 text-left text-gray-500 text-xs">{nullToNA(items?.date_upto)}</td>
                                         </tr>
-
-                                    </>
+                                    ))}
 
 
 
@@ -561,7 +482,8 @@ function PropApplicationFullDetail_Property() {
                                     <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                                 </div>
                                 <div className='flex-1'>
-
+                                    <div className='font-bold text-sm'>{nullToNA(applicationFullData?.zone_mstr_id)}</div>
+                                    <div className='text-gray-500 text-xs'>Zone</div>
                                 </div>
                             </div>
                         </div>

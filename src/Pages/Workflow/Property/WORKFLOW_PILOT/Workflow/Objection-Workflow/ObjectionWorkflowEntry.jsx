@@ -4,6 +4,7 @@ import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BackendUrl from '@/Components/ApiList/BackendUrl'
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 
 function ObjectionWorkflowEntry() {
 
@@ -93,80 +94,33 @@ function ObjectionWorkflowEntry() {
       {
         Header: "Ward No",
         accessor: "old_ward_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.old_ward_no)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "Holding No.",
-        accessor: "holding_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.holding_no)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "New Holding No.",
-        accessor: "new_holding_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.new_holding_no)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "Application No.",
-        accessor: "application_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.application_no)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "Applicant Name",
-        accessor: "applicant_name",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.applicant_name)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "Property Type",
-        accessor: "property_type",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
 
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
       },
       {
         Header: "Objection Type",

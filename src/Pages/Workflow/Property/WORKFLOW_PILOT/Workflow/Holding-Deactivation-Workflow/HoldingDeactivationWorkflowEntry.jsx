@@ -4,6 +4,7 @@ import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BackendUrl from '@/Components/ApiList/BackendUrl'
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 
 function HoldingDeactivationWorkflowEntry() {
 
@@ -87,21 +88,23 @@ function HoldingDeactivationWorkflowEntry() {
 
       {
         Header: "Owner's Name",
-        accessor: "owner_name",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.owner_name)}</span>)
+
       },
       {
         Header: "Guardian Name",
-        accessor: "guardian_name",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.guardian_name)}</span>)
+
       },
       {
         Header: "Holding No.",
-        Cell: ({ cell }) => (
-          <span>{cell.row.original.new_holding_no == '' ? cell.row.original.holding_no : cell.row.original.new_holding_no}</span>
-        ),
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.new_holding_no)}</span>)
+
       },
       {
         Header: "Mobile No.",
-        accessor: "mobile_no",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.mobile_no)}</span>)
+
       },
 
     ],

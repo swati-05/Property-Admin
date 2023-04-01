@@ -15,6 +15,7 @@ import Modal from 'react-modal'
 import { FiInfo } from 'react-icons/fi'
 import { ImCross } from 'react-icons/im'
 import BackendUrl from '@/Components/ApiList/BackendUrl';
+import BarLoader from '@/Components/Common/BarLoader';
 
 const customStyles = {
     content: {
@@ -43,6 +44,7 @@ function PilotWorkflowDocumentVerifyRow(props) {
     const [docRemarks, setdocRemarks] = useState('')
     const [index, setindex] = useState()
     const [docUrl, setdocUrl] = useState()
+    const [isloading, setisloading] = useState(false)
 
     const verifyDocumentNotification = (type) => {
         { (type == 'Verified') && notify('Document Verified Successfully!', 'success') }
@@ -76,6 +78,7 @@ function PilotWorkflowDocumentVerifyRow(props) {
     }
 
     const submitData = () => {
+        setisloading(true)
         console.log("submitting verification with values => ", docStatus, "and", docRemarks, "and", index)
         // return
         let requestBody = {
@@ -96,16 +99,21 @@ function PilotWorkflowDocumentVerifyRow(props) {
                 } else {
                     notify('Something went wrongg!', 'error')
                 }
+                setisloading(false)
 
             })
             .catch((err) => {
                 console.log("error submitting status => ", err)
+                setisloading(false)
                 notify('Something went wrongg!', 'error')
             })
     }
 
     return (
         <>
+            {
+                isloading && <BarLoader />
+            }
             <tr>
 
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
@@ -122,22 +130,22 @@ function PilotWorkflowDocumentVerifyRow(props) {
 
                     <div className="flex items-center">
                         {props?.docList?.doc_path?.split('.')[1] == 'pdf' &&
-                            <div className="flex-shrink-0 text-[28px]">
+                            <div className="flex-shrink-0 text-[28px] border border-indigo-400 shadow-xl">
                                 <FcDocument />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'jpg' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-400 shadow-xl p-1">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'jpeg' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-400 shadow-xl p-1">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'png' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-400 shadow-xl p-1">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }

@@ -4,6 +4,7 @@ import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BackendUrl from '@/Components/ApiList/BackendUrl'
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 
 function ConcessionWorkflowEntry() {
 
@@ -91,68 +92,23 @@ function ConcessionWorkflowEntry() {
       },
       {
         Header: "Ward No",
-        accessor: "ward_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
-
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.ward_no)}</span>)
       },
       {
         Header: "Application No.",
-        accessor: "application_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
-
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.application_no)}</span>)
       },
       {
         Header: "Holding No.",
-        accessor: "holding_no",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
-
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.holding_no)}</span>)
       },
       {
         Header: "Owner Name",
-        accessor: "owner_name",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
-
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.owner_name)}</span>)
       },
       {
         Header: "Property Type",
-        accessor: "property_type",
-        Cell: (props) => {
-          if (props?.value == null || props?.value == '') {
-            return <div className="w-full flex flex-row items-center"><i className="font-semibold ">N/A</i></div>
-          }
-
-          if (props?.value != null) {
-            return props?.value
-          }
-        },
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
       },
     ],
     // ADD CUSTOM TAB HERE eg: - 

@@ -351,7 +351,7 @@ function PilotWorkflowDocumentUpload(props) {
 
       {loader && (
         <div className="inline">
-         <BarLoader/>
+          <BarLoader />
         </div>
       )}
 
@@ -796,7 +796,7 @@ function PilotWorkflowDocumentUpload(props) {
                               {(doc?.uploadedDoc?.verifyStatus != 1) && <>
                                 <div className="">
                                   <input
-                                    accept=".pdf,.jpg,.jpeg"
+                                    accept={index == 0 ? '.png,.jpg,.jpeg' : '.pdf,.png,.jpg,.jpeg'}
                                     type="file"
                                     // name={doc?.docVal[0]?.doc_name}
                                     onChange={handleChange}

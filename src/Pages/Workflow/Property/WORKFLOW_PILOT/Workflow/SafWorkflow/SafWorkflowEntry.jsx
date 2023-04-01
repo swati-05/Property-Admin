@@ -4,6 +4,7 @@ import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import CustomErrorBoundary from '@/Components/Common/CustomErrorBoundary'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BackendUrl from '@/Components/ApiList/BackendUrl'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 function SafWorkflowEntry() {
 
@@ -92,19 +93,19 @@ function SafWorkflowEntry() {
       },
       {
         Header: "Ward No",
-        accessor: "ward_no",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.ward_no)}</span>)
       },
       {
         Header: "Saf No.",
-        accessor: "saf_no",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.saf_no)}</span>)
       },
       {
         Header: "Owner Name",
-        accessor: "owner_name",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.owner_name)}</span>)
       },
       {
         Header: "Property Type",
-        accessor: "property_type",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
       },
       {
         Header: "Assessment Type",

@@ -55,6 +55,8 @@ function PilotWorkflowActions(props) {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const [isResolved, setIsResolved] = useState(false);
+  const [currentModalText, setcurrentModalText] = useState(null);
+  const [currentModalFunction, setcurrentModalFunction] = useState(null);
 
   let prResponse // GLOBAL PROMISE FUNCTION VARIABLE
 
@@ -69,6 +71,19 @@ function PilotWorkflowActions(props) {
   );
 
   const header = ApiHeader()
+
+  const openMultiModal = (text, functionName) => {
+    setcurrentModalText(text)
+    setcurrentModalFunction(functionName)
+    setIsOpen(true)
+
+  }
+  const closeMultiModal = () => {
+    setcurrentModalText(null)
+    setcurrentModalFunction(null)
+    setIsOpen(false)
+
+  }
 
   //{////********recording comment here*******//////}
   const commentFun = (commentText) => {
@@ -197,36 +212,8 @@ function PilotWorkflowActions(props) {
 
   //{////********toggle escalate function*******//////}
   const escalateAction = async (status) => {
+    closeMultiModal()
     setisLoading(true)
-
-    // const promise = new Promise((resolve, reject) => {
-    //   prResponse = resolve
-    // });
-    // console.log('prrrr..',prResponse)
-    // setIsOpen(true)
-    // console.log('before await')
-    // const res = await promise;
-    // if (res == 'reject') {
-    //   console.log('promise rejected, going outside')
-    //   return
-    // }
-
-    // console.log('after promise call')
-
-    // return
-
-    // CALL MODAL AND THEN PROCEED OF RETURN IF TRUE OR FALSE VALUE
-    // myPromise
-    // .then((res) => {
-    //   console.log(res);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
-
-    // console.log('after promise')
-
-    // return
 
     let escalateStatus;
     //setting escalate status via checkbox
@@ -283,6 +270,14 @@ function PilotWorkflowActions(props) {
   const swithEscalateStatus = (status) => {
     setescalateStatus(status); //setting the escalateStatus to show escalate view
     escalateAction(status);
+    // let modalText
+    // if (status) {
+    //   modalText = 'Do you want to Escalte this application ?'
+    // } else {
+    //   modalText = 'Do you want to De-Escalte this application ?'
+
+    // }
+    // openMultiModal(modalText, 'escalation')
   };
 
   //{////********sending back to citizen*******//////}
@@ -649,13 +644,13 @@ function PilotWorkflowActions(props) {
       >
 
         <div class="relative bg-white rounded-lg shadow-xl border-2 border-gray-50">
-          <button onClick={() => prResponse('reject')} type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
+          <button onClick={closeMultiModal} type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
             <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
           </button>
           <div class="p-6 text-center">
             <div className='w-full flex h-10'> <span className='mx-auto'><FiAlertCircle size={30} /></span></div>
-            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to logout ?</h3>
-            <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={() => prResponse('resolve')}>
+            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{currentModalText}</h3>
+            <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={''}>
               Yes, I'm sure
             </button>
 

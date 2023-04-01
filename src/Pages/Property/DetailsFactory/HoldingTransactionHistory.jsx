@@ -15,6 +15,7 @@ import useSetTitle from '@/Components/GlobalData/useSetTitle';
 import BrandLoader from '@/Components/Common/BrandLoader';
 import CommonModal from '@/Components/GlobalData/CommonModal';
 import ServerErrorCard from '@/Components/Common/ServerErrorCard';
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
 
 
 
@@ -203,52 +204,55 @@ function HoldingTransactionHistory(props) {
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
                 {transactionRules?.transactionInfo.title != '' && <div className='px-1 font-semibold font-serif text-2xl '>{transactionRules?.transactionInfo?.title}</div>}
                 {/* <div className='text-xs opacity-60'>(select ward above to get collection in specific ward)</div> */}
-                <TopTabs title={`Holding No. - ${applicationFullData?.holding_no || ''} `} type="holding" id={id} safNo={''} active="payment" />
+                <TopTabs title={`Payment Hisotry`} type="holding" id={id} safNo={''} active="payment" />
                 <div className=''>
                     <div className='py-6 mt-2 bg-white rounded-lg shadow-lg p-4'>
                         <div className="flex space-x-5 pl-4 ">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.holding_no) }</div>
+                                <div className='text-gray-500 text-xs'>Holding No.</div>
+                            </div>
+                            <div className='flex-1'>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.old_ward_no) }</div>
                                 <div className='text-gray-500 text-xs'>Ward No.</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                <div className='font-semibold text-lg'>{nullToNA(applicationFullData?.old_ward_no)}</div>
                                 <div className='text-gray-500 text-xs'>New Ward No</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.ownership_type ? applicationFullData?.ownership_type : "N/A"}</div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.ownership_type) }</div>
                                 <div className='text-gray-500 text-xs'>Ownership Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.property_type ? applicationFullData?.property_type : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.property_type)}</div>
                                 <div className='text-gray-500 text-xs'>Property Type</div>
                             </div>
-                            <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.zone_mstr_id ? applicationFullData?.zone_mstr_id : "N/A"}</div>
-                                <div className='text-gray-500 text-xs'>Zone</div>
-                            </div>
+                           
                         </div>
 
                         <div className="flex space-x-10  pl-4 mt-4">
+                        <div className='flex-1'>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.zone_mstr_id)}</div>
+                                <div className='text-gray-500 text-xs'>Zone</div>
+                            </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower ? applicationFullData?.is_mobile_tower : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.is_mobile_tower) }</div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board ? applicationFullData?.is_hoarding_board : "N/A"} </div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.is_hoarding_board)} </div>
                                 <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump ? applicationFullData?.is_petrol_pump : "N/A"}</div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.is_petrol_pump) }</div>
                                 <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting ? applicationFullData?.is_water_harvesting : "N/A"}</div>
+                                <div className='font-bold text-sm' >{nullToNA(applicationFullData?.is_water_harvesting) }</div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
-                            <div className='flex-1'>
-
-                            </div>
+                           
                         </div>
                     </div>
 
@@ -284,12 +288,12 @@ function HoldingTransactionHistory(props) {
                                 {readyMadeListData?.Holding?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_no}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.payment_mode}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_date}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.to_qtr}/{data?.to_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>
@@ -300,14 +304,14 @@ function HoldingTransactionHistory(props) {
                                 {readyMadeListData?.Saf?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_no}
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}
                                             <span className='bg-indigo-500 text-white text-xs px-2 rounded-sm ml-2'>SAF</span>
                                         </td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.payment_mode}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_date}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.to_qtr}/{data?.to_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/saf`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>

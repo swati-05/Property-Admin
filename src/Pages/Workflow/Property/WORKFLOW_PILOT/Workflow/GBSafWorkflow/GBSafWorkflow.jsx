@@ -5,6 +5,7 @@ import CustomErrorBoundary from '@/Components/Common/CustomErrorBoundary'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BackendUrl from '@/Components/ApiList/BackendUrl'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 
 function GBSafWorkflow() {
 
@@ -96,19 +97,23 @@ function GBSafWorkflow() {
       },
       {
         Header: "Ward No",
-        accessor: "ward_no",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.ward_no)}</span>)
+
       },
       {
         Header: "Saf No.",
-        accessor: "saf_no",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.saf_no)}</span>)
+
       },
       {
         Header: "Officer Name",
-        accessor: "officer_name",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.officer_name)}</span>)
+
       },
       {
         Header: "Building Type",
-        accessor: "building_type",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.building_type)}</span>)
+
       },
       {
         Header: "Assessment Type",

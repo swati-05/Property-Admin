@@ -84,7 +84,7 @@ function PilotWorkflowInboxList(props) {
       )}
 
       {readymadeListStatus && readymadeListData?.length != 0 &&
-        <ListTable assessmentType={false} columns={columnSchema} dataList={readymadeListData} />
+        <ListTable exportStatus={false} assessmentType={false} columns={columnSchema} dataList={readymadeListData} />
       }
       {
         readymadeListStatus && readymadeListData?.length == 0 &&

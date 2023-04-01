@@ -153,6 +153,15 @@ function SearchIndex() {
       accessor: "prop_address",
     },
     {
+      Header: "Status",
+      Cell: ({ cell }) => (
+        <div>
+          {cell.row.original.active_status === 1 && <span className="text-green-400 font-semibold">Active</span>}
+          {cell.row.original.active_status === 0 && <span className="text-red-400 font-semibold">Disabled</span>}
+        </div>
+      ),
+    },
+    {
       Header: "Action",
       accessor: "id",
       Cell: ({ cell }) => (
