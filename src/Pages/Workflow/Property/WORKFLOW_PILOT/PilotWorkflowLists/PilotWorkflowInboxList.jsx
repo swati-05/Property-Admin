@@ -11,11 +11,14 @@ import axios from "axios";
 import ListTable from "@/Components/Common/ListTable/ListTable";
 import BarLoader from "@/Components/Common/BarLoader";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 function PilotWorkflowInboxList(props) {
   const [readymadeListData, setreadymadeListData] = useState(false);
   const [readymadeListStatus, setreadymadeListStatus] = useState(false);
   const [isLoading, setisLoading] = useState(false);
+  const [erroState, seterroState] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   let columnSchema = [...props?.COLUMNS]
   columnSchema = [
@@ -47,13 +50,19 @@ function PilotWorkflowInboxList(props) {
     if (props?.api?.method == 'post') {
       axios[props?.api?.method](props?.api?.url, {}, ApiHeader())
         .then((res) => {
-          console.log('inbox list response...',res?.data)
-          setreadymadeListData(res.data?.data)
-          setreadymadeListStatus(true)
+          console.log('inbox list response...', res?.data)
+          if (res?.data?.status) {
+            setreadymadeListData(res?.data?.data)
+            setreadymadeListStatus(true)
+          } else {
+            activateBottomErrorCard(true)
+            setreadymadeListStatus(false)
+          }
           setisLoading(false)
         })
         .catch((err) => {
           console.log("Error while fetching Filter Data", err)
+          activateBottomErrorCard(true)
           setreadymadeListStatus(false)
           setisLoading(false)
 
@@ -62,11 +71,17 @@ function PilotWorkflowInboxList(props) {
       axios[props?.api?.method](props?.api?.url, ApiHeader())
         .then((res) => {
           console.log('inbox list response...')
-          setreadymadeListData(res.data?.data)
-          setreadymadeListStatus(true)
+          if (res?.data?.status) {
+            setreadymadeListData(res?.data?.data)
+            setreadymadeListStatus(true)
+          } else {
+            activateBottomErrorCard(true)
+            setreadymadeListStatus(false)
+          }
           setisLoading(false)
         })
         .catch((err) => {
+          activateBottomErrorCard(true)
           console.log("Error while fetching Filter Data", err)
           setreadymadeListStatus(false)
           setisLoading(false)
@@ -75,6 +90,11 @@ function PilotWorkflowInboxList(props) {
     }
   }
 
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
 
 
   return (
@@ -82,6 +102,14 @@ function PilotWorkflowInboxList(props) {
       {isLoading && (
         <BarLoader />
       )}
+      {erroState &&
+        <div className="bg-red-100 border border-red-400 text-red-700 pl-4 pr-16 py-3 rounded relative text-center" role="alert">
+          <strong className="font-bold">Sorry! </strong>
+          <span className="block sm:inline">Some error occured while fetching list. Please try again later</span>
+          <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+          </span>
+        </div>
+      }
 
       {readymadeListStatus && readymadeListData?.length != 0 &&
         <ListTable exportStatus={false} assessmentType={false} columns={columnSchema} dataList={readymadeListData} />

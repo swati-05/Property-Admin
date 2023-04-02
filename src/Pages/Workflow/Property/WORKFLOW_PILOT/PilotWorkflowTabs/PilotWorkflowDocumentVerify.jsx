@@ -1,10 +1,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
-//    Author - R U Bharti
+//    Author - Talib Hussain
 //    Version - 1.0
-//    Date - 26th Nov, 2022
+//    Date - 14 july 2022
 //    Revision - 1
 //    Project - JUIDCO
-/////////////////////////////////////////////////////////////////////////////////////////////
+//    Component  - PropertySafWorkflowTimeline (closed)
+//    DESCRIPTION - PropertySafWorkflowTimeline Component
+//      
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 import React, { useEffect, useState } from 'react'
@@ -104,10 +107,13 @@ function PilotWorkflowDocumentVerify(props) {
                                             Document Name
                                         </th>
                                         <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm capitalize">
-                                            View
+                                            View/Verify
                                         </th>
                                         <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm capitalize">
                                             Status
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm capitalize">
+                                            Remarks
                                         </th>
                                         {/* <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm capitalize">
                                             Actions
@@ -120,7 +126,7 @@ function PilotWorkflowDocumentVerify(props) {
 
                                     {
                                         docList?.map((data, index) => (
-                                            <PropertySafDocumentVerifyRow api={props?.api} openModal={modalAction} id={props?.id} docList={data} index={index} refresh={() => setrefresh(refresh + 1)} />
+                                            <PropertySafDocumentVerifyRow activateBottomErrorCard={props?.activateBottomErrorCard} api={props?.api} openModal={modalAction} id={props?.id} docList={data} index={index} refresh={() => setrefresh(refresh + 1)} />
                                         ))
                                     }
 

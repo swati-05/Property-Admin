@@ -198,6 +198,8 @@ function App(props) {
   // return(
   //   <Login/>
   // )
+
+  console.log('hell mr app.js')
   return (
     <>
       {/* passing context data to all component enclosed */}
@@ -208,6 +210,7 @@ function App(props) {
           <ToastContainer position="top-right" autoClose={2000} />
           <Header />
           <Sidebar menuFetchStatus={menuFetchStatus} />
+          
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
@@ -219,7 +222,7 @@ function App(props) {
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[20vh]`}
           >
             <TitleBar titleText={titleText} />
-
+           
             <Routes>
               <Route path="/change-password/:type" element={<Login />} />
               <Route path="/home" element={<LandingHomeDashBoard />} />

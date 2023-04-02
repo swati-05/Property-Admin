@@ -6,6 +6,7 @@
 //    Project - JUIDCO
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 import React from 'react'
 import { GrHomeRounded } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
@@ -25,13 +26,13 @@ function PilotWorkflowDataCard(props) {
                         <div className="w-full md:w-3/12 md:mx-2 shadow-xl flex justify-center items-center ">
                             <div className="bg-white items-center my-auto ">
                                 <div className="image overflow-hidden text-center">
-                                    <div className='text-indigo-600 font-bold text-2xl leading-8'>{props?.applicationData?.data?.application_no}</div>
+                                    <div className='text-indigo-600 font-bold text-2xl leading-8'>{nullToNA(props?.applicationData?.data?.application_no)}</div>
                                     {/* <div className='text-indigo-600 font-bold text-2xl leading-8'>{props?.applicationData?.data?.application_no}({props?.id})</div> */}
                                     {/* <div className='text-indigo-600 font-bold text-2xl leading-8'>{props?.applicationData?.data?.applicationNo}</div> */}
                                     <div className='text-sm text-gray-600'>Application No.</div>
                                 </div>
                                 <div className="image overflow-hidden text-center mt-10">
-                                    <div className='text-gray-900 font-bold text-lg leading-8'>{props?.applicationData?.data?.apply_date}</div>
+                                    <div className='text-gray-900 font-bold text-lg leading-8'>{nullToNA(props?.applicationData?.data?.apply_date)}</div>
                                     <div className='text-sm text-gray-600'>Apply Date</div>
                                 </div>
                             </div>
@@ -43,7 +44,7 @@ function PilotWorkflowDataCard(props) {
                                     <span clas="text-green-500">
                                         <GrHomeRounded />
                                     </span>
-                                    <span className="tracking-wide">{props?.applicationData?.data?.fullDetailsData?.cardArray?.headerTitle}</span>
+                                    <span className="tracking-wide">{nullToNA(props?.applicationData?.data?.fullDetailsData?.cardArray?.headerTitle)}</span>
                                     {props?.applicationData?.data?.parked == true && <span className='float-right text-right text-red-600 px-4  border border-red-500 rounded-lg'>Back to Citizen Case</span>}
                                 </div>
 
@@ -54,8 +55,8 @@ function PilotWorkflowDataCard(props) {
                                         {
                                             props?.applicationData?.data?.fullDetailsData?.cardArray?.data?.map((data) => (
                                                 <div className="grid grid-cols-2">
-                                                    <div className="px-4 py-2 font-semibold">{data?.displayString} : </div>
-                                                    <div className="px-4 py-2">{data?.value}</div>
+                                                    <div className="px-4 py-2 font-semibold">{nullToNA(data?.displayString)} : </div>
+                                                    <div className="px-4 py-2">{nullToNA(data?.value)}</div>
                                                 </div>
                                             ))
                                         }

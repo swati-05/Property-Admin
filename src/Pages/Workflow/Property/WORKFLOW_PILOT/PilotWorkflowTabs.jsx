@@ -31,6 +31,8 @@ import apiList from "@/Components/ApiList/PropertyApiList";
 import PilotWorkflowFullDetailsTab from "./PilotWorkflowTabs/PilotWorkflowFullDetailsTab";
 import CustomErrorBoundary from "@/Components/Common/CustomErrorBoundary";
 import BarLoader from "@/Components/Common/BarLoader";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
+import { ErrorMessage } from "formik";
 
 const customStyles = {
   content: {
@@ -101,6 +103,8 @@ export default function PilotWorkflowTabs(props) {
   const [allDocumentUploadStatus, setallDocumentUploadStatus] = useState()
   const [allDocumentVerifyStatus, setallDocumentVerifyStatus] = useState()
   const [activeTab, setactiveTab] = useState(0)
+  const [erroState, seterroState] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
 
 
@@ -221,9 +225,18 @@ export default function PilotWorkflowTabs(props) {
   const changeTabFun = (index) => {
     setactiveTab(index)
   }
+
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
   console.log('permission at workflow tabssss...', props?.workflowInfo)
   return (
     <>
+
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
+
       {/* <div>current role...{applicationData?.data?.current_role}</div> */}
       {isLoading && (
         <BarLoader />
@@ -375,25 +388,26 @@ export default function PilotWorkflowTabs(props) {
                   setrefresh={setrefresh}
                   refresh={refresh}
                   fun={props?.fun}
+                  activateBottomErrorCard={activateBottomErrorCard}
                 />
               </CustomErrorBoundary>
 
             }
             {activeTab == 3 && props?.workflowInfo?.permissions?.can_upload_document == true && props?.boxType == 'inbox' &&
               <CustomErrorBoundary errorMsg="Bug in PilotWorkflowDocumentUpload" >
-                <PilotWorkflowDocumentUpload allDocumentUploadStatus={allDocumentUploadStatus}  setallDocumentUploadStatus={setallDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} applicationData={applicationData} applicationData2={applicationData2} refresh={() => setrefresh(refresh + 1)} />
+                <PilotWorkflowDocumentUpload allDocumentUploadStatus={allDocumentUploadStatus} setallDocumentUploadStatus={setallDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} applicationData={applicationData} applicationData2={applicationData2} refresh={() => setrefresh(refresh + 1)} activateBottomErrorCard={activateBottomErrorCard} />
               </CustomErrorBoundary>
 
             }
             {activeTab == 4 && props?.workflowInfo?.permissions?.can_verify_document == true && props?.boxType == 'inbox' &&
               <CustomErrorBoundary errorMsg="Bug in PilotWorkflowDocumentVerify" >
-                <PilotWorkflowDocumentVerify allDocumentUploadStatus={allDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} setallDocumentVerifyStatus={setallDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} />
+                <PilotWorkflowDocumentVerify allDocumentUploadStatus={allDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} setallDocumentVerifyStatus={setallDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} activateBottomErrorCard={activateBottomErrorCard} />
               </CustomErrorBoundary>
 
             }
             {activeTab == 5 && props?.workflowInfo?.permissions?.allow_free_communication == true &&
               <CustomErrorBoundary errorMsg="Bug in PilotWorkflowDepartmentalCommunication" >
-                <PilotWorkflowDepartmentalCommunication workflow={props?.workflow} permissions={props?.workflowInfo?.permissions} applicationData={applicationData} departmentalPost={applicationData?.data?.departmentalPost} api={props?.api} id={applicationId} roleId={roleId} />
+                <PilotWorkflowDepartmentalCommunication workflow={props?.workflow} permissions={props?.workflowInfo?.permissions} applicationData={applicationData} departmentalPost={applicationData?.data?.departmentalPost} api={props?.api} id={applicationId} roleId={roleId} activateBottomErrorCard={activateBottomErrorCard} />
               </CustomErrorBoundary>
 
 

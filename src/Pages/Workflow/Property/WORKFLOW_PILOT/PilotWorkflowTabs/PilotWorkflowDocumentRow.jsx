@@ -57,6 +57,7 @@ function PilotWorkflowDocumentRow(props) {
                     {
                         props?.docList?.doc_code == 'PHOTOGRAPH' &&
                         <p className="whitespace-no-wrap">
+                            NA
                         </p>
                     }
                     {

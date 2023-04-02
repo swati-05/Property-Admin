@@ -1,10 +1,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
-//    Author - R U Bharti
+//    Author - Talib Hussain
 //    Version - 1.0
-//    Date - 26th Nov, 2022
+//    Date - 14 july 2022
 //    Revision - 1
 //    Project - JUIDCO
-/////////////////////////////////////////////////////////////////////////////////////////////
+//    Component  - PropertySafWorkflowTimeline (closed)
+//    DESCRIPTION - PropertySafWorkflowTimeline Component
+//      
+//////////////////////////////////////////////////////////////////////////////////////
 import { useState } from "react";
 import Modal from "react-modal";
 import dummy from "./dummy.pdf";
@@ -29,7 +32,6 @@ import moment from "moment/moment";
 import { ImCross } from 'react-icons/im'
 import BarLoader from "@/Components/Common/BarLoader";
 import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
-import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 const customStyles = {
   content: {
@@ -56,6 +58,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
   const [refresh, setrefresh] = useState(0);
   const [role, setrole] = useState('')
 
+
   console.log('app data...', props?.applicationData)
   console.log('dynamic custom form....', props?.applicationData?.data?.timelineData?.customFor)
 
@@ -72,6 +75,10 @@ function PilotWorkflowDepartmentalCommunication(props) {
         "and id is => ",
         props?.id
       );
+      if(values.remarks==''){
+        toast.error('Please write some comment')
+        return
+      }
       submitFun(values);
     },
   });
@@ -98,16 +105,16 @@ function PilotWorkflowDepartmentalCommunication(props) {
           if (res?.data?.status) {
             setrefresh(refresh + 1);
             setview(true);
-            setloader(false);
-            toast.success("Submitted Successfully...");
+            toast.success("Message Submitted Successfully...");
             formik.resetForm()
           } else {
-            toast.error("Something went wrong !!");
+            props?.activateBottomErrorCard(true, 'Some error occured while saving message. Please try again later.')
           }
-
+          setloader(false);
         })
         .catch((err) => {
           console.log("ERror submission => ", err);
+          props?.activateBottomErrorCard(true, 'Some error occured while saving message. Please try again later.')
           setloader(false);
         });
     }
@@ -127,6 +134,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
   }, []);
 
   useEffect(() => {
+
 
     console.log("role id => ", props?.roleId)
 
@@ -207,10 +215,10 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
   return (
     <>
-    <BottomErrorCard errorTitle='Something happened'/>
+
       {/* <PropertyDaDetailsCard applicationData={applicationData} /> */}
 
-      <div className="container mx-auto  max-w-3xl ml-0  px-1 py-1 shadow-lg rounded-lg w-full">
+      <div className="container mx-auto ml-0  px-1 py-1 shadow-lg rounded-lg w-full">
         {loader && (
           <div className="inline">
             <BarLoader />
@@ -250,11 +258,11 @@ function PilotWorkflowDepartmentalCommunication(props) {
                 <>
                   {elem?.type == "text" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[70%]   justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
                         <time>Date : <span className="font-semibold"> {funDate(elem?.date)}</span></time>
-                        <p>Remarks : <span className="font-semibold">{nullToNA(elem?.remarks)}</span> </p>
+                        <div>Remarks : <span className="font-semibold">{nullToNA(elem?.remarks)}</span> </div>
                         <span className="circle" />
                       </div>
                     </div>
@@ -262,7 +270,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
                   {elem?.type == "file" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[70%]   justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
                         <time>Date : <span className="font-semibold"> {nullToNA(elem?.date)}</span></time>
@@ -279,7 +287,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
                   {elem?.type == "both" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[70%]   justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
                         <time>Date : <span className="font-semibold"> {nullToNA(elem?.date)}</span></time>

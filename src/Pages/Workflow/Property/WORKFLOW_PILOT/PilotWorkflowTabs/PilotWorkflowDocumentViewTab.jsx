@@ -42,11 +42,16 @@ function PropertySafDocumentView(props) {
       axios[props?.api?.api_documentList?.method](props?.api?.api_documentList?.url ,requestBody, ApiHeader())
       .then((res) => {
         console.log("document list at pilotworkflowdocumentview ", res)
-        setDocList(res?.data?.data)
+        if(res?.data?.status){
+            setDocList(res?.data?.data)
+        }else{
+            props?.activateBottomErrorCard(true, 'Some error occured while fetching document list. Please try again later')
+        }
         setloader(false)
       })
       .catch((err) => {
         console.log("error at pilotworkflowdocumentview ", err)
+        props?.activateBottomErrorCard(true, 'Some error occured while fetching document list. Please try again later')
         setloader(false)
       })
 
@@ -127,6 +132,8 @@ function PropertySafDocumentView(props) {
                 </div>
 
             </Modal>
+
+            <div className='w-full mt-20'></div>
         </>
     )
 }

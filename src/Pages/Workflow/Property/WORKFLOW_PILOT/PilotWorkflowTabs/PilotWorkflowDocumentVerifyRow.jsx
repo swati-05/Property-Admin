@@ -1,10 +1,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
-//    Author - R U Bharti
+//    Author - Talib Hussain
 //    Version - 1.0
-//    Date - 26th Nov, 2022
+//    Date - 14 july 2022
 //    Revision - 1
 //    Project - JUIDCO
-/////////////////////////////////////////////////////////////////////////////////////////////
+//    Component  - PropertySafWorkflowTimeline (closed)
+//    DESCRIPTION - PropertySafWorkflowTimeline Component
+//      
+//////////////////////////////////////////////////////////////////////////////////////
 
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
@@ -16,6 +19,7 @@ import { FiInfo } from 'react-icons/fi'
 import { ImCross } from 'react-icons/im'
 import BackendUrl from '@/Components/ApiList/BackendUrl';
 import BarLoader from '@/Components/Common/BarLoader';
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions';
 
 const customStyles = {
     content: {
@@ -78,6 +82,10 @@ function PilotWorkflowDocumentVerifyRow(props) {
     }
 
     const submitData = () => {
+        if (docRemarks == '') {
+            notify('Please enter comment.','error')
+            return
+        }
         setisloading(true)
         console.log("submitting verification with values => ", docStatus, "and", docRemarks, "and", index)
         // return
@@ -97,15 +105,17 @@ function PilotWorkflowDocumentVerifyRow(props) {
                     verifyDocumentNotification(docStatus)
                     props.refresh()
                 } else {
-                    notify('Something went wrongg!', 'error')
+                    props?.activateBottomErrorCard(true, 'Some error occured while verifying document. Please try again later')
                 }
+                setdocRemarks('')
                 setisloading(false)
 
             })
             .catch((err) => {
                 console.log("error submitting status => ", err)
+                setdocRemarks('')
                 setisloading(false)
-                notify('Something went wrongg!', 'error')
+                props?.activateBottomErrorCard(true, 'Some error occured while verifying document. Please try again later')
             })
     }
 
@@ -123,7 +133,7 @@ function PilotWorkflowDocumentVerifyRow(props) {
                 </td>
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
                     <p className="text-gray-900 whitespace-no-wrap">
-                        {props?.docList?.doc_code}
+                        {nullToNA(props?.docList?.doc_code)}
                     </p>
                 </td>
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm cursor-pointer" onClick={() => modalFun(`${base_url}/${props?.docList?.doc_path}`)}>
@@ -157,6 +167,7 @@ function PilotWorkflowDocumentVerifyRow(props) {
                     {
                         props?.docList?.doc_code == 'PHOTOGRAPH' &&
                         <p className="whitespace-no-wrap">
+                            NA
                         </p>
                     }
                     {
@@ -175,6 +186,11 @@ function PilotWorkflowDocumentVerifyRow(props) {
 
 
 
+                </td>
+                <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
+                    <p className="text-gray-900 whitespace-no-wrap">
+                        {nullToNA(props?.docList?.remarks)}
+                    </p>
                 </td>
                 {/* <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
                     {props?.docList?.verify_status == 0 && <div className="flex gap-4">
@@ -209,7 +225,7 @@ function PilotWorkflowDocumentVerifyRow(props) {
                     </div>
                     <div className='flex flex-col flex-wrap gap-1 justify-center w-full px-4'>
                         <span className='text-sm font-semibold'>Comment :</span>
-                        <textarea type="text" name="docRemarks" id="" className="form-control block px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md text-xs" placeholder='Enter your comments here...' rows={2} onChange={(e) => setdocRemarks(e.target.value)} />
+                        <textarea type="text" name="docRemarks" id="" className="form-control block px-3 py-1.5 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md text-xs" placeholder='Enter your comments here...' rows={2} onChange={(e) => setdocRemarks(e.target.value)} />
                     </div>
 
                     <div className='flex flex-wrap justify-center items-center px-6 md:px-10'>

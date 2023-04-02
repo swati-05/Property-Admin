@@ -621,7 +621,7 @@ function PilotWorkflowActions(props) {
             )
           )} */}
           <div className="pl-10 font-semibold mt-5">Citizen Comment</div>
-          {props?.applicationData?.data?.citizenComment == 0 && <div className="w-full text-center mt-4">
+          {props?.applicationData?.data?.citizenComment.length === 0 && <div className="w-full text-center mt-4">
             <span className="text-red-400 font-semibold">
               No Comment Yet !
             </span>
@@ -633,6 +633,11 @@ function PilotWorkflowActions(props) {
 
           <div className="px-10"><hr></hr></div>
           <div className="pl-10 font-semibold mt-5">Level Comment</div>
+          {props?.applicationData?.data?.levelComment.length === 0 && <div className="w-full text-center mt-4">
+            <span className="text-red-400 font-semibold">
+              No Comment Yet !
+            </span>
+          </div>}
           {props?.applicationData?.data?.levelComment?.map((data, index) =>
             <WorkflowTimelineCardLeft agency={true} data={data} index={index} />
           )}
