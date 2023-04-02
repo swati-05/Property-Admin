@@ -18,14 +18,21 @@ import ApiHeader2 from '@/Components/ApiList/ApiHeader2'
 import BarLoader from '@/Components/Loaders/BarLoader'
 import axios from 'axios'
 import { useToast } from '@/Components/GlobalData/useSetGlobalData'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 function PropertyHome() {
     const [currenRoleView, setcurrenRoleView] = useState(role)
     const [isLoading, setisLoading] = useState(false)
+    const [isLoading2, setisLoading2] = useState(false)
     const [currentRole, setcurrentRole] = useState('jsk')
     const [landingDashboardData, setlandingDashboardData] = useState()
     const [landingDashboardCardData, setlandingDashboardCardData] = useState()
     const [activeApplicationType, setactiveApplicationType] = useState('saf')
+    const [erroState, seterroState] = useState(false);
+
     const imageRef = useRef()
     const { api_landingDashboard, api_landingDashboardCard } = ProjectApiList()
     const notify = useToast()
@@ -101,7 +108,7 @@ function PropertyHome() {
 
     // FUNCTION TO FETCH LANDING DASHBOARD RECENT APPLIED APPLICATIONS AND RECENT PAYMENTS
     const fetchLandingDashboardData = (applicationType) => {
-        setisLoading(true)
+        setisLoading2(true)
 
         setactiveApplicationType(applicationType)
         let requestBody
@@ -118,11 +125,11 @@ function PropertyHome() {
             .then(function (response) {
                 console.log('JskDashboardData', response.data)
                 setlandingDashboardData(response?.data?.data)
-                setisLoading(false)
+                setisLoading2(false)
 
             })
             .catch(function (error) {
-                setisLoading(false)
+                setisLoading2(false)
                 notify('Network Problem', 'error')
                 console.log('errorrr.... ', error);
             })
@@ -130,6 +137,7 @@ function PropertyHome() {
 
     // FUNCTION TO FETCH LANDING DASHBOARD CARD DATA
     const fetchLandingDashboardCard = () => {
+        setisLoading(true)
         let requestBody = {
 
         }
@@ -149,10 +157,25 @@ function PropertyHome() {
 
     console.log('selected applications...',activeApplicationType)
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
     return (
         <>
             {
-                isLoading && <div className='inline'>
+                isLoading2 && <div className='inline'>
                     <BarLoader />
                 </div>
             }
@@ -167,7 +190,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalAppliedApplication}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalAppliedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Applied Application
                                     </p>
@@ -179,7 +202,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalCollection}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalCollection)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Collection Amount
                                     </p>
@@ -191,7 +214,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalCash}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalCash)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Cash
                                     </p>
@@ -207,7 +230,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalCheque}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalCheque)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Cheque
                                     </p>
@@ -221,7 +244,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalDD}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalDD)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total DD
                                     </p>
@@ -233,7 +256,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalOnline}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalOnline)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Online
                                     </p>
@@ -245,7 +268,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalReceivedApplication}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalReceivedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Application Received
                                     </p>
@@ -257,7 +280,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalForwardedApplication}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalForwardedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Applicaton Forwarded
                                     </p>
@@ -269,7 +292,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalApprovedApplication}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalApprovedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Application Approved
                                     </p>
@@ -281,7 +304,7 @@ function PropertyHome() {
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
-                                    <div className="font-bold text-lg md:text-xl">{landingDashboardCardData?.totalRejectedApplication}</div>
+                                    <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalRejectedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
                                         Total Application Rejected
                                     </p>
@@ -352,10 +375,10 @@ function PropertyHome() {
                                             landingDashboardData?.recentApplications?.map((data, index) => (
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.applicationNo}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.applicantname}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.assessmentType}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.applyDate}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applicationNo)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applicantname)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.assessmentType)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applyDate)}</td>
 
                                                     {/* <td className="px-2 py-2 text-sm text-left">
                                                         <button onClick={() => navigate(`/tc-comparision/${id}/${data?.agency_verification ? 'agency' : 'ulb'}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>
@@ -431,10 +454,10 @@ function PropertyHome() {
                                             landingDashboardData?.recentPayments?.map((data, index) => (
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.transactionNo}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.paymentMode}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{data?.transactionDate}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.transactionNo)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.paymentMode)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.transactionDate)}</td>
 
                                                     {/* <td className="px-2 py-2 text-sm text-left">
                                                         <button onClick={() => navigate(`/tc-comparision/${id}/${data?.agency_verification ? 'agency' : 'ulb'}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>

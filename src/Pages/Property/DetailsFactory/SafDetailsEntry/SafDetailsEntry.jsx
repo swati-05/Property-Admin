@@ -652,14 +652,14 @@ function SafDetailsEntry() {
                                                     applicationFullData?.memoDtls?.map((data, index) => (
                                                         <tr className="bg-white shadow-lg border-b border-gray-200">
                                                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.memo_no}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.memo_date}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.generated_by}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.arv}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.quarterly_tax}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.memo_type}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{data?.holding_no}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.memo_no)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.memo_date)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.generated_by)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.quarterly_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.memo_type)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holding_no)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">
                                                                 <button onClick={() => {
                                                                     if (data?.memo_type == 'SAM') {

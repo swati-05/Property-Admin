@@ -30,6 +30,9 @@ import axios from 'axios'
 import { useToast } from '@/Components/GlobalData/useSetGlobalData'
 import PropertyHome from './PropertyHome'
 import { contextVar } from '@/Components/Context/Context'
+import BrandLoader from '@/Components/Common/BrandLoader'
+import CommonModal from '@/Components/GlobalData/CommonModal'
+import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 
 
 const customStyles = {
@@ -55,6 +58,8 @@ function LandingHomeDashBoard() {
     const [currenRoleView, setcurrenRoleView] = useState(role)
     const [isLoading, setisLoading] = useState(false)
     const [currentRole, setcurrentRole] = useState('jsk')
+    const [erroState, seterroState] = useState(false);
+
     const imageRef = useRef()
     const { api_editAdminProfile } = ProjectApiList()
     const notify = useToast()
@@ -175,6 +180,7 @@ function LandingHomeDashBoard() {
 
     // FUNCTION TO UPDATE PROFILE DATA
     const postEditProfile = () => {
+        seterroState(false)
         closeModal()
         closeModal2()
         setisLoading(true)
@@ -201,6 +207,7 @@ function LandingHomeDashBoard() {
             })
             .catch(function (error) {
                 setisLoading(false)
+                seterroState(true)
                 notify('Network Problem', 'error')
                 console.log('errorrr.... ', error);
             })
@@ -212,13 +219,28 @@ function LandingHomeDashBoard() {
     }
 
 
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
     return (
         <>
-            {
+            {/* {
                 isLoading && <div className='inline'>
                     <BarLoader />
                 </div>
-            }
+            } */}
 
             <div className='w-full bg-white shadow-xl p-10 mt-4'>
                 <div className="flex">
@@ -233,7 +255,7 @@ function LandingHomeDashBoard() {
                         </div>
                     </div>
                     <div className="flex-initial ml-4">
-                        <div className='text-2xl font-bold text-black google-roboto'>Welcome to Property {localStorage.getItem('userName')}</div>
+                        <div className='text-2xl font-bold text-black google-roboto'>Welcome to Property.... {localStorage.getItem('userName')}</div>
                         <div className='mt-2'>
                             <span className='text-gray-600'><MdVerified className="inline text-green-500 text-xl" /> verified Account</span>
                             <span className='text-gray-600 ml-10'><FaRegBuilding className="inline" /> {profileData?.ulb}</span>
@@ -249,7 +271,7 @@ function LandingHomeDashBoard() {
                         <Tooltip anchorId="button-1" />
                         <button id="button-1" data-tooltip-content="Click to go to saf workflow." onClick={() => navigate('/saf-workflow')} className="mr-4 cypress_floor_add_update text-gray-700 px-8 py-3 bg-white-600 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-500 hover:shadow-lg focus:bg-indigo-500 hover:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">SAF Workflow</button>
                         <Tooltip anchorId="button-2" />
-                        <button id="button-2" data-tooltip-content="Click to apply new assessment." onClick={() => navigate('/saf-entry')} className="cypress_floor_add_update text-white px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply SAF</button>
+                        <button id="button-2" data-tooltip-content="Click to apply new assessment." onClick={() => navigate('/saf-entry')} className="cypress_floor_add_update text-white px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply Assessment</button>
 
                     </div>
                 </div>

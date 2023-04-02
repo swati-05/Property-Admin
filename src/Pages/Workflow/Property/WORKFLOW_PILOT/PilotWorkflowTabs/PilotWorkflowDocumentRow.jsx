@@ -28,22 +28,22 @@ function PilotWorkflowDocumentRow(props) {
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm cursor-pointer" onClick={() => props.openModal(`${base_url}/${props?.docList?.doc_path}`)}>
                     <div className="flex items-center">
                         {props?.docList?.doc_path?.split('.')[1] == 'pdf' &&
-                            <div className="flex-shrink-0 text-[28px]">
+                            <div className="flex-shrink-0 text-[28px] border border-indigo-500">
                                 <FcDocument />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'jpg' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-500 px-1 py-2">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'jpeg' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-500 px-1 py-2">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }
                         {props?.docList?.doc_path?.split('.')[1] == 'png' &&
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 border border-indigo-500 px-1 py-2">
                                 <img src={`${base_url}/${props?.docList?.doc_path}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                             </div>
                         }

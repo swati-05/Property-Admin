@@ -83,7 +83,7 @@ function AppliedApplicationSearch() {
         console.table('applied application. in at ...', res?.data)
         if (data.filterBy == 'saf') {
           setreadymadeListColumns(COLUMNS_SAF)
-        }else if(data.filterBy=='gbsaf'){
+        } else if (data.filterBy == 'gbsaf') {
           setreadymadeListColumns(COLUMNS_GBSAF)
         } else {
           setreadymadeListColumns(COLUMNS_OTHER)
@@ -348,7 +348,7 @@ function AppliedApplicationSearch() {
             if (formik.values.filterBy == 'objection') {
               navigate(`/objection-details/${cell.row.values.id}`)
             }
-            if (formik.values.filterBy == 'rainWaterHarvesting') {
+            if (formik.values.filterBy == 'harvesting') {
               navigate(`/harvesting-details/${cell.row.values.id}`)
             }
             if (formik.values.filterBy == 'holdingDeactivation') {
@@ -418,7 +418,7 @@ function AppliedApplicationSearch() {
                 <option value="gbsaf">GBSAF</option>
                 <option value="concession">Concession</option>
                 <option value="objection">Objection</option>
-                <option value="rainWaterHarvesting">Rainwater Harvesting</option>
+                <option value="harvesting">Rainwater Harvesting</option>
                 <option value="holdingDeactivation">Holding Deactivation</option>
               </select>
               <p className="text-red-500 text-xs">
@@ -427,25 +427,7 @@ function AppliedApplicationSearch() {
                   : null}
               </p>
             </div>
-            {/* <div>
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Ward No<span className='text-red-500'>*</span></label>
-                            <select
-                                name="wardNo"
-                                onChange={formik.handleChange}
-                                className=" w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                                disabled={disableWard}
-                            >
-                                <option value="">Select</option>
-                                <option value="0">All Ward</option>
-                                {
-                                    ulbList?.map((item) => (
-                                        <option value={item.id}>{item.wardName}</option>
-                                    ))
-                                }
 
-                            </select>
-                            <p className='text-red-500 text-xs'>{formik.touched.wardNo && formik.errors.wardNo ? formik.errors.wardNo : null}</p>
-                        </div> */}
             <div>
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 {" "}
@@ -485,7 +467,7 @@ function AppliedApplicationSearch() {
         <div className="m-10">
           {/* {readymadeListData == false && data?.data?.status == true ? <ListTable columns={COLUMNS} dataList={data?.data?.data} /> : readymadeListData == false && <p className='text-center font-semibold'> No data Found!</p>} */}
           {readymadeListStatus && readymadeListData?.length != 0 &&
-            <ListTable columns={readymadeListColumns} dataList={readymadeListData} />
+            <ListTable exportStatus={false} columns={readymadeListColumns} dataList={readymadeListData} />
           }
           {
             readymadeListStatus && readymadeListData?.length == 0 &&
