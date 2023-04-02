@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { TbEdit } from 'react-icons/tb'
 import folder from '@/Components/Media/folders.png'
 import building from '@/Components/Media/building.png'
+import {MdTag} from 'react-icons/md'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 function PilotWorkflowFullDetailsTab(props) {
     const [editStatus, seteditStatus] = useState(false)
@@ -91,16 +93,14 @@ function PilotWorkflowFullDetailsTab(props) {
                                     <div className="w-full mx-2 ">
                                         <div className="p-3  rounded-sm">
                                             <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
-                                                <div className="tracking-wide flex-1"><img src={folder} alt="pin" className='w-5 inline' /> {data?.headerTitle}</div>
+                                                <div className="tracking-wide flex-1"><MdTag className="inline font-semibold" /> {nullToNA(data?.headerTitle)}</div>
                                             </div>
-                                            <div className=' rounded-lg  py-6 bg-sky-50'>
+                                            <div className=' rounded-lg  py-6 bg-sky-50 shadow-xl'>
                                                 <div className="grid grid-cols-10 space-y-2  pl-4 ">
                                                     {data?.data?.map((data) => (
                                                         <div className='col-span-2 text-xs'>
-                                                            <div className='font-bold text-sm'>{data?.value || 'N/A'
-
-                                                            }</div>
-                                                            <div className='text-gray-500 flex'>{data?.displayString}
+                                                            <div className='font-bold text-sm'>{nullToNA(data?.value)}</div>
+                                                            <div className='text-gray-500 flex'>{nullToNA(data?.displayString)}
                                                                 {/* {btcStatus && <input onClick={(e) => selectAction(e.target.value, data?.key, data?.displayString)} id={`check${data?.key}`} type="checkbox" className="ml-2 cursor-pointer w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                                 </input>}
                                                                 {editStatus && <input id={`input${data?.key}`} value={data?.value} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
@@ -131,16 +131,16 @@ function PilotWorkflowFullDetailsTab(props) {
                                         <div className="w-full mx-2 ">
                                             <div className="0 p-3 rounded-sm">
                                                 <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
-                                                    <span className="tracking-wide"><img src={building} alt="building image" className='inline w-4' /> {data?.headerTitle}</span>
+                                                    <span className="tracking-wide"><MdTag className="inline font-semibold" /> {nullToNA(data?.headerTitle)}</span>
                                                 </div>
 
                                                 <>
-                                                    <table className='min-w-full leading-normal mt-2 bg-sky-5'>
+                                                    <table className='min-w-full leading-normal mt-2 bg-sky-50 shadow-xl'>
                                                         <thead className='font-bold text-left text-sm bg-sky-50 text-gray-600'>
                                                             <tr>
-                                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                                                {/* <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th> */}
                                                                 {data?.tableHead?.map((head) => (
-                                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">{head}</th>
+                                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">{nullToNA(head)}</th>
                                                                 ))}
 
 
@@ -152,9 +152,9 @@ function PilotWorkflowFullDetailsTab(props) {
                                                             <>
                                                                 {data?.tableData?.map((dataIn, index) => (
                                                                     <tr className="bg-sky-50  border-b border-gray-200">
-                                                                        <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                                        {/* <td className="px-2 py-2 text-sm text-left">{index + 1}</td> */}
                                                                         {dataIn?.map((dataIn2) => (
-                                                                            <td className="px-2 py-2 text-sm text-left">{dataIn2 || 'N/A'}</td>
+                                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(dataIn2)}</td>
                                                                         ))}
                                                                     </tr>
                                                                 ))}

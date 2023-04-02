@@ -543,28 +543,28 @@ function PropApplicationDetailById() {
           <table className="min-w-full leading-normal mt-2 bg-white">
             <thead className="font-bold text-left text-sm border text-[#37517e]">
               <tr>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   #
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Floor{" "}
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Usage Type
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Occupancy Type
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Construction Type
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Built Up Area
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   From Date
                 </th>
-                <th className="px-2 py-3 border-b border-gray-200  text-left text-xs capitalize text-left">
+                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">
                   Upto Date
                 </th>
               </tr>

@@ -187,18 +187,7 @@ function AppliedApplicationSearch() {
           >
             View
           </button>
-          {/* // UPLOAD BUTTON WILL BE VISIBLE IF APPLIED BY CITIZEN */}
-          {(cell.row.original.doc_upload_status == 1
-            && cell.row.original.appliedby == 'Citizen') && <button
-              onClick={() =>
-                navigate(
-                  `/propApplicationDetails/${cell.row.values.id}`
-                )
-              }
-              className="ml-4 mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white"
-            >
-              Upload
-            </button>}
+         
 
           {cell.row.original.payment_status == 0 && <button
             onClick={() =>
@@ -275,18 +264,7 @@ function AppliedApplicationSearch() {
           >
             View
           </button>
-          {/* // UPLOAD BUTTON WILL BE VISIBLE IF APPLIED BY CITIZEN */}
-          {(cell.row.original.doc_upload_status == 1
-            && cell.row.original.appliedby == 'Citizen') && <button
-              onClick={() =>
-                navigate(
-                  `/propApplicationDetails/${cell.row.values.id}`
-                )
-              }
-              className="ml-4 mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white"
-            >
-              Upload
-            </button>}
+         
 
           {cell.row.original.payment_status == 0 && <button
             onClick={() =>

@@ -7,6 +7,7 @@ import { contextVar } from "@/Components/Context/Context";
 import { ToastContainer, toast } from "react-toastify";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
+import BottomErrorCard from './Components/Common/BottomErrorCard';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -323,6 +324,7 @@ function App(props) {
               <Route path='/cash-verification' element={<CashVerification />} />
 
             </Routes>
+
           </div>
           {/* </BrowserRouter> */}
         </CustomErrorBoundaryForRoutes>

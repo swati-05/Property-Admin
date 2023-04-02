@@ -28,6 +28,8 @@ import moment from "moment/moment";
 // import '../font.css'
 import { ImCross } from 'react-icons/im'
 import BarLoader from "@/Components/Common/BarLoader";
+import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 const customStyles = {
   content: {
@@ -54,8 +56,8 @@ function PilotWorkflowDepartmentalCommunication(props) {
   const [refresh, setrefresh] = useState(0);
   const [role, setrole] = useState('')
 
-  console.log('app data...',props?.applicationData)
-  console.log('dynamic custom form....',props?.applicationData?.data?.timelineData?.customFor)
+  console.log('app data...', props?.applicationData)
+  console.log('dynamic custom form....', props?.applicationData?.data?.timelineData?.customFor)
 
   const formik = useFormik({
     initialValues: {
@@ -99,7 +101,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
             setloader(false);
             toast.success("Submitted Successfully...");
             formik.resetForm()
-          }else{
+          } else {
             toast.error("Something went wrong !!");
           }
 
@@ -205,6 +207,7 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
   return (
     <>
+    <BottomErrorCard errorTitle='Something happened'/>
       {/* <PropertyDaDetailsCard applicationData={applicationData} /> */}
 
       <div className="container mx-auto  max-w-3xl ml-0  px-1 py-1 shadow-lg rounded-lg w-full">
@@ -247,11 +250,11 @@ function PilotWorkflowDepartmentalCommunication(props) {
                 <>
                   {elem?.type == "text" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-200 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
                         <time>Date : <span className="font-semibold"> {funDate(elem?.date)}</span></time>
-                        <p>Remarks : <span className="font-semibold">{elem?.remarks}</span> </p>
+                        <p>Remarks : <span className="font-semibold">{nullToNA(elem?.remarks)}</span> </p>
                         <span className="circle" />
                       </div>
                     </div>
@@ -259,14 +262,14 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
                   {elem?.type == "file" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-200 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
-                        <time>Date : <span className="font-semibold"> {elem?.date}</span></time>
+                        <time>Date : <span className="font-semibold"> {nullToNA(elem?.date)}</span></time>
                         <div className="flex flex-row flex-wrap gap-2">
                           <span className="text-xs">Document :{" "}</span>
                           <div className="font-semibold cursor-pointer text-2xl" onClick={() => modalAction(elem?.docUrl)}>
-                            <FcDocument />
+                            <FcDocument className="bg-white rounded-lg shadow-xl" />
                           </div>{" "}
                         </div>
                         <span className="circle" />
@@ -276,15 +279,15 @@ function PilotWorkflowDepartmentalCommunication(props) {
 
                   {elem?.type == "both" && elem?.customFor == props?.applicationData?.data?.timelineData?.customFor && (
                     <div className="timeline-item">
-                      <div className="timeline-item-content bg-sky-200 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
+                      <div className="timeline-item-content bg-sky-100 mb-2 mr-2  px-4 py-1 pt-1.5 rounded-md shadow-lg w-[50%] flex flex-col  justify-center">
                         <span className="tag"></span>
                         <div className="capitalize text-[14px] mb-1 font-semibold">{role}</div>
-                        <time>Date : <span className="font-semibold"> {elem?.date}</span></time>
-                        <p>Remarks : <span className="font-semibold">{elem?.remarks}</span></p>
+                        <time>Date : <span className="font-semibold"> {nullToNA(elem?.date)}</span></time>
+                        <p>Remarks : <span className="font-semibold">{nullToNA(elem?.remarks)}</span></p>
                         <div className="flex flex-row flex-wrap gap-2">
                           <span className="text-xs">Document :{" "}</span>
                           <div className="font-semibold cursor-pointer text-2xl" onClick={() => modalAction(elem?.docUrl)}>
-                            <FcDocument />
+                            <FcDocument className="bg-white rounded-lg p-1 shadow-xl" />
                           </div>{" "}
                         </div>
                         <span className="circle" />
@@ -381,6 +384,8 @@ function PilotWorkflowDepartmentalCommunication(props) {
           ></iframe>
         </div>
       </Modal>
+
+      <div className="w-full mt-20"></div>
     </>
   );
 }

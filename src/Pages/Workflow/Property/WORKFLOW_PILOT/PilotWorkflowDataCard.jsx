@@ -63,7 +63,7 @@ function PilotWorkflowDataCard(props) {
                                     <div className='pb-2 mt-2 pl-4'>
                                         {props?.permissions?.can_view_form && <button className={`float-left mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => window.open(`${props?.workflow?.fullDetailsUrl}/${props?.id}`, '_blank')}>View Full Details</button>}
                                         {/* <button className={`float-left mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => navigate(`${props?.workflow?.fullDetailsUrl}/${props?.id}/workflow/${props?.tabIndex}`)}>View Full Details</button> */}
-                                        {props?.permissions?.can_edit && <button className={`float-right mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => window.open(`${props?.workflow?.formUrl}/${props?.id}`, '_blank')}>View Form</button>}
+                                        {props?.permissions?.can_edit && <button className={`float-right mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => window.open(`${props?.workflow?.formUrl}/${props?.id}`, '_blank')}>Edit Form</button>}
                                     </div>
                                 </div>
                             </div>

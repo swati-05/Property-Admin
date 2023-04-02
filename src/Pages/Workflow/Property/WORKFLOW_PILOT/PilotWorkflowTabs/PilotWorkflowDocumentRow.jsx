@@ -1,10 +1,13 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//    Author - R U Bharti
-//    Version - 1.0
-//    Date - 26th Nov, 2022
-//    Revision - 1
-//    Project - JUIDCO
-/////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////{*****}//////////////////////////////////////////
+// Author - Talib Hussain
+// Version - 1.0
+// Date - 26 nov 2022
+// Revision - 1
+// Project - JUIDCO
+// Component  - PilotWorkflowDocumentRow
+// DESCRIPTION - #CASES HANDLED IN THIS FORM
+//////////////////{*****}//////////////////////////////////////////
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 import React from 'react'
 import { FcDocument } from 'react-icons/fc'
 
@@ -22,7 +25,7 @@ function PilotWorkflowDocumentRow(props) {
                 </td>
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
                     <p className="text-gray-900 whitespace-no-wrap">
-                        {props?.docList?.doc_code}
+                        {nullToNA(props?.docList?.doc_code)}
                     </p>
                 </td>
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm cursor-pointer" onClick={() => props.openModal(`${base_url}/${props?.docList?.doc_path}`)}>
@@ -70,7 +73,7 @@ function PilotWorkflowDocumentRow(props) {
                     }
                 </td>
                 <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
-                    {props?.docList?.remarks == null ? <i>N/A</i> : props?.docList?.remarks}
+                    {nullToNA(props?.docList?.remarks)}
                 </td>
             </tr>
         </>
