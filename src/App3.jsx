@@ -100,6 +100,7 @@ import CitizenPropSafApplicationFormIndex from './Pages/Property/CitizenSafForm2
 import UlbWorkflowRolesIndex from '@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex';
 import NavigatePage from './Pages/NavigatePage';
 import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
+import GbSafPaymentReceiptIndex from './Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex';
 
 
 
@@ -267,6 +268,7 @@ function App(props) {
               <Route path='/comparative-demand-reciept/:id' element={<ComparativeDemandReciept />} />
               <Route path="/rmc-reciept/:id" element={<RmcPrint />} />
               <Route path="/demand-reciept/:id" element={<DemandPrint />} />
+              <Route path="/gb-saf-reciept/:paymentId/:module" element={<GbSafPaymentReceiptIndex />} />
 
               <Route path='/report/:type' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
               <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}

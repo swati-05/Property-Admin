@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import QRCode from "react-qr-code";
-import CitizenApplyApiList from '../../../../Components/CitizenApplyApiList';
-import axios from 'axios'
+import React from 'react'
 import { AiFillPrinter } from 'react-icons/ai'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import NonBlockingLoader from '../NonBlockingLoader';
-import { useRef } from 'react';
-import QrCode from '../../../Trade/tradeComponent/QrCode';
+import { Link } from 'react-router-dom';
+import QrCode from './QrCode';
 import './reciept.css'
 
 class ComponentToPrint extends React.Component {
