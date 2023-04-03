@@ -68,7 +68,7 @@ const ComparativeDemandReciept = () => {
             </div>
             <div>Lakshmi/ Mrs./M/S.S.R.S.: {dataList?.basicDetails?.owner_name}</div>
             <div>Father/Husband's Name: {dataList?.basicDetails?.guardian_name}</div>
-            <div><span>Holding Number : {dataList?.basicDetails?.new_holding_no}</span> <span>Ward No. {dataList?.basicDetails?.new_ward_no}</span></div>
+            <div>{(dataList?.basicDetails?.pt_no == '' || dataList?.basicDetails?.pt_no == undefined) ? <span>Holding Number : {dataList?.basicDetails?.new_holding_no}</span> : <span>Property Tax Number : {dataList?.basicDetails?.pt_no}</span>} <span>Ward No. {dataList?.basicDetails?.new_ward_no}</span></div>
             <div>Address: {dataList?.basicDetails?.prop_address}
 </div>
           </div>

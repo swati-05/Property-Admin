@@ -39,7 +39,7 @@ class RmcReciept extends React.Component {
                     <div>Date : <span className="font-bold">{data?.transactionDate}</span></div>
                     <div>Ward No :<span className="font-bold">{data?.oldWardNo}</span></div>
                     <div>New Ward No :<span className="font-bold">{data?.newWardNo}</span></div>
-                    <div>Holding No :<span className="font-bold">{data?.applicationNo}</span></div>
+                    {(data?.pt_no == '' || data?.pt_no == undefined) ? <div>Holding No :<span className="font-bold">{data?.applicationNo}</span></div> : <div>Property Tax No :<span className="font-bold">{data?.ptNo}</span></div>}
                 </div>
             </div>
 
