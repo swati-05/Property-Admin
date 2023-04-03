@@ -345,7 +345,7 @@ const ClusterTable = (props) => {
       {isLoading && <BarLoader />}
 
     {/* ===========Table================ */}
-      <div className="">
+      <div className="px-2 sm:px-0">
         {(!isLoading && table) && ( 
           <>
            
@@ -363,6 +363,7 @@ const ClusterTable = (props) => {
             </div>
 
             <ListTable columns={COLUMNS} dataList={clusterData} />
+            <div className="h-[20vh]"></div>
           </>
         )}
       </div>

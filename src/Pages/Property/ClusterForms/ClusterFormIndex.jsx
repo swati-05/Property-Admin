@@ -14,7 +14,7 @@ const ClusterFormIndex = () => {
   return (
     <div className='poppins'>
 
-<div className="uppercase font-semibold text-gray-700 text-2xl py-2 text-center tracking-[0.7rem]">
+<div className="uppercase font-semibold text-gray-700 text-lg sm:text-2xl py-2 text-center tracking-wide sm:tracking-[0.7rem]">
             Cluster Workflow
           </div>
           <div className="w-full h-[0.15rem] bg-gray-400 mb-6"></div>

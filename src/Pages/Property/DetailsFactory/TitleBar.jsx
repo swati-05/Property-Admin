@@ -15,7 +15,7 @@ function TitleBar(props) {
 
     return (
         <>
-            <div className="flex py-2 justify-center items-center">
+            <div className="flex sm:flex-row flex-col py-2 justify-center items-center">
                 <div className="flex-1 flex pl-2 text-gray-700">
 
                     <span className="cursor-pointer hover:text-indigo-500" onClick={() => window.history.back()}><BiLeftArrowAlt className="inline" />Back</span>

@@ -414,7 +414,7 @@ const ClusterView = (props) => {
   return (
     <>
 
-    <div className='flex flex-wrap flex-col w-full text-zinc-800 h-full overflow-y-auto'>
+    <div className='flex  flex-col w-full text-zinc-800 h-full overflow-y-auto'>
 
         {/* =================Basic Details============================== */}
         <div>
@@ -495,7 +495,7 @@ const ClusterView = (props) => {
 
                 {/* ==================Heading================= */}
                 <div className='flex flex-row flex-wrap justify-between'>
-                <div className='flex items-center space-x-2 '>
+                <div className='flex items-center space-x-2 mb-2 sm:mb-0'>
                     <div className={(viewList == 'SAF' ? `border-2 border-indigo-600 shadow-indigo-400` : `border-none`) + ` shadow-md rounded-md flex items-center space-x-2 px-4 py-2 cursor-pointer text-sm`} onClick={() => setviewList('SAF')}>
                     <span className="font-extrabold"><TbListDetails/></span>
                     <span className='font-semibold'>Mapped SAF List</span>
@@ -509,20 +509,20 @@ const ClusterView = (props) => {
                <div className={buttonStyle} onClick={() => openModal('SAF')}>
                     Add SAF
                     </div>
-                    <div onClick={() => navigate(`/viewDemandCluster/${id}`)} className={buttonStyle2}>
+                    {safList?.length > 0 &&<div onClick={() => navigate(`/viewDemandCluster/${id}`)} className={buttonStyle2}>
                     View SAF Demand
-                    </div>
+                    </div>}
                 </div>}
                 {viewList == 'Holding' && <div className='flex items-center space-x-2 '>
                 <div className={buttonStyle} onClick={() => openModal('Holding')}>
                     Add Holding
                     </div>
-                    <div onClick={() => navigate(`/cluster-holding-transactions/${id}`)} className={buttonStyle2}>
+                    {holdingList?.length > 0 && <><div onClick={() => navigate(`/cluster-holding-transactions/${id}`)} className={buttonStyle2}>
                     View Payment History
                     </div>
                     <div onClick={() => navigate(`/viewDemandHoldingPropertyCluster/${id}`)} className={buttonStyle2}>
                     View Property Demand
-                    </div>
+                    </div></>}
                 </div>}
                 </div>
 
@@ -578,7 +578,7 @@ const ClusterView = (props) => {
                 contentLabel="Example Modal"
             >
 
-                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] md:h-[80vh] w-full relative bg-gray-50 px-6 py-4 h-max border-t-2 border-l-2 overflow-auto" >
+                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] h-[80vh] w-full relative bg-gray-50 px-6 py-4  border-t-2 border-l-2 overflow-auto" >
 
                 {loader && <BarLoader />}
                 
@@ -630,7 +630,7 @@ const ClusterView = (props) => {
 
       </Modal>
 
-    
+    <div className='h-[20vh]'></div>
     
     </>
   )

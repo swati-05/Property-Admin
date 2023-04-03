@@ -220,7 +220,7 @@ function App(props) {
             {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}
           </Routes>
           <div
-            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[20vh]`}
+            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[40vh]`}
           >
             <TitleBar titleText={titleText} />
            

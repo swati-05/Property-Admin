@@ -204,13 +204,13 @@ const fetchNewWardByOldWard = (e) => {
       <ToastContainer position="top-right" autoClose={2000} />
 
       {/* ================Heading=================== */}
-      <h1 className="mt-6 mb-2 mx-6 font-serif font-semibold absolute text-gray-600">
+      <h1 className="mt-6 mb-2 sm:-mb-16 mx-6 font-serif font-semibold relative text-gray-600">
         <RiBuilding2Fill className="inline mr-2" />
         Cluster Form
       </h1>
 
       {/* ================Form======================== */}
-      <div className=" block mt-[4rem] md:mt-[5rem] p-4 w-full md:py-6 md:px-14 shadow-lg bg-white mx-auto border border-gray-200">
+      <div className=" block sm:mt-[4rem] md:mt-[5rem] p-4 w-full md:py-6 md:px-14 shadow-lg bg-white mx-auto border border-gray-200">
         <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="text-xs">
           <div className="grid grid-cols-12 md:gap-x-8 gap-y-6">
 
