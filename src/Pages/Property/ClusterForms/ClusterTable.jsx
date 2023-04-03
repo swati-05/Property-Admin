@@ -148,7 +148,7 @@ const ClusterTable = (props) => {
       },
       {
         Header: "Old Ward No.",
-        accessor: "wardNo",
+        accessor: "oldWard",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
@@ -165,7 +165,7 @@ const ClusterTable = (props) => {
       },
       {
         Header: "New Ward No.",
-        accessor: "newWardNo",
+        accessor: "newWard",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
