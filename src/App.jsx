@@ -106,7 +106,8 @@ const UlbWorkflowRolesIndex = React.lazy(() => import('@/Pages/Masters/UlbManage
 const NavigatePage = React.lazy(() => import('./Pages/NavigatePage'));
 const SafApplyCard = React.lazy(() => import('./Pages/Workflow/Property/SafApplyCard/SafApplyCard'));
 const GBSAFDetailsEntry = React.lazy(() => import('./Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry'));
-
+const GbSafPaymentReceiptIndex = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
+// const GbSafPaymentReceiptIndex = React.lazy(() => import('./Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
 
 
 
@@ -293,6 +294,7 @@ function App(props) {
               <Route path='/comparative-demand-reciept/:id' element={<ComparativeDemandReciept />} />
               <Route path="/rmc-reciept/:id" element={<RmcPrint />} />
               <Route path="/demand-reciept/:id" element={<DemandPrint />} />
+              <Route path="/gb-saf-reciept/:paymentId/:module" element={<GbSafPaymentReceiptIndex />} />
 
               <Route path='/report/:type' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
               <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
