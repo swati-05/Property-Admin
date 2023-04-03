@@ -204,7 +204,7 @@ function HoldingTransactionHistory(props) {
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
                 {transactionRules?.transactionInfo.title != '' && <div className='px-1 font-semibold font-serif text-2xl '>{transactionRules?.transactionInfo?.title}</div>}
                 {/* <div className='text-xs opacity-60'>(select ward above to get collection in specific ward)</div> */}
-                <TopTabs title={`Payment Hisotry`} type="holding" id={id} safNo={''} active="payment" />
+                <TopTabs title={`Payment History`} type="holding" id={id} safNo={''} active="payment" />
                 <div className=''>
                     <div className='py-6 mt-2 bg-white rounded-lg shadow-lg p-4'>
                         <div className="flex space-x-5 pl-4 ">

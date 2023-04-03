@@ -17,7 +17,8 @@ import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
-import {BiRightArrowAlt} from 'react-icons/bi'
+import { BiRightArrowAlt } from 'react-icons/bi'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 
 
@@ -107,7 +108,7 @@ function DemandDetailsHoldingProperty(props) {
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
 
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.holding_no) }</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.holding_no)}</div>
                                 <div className='text-gray-500 text-xs'>Holding No.</div>
                             </div>
                             <div className='flex-1'>
@@ -123,7 +124,7 @@ function DemandDetailsHoldingProperty(props) {
                                 <div className='text-gray-500 text-xs'>Ownership Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.property_type) }</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.property_type)}</div>
                                 <div className='text-gray-500 text-xs'>Property Type</div>
                             </div>
 
@@ -131,23 +132,23 @@ function DemandDetailsHoldingProperty(props) {
 
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id) }</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.zone_mstr_id)}</div>
                                 <div className='text-gray-500 text-xs'>Zone</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.is_mobile_tower) }</div>
+                                <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.is_mobile_tower)}</div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.is_hoarding_board) } </div>
+                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.is_hoarding_board)} </div>
                                 <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.is_petrol_pump) }</div>
+                                <div className='font-semibold text-md'>{nullToNA(demandDetail?.basicDetails?.is_petrol_pump)}</div>
                                 <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm' >{nullToNA(demandDetail?.basicDetails?.is_water_harvesting) }</div>
+                                <div className='font-bold text-sm' >{nullToNA(demandDetail?.basicDetails?.is_water_harvesting)}</div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
                         </div>
@@ -169,9 +170,9 @@ function DemandDetailsHoldingProperty(props) {
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
                                         <tr>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Total Tax (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Rebate (%)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% Penalty (Rs) </th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Total Tax (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Payable Amount (Rs)</th>
 
 
@@ -183,12 +184,12 @@ function DemandDetailsHoldingProperty(props) {
 
                                             <tr className="bg-white border-b border-gray-200">
                                                 <td className="px-2 py-2 text-sm text-left">1</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.rebateAmt) }</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.onePercPenalty) }</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.totalDues)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.rebateAmt)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.onePercPenalty)}</td>
 
 
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.totalDues) }</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.payableAmount) }</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.payableAmount)}</td>
 
 
                                             </tr>
@@ -198,6 +199,34 @@ function DemandDetailsHoldingProperty(props) {
                                     </tbody>
                                 </table>
                             </div>
+
+                            {/* // REABATE DESCRIPTION */}
+                            {demandDetail?.duesList?.rebates && <>
+                                <div className='mt-10 text-md font-semibold'>Rebate Description</div>
+                                <table className='min-w-full leading-normal mt-2'>
+                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                        <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amount</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+
+                                        {demandDetail?.duesList?.rebates?.map((data, index) => (
+                                            <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </>}
 
 
 
@@ -231,11 +260,11 @@ function DemandDetailsHoldingProperty(props) {
                                             {demandDetail?.demandList?.map((items, index) => (
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv) }</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">{nullToNA(items.qtr)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear) }</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.additional_tax) }</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount) }</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.additional_tax)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">{nullToNA(items.balance)}</td>
                                                 </tr>
                                             ))}

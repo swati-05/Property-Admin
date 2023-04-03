@@ -93,6 +93,11 @@ function PilotWorkflowActions(props) {
 
   // {////********sending independent comment*******//////}
   const sendIndependentComment = () => {
+
+    if (commentText == '') {
+      props?.toast('Please enter comment', 'error')
+      return
+    }
     setisLoading(true)
     console.log("comment", commentText);
     let requestBody = {
@@ -107,14 +112,14 @@ function PilotWorkflowActions(props) {
         if (response?.data?.status) {
           props.toast("comment recorded successfully", "escalated"); // text escalated is just for color
         } else {
-          props.toast("Something went wrongg", "error");
+          props?.activateBottomErrorCard(true, 'Some error occured while sending comment. Please try again later')
         }
         setisLoading(false)
 
       })
       .catch(function (error) {
         console.log('error in comment...', error)
-        props.toast("Oops! Something went wrong", "error");
+        props?.activateBottomErrorCard(true, 'Some error occured while sending comment. Please try again later')
         setisLoading(false)
 
       });
@@ -203,7 +208,21 @@ function PilotWorkflowActions(props) {
 
       })
       .catch(function (error) {
-        props.toast("Oops! Something went wrong", "error");
+        let msg
+        if (e.target.id == 'btn_forward') {
+          msg = 'Some error occured while forwarding. Please try again later'
+        }
+        if (e.target.id == 'btn_back') {
+          msg = 'Some error occured while sending backward. Please try again later'
+        }
+        if (e.target.id == 'btn_backToDa') {
+          msg = 'Some error occured while sending back to dealing assistant. Please try again later'
+        }
+        if (e.target.id == 'btn_independent_level') {
+          msg = 'Some error occured while forwarding. Please try again later'
+        }
+
+        props?.activateBottomErrorCard(true, msg)
         setisLoading(false)
 
       });
@@ -255,14 +274,20 @@ function PilotWorkflowActions(props) {
           }
 
         } else {
-          props.toast("Something went wrongg", "error");
+          let msg
+          if (escalateStatus == 1) {
+            msg = 'Something went wrong while escalting application. Please try again later.'
+          } else {
+            msg = 'Something went wrong while De-Ecalting application. Please try again later.'
+          }
+          props?.activateBottomErrorCard(true, msg)
         }
         setisLoading(false)
 
 
       })
       .catch(function (error) {
-        props.toast("Oops! Something went wrong", "error");
+        props?.activateBottomErrorCard(true, msg)
         setisLoading(false)
 
       });
@@ -315,13 +340,13 @@ function PilotWorkflowActions(props) {
           }
           props?.fun(null, 0)
         } else {
-          props.toast(response?.data?.message, "error");
+          props?.activateBottomErrorCard(true, 'Something went wrong while sending application back to citizen. Please try again later.')
         }
         setisLoading(false)
 
       })
       .catch(function (error) {
-        props.toast("Oops! Something went wrong", "error");
+        props?.activateBottomErrorCard(true, 'Something went wrong while sending application back to citizen. Please try again later.')
         setisLoading(false)
 
       });
@@ -331,6 +356,9 @@ function PilotWorkflowActions(props) {
 
   //{////********Application Approve & Reject*******//////}
   const approveRejectApplication = (e) => {
+    // props.showTabFun(false);
+    // props?.openModal('Application has been approved with PT no. 1122')
+    // return
     setisLoading(true)
 
 
@@ -354,7 +382,6 @@ function PilotWorkflowActions(props) {
 
         if (response?.data?.status) {
           console.log("inside approval.....", response?.data?.message);
-          props.showTabFun(false); //hiding tabs
 
           props?.openModal(response?.data?.message);
           {
@@ -365,9 +392,17 @@ function PilotWorkflowActions(props) {
             e.target.value == "0" &&
               props.toast("Application is Rejected", "de-escalated");
           }
-          props?.fun(null, 0)
+          props.showTabFun(false); //HIDING TABS
+          props?.openModal(`'Application has been approved with PT no. ${response?.data?.data?.ptNo}`) // OPENING MODAL
         } else {
-          props.toast(response?.data?.message, "error");
+          let msg
+          if (e.target.value == '1') {
+            msg = 'Something went wrong while approving application. Please try again later.'
+          } else {
+            msg = 'Something went wrong while rejecting application. Please try again later.'
+          }
+          props?.activateBottomErrorCard(true, msg)
+
 
         }
         setisLoading(false)

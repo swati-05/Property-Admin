@@ -92,6 +92,11 @@ function HoldingDeactivationWorkflowEntry() {
 
       },
       {
+        Header: "Application No.",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.application_no)}</span>)
+
+      },
+      {
         Header: "Guardian Name",
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.guardian_name)}</span>)
 

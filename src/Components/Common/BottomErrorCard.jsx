@@ -5,7 +5,7 @@ function BottomErrorCard(props) {
     console.log('hello mr botom error..')
     return (
         <CommonModal>
-            <div className="bg-red-100 border border-red-400 text-red-700 pl-4 pr-16 py-3 rounded relative" role="alert">
+            <div className="bg-red-100 border border-red-400 text-red-700 pl-4 pr-16 py-3 rounded relative shadow-xl" role="alert">
                 <strong className="font-bold">Sorry! </strong>
                 <span className="block sm:inline">{props?.errorTitle}</span>
                 <span className="absolute top-0 bottom-0 right-0 px-4 py-3">

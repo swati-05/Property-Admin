@@ -17,6 +17,7 @@ import { ImCross } from 'react-icons/im'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import BackendUrl from "@/Components/ApiList/BackendUrl";
 import BarLoader from "@/Components/Common/BarLoader";
+import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
 
 
 const customStyles = {
@@ -90,6 +91,7 @@ function PilotWorkflowDocumentUpload(props) {
   }
 
   const closeModal = () => {
+    setcurrentOwnerId(null)
     settempDoc(false)
     setIsOpen(false);
     setmodal(false)
@@ -119,14 +121,21 @@ function PilotWorkflowDocumentUpload(props) {
     [props?.api?.api_uploadDocumentShow?.method](props?.api?.api_uploadDocumentShow?.url, { applicationId: props?.id }, ApiHeader())
       .then((res) => {
         console.log("list of doc to upload at pilotworkflowdocumentupload => ", res?.data);
-        setdocumentListToUpload(res?.data?.data)
-        // ALL DOCUMENT UPLOAD STATUS TO SEND LEVEL RESTRICT
-        props?.setallDocumentUploadStatus(res?.data?.data?.docUploadStatus)
+        if (res?.data?.status) {
+          setdocumentListToUpload(res?.data?.data)
+          // ALL DOCUMENT UPLOAD STATUS TO SEND LEVEL RESTRICT
+          props?.setallDocumentUploadStatus(res?.data?.data?.docUploadStatus)
+        } else {
+          props?.activateBottomErrorCard(true, 'Some error occured while fetching document list. Please try again later')
+
+        }
         setloader(false)
 
       })
       .catch((err) => {
         console.log("data submission error bo doc upload => ", err);
+        props?.activateBottomErrorCard(true, 'Some error occured while fetching document list. Please try again later')
+
         setmodal(false);
         setloader(false)
       })
@@ -304,12 +313,14 @@ function PilotWorkflowDocumentUpload(props) {
           }
           else {
             console.log('something went')
-            toast.error('Something went wrongg !!!')
+            props?.activateBottomErrorCard(true, 'Some error occured while uploading document. Please try again later')
+
           }
 
         })
         .catch((err) => {
           console.log("data submission error bo doc upload => ", err);
+          props?.activateBottomErrorCard(true, 'Some error occured while uploading document. Please try again later')
           setmodal(false);
           setloader(false)
         })
@@ -399,6 +410,7 @@ function PilotWorkflowDocumentUpload(props) {
                           Mobile
                         </th>
                         {/* <th className="py-3 px-6 text-left">Applicant Image</th> */}
+                        <th className="py-3 px-6 text-left">Status</th>
                         <th className="py-3 px-6 text-left">Action</th>
                       </tr>
                     </thead>
@@ -411,7 +423,7 @@ function PilotWorkflowDocumentUpload(props) {
                             <div className="flex items-center justify-center">
 
                               {owner?.ownerDetails?.uploadedDoc != '' &&
-                                <div className="text-center cursor-pointer" onClick={() => modalFun(`${base_url}/${owner?.ownerDetails?.uploadedDoc}`)}>
+                                <div className="text-center cursor-pointer border border-indigo-600" onClick={() => modalFun(`${base_url}/${owner?.ownerDetails?.uploadedDoc}`)}>
                                   {/* {owner?.uploadoc} */}
                                   <img src={`${base_url}/${owner?.ownerDetails?.uploadedDoc}`} alt="" className="md:w-[3vw] w-[5vw]" srcset="" />
                                 </div>
@@ -426,7 +438,7 @@ function PilotWorkflowDocumentUpload(props) {
                           <td className="py-3 px-6 text-left whitespace-nowrap">
                             <div className="flex items-center">
                               <span className="font-medium">
-                                {owner?.ownerDetails?.name}
+                                {nullToNA(owner?.ownerDetails?.name)}
                               </span>
                             </div>
                           </td>
@@ -434,7 +446,7 @@ function PilotWorkflowDocumentUpload(props) {
                           <td className="py-3 px-6 text-left whitespace-nowrap">
                             <div className="flex items-center">
                               <span className="font-medium">
-                                {owner?.ownerDetails?.guardian}
+                                {nullToNA(owner?.ownerDetails?.guardian)}
                               </span>
                             </div>
                           </td>
@@ -442,11 +454,16 @@ function PilotWorkflowDocumentUpload(props) {
                           <td className="py-3 px-6 text-left whitespace-nowrap">
                             <div className="flex items-center">
                               <span className="font-medium">
-                                {owner?.ownerDetails?.mobile}
+                                {nullToNA(owner?.ownerDetails?.mobile)}
                               </span>
                             </div>
                           </td>
 
+                          <td className="py-3 px-6 text-left whitespace-nowrap">
+                            <div className="flex items-center">
+                              <span className={`font-medium ${owner?.ownerDetails?.reqDocCount===owner?.ownerDetails?.uploadedDocCount ?'text-green-400':'text-red-400'}`}>Uploaded {nullToNA(owner?.ownerDetails?.uploadedDocCount)} of {nullToNA(owner?.ownerDetails?.reqDocCount)}</span>
+                            </div>
+                          </td>
                           <td className="py-3 px-6">
                             <div className="font-semibold text-sm">
                               <div className="">
@@ -483,10 +500,10 @@ function PilotWorkflowDocumentUpload(props) {
                         Document Name
                       </th>
                       <th className="py-3 px-6 text-left">Type</th>
+                      <th className="py-3 px-6 text-center">Document Option</th>
                       <th className="py-3 px-6 text-center">Document</th>
-                      <th className="py-3 px-6 text-center">Status</th>
                       <th className="py-3 px-6 text-center">Remarks</th>
-                      <th className="py-3 px-6 text-center">Preview</th>
+                      <th className="py-3 px-6 text-center">Status</th>
                       <th className="py-3 px-6 text-center">Upload</th>
                       {/* <th className="py-3 px-6 text-center">Upload</th> */}
                     </tr>
@@ -502,7 +519,7 @@ function PilotWorkflowDocumentUpload(props) {
                               <img src={folder} alt="rain" className="w-4" />
                             </div>
                             <span className="font-medium" value={doc?.docName}>
-                              {doc?.docName}{doc?.docName}{(doc?.docType == 'OR' || doc?.docType == 'R') && <small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small>}
+                              {nullToNA(doc?.docName)}{(doc?.docType == 'OR' || doc?.docType == 'R') && <small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small>}
                             </span>
 
                           </div>
@@ -543,22 +560,22 @@ function PilotWorkflowDocumentUpload(props) {
                             <div className="flex items-center justify-center font-semibold text-[26px] cursor-pointer" onClick={() => modalFun(`${base_url}/${doc?.uploadedDoc?.docPath}`)}>
                               <div className="flex items-center">
                                 {doc?.uploadedDoc?.docPath?.split('.')[doc?.uploadedDoc?.docPath?.split('.')?.length - 1] == 'pdf' &&
-                                  <div className="flex-shrink-0 text-[28px]">
+                                  <div className="flex-shrink-0 text-[28px] border border-indigo-600">
                                     <FcDocument />
                                   </div>
                                 }
                                 {doc?.uploadedDoc?.docPath?.split('.')[doc?.uploadedDoc?.docPath?.split('.')?.length - 1] == 'jpg' &&
-                                  <div className="flex-shrink-0">
+                                  <div className="flex-shrink-0 border border-indigo-600">
                                     <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                   </div>
                                 }
                                 {doc?.uploadedDoc?.docPath?.split('.')[doc?.uploadedDoc?.docPath?.split('.')?.length - 1] == 'jpeg' &&
-                                  <div className="flex-shrink-0">
+                                  <div className="flex-shrink-0 border border-indigo-600">
                                     <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                   </div>
                                 }
                                 {doc?.uploadedDoc?.docPath?.split('.')[doc?.uploadedDoc?.docPath?.split('.')?.length - 1] == 'png' &&
-                                  <div className="flex-shrink-0">
+                                  <div className="flex-shrink-0 border border-indigo-600">
                                     <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                   </div>
                                 }
@@ -695,11 +712,11 @@ function PilotWorkflowDocumentUpload(props) {
                           <td className="py-3 px-6 text-center font-semibold">{index + 1}</td>
                           <td className="py-3 px-6 text-left whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="mr-2 bg-white shadow-lg rounded-full p-2">
+                              <div className="mr-2 bg-white shadow-lg rounded-full p-2 ">
                                 <img src={folder} alt="rain" className="w-4" />
                               </div>
                               <span className="font-medium">
-                                {doc?.docName}{(doc?.docType == 'OR' || doc?.docType == 'R') && <small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small>}
+                                {nullToNA(doc?.docName)}{(doc?.docType == 'OR' || doc?.docType == 'R') && <small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small>}
                               </span>
 
 
@@ -740,22 +757,22 @@ function PilotWorkflowDocumentUpload(props) {
 
                                 <div className="flex items-center">
                                   {doc?.uploadedDoc?.docPath?.split('.')[1] == 'pdf' &&
-                                    <div className="flex-shrink-0 text-[28px]">
+                                    <div className="flex-shrink-0 text-[28px] border border-indigo-600">
                                       <FcDocument />
                                     </div>
                                   }
                                   {doc?.uploadedDoc?.docPath?.split('.')[1] == 'jpg' &&
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 border border-indigo-600">
                                       <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                     </div>
                                   }
                                   {doc?.uploadedDoc?.docPath?.split('.')[1] == 'jpeg' &&
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 border border-indigo-600">
                                       <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                     </div>
                                   }
                                   {doc?.uploadedDoc?.docPath?.split('.')[1] == 'png' &&
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 border border-indigo-600">
                                       <img src={`${base_url}/${doc?.uploadedDoc?.docPath}`} className="md:w-[2vw] w-[5vw]" alt="" srcset="" />
                                     </div>
                                   }
@@ -803,7 +820,7 @@ function PilotWorkflowDocumentUpload(props) {
                                     type="file"
                                     // name={doc?.docVal[0]?.doc_name}
                                     onChange={handleChange}
-                                    className="form-control block w-full px-3 py-1 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md w-36"
+                                    className="form-control block w-full px-3 py-1 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md w-36 cursor-pointer"
                                   />
                                 </div>
                                 <div className="mt-2">

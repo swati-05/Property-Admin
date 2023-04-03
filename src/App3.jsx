@@ -100,6 +100,7 @@ import CitizenPropSafApplicationFormIndex from './Pages/Property/CitizenSafForm2
 import UlbWorkflowRolesIndex from '@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex';
 import NavigatePage from './Pages/NavigatePage';
 import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
+import GBSAFDetailsEntry from './Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry';
 
 
 
@@ -261,6 +262,7 @@ function App(props) {
               <Route path='/cluster-holding-transactions/:id' element={<ClusterHoldingTransactionHistory />} />
               <Route path='/cluster-payment/:id/:moduleType' element={<ClusterPayment />} />
               <Route path='/cluster-payment-receipt/:paymentId/:module' element={<ClusterPaymentReceiptIndex />} />
+              <Route path='/gbsaf-details/:id' element={<GBSAFDetailsEntry />} />
 
               <Route path='/sam-reciept/:id' element={<SamReciept />} />
               <Route path='/fam-reciept/:id' element={<PrintPage />} />

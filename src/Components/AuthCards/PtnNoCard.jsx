@@ -102,30 +102,30 @@ function PtnNoCard(props) {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <div class="w-screen h-screen">
-                    <div class="h-screen py-20 px-3">
-                        <div class="container mx-auto">
-                            <div class="max-w-sm mx-auto md:max-w-lg">
-                                <div class="w-full">
-                                    <div class="bg-white h-80 py-8 rounded text-center shadow-xl relative">
-                                        <div class="text-2xl font-bold px-10">Enter PTN No.
-                                            {/* <button onClick={() => props?.setptnCardStatus(false)} type="button" class="float-right right-2.5 text-red-400 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " >
-                                                <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <div className="w-screen h-screen">
+                    <div className="h-screen py-20 px-3">
+                        <div className="container mx-auto">
+                            <div className="max-w-sm mx-auto md:max-w-lg">
+                                <div className="w-full">
+                                    <div className="bg-white h-80 py-8 rounded text-center shadow-xl relative">
+                                        <div className="text-2xl font-bold px-10">Enter PTN No.
+                                            {/* <button onClick={() => props?.setptnCardStatus(false)} type="button" className="float-right right-2.5 text-red-400 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " >
+                                                <svg className="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </button> */}
                                         </div>
-                                        <div class="flex flex-col mt-4 text-center">
+                                        <div className="flex flex-col mt-4 text-center">
                                             <span className='text-center'>Enter 14 digit PTN no,<br />which is property tax number<br />of the holding to attach a property</span>
-                                            {/* <span class="font-bold">+91 ******876</span> */}
+                                            {/* <span className="font-bold">+91 ******876</span> */}
                                         </div>
 
-                                        <div class="flex flex-row justify-center text-center px-2 mt-5">
+                                        <div className="flex flex-row justify-center text-center px-2 mt-5">
 
                                             <form onSubmit={formik.handleSubmit} onChange={handleChange} >
                                                 <div>
                                                     <input type="text"  {...formik.getFieldProps('ptnNo')} className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                     />
                                                 </div>
-                                                <div class="w-full text-center mt-5">
+                                                <div className="w-full text-center mt-5">
 
                                                     {isButtonEnabled && <button type='submit' className="w-full  py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit</button>}
                                                     {!isButtonEnabled && <button type='button' className="w-full  py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight  rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out cursor-default ">Submit</button>}

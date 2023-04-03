@@ -14,6 +14,7 @@ import BrandLoader from "@/Components/Common/BrandLoader";
 import CommonModal from "@/Components/GlobalData/CommonModal";
 import ServerErrorCard from "@/Components/Common/ServerErrorCard";
 import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 function DeactivationFormComponent(props) {
   const [deactivationFile, setdeactivationFile] = useState();
@@ -25,8 +26,10 @@ function DeactivationFormComponent(props) {
   const { id } = useParams()
   const { api_getHoldingDeactivationDetails, api_postHoldingDeactivationApply } = PropertyApiList()
   const { notify } = useContext(contextVar)
-  const [erroState, seterroState] = useState(false);
   const [deactivationSubmitStatus, setdeactivationSubmitStatus] = useState(false);
+  const [erroState2, seterroState2] = useState(false);
+  const [erroState, seterroState] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   const navigate = useNavigate()
   
@@ -64,7 +67,6 @@ function DeactivationFormComponent(props) {
   };
 
   const submitDeactivation = () => {
-    seterroState(false)
     setisLoading2(true)
 
     let formData = new FormData();
@@ -82,15 +84,14 @@ function DeactivationFormComponent(props) {
           notify('Holding deactivation applied successfully !!', "success");
           setdeactivationSubmitStatus(true)
         } else {
-          notify(res?.data?.message, "error");
+          activateBottomErrorCard(true,'Something went wrong in submitting deactivation application')
         }
         setisLoading2(false)
 
       })
       .catch((error) => {
         console.log('error at submit deactivation ', error);
-        seterroState(true)
-        notify('something went wrong !!', "error");
+        activateBottomErrorCard(true,'Something went wrong in submitting deactivation application')
         setisLoading2(false)
       });
   };
@@ -101,7 +102,7 @@ function DeactivationFormComponent(props) {
   }
 
   const getPropertyDetail = () => {
-    seterroState(false)
+    seterroState2(false)
     setisLoading(true)
     console.log('before fetch property details in deactivation')
     axios.post(api_getHoldingDeactivationDetails, { propertyId: id }, ApiHeader())
@@ -110,13 +111,13 @@ function DeactivationFormComponent(props) {
         if (response?.data?.status) {
           setapplicationFullData(response.data)
         } else {
-          seterroState(true)
+          seterroState2(true)
         }
         setisLoading(false)
       })
       .catch(function (error) {
         console.log('==2 details by id error...', error)
-        seterroState(true)
+        seterroState2(true)
         setisLoading(false)
       })
   }
@@ -125,6 +126,11 @@ function DeactivationFormComponent(props) {
     getPropertyDetail()
   }, [])
 
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
 
 
   if (isLoading) {
@@ -134,7 +140,7 @@ function DeactivationFormComponent(props) {
       </>
     )
   }
-  if (erroState) {
+  if (erroState2) {
     return (
       <CommonModal>
         <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
@@ -145,7 +151,7 @@ function DeactivationFormComponent(props) {
   return (
     <>
       {isLoading2 && <BarLoader />}
-      {/* <div className=" font-bold text-2xl pb-4 md:py-4">Holding Deactivation</div> */}
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       <div className='w-full bg-white shadow-xl mb-6'>
         <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>

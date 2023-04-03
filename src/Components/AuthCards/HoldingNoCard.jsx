@@ -131,19 +131,19 @@ function HoldingNoCard(props) {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <div class="w-screen h-screen">
-                    <div class="h-screen py-20 px-3">
-                        <div class="container mx-auto">
-                            <div class="max-w-sm mx-auto md:max-w-lg">
-                                <div class="w-full">
-                                    <div class="bg-white py-8 rounded text-center shadow-xl relative">
+                <div className="w-screen h-screen">
+                    <div className="h-screen py-20 px-3">
+                        <div className="container mx-auto">
+                            <div className="max-w-sm mx-auto md:max-w-lg">
+                                <div className="w-full">
+                                    <div className="bg-white py-8 rounded text-center shadow-xl relative">
 
                                         <button
                                             onClick={() => props?.closeModal(false)}
                                             type="button"
-                                            class="absolute top-6 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
+                                            className="absolute top-6 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
                                         >
-                                            <svg class="w-5 h-5" fill="currentColor">
+                                            <svg className="w-5 h-5" fill="currentColor">
                                                 <path
                                                     fill-rule="evenodd"
                                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -151,13 +151,13 @@ function HoldingNoCard(props) {
                                                 ></path>
                                             </svg>
                                         </button>
-                                        <div class="text-2xl font-bold px-10">Applying.... for &nbsp;
+                                        <div className="text-2xl font-bold px-10">Applying.... for &nbsp;
                                             {props?.safType == 'bi' && 'Bifurcation'}
                                             {props?.safType == 'am' && 'Amalgamation'}
                                             {props?.safType == 'mu' && 'Mutation'}</div>
                                         {!(props?.safType == 'bi' && holdingNoList?.length != 0) && <>
 
-                                            <div class="flex flex-col mt-4 text-center">
+                                            <div className="flex flex-col mt-4 text-center">
                                                 <span className='text-center font-semibold'>Enter holding no for &nbsp;
                                                     {props?.safType == 'bi' && 'Bifurcation'}
                                                     {props?.safType == 'am' && 'Amalgamation'}
@@ -166,7 +166,7 @@ function HoldingNoCard(props) {
                                             </div>
                                         </>}
 
-                                        <div class="flex flex-row justify-center text-center px-2 mt-5">
+                                        <div className="flex flex-row justify-center text-center px-2 mt-5">
 
                                             <form onSubmit={formik.handleSubmit} onChange={handleChange} >
                                                 {!((props?.safType == 'bi' || props?.safType == 'mu') && holdingNoList?.length != 0) && <div className='relative'>
@@ -175,7 +175,7 @@ function HoldingNoCard(props) {
                                                     />
                                                     <span className="text-red-600 absolute text-xs">{formik.touched.holdingNo && formik.errors.holdingNo ? formik.errors.holdingNo : null}</span>
                                                 </div>}
-                                                <div class="w-full text-center mt-10">
+                                                <div className="w-full text-center mt-10">
 
                                                     {props?.safType == 'mu' && holdingNoList?.length == 0 && <button type='submit' className="w-full  py-2.5 bg-white border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight  rounded shadow-md  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save</button>}
                                                     {props?.safType == 'bi' && holdingNoList?.length == 0 && <button type='submit' className="w-full  py-2.5 bg-white border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight  rounded shadow-md  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save</button>}
@@ -214,7 +214,7 @@ function HoldingNoCard(props) {
                                             </table>
                                             </div>}
 
-                                        <div class="w-full text-right mt-10">
+                                        <div className="w-full text-right mt-10">
 
                                             {holdingNoList?.length != 0 && <button type='button' onClick={funcSubmitHoldingList} className="float-right w-full  py-4 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit & Proceed</button>}
                                             {holdingNoList?.length == 0 && <button type='button' className="float-right w-full  py-4 bg-gray-400 text-white font-medium text-xs leading-tight  rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out cursor-default ">Submit & Proceed</button>}

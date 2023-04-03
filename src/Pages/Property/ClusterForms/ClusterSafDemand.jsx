@@ -242,19 +242,19 @@ function ClusterSafDemand(props) {
                                                     {demandDetail.details?.map((items, index) => (
                                                         <tr className="bg-white shadow-lg border-b border-gray-200">
                                                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.qtr)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.holding_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.onePercPenaltyTax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.water_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.latrine_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.education_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.health_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.adjust_amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.balance)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.due_date)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.fyear)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holding_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}&nbsp;({nullToNA(items?.onePercPenalty)}%)</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.water_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrine_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.education_cess)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.health_cess)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.amount)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjust_amount)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.due_date)}</td>
                                                         </tr>
                                                     ))}
 
@@ -291,7 +291,7 @@ function ClusterSafDemand(props) {
 
                 </div>
             </div>
-            <div className='w-full mt-10'></div>
+            <div className='w-full mt-20'></div>
         </>
     )
 }

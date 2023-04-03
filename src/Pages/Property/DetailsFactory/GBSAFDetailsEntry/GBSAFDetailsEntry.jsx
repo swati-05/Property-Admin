@@ -30,6 +30,8 @@ function GBSAFDetailsEntry() {
         }
     }
     console.log('gb saf page is calling...')
+
+   
     return (
         <CustomErrorBoundary errorMsg="Bug in GBSAF " >
             <DetailsFactory detailRules={detailRules} />

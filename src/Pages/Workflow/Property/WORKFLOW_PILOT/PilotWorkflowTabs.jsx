@@ -42,7 +42,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "#00BFFF",
+    backgroundColor: "white",
     border: "none",
   },
 };
@@ -117,6 +117,8 @@ export default function PilotWorkflowTabs(props) {
 
   function closeModal() {
     setIsOpen(false);
+    // SENDING BACK TO LIST TAB
+    props?.fun(null,0)
   }
   const handleChangeTabs = (event, newValue) => {
     console.log('value at workflow tabs...', newValue)
@@ -429,7 +431,7 @@ export default function PilotWorkflowTabs(props) {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <div class="relative bg-white rounded-lg shadow-xl border-2 border-gray-50">
+        <div style={{'zIndex':10000}} class="relative bg-white rounded-lg shadow-xl border-2 border-gray-50">
           <button
             onClick={closeModal}
             type="button"
@@ -447,7 +449,7 @@ export default function PilotWorkflowTabs(props) {
             </h3>
             <button
               type="button"
-              class="text-white bg-sky-400 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+              class="text-white bg-green-400  hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 font-medium rounded-lg text-sm inline-flex items-center px-8 py-2.5 text-center mr-2"
               onClick={closeModal}
             >
               Back

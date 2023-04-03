@@ -190,18 +190,18 @@ function OtpCard(props) {
                 isLoading && <BarLoader />
             }
             <CommonModal>
-                <div class="">
-                    <div class="container mx-auto">
-                        <div class="max-w-sm mx-auto md:max-w-lg">
-                            <div class="w-full px-2 md:px-0">
+                <div className="">
+                    <div className="container mx-auto">
+                        <div className="max-w-sm mx-auto md:max-w-lg">
+                            <div className="w-full px-2 md:px-0">
                                 <div className='w-full text-center py-2  bg-gray-200 text-black relative'>{props?.headTitle}
 
                                     <button
                                         onClick={props?.closeOtpModal}
                                         type="button"
-                                        class="absolute top-1 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
+                                        className="absolute top-1 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
                                     >
-                                        <svg class="w-5 h-5" fill="currentColor">
+                                        <svg className="w-5 h-5" fill="currentColor">
                                             <path
                                                 fill-rule="evenodd"
                                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -211,18 +211,18 @@ function OtpCard(props) {
                                     </button>
                                 </div>
 
-                                <div class="bg-white py-20 px-6 md:py-20 md:px-20 w-full md:w-auto rounded text-center shadow-xl relative">
-                                    <div class="text-2xl font-bold px-2">OTP Verification
+                                <div className="bg-white py-20 px-6 md:py-20 md:px-20 w-full md:w-auto rounded text-center shadow-xl relative">
+                                    <div className="text-2xl font-bold px-2">OTP Verification
                                     </div>
-                                    <div class="flex flex-col mt-4 text-center">
+                                    <div className="flex flex-col mt-4 text-center">
                                         <span className='text-center text-red-400'>{errorMsg}</span>
                                     </div>
-                                    <div class="flex flex-col mt-4">
+                                    <div className="flex flex-col mt-4">
                                         <span>Enter the OTP you received at</span>
-                                        <span class="font-bold">+91 {props?.verifedMobileNo}</span>
+                                        <span className="font-bold">+91 {props?.verifedMobileNo}</span>
                                     </div>
 
-                                    <div id="otp" class="flex flex-row justify-center text-center px-2 mt-5">
+                                    <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
 
                                         <input ref={firstRef} type="text" min={0} value={otp.first} maxLength={1} onChange={e => handleChange(e, "first")} onKeyDown={e => e.key === "Backspace" && handleBack("first")} className={`${activeInput === "first" ? "active" : ""} m-2 border h-10 w-10 text-center form-control rounded`}
                                         />
@@ -238,7 +238,7 @@ function OtpCard(props) {
                                         />
                                     </div>
 
-                                    <div class="flex justify-center text-center mt-5">
+                                    <div className="flex justify-center text-center mt-5">
                                         {!reSendStatus && <div className='w-10 h-10 bg-indigo-500 flex justify-center items-center rounded-full text-white'>{timer}</div>}
                                         <button disabled={!reSendStatus} onClick={() => {
                                             props?.reSendOtp()
@@ -246,10 +246,10 @@ function OtpCard(props) {
                                             settimer(4)
                                             staticCount = 4
                                             activateResendTimer()
-                                        }} class={`ml-4 flex items-center ${reSendStatus ? 'text-indigo-500 hover:text-blue-900 cursor-pointer' : 'text-gray-400 hover:text-none cursor-default'}`}><span class="font-bold">Resend OTP</span><i class='bx bx-caret-right ml-1'></i></button>
+                                        }} className={`ml-4 flex items-center ${reSendStatus ? 'text-indigo-500 hover:text-blue-900 cursor-pointer' : 'text-gray-400 hover:text-none cursor-default'}`}><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></button>
                                     </div>
 
-                                    <div class="w-full text-center mt-5">
+                                    <div className="w-full text-center mt-5">
 
                                         {isButtonEnabled && <button type='button' onClick={verifyOtp} className="w-full  py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit</button>}
                                         {!isButtonEnabled && <button type='button' className="w-full  py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight  rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out cursor-default ">Submit</button>}

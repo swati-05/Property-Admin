@@ -181,7 +181,7 @@ function DetailsFactory(props) {
                                                                     <table className='min-w-full leading-normal mt-2 bg-sky-5 shadow-lg rounded-lg'>
                                                                         <thead className='font-bold text-left text-sm bg-white text-gray-600'>
                                                                             <tr>
-                                                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                                                               
                                                                                 {data?.tableHead?.map((head) => (
                                                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">{nullToNA(head)}</th>
                                                                                 ))}
@@ -191,19 +191,13 @@ function DetailsFactory(props) {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody className="text-sm">
-
-                                                                            <>
                                                                                 {data?.tableData?.map((dataIn, index) => (
                                                                                     <tr className="bg-white  border-b border-gray-200">
-                                                                                        <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                                                                         {dataIn?.map((dataIn2) => (
                                                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(dataIn2) }</td>
                                                                                         ))}
                                                                                     </tr>
                                                                                 ))}
-                                                                            </>
-
-
                                                                         </tbody>
                                                                     </table>
                                                                 </>

@@ -121,18 +121,18 @@ function MobileNoCard(props) {
                 isLoading && <BarLoader />
             }
             <CommonModal>
-                <div class="">
-                    <div class="">
-                        <div class="container mx-auto">
-                            <div class="max-w-sm mx-auto md:max-w-lg">
-                                <div class="w-full">
+                <div className="">
+                    <div className="">
+                        <div className="container mx-auto">
+                            <div className="max-w-sm mx-auto md:max-w-lg">
+                                <div className="w-full">
                                     <div className='w-full text-center py-2 bg-gray-200 text-black relative'>{props?.headTitle}
                                         <button
                                             onClick={props?.closeMobileModal}
                                             type="button"
-                                            class="absolute top-1 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
+                                            className="absolute top-1 right-6 bg-transparent bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center shadow-sm  hover:bg-red-200 hover:border-none"
                                         >
-                                            <svg class="w-5 h-5" fill="currentColor">
+                                            <svg className="w-5 h-5" fill="currentColor">
                                                 <path
                                                     fill-rule="evenodd"
                                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -140,26 +140,26 @@ function MobileNoCard(props) {
                                                 ></path>
                                             </svg>
                                         </button></div>
-                                    <div class="bg-white py-20 px-6 md:py-20 md:px-20 w-full md:w-auto rounded text-center shadow-xl relative">
+                                    <div className="bg-white py-20 px-6 md:py-20 md:px-20 w-full md:w-auto rounded text-center shadow-xl relative">
 
 
-                                        <div class="flex flex-col mt-4 text-center">
+                                        <div className="flex flex-col mt-4 text-center">
                                             <span className='text-center text-red-400'>{errorMsg}</span>
                                         </div>
-                                        <div class="text-2xl font-bold">{props?.title}
+                                        <div className="text-2xl font-bold">{props?.title}
 
                                         </div>
-                                        <div class="flex flex-col mt-4 text-center">
+                                        <div className="flex flex-col mt-4 text-center">
                                             <span className='text-center'>{props?.desc}</span>
                                         </div>
 
-                                        <div class="flex flex-row justify-center text-center mt-5 w-full">
+                                        <div className="flex flex-row justify-center text-center mt-5 w-full">
                                             <form onSubmit={formik.handleSubmit} onChange={handleChange} >
                                                 <div className='w-full'>
                                                     <input type="text" min={0}  {...formik.getFieldProps('mobileNo')} className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                     />
                                                 </div>
-                                                <div class="w-full text-center mt-5">
+                                                <div className="w-full text-center mt-5">
 
                                                     {isButtonEnabled && <button type='submit' className="w-full  py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit</button>}
                                                     {!isButtonEnabled && <button type='button' className="w-full  py-2.5 bg-gray-300 text-white font-medium text-xs leading-tight  rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out cursor-default ">Submit</button>}

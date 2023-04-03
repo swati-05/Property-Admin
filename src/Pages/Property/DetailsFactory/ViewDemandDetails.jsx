@@ -18,7 +18,8 @@ import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
-import {BsCurrencyRupee} from 'react-icons/bs'
+import { BsCurrencyRupee } from 'react-icons/bs'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 
 
@@ -183,7 +184,6 @@ function ViewDemandDetails(props) {
                                 <table className='min-w-full leading-normal mt-2'>
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
                                         <tr>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Tax Amount (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Late Assessment Penalty (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% Penalty (Rs)</th>
@@ -194,26 +194,46 @@ function ViewDemandDetails(props) {
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm">
-
-                                        <>
-
-                                            <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                <td className="px-2 py-2 text-sm text-left">1</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.totalDemand)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.lateAssessmentPenalty)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.totalOnePercPenalty)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.rebateAmount)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.specialRebateAmount)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.amounts?.payableAmount)}</td>
-
-
-                                            </tr>
-
-                                        </>
-
+                                        <tr className="bg-white shadow-lg border-b border-gray-200">
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.totalTax)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.lateAssessmentPenalty)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.totalOnePercPenalty)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.rebateAmt)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.specialRebateAmt)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.payableAmount)}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            {/* // REABATE DESCRIPTION */}
+                            {demandDetail?.amounts?.rebates?.length !== 0 && <>
+                                <div className='mt-10 text-md font-semibold'>Rebate Description</div>
+                                <table className='min-w-full leading-normal mt-2'>
+                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                        <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amount</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+
+                                        {demandDetail?.amounts?.rebates?.map((data, index) => (
+                                            <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </>
+                            }
 
 
                             {/* due detail list */}
@@ -258,19 +278,19 @@ function ViewDemandDetails(props) {
                                                     {demandDetail.details?.map((items, index) => (
                                                         <tr className="bg-white shadow-lg border-b border-gray-200">
                                                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.qtr)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.holding_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.onePercPenaltyTax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.water_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.latrine_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.education_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.health_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.adjust_amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.balance)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items.due_date)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.fyear)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holding_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.water_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrine_tax)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.education_cess)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.health_cess)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.amount)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjust_amount)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.due_date)}</td>
                                                         </tr>
                                                     ))}
 

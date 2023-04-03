@@ -461,7 +461,7 @@ function SafFormReview(props) {
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.mUsageType)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rentalValue)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.buildupArea)}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.quarterYear)}/{nullToNA(data?.qtr)}</td>
 
                                                         <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
 
@@ -496,7 +496,7 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet1?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}/{nullToNA(data?.qtr)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.waterTax)}</td>
@@ -592,7 +592,7 @@ function SafFormReview(props) {
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.occupancyFactor)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rentalRate)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.carpetArea)}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.quarterYear)}/{nullToNA(data?.qtr)}</td>
                                                         <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
                                                     </tr>
                                                 ))
@@ -623,7 +623,7 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet2?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}/{nullToNA(data?.qtr)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rwhPenalty)}</td>
@@ -716,7 +716,7 @@ function SafFormReview(props) {
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.taxPerc)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.calculationFactor)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.matrixFactor)}</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.dateFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.quarterYear)}/{nullToNA(data?.qtr)}</td>
                                                         <td className="px-2 py-2 text-sm text-left"><span className='bg-amber-200 px-2 py-1 rounded-lg shadow-lg border border-white'>{nullToNA(data?.arv)}</span></td>
                                                     </tr>
                                                 ))
@@ -746,7 +746,7 @@ function SafFormReview(props) {
                                                 {props?.rulesetData?.data?.details?.RuleSet3?.totalQtrTaxes.map((data) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left">1</td>
-                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.effectingFrom)}/{nullToNA(data?.qtr)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.arv)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.holdingTax)}</td>
                                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.rwhPenalty)}</td>
