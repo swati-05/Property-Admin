@@ -108,8 +108,8 @@ const SamReciept = () => {
 
           {/* declaration */}
           <div>
-              <p className="text-xs my-2">
-              &nbsp; You are hereby informed that your New Holding Number - <span className="font-semibold">{samDetails?.holding_no}</span> in Ward No - <span className="font-semibold">{samDetails?.old_ward_no}</span> , New Ward No - <span className="font-semibold">{samDetails?.new_ward_no}</span> has been done, on the basis of your self-assessment declaration form, the annual rental price has been fixed at Rs <span className="font-semibold">{samDetails?.arv}</span>/- based on your self assessment declaration.
+          <p className="text-xs my-2">
+              &nbsp; You are hereby informed that your New {(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} Number - <span className="font-semibold">{(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? samDetails?.holding_no : samDetails?.pt_no}</span> in Ward No - <span className="font-semibold">{samDetails?.old_ward_no}</span> , New Ward No - <span className="font-semibold">{samDetails?.new_ward_no}</span> has been done, on the basis of your self-assessment declaration form, the annual rental price has been fixed at Rs <span className="font-semibold">{samDetails?.arv}</span>/- based on your self assessment declaration.
               </p>
           </div>
 

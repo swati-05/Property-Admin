@@ -38,6 +38,11 @@ export const ClusterForm = (props) => {
   // ============Getting dependent List================
   useEffect(() => {
 
+    if(props?.editState){
+      getDependentList()
+      fetchNewWardByOldWard()
+    }
+
     setloader(false)
 
     axios.get(ulbList, ApiHeader())
@@ -60,7 +65,11 @@ export const ClusterForm = (props) => {
   const getDependentList = (e) => {
     setloader(true)
 
-    axios.post(api_wardByUlb, {ulbId : e?.target?.value}, ApiHeader())
+    let body;
+
+    props?.editState ? (body = {ulbId : props?.userData?.ulb_id}) : (body = { ulbId : e.target.value})
+
+    axios.post(api_wardByUlb, body, ApiHeader())
     .then((res) => {
         if(res?.data?.status){
           console.log("ward by ulb list => ", res)
@@ -80,10 +89,11 @@ export const ClusterForm = (props) => {
 }
 
 const fetchNewWardByOldWard = (e) => {
-  let requestBody = {
-      oldWardMstrId: e.target.value,
-      ulbId: formik.values.ulbId 
-  }
+
+  let requestBody;
+
+  props?.editState ? (requestBody = {oldWardMstrId : props?.userData?.ward_mstr_id, ulbId : props?.userData?.ulb_id}) : (requestBody = {oldWardMstrId: e.target.value, ulbId: formik.values.ulbId})
+  
   console.log('before fetch wardby old ward...', requestBody)
 
   axios.post(api_newWardByOldWard, requestBody, ApiHeader())
@@ -137,9 +147,9 @@ const fetchNewWardByOldWard = (e) => {
   const formik = useFormik({
     initialValues: {
       id: props?.userData?.id,
-      ulbId : props?.userData?.ulbId,
-      wardNo: props?.userData?.wardNo,
-      newWardNo: props?.userData?.newWardNo,
+      ulbId : props?.userData?.ulb_id,
+      wardNo: props?.userData?.ward_mstr_id,
+      newWardNo: props?.userData?.new_ward_mstr_id,
       clusterName: props?.userData?.cluster_name,
       clusterType: props?.userData?.cluster_type,
       clusterAddress: props?.userData?.address,
@@ -194,13 +204,13 @@ const fetchNewWardByOldWard = (e) => {
       <ToastContainer position="top-right" autoClose={2000} />
 
       {/* ================Heading=================== */}
-      <h1 className="mt-6 mb-2 mx-6 font-serif font-semibold absolute text-gray-600">
+      <h1 className="mt-6 mb-2 sm:-mb-16 mx-6 font-serif font-semibold relative text-gray-600">
         <RiBuilding2Fill className="inline mr-2" />
         Cluster Form
       </h1>
 
       {/* ================Form======================== */}
-      <div className=" block mt-[4rem] md:mt-[5rem] p-4 w-full md:py-6 md:px-14 shadow-lg bg-white mx-auto border border-gray-200">
+      <div className=" block sm:mt-[4rem] md:mt-[5rem] p-4 w-full md:py-6 md:px-14 shadow-lg bg-white mx-auto border border-gray-200">
         <form onSubmit={formik.handleSubmit} onChange={formik.handleChange} className="text-xs">
           <div className="grid grid-cols-12 md:gap-x-8 gap-y-6">
 
@@ -424,7 +434,7 @@ const fetchNewWardByOldWard = (e) => {
                 type="submit"
                 className="md:mt-2 px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
               >
-                {props.editState ? <>Update</> : <>Add</>}
+                {props?.editState ? <>Update</> : <>Add</>}
               </button>
 
             </div>

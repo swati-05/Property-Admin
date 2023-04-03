@@ -148,7 +148,7 @@ const ClusterTable = (props) => {
       },
       {
         Header: "Old Ward No.",
-        accessor: "wardNo",
+        accessor: "oldWard",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
@@ -165,7 +165,7 @@ const ClusterTable = (props) => {
       },
       {
         Header: "New Ward No.",
-        accessor: "newWardNo",
+        accessor: "newWard",
         Cell: (props) => {
         if (props?.value == null || props?.value == '' || props?.value == undefined) {
           return (
@@ -345,7 +345,7 @@ const ClusterTable = (props) => {
       {isLoading && <BarLoader />}
 
     {/* ===========Table================ */}
-      <div className="">
+      <div className="px-2 sm:px-0">
         {(!isLoading && table) && ( 
           <>
            
@@ -363,6 +363,7 @@ const ClusterTable = (props) => {
             </div>
 
             <ListTable columns={COLUMNS} dataList={clusterData} />
+            <div className="h-[20vh]"></div>
           </>
         )}
       </div>

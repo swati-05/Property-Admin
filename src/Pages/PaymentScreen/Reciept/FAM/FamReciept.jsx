@@ -24,11 +24,14 @@ class FamReciept extends React.Component {
             </li>;
     });
 
-    let holdingNo = famDetails?.holding_no?.split('')
+    let holdingNo;
+    
+    {(famDetails?.pt_no == '' || famDetails?.pt_no == undefined) ? holdingNo = famDetails?.holding_no?.split('') : holdingNo = famDetails?.pt_no?.split('')}
     
     const holdingBox = holdingNo?.map((num) => {
         return <div className='px-2 py-1 border-2 border-black text-xs'>{num}</div>
       })
+    
     
   return (
     <>
@@ -78,7 +81,7 @@ Jharkhand Municipal Act, 2011.
 
           {/* declaration */}
           <div className='text-xs mt-6'>
-            <p className='mb-3'>You are hereby informed that your new Holding No.-</p>
+          <p className='mb-3'>You are hereby informed that your new {(famDetails?.pt_no == '' || famDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} No.-</p>
             <div className='flex flex-row'>
               {holdingBox}
             </div>
