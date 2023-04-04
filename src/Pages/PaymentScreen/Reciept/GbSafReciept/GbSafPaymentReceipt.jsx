@@ -3,6 +3,7 @@ import { AiFillPrinter } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import QrCode from './QrCode';
 import './reciept.css'
+import PrintButton from '@/Components/Common/PrintButton';
 
 class ComponentToPrint extends React.Component {
 
@@ -16,19 +17,20 @@ class ComponentToPrint extends React.Component {
         return (
             <>
 
-                <div>
-                    <div className='md:px-0 flex-1 '>
+                {/* <div> */}
+                    {/* <div className='md:px-0 flex-1 '>
                         <Link to='/propertyDashboard'>
                             <button type="button" className="pl-4 pr-6 py-1 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-gray-500 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">back</button>
                         </Link>
-                    </div>
-                    <div className='md:px-0 flex-1 '>
+                    </div> */}
+                    {/* <div className='md:px-0 flex-1 '>
                         <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
                             <AiFillPrinter className='inline text-lg' />
                             Print
                         </button>
-                    </div>
-                </div>
+                    </div> */}
+                    <PrintButton />
+                {/* </div> */}
                 <div id="" className='h-screen flex items-center justify-center mt-10 print:mt-0'>
 
                     <div>

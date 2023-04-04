@@ -3,6 +3,8 @@ import rmclogo from '../images/rmclogo.png'
 import rmclogo2 from '../images/rmclogo2.jpg'
 import './Reciept.css'
 import swachhBharat from '../images/swachhBharat.png'
+import PrintButton from '@/Components/Common/PrintButton'
+import QrCode from '@/Components/Common/QrCode'
 
 class FamReciept extends React.Component {
 
@@ -36,9 +38,10 @@ class FamReciept extends React.Component {
   return (
     <>
 
-    <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
+    {/* <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
     Print
-</button>
+</button> */}
+<PrintButton />
     <div className="flex items-center justify-center text-black" id="printableArea">
       <div className="container w-[70%] border-2 border-dashed m-2 overflow-x-hidden border-black py-4 px-3">
 
@@ -135,7 +138,8 @@ made by you for assessment of tax for <span className="font-semibold">Ward No. <
               
               {/* qr */}
               <div>
-                  <img src="" alt="QR" className="h-20 w-20 border"/>
+                  {/* <img src="" alt="QR" className="h-20 w-20 border"/> */}
+                  <QrCode size='64' />
               </div>
 
               {/* signature */}

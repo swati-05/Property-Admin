@@ -9,6 +9,8 @@ import ApiHeader from '@/Components/ApiList/ApiHeader'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
 import BarLoader from '@/Components/Common/BarLoader'
+import PrintButton from '@/Components/Common/PrintButton'
+import QrCode from '@/Components/Common/QrCode'
 
 const SamReciept = () => {
 
@@ -72,9 +74,10 @@ const SamReciept = () => {
 
     <ToastContainer position="top-right" autoClose={2000} />
 
-    <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight capitalize rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
+    {/* <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight capitalize rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
     Print
-</button>
+</button> */}
+<PrintButton />
 
     <div className="flex items-center justify-center text-black" id="printableArea">
       <div className="container w-[70%] border-2 border-dashed m-2 overflow-x-hidden border-black py-4 px-3 relative">
@@ -182,7 +185,8 @@ const SamReciept = () => {
               
               {/* qr */}
               <div>
-                  <img src="" alt="QR" className="h-20 w-20 border"/>
+                  {/* <img src="" alt="QR" className="h-20 w-20 border"/> */}
+                  <QrCode size='64' />
               </div>
 
               {/* signature */}
