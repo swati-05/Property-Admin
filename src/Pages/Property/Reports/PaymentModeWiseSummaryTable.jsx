@@ -39,6 +39,8 @@ const PaymentModeWiseSummaryTable = (props) => {
 
 </table>
 
+<div className='h-[20vh]'></div>
+
 </>
 )
 }

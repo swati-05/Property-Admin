@@ -13,6 +13,8 @@ import BrandLoader from '@/Components/Common/BrandLoader'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import PrintButton from '@/Components/Common/PrintButton'
+import QrCode from '@/Components/Common/QrCode'
 
 const SamReciept = () => {
 
@@ -96,6 +98,10 @@ const SamReciept = () => {
         <>
 
             {loader && <BarLoader />}
+    {/* <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight capitalize rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
+    Print
+</button> */}
+<PrintButton />
 
             <ToastContainer position="top-right" autoClose={2000} />
 

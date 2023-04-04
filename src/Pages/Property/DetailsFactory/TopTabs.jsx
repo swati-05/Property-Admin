@@ -33,6 +33,11 @@ function TopTabs(props) {
         paymentHistoryRoute = `/holding-transactions/${id}`
     }
 
+    if(props?.type == 'gbSaf'){
+        demandDetailsRoute = `/viewDemand/${id}`
+        properyDetailsRoute = `/gbsaf-details/${id}`
+    }
+
     return (
         <>
             <div className="flex flex-col-reverse gap-y-4 md:flex-row md:py-2 justify-center items-center">
