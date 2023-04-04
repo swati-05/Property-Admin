@@ -396,6 +396,7 @@ const WardWiseHolding = () => {
                 <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
             </>
         }
+<div className='h-[20vh]'></div>
 
     </>
   )

@@ -86,8 +86,8 @@ function GBSafWorkflow() {
       departmentalPostFor: 'SAF',
       workflowId: 4,
       moduleId: 1,
-      formUrl: '/property/safform/bo-edit',
-      fullDetailsUrl: '/property/propApplicationDetails'
+      formUrl: '/property/gov-form',
+      fullDetailsUrl: '/property/gbsaf-details'
     },
 
     tableColumns: [

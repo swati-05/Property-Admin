@@ -16,8 +16,8 @@ import {MdTag} from 'react-icons/md'
 function DetailsFactory(props) {
 
     // DIRECT ACCESSING ID FROM PARAM
-    const { id } = useParams()
-    console.log("param", id)
+    // const { id } = useParams()
+    // console.log("param", id)
 
     const navigate = useNavigate()
 
@@ -45,7 +45,7 @@ function DetailsFactory(props) {
         }
         axios[props?.detailRules?.api?.api_getAppicationFullDetail?.method](props?.detailRules?.api?.api_getAppicationFullDetail?.url,
             {
-                applicationId: id
+                applicationId: props?.id
             },
             header)
             .then(function (response) {
@@ -88,19 +88,22 @@ function DetailsFactory(props) {
 
     return (
         <>
-
+            {/* <TopTabs title={`GB SAF Details`} type="application" id={props?.id} safNo={''} active="gbSaf" /> */}
             <div className='w-full mx-auto md:px-6'>
 
                 {/* <h1 className='px-2 font-semibold text-center text-gray-600 font-serif py-2 xl md:text-3xl mt-2'>{props?.detailRules?.detailInfo?.title}</h1> */}
                 <div className='pt-10'>
 
-                    {props?.detailRules?.filters?.topButtons && <TopTabs title={`${props?.detailRules?.detailInfo?.title} - ${applicationFullData?.application_no}`} type="application" id={id} safNo={applicationFullData?.saf_no} active="property" />}
-                    {props?.detailRules?.filters?.topButtons == false &&
+                    {/* {props?.detailRules?.filters?.topButtons && */}
+                         <TopTabs title={`${props?.detailRules?.detailInfo?.title} - ${applicationFullData?.application_no}`} type="gbSaf" id={props?.id} safNo={applicationFullData?.saf_no} active="property" />
+                    {/* //  }  */}
+                    {/* {props?.detailRules?.filters?.topButtons == false &&
                         <div>
                             <span className='font-bold text-gray-800 text-2xl'>
                                 {(props?.detailRules?.detailInfo?.title)}
                             </span>
-                        </div>}
+                        </div>
+                        } */}
                 </div>
 
                 <div className='flex flex-row flex-wrap justify-center'>
