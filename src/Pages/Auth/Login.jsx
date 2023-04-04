@@ -108,7 +108,7 @@ function Login(props) {
                 setLoaderStatus(false)
                 seterroState(true)
                 console.log('--2--login error...', error)
-                notify('Something went wrongg!! ', 'error') //catching the error
+                notify('login error ', 'error') //catching the error
             })
     }
 
@@ -132,7 +132,7 @@ function Login(props) {
 
         axios.post(api_getFreeMenuList, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('fetched menu list.....', response?.data?.data)
+                console.log('fetched menu list success.....', response?.data?.data)
                 // return
                 if (response.data.status == true) {
                     window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
@@ -149,10 +149,11 @@ function Login(props) {
                     setuserName(response?.data?.data?.userDetails?.userName)
                     setroles(response?.data?.data?.userDetails?.roles)
 
-                    setuserUlbName(response?.data?.data?.userDetails?.ulb)
-                    setuserMobile(response?.data?.data?.userDetails?.mobileNo)
-                    setuserEmail(response?.data?.data?.userDetails?.email)
-                    setuserImage(response?.data?.data?.userDetails?.imageUrl)
+                    // FIGURE OUT WHY SAYING THESE ARE NOT FUNCTIONS
+                    // setuserUlbName(response?.data?.data?.userDetails?.ulb)
+                    // setuserMobile(response?.data?.data?.userDetails?.mobileNo)
+                    // setuserEmail(response?.data?.data?.userDetails?.email)
+                    // setuserImage(response?.data?.data?.userDetails?.imageUrl)
 
                 } else {
                     console.log('false...')
@@ -163,11 +164,11 @@ function Login(props) {
                 props?.setmenuFetchStatus(false)
             })
             .catch(function (error) {
+                notify('menulist fetch error', 'error') //catching the error
                 setLoaderStatus(false)
                 seterroState(true)
-                console.log('--2--login error...', error)
+                console.log('--error in menulist....', error)
                 props?.setmenuFetchStatus(false)
-                notify('Something went wrongg!! ', 'error') //catching the error
             })
 
 
