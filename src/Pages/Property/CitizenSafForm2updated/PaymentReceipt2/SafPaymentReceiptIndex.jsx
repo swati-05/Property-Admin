@@ -15,7 +15,6 @@ import ComponentToPrint from './SafPaymentReceipt';
 
 function SafPaymentReceiptIndex() {
 
-    ///////{***✅ payment Id from use param...***}///////
     const { paymentId, module } = useParams()
     console.log("param payment id ..", paymentId)
 

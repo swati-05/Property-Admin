@@ -41,7 +41,7 @@ function ObjectionWorkflowEntry() {
       // 2 - API TO FETCH OUTBOX LIST
       api_outboxList: { method: 'post', url: get_ObjectionOutbox },
       // 3 - API TO FETCH SPECIAL LIST
-      api_specialList: { method: 'get', url: get_ObjectionSpecial },
+      api_specialList: { method: 'post', url: get_ObjectionSpecial },
       // 4 - API TO FETCH BACK TO CITIZEN LIST
       apt_btcList: { method: 'post', url: post_ObjectionBtcList },
       // 5 - API TO FETCH FIELD VERIFICATION LIST

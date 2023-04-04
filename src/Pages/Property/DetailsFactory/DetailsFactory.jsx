@@ -50,7 +50,7 @@ function DetailsFactory(props) {
             header)
             .then(function (response) {
                 setisLoading(false)
-                console.log('view full details...', response.data)
+                console.log('view full details...', response?.data)
                 if (response?.data?.status) {
                     setapplicationFullData(response?.data?.data)
                 } else {

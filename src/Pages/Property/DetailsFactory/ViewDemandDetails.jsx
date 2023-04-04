@@ -52,7 +52,7 @@ function ViewDemandDetails(props) {
             .then(function (response) {
                 console.log('view demand for my saf..', response?.data?.data)
                 setsafNo(response?.data?.safNo)
-                setdemandDetail(response.data.data)
+                setdemandDetail(response?.data?.data)
                 setisLoading(false)
             })
             .catch(function (error) {

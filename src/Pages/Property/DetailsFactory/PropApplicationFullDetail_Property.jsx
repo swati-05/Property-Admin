@@ -53,9 +53,9 @@ function PropApplicationFullDetail_Property() {
 
         axios.post(api_getPropHoldingDetailsById, { propertyId: id }, ApiHeader())
             .then(function (response) {
-                console.log('view prop prop full details at property ...', response.data.data)
+                console.log('view prop prop full details at property ...', response?.data?.data)
                 if (response?.data?.status) {
-                    setapplicationFullData(response.data.data)
+                    setapplicationFullData(response?.data?.data)
                     setisLoading(false)
                 } else {
                     seterroState(true)
@@ -79,8 +79,8 @@ function PropApplicationFullDetail_Property() {
         console.log('before permission fetch...', requestBody)
         axios.post(api_getPermissionByUser, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('after permission response ...', response.data.data)
-                setpermissionData(response.data.data)
+                console.log('after permission response ...', response?.data?.data)
+                setpermissionData(response?.data?.data)
                 // setisLoading(false)
             })
             .catch(function (error) {

@@ -37,71 +37,11 @@ function PropertyHome() {
     const { api_landingDashboard, api_landingDashboardCard } = ProjectApiList()
     const notify = useToast()
 
-    // ROLES TO CHANGE VIEW ACCORDING TO ROLES
-    const roles = {
 
-        // 1 JSK VIEW
-        jsk: {
-            cardList: [
-                { title: "Today's Applied Applications", value: 200 },
-                { title: "Today's Collection Amount", value: 200 },
-                { title: "Cash Amount", value: 200 },
-                { title: "Cheque Amount", value: 200 },
-                { title: "DD Amount", value: 200 },
-                { title: "Online Amount", value: 200 },
-            ]
-        },
-
-        // 2 BACK OFFICE VIEW
-        bo: {
-            cardList: [
-                { title: "Today's Recevied Applications", value: 200 },
-                { title: "Today's Forwarded Applications", value: 200 },
-                { title: "Today's Re-Forwarded Applications", value: 200 },
-                { title: "Total Pending Applications", value: 200 },
-            ]
-        },
-
-        // 3 DEALING ASSISTANT VIEW
-        da: {
-            cardList: [
-                { title: "Today's Recevied Applications", value: 200 },
-                { title: "Today's Forwarded Applications", value: 200 },
-                { title: "Today's Re-Forwarded Applications", value: 200 },
-                { title: "Total Pending Applications", value: 200 },
-            ]
-        },
-
-        // 4 SECTION INCHARGE VIEW
-        si: {
-            cardList: [
-                { title: "Today's Recevied Applications", value: 200 },
-                { title: "Today's Forwarded Applications", value: 200 },
-                { title: "Today's Re-Forwarded Applications", value: 200 },
-                { title: "Total Pending Applications", value: 200 },
-            ]
-        },
-
-        // 5 EXECUTIVE OFFICER VIEW
-        eo: {
-            cardList: [
-                { title: "Today's Recevied Applications", value: 200 },
-                { title: "Today's Forwarded Applications", value: 200 },
-                { title: "Today's Re-Forwarded Applications", value: 200 },
-                { title: "Total Pending Applications", value: 200 },
-            ]
-        }
-    }
-
-    // SETTING ROLE VIEW VIA ROLES
-    const setViewByRoles = () => {
-        setcurrenRoleView(roles?.jsk)
-    }
-
+   
     useEffect(() => {
         // SET VIEW VIA LOGIN ROLE BUT NOW DIRECT
         // return
-        setViewByRoles()
         fetchLandingDashboardData('saf')
         fetchLandingDashboardCard()
     }, [])
@@ -123,7 +63,7 @@ function PropertyHome() {
         }
         axios.post(api_landingDashboard, requestBody, ApiHeader2())
             .then(function (response) {
-                console.log('JskDashboardData', response.data)
+                console.log('JskDashboardData', response?.data)
                 setlandingDashboardData(response?.data?.data)
                 setisLoading2(false)
 
@@ -143,7 +83,7 @@ function PropertyHome() {
         }
         axios.post(api_landingDashboardCard, requestBody, ApiHeader2())
             .then(function (response) {
-                console.log('JskDashboard card', response.data)
+                console.log('JskDashboard card', response?.data)
                 setlandingDashboardCardData(response?.data?.data)
                 setisLoading(false)
 

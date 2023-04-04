@@ -12,6 +12,10 @@ import BarLoader from '@/Components/Common/BarLoader';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import { contextVar } from '@/Components/Context/Context';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
+import BrandLoader from '@/Components/Common/BrandLoader';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
 
 
 
@@ -19,10 +23,11 @@ import useSetTitle from '@/Components/GlobalData/useSetTitle';
 function ComparativeDemand(props) {
 
     const [readyMadeListData, setreadyMadeListData] = useState();
-    const [isLoading, setisLoading] = useState(false);
     const [applicationFullData, setapplicationFullData] = useState()
     const [submitButtonStatus, setSubmitButtonStatus] = useState(true)
     const [readyMadeListStatus, setreadyMadeListStatus] = useState(false);
+    const [erroState2, seterroState2] = useState(false);
+    const [isLoading, setisLoading] = useState(false)
 
     // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
     useSetTitle('Comparative Demand')
@@ -117,6 +122,7 @@ function ComparativeDemand(props) {
     const fetchTranscationList = () => {
         setreadyMadeListStatus(false)
         setisLoading(true)
+        seterroState2(false)
         let requestBody = {
             propId: id
         }
@@ -124,7 +130,7 @@ function ComparativeDemand(props) {
         console.log('before fetch factory data')
         axios.post(api_getSpecificHoldingTranscationHistory, requestBody, ApiHeader())
             .then(function (response) {
-                console.log("all transcation list at holding specific----- ", response.data);
+                console.log("all transcation list at holding specific----- ", response?.data);
 
                 setreadyMadeListData(response?.data?.data)
                 setreadyMadeListStatus(true)
@@ -134,6 +140,7 @@ function ComparativeDemand(props) {
             })
             .catch(function (error) {
                 console.log('error at transactions fetch ', error);
+                seterroState2(false)
                 setreadyMadeListStatus(true)
                 setisLoading(false)
             })
@@ -159,7 +166,7 @@ function ComparativeDemand(props) {
             header)
             .then(function (response) {
                 console.log('view prop prop full details...', response.data.data)
-                setapplicationFullData(response.data.data)
+                setapplicationFullData(response?.data?.data)
                 setisLoading(false)
             })
             .catch(function (error) {
@@ -171,6 +178,21 @@ function ComparativeDemand(props) {
     useEffect(() => {
         getApplicationDetail()
     }, [])
+
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState2) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
     return (
         <>
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
@@ -181,42 +203,42 @@ function ComparativeDemand(props) {
                     <div className='py-6 mt-2 bg-white rounded-lg shadow-lg p-4'>
                         <div className="flex space-x-5 pl-4 ">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.old_ward_no) }</div>
                                 <div className='text-gray-500 text-xs'>Ward No.</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-lg'>{applicationFullData?.old_ward_no ? applicationFullData?.old_ward_no : "N/A"}</div>
+                                <div className='font-semibold text-lg'>{nullToNA(applicationFullData?.old_ward_no) }</div>
                                 <div className='text-gray-500 text-xs'>New Ward No</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.ownership_type ? applicationFullData?.ownership_type : "N/A"}</div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.ownership_type) }</div>
                                 <div className='text-gray-500 text-xs'>Ownership Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.property_type ? applicationFullData?.property_type : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.property_type) }</div>
                                 <div className='text-gray-500 text-xs'>Property Type</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.zone_mstr_id ? applicationFullData?.zone_mstr_id : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.zone_mstr_id)}</div>
                                 <div className='text-gray-500 text-xs'>Zone</div>
                             </div>
                         </div>
 
                         <div className="flex space-x-10  pl-4 mt-4">
                             <div className='flex-1'>
-                                <div className='font-bold text-sm'>{applicationFullData?.is_mobile_tower ? applicationFullData?.is_mobile_tower : "N/A"}</div>
+                                <div className='font-bold text-sm'>{nullToNA(applicationFullData?.is_mobile_tower) }</div>
                                 <div className='text-gray-500 text-xs'>Property has Mobile Tower(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.is_hoarding_board ? applicationFullData?.is_hoarding_board : "N/A"} </div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.is_hoarding_board) } </div>
                                 <div className='text-gray-500 text-xs'>Property has Hoarding Board(s) ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-semibold text-md'>{applicationFullData?.is_petrol_pump ? applicationFullData?.is_petrol_pump : "N/A"}</div>
+                                <div className='font-semibold text-md'>{nullToNA(applicationFullData?.is_petrol_pump) }</div>
                                 <div className='text-gray-500 text-xs'>Is property a Petrol Pump ?</div>
                             </div>
                             <div className='flex-1'>
-                                <div className='font-bold text-sm' >{applicationFullData?.is_water_harvesting ? applicationFullData?.is_water_harvesting : "N/A"}</div>
+                                <div className='font-bold text-sm' >{nullToNA(applicationFullData?.is_water_harvesting) }</div>
                                 <div className='text-gray-500 text-xs'>Rainwater harvesting provision ?</div>
                             </div>
                             <div className='flex-1'>
@@ -227,9 +249,9 @@ function ComparativeDemand(props) {
 
                 </div>
 
-                {isLoading && (
+                {/* {isLoading && (
                     <BarLoader />
-                )}
+                )} */}
                 {
                     readyMadeListData?.length == 0 &&
                     <div className='text-center mt-10'>
@@ -263,16 +285,16 @@ function ComparativeDemand(props) {
                                 {readyMadeListData?.Holding?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_no}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.payment_mode}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_date}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.to_qtr}/{data?.to_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         
 
                                     </tr>

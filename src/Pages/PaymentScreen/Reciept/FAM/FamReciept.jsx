@@ -3,6 +3,7 @@ import rmclogo from '../images/rmclogo.png'
 import rmclogo2 from '../images/rmclogo2.jpg'
 import './Reciept.css'
 import swachhBharat from '../images/swachhBharat.png'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 class FamReciept extends React.Component {
 
@@ -69,13 +70,13 @@ Jharkhand Municipal Act, 2011.
           {/* name address memo no. */}
           <div className='flex-row grid grid-cols-12 gap-2'>
           <div className="text-start text-xs col-span-8">
-              Mr/Mrs/Ms: <br /> <span className="font-semibold text-xs">{famDetails?.owner_name} {famDetails?.relation_type} {famDetails?.guardian_name}</span> <br />
-              Address: <span className="font-semibold text-xs">{famDetails?.prop_address}</span>
+              Mr/Mrs/Ms: <br /> <span className="font-semibold text-xs">{nullToNA(famDetails?.owner_name)} {nullToNA(famDetails?.relation_type)} {nullToNA(famDetails?.guardian_name)}</span> <br />
+              Address: <span className="font-semibold text-xs">{nullToNA(famDetails?.prop_address)}</span>
           </div>
           <div className="text-right text-xs col-span-4">
-              Memo No.: <span className="font-semibold">{famDetails?.memo_no}</span> <br />
+              Memo No.: <span className="font-semibold">{nullToNA(famDetails?.memo_no)}</span> <br />
               <br />
-              Effective: <span className="font-semibold">{famDetails?.from_qtr == 1 && <>First</>}{famDetails?.from_qtr == 2 && <>Second</>}{famDetails?.from_qtr == 3 && <>Third</>}{famDetails?.from_qtr == 4 && <>Fourth</>} Quarter {famDetails?.from_fyear}</span> <br />
+              Effective: <span className="font-semibold">{famDetails?.from_qtr == 1 && <>First</>}{famDetails?.from_qtr == 2 && <>Second</>}{famDetails?.from_qtr == 3 && <>Third</>}{famDetails?.from_qtr == 4 && <>Fourth</>} Quarter {nullToNA(famDetails?.from_fyear)}</span> <br />
           </div>
           </div>
 
@@ -85,8 +86,8 @@ Jharkhand Municipal Act, 2011.
             <div className='flex flex-row'>
               {holdingBox}
             </div>
-            <p className='my-1'>The annual rent value ofthis holding is Rs. <span className="font-semibold">{famDetails?.arv}</span>/- after local check made by Ranchi Municipal Corporation in the ight of the self assessment deciaration letter
-made by you for assessment of tax for <span className="font-semibold">Ward No. <span className='font-normal'>{famDetails?.new_ward_no}</span></span> (<span className="font-semibold">Old Ward No.</span> {famDetails?.old_ward_no}) , {famDetails?.arv}/- is fixed at the place.</p>
+            <p className='my-1'>The annual rent value ofthis holding is Rs. <span className="font-semibold">{nullToNA(famDetails?.arv)}</span>/- after local check made by Ranchi Municipal Corporation in the ight of the self assessment deciaration letter
+made by you for assessment of tax for <span className="font-semibold">Ward No. <span className='font-normal'>{nullToNA(famDetails?.new_ward_no)}</span></span> (<span className="font-semibold">Old Ward No.</span> {nullToNA(famDetails?.old_ward_no)}) , {nullToNA(famDetails?.arv)}/- is fixed at the place.</p>
           <p>Based on the annual rent value determined by the corporation, the Fifst quarter will be taxed in writing with effect from the year 2016-2017.</p>
           </div>
 
@@ -118,11 +119,11 @@ made by you for assessment of tax for <span className="font-semibold">Ward No. <
               <>
             <tr>
               <td className="border-2 border-black px-1">{index+1}</td>
-              <td className="border-2 border-black px-1">{data?.Particulars}</td>
-              <td className="border-2 border-black px-1">{data?.QuarterFinancialYear}</td>
-              <td className="border-2 border-black px-1">{data?.basedOnSelfAssess}</td>
-              <td className="border-2 border-black px-1">{data?.basedOnUlbCalc}</td>
-              <td className="border-2 border-black px-1">{data?.diffAmt}</td>
+              <td className="border-2 border-black px-1">{nullToNA(data?.Particulars)}</td>
+              <td className="border-2 border-black px-1">{nullToNA(data?.QuarterFinancialYear)}</td>
+              <td className="border-2 border-black px-1">{nullToNA(data?.basedOnSelfAssess)}</td>
+              <td className="border-2 border-black px-1">{nullToNA(data?.basedOnUlbCalc)}</td>
+              <td className="border-2 border-black px-1">{nullToNA(data?.diffAmt)}</td>
               {/* <td className="border-2 border-black px-1">{data?.diffAmt}</td> */}
             </tr>
               </>)

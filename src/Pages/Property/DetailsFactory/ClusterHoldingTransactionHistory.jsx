@@ -14,6 +14,9 @@ import { contextVar } from '@/Components/Context/Context';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
 import TopTabsCluster from './TopTabsCluster';
 import { nullToNA } from '@/Components/PowerUps/PowerupFunctions';
+import BrandLoader from '@/Components/Common/BrandLoader';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
 
 
 
@@ -22,6 +25,7 @@ function ClusterHoldingTransactionHistory(props) {
 
     const [readyMadeListData, setreadyMadeListData] = useState();
     const [isLoading, setisLoading] = useState(false);
+    const [erroState, seterroState] = useState(false);
     const [applicationFullData, setapplicationFullData] = useState()
     const [submitButtonStatus, setSubmitButtonStatus] = useState(true)
     const [readyMadeListStatus, setreadyMadeListStatus] = useState(false);
@@ -126,7 +130,7 @@ function ClusterHoldingTransactionHistory(props) {
         console.log('before fetch factory data')
         axios.post(api_getClusterPropertyPaymentHistory, requestBody, ApiHeader())
             .then(function (response) {
-                console.log("all transcation list at holding specific----- ", response.data);
+                console.log("all transcation list at holding specific----- ", response?.data);
 
                 setreadyMadeListData(response?.data?.data)
                 setreadyMadeListStatus(true)
@@ -160,8 +164,8 @@ function ClusterHoldingTransactionHistory(props) {
             },
             header)
             .then(function (response) {
-                console.log('view prop prop full details of cluster...', response.data.data)
-                setapplicationFullData(response.data.data)
+                console.log('view prop prop full details of cluster...', response?.data?.data)
+                setapplicationFullData(response?.data?.data)
                 setisLoading(false)
             })
             .catch(function (error) {
@@ -173,6 +177,22 @@ function ClusterHoldingTransactionHistory(props) {
     useEffect(() => {
         getApplicationDetail()
     }, [])
+
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
+
     return (
         <>
             <div className='w-ful md:px-10 md:pt-5 mx-auto'>
@@ -234,9 +254,7 @@ function ClusterHoldingTransactionHistory(props) {
 
                 </div>
 
-                {isLoading && (
-                    <BarLoader />
-                )}
+                
                 {
                     readyMadeListData?.length == 0 &&
                     <div className='text-center mt-10'>
@@ -267,12 +285,12 @@ function ClusterHoldingTransactionHistory(props) {
                                 {readyMadeListData?.Holding?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_no}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.payment_mode}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_date}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.to_qtr}/{data?.to_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>
@@ -283,14 +301,14 @@ function ClusterHoldingTransactionHistory(props) {
                                 {readyMadeListData?.Saf?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_no}
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}
                                             <span className='bg-indigo-500 text-white text-xs px-2 rounded-sm ml-2'>SAF</span>
                                         </td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.payment_mode}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.tran_date}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.from_qtr}/{data?.from_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.to_qtr}/{data?.to_fyear}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{data?.amount}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/saf`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>

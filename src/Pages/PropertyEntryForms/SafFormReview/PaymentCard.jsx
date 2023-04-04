@@ -262,9 +262,9 @@ function PaymentCard(props) {
     console.log('before get order id...', orderIdPayload)
     axios.post(url, orderIdPayload, ApiHeader())  // This API will generate Order ID
       .then((res) => {
-        console.log("Order Id Response ", res.data)
-        if (res.data.status === true) {
-          console.log("OrderId Generated True", res.data.data)
+        console.log("Order Id Response ", res?.data)
+        if (res?.data?.status === true) {
+          console.log("OrderId Generated True", res?.data?.data)
           RazorpayPaymentScreen(res.data.data, dreturn);  //Send Response Data as Object (amount, orderId, ulbId, departmentId, applicationId, workflowId, userId, name, email, contact) will call razorpay payment function to show payment popup                                      
           setTimeout(() => {
             // props.showLoader(false)

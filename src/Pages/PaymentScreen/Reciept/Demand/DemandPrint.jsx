@@ -10,6 +10,9 @@ import axios from 'axios'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import BarLoader from '@/Components/Common/BarLoader';
+import BrandLoader from '@/Components/Common/BrandLoader';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
 
 const DemandPrint = () => {
 
@@ -17,38 +20,58 @@ const DemandPrint = () => {
 
     const id = useParams()
 
-    const {demandReciept} = PropertyApiList()
+    const { demandReciept } = PropertyApiList()
 
     const [loader, setloader] = useState(false)
     const [demandDetails, setdemandDetails] = useState()
+    const [erroState2, seterroState2] = useState(false);
+    const [isLoading, setisLoading] = useState(false)
+
 
     useEffect(() => {
 
-        setTimeout(() => {
-            setloader(false)
-        }, 10000);
+        seterroState2(false)
+        setisLoading(true)
 
-        setloader(true)
+        axios.post(demandReciept, { propId: id?.id }, ApiHeader())
+            .then((res) => {
+                console.log('getting demand details => ', res)
+                setisLoading(false)
+                if (res?.data?.status) {
+                    setdemandDetails(res?.data?.data?.dueReceipt)
+                } else {
+                    seterroState2(true)
+                }
+            })
+            .catch((err) => {
+                console.log("getting demand error => ", err)
+                setisLoading(false)
+                seterroState2(true)
 
-        axios.post(demandReciept, {propId : id?.id}, ApiHeader())
-        .then((res) => {
-            console.log('getting demand details => ', res)
-            setloader(false)
-            setdemandDetails(res?.data?.data?.dueReceipt)
-        })
-        .catch((err) => {
-            console.log("getting demand error => ", err)
-            setloader(false)
-            toast.error('Something went wrong !!!')
-        })
-    },[])
+            })
+    }, [])
 
-  return (
-     <div>
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState2) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
+    }
 
-{loader && <BarLoader />}
+    return (
+        <div>
 
-<ToastContainer position="top-right" autoClose={2000} />
+            {loader && <BarLoader />}
+
+            <ToastContainer position="top-right" autoClose={2000} />
 
             <ReactToPrint
                 trigger={() => <button></button>}
@@ -56,7 +79,7 @@ const DemandPrint = () => {
             />
             <DemandReciept ref={componentRef} demandDetails={demandDetails} />
         </div>
-  )
+    )
 }
 
 export default DemandPrint

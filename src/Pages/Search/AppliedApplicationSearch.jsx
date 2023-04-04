@@ -89,7 +89,7 @@ function AppliedApplicationSearch() {
           setreadymadeListColumns(COLUMNS_OTHER)
         }
         changeUrl(`/property/searchAppliedProperty/${encodeURIComponent(data?.filterBy)}/${encodeURIComponent(data?.entry)}`)
-        setreadymadeListData(res.data?.data)
+        setreadymadeListData(res?.data?.data)
         setreadymadeListStatus(true)
         setisLoading(false)
       })

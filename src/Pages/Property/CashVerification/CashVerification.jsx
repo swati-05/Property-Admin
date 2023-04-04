@@ -8,6 +8,8 @@ import CashVerificationDetailedModal from './CashVerificationDetailedModal';
 import PropertyApiList from '@/Components/ApiList/PropertyApiList';
 import BarLoader from '@/Components/Common/BarLoader';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
+import BottomErrorCard from '@/Components/Common/BottomErrorCard';
 
 const CashVerification = (props) => {
     const [openVewMOdel, setOpenVewMOdel] = useState(0)
@@ -17,12 +19,14 @@ const CashVerification = (props) => {
     const [reportType, setReportType] = useState(1)
     const [url, setUrl] = useState()
     const [loader, setLoader] = useState(false)
+    const [erroState, seterroState] = useState(false);
+    const [erroMessage, seterroMessage] = useState(null);
 
 
     let testDate = new Date().toLocaleDateString('in-IN');
     let todayDate = moment(testDate).format('YYYY-DD-MM');
 
-    const {api_listofEmployees, api_listUnverifiedCashVerification, api_listVerifiedCashVerification} = PropertyApiList()
+    const { api_listofEmployees, api_listUnverifiedCashVerification, api_listVerifiedCashVerification } = PropertyApiList()
 
     useEffect(() => {
         if (reportType == 1) {
@@ -46,7 +50,10 @@ const CashVerification = (props) => {
                 // console.log("here is list of employees", res)
                 setEmployeeList(res.data.data)
             })
-            .catch((err) => console.log("Error while getting employee list", err))
+            .catch((err) => {
+                console.log("Error while getting employee list", err)
+
+            })
     }, [])
 
 
@@ -59,31 +66,32 @@ const CashVerification = (props) => {
         },
         {
             Header: "EmployeeName",
-            accessor: "user_name",
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.user_name)}</span>)
         },
         {
             Header: "Property.",
-            Cell: ({ cell }) => (<span> ₹ {cell.row.original.property}</span>)
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.property)}</span>)
         },
         // {
         //     Header: "GBSAF.",
-        //     Cell: ({ cell }) => (<span> ₹ {cell.row.original.GB_saf}</span>)
+        //     Cell: ({ cell }) => (<span> ₹ {cell.row.original?.GB_saf}</span>))
         // },
         {
             Header: "Water",
-            Cell: ({ cell }) => (<span> ₹ {cell.row.original.water}</span>)
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.water)}</span>)
         },
         {
             Header: "Trade",
-            Cell: ({ cell }) => (<span> ₹ {cell.row.original.trade}</span>)
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.trade)}</span>)
         },
         {
             Header: "Total Amount",
-            Cell: ({ cell }) => (<span> ₹ {cell.row.original.total}</span>)
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.total)}</span>)
         },
         {
             Header: "Paid Date",
-            accessor: "date",
+            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.date)}</span>)
+
         },
         // {
         //     Header: 'Status',
@@ -134,6 +142,7 @@ const CashVerification = (props) => {
             })
             .catch((err) => {
                 setLoader(false)
+                activateBottomErrorCard(true, 'Error occured while fetching cash verification list. Please try again later.')
                 console.log("Error while list cash verification", err)
             })
     }
@@ -151,7 +160,7 @@ const CashVerification = (props) => {
         initialValues: {
             empName: '',
             collectionDate: '',
-            reportType : '1'
+            reportType: '1'
         },
 
         enableReinitialize: true,
@@ -166,10 +175,17 @@ const CashVerification = (props) => {
 
     // ===========> Formik End
 
+    const activateBottomErrorCard = (state, msg) => {
+        seterroMessage(msg)
+        seterroState(state)
+
+    }
+
 
     return (
         <>
             {loader && <BarLoader />}
+            {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
             <CashVerificationDetailedModal openAddPopUP={openVewMOdel} data={sendDataInModal} reportType={formik.values.reportType} />
             <div className='m-2 bg-white'>
 
