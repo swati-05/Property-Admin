@@ -100,11 +100,8 @@ import CitizenPropSafApplicationFormIndex from './Pages/Property/CitizenSafForm2
 import UlbWorkflowRolesIndex from '@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex';
 import NavigatePage from './Pages/NavigatePage';
 import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
-<<<<<<< HEAD
 import GBSAFDetailsEntry from './Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry';
-=======
 import GbSafPaymentReceiptIndex from './Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex';
->>>>>>> 888acad0d0599728620ceb384865056c76746454
 
 
 
