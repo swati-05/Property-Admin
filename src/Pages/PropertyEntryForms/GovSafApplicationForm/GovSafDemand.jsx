@@ -27,6 +27,8 @@ import moment from 'moment'
 import BarLoader from '@/Components/Common/BarLoader'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import { GrDocument } from 'react-icons/gr'
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 function GovSafDemand(props) {
 
@@ -42,70 +44,6 @@ function GovSafDemand(props) {
     setTaxDescriptionState(!taxDescriptionState)
   }
 
-
-  ////// PAYMENT METHOD  ////
-  const dreturn = (data) => {   // In (DATA) this function returns the Paymen Status, Message and Other Response data form Razorpay Server
-    console.log('Payment Status =>', data)
-    if (data?.status) {
-      toast.success('Payment Success....', data)
-      // return
-      navigate(`/paymentReceipt/${data?.data?.razorpay_payment_id}`)
-    } else {
-      toast.error('Payment failed....')
-      navigate('/propertyDashboard')
-    }
-
-  }
-
-  const getOrderId = async () => { // This Function is used to Order Id Generation
-    console.log('loader clicked...')
-    const orderIdPayload = {
-      "id": props?.safSubmitResponse?.data?.safId,
-      "amount": props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount,
-      "departmentId": 1,
-      "workflowId": 4,
-      "uldId": 2
-    }
-
-    // setLoader(true)
-
-    let token = window.localStorage.getItem('token')
-    console.log('token at basic details is post method...', token)
-    const header = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-      }
-    }
-    console.log('before order id creation....', orderIdPayload)
-    axios.post(propertyGenerateOrderId, orderIdPayload, header)  // This API will generate Order ID
-      .then((res) => {
-        console.log("Order Id Response ", res.data)
-        if (res.data.status === true) {
-          console.log("OrderId Generated True", res.data)
-          setloaderStatus(false)
-
-          RazorpayPaymentScreen(res.data.data, dreturn);  //Send Response Data as Object (amount, orderId, ulbId, departmentId, applicationId, workflowId, userId, name, email, contact) will call razorpay payment function to show payment popup                                      
-          setTimeout(() => {
-            props.showLoader(false)
-          }, 500)
-
-        }
-        else {
-          setloaderStatus(false)
-
-        //   props.showLoader(false)
-        }
-      })
-      .catch((err) => {
-        alert("Backend Server error. Unable to Generate Order Id");
-        console.log("ERROR :-  Unable to Generate Order Id ", err)
-
-        // props.showLoader(false)
-      })
-
-
-  }
 
   console.log("demand detail", props?.safSubmitResponse?.data?.demand?.amounts?.rebatePerc)
 
@@ -126,20 +64,20 @@ function GovSafDemand(props) {
           <div className="grid grid-cols-12 mt-8 ">
             <div className='text-md col-span-12 md:col-span-4'>
 
-              <div>GB SAF No. :<span className='text-black font-semibold font-mono ml-2 bg-amber-100 px-2 py-1 rounded-lg cursor-pointer hover:bg-amber-200'>{props?.safSubmitResponse?.data?.safNo} <span><MdContentCopy className='inline' /></span> </span></div>
-              <div>Apply date :<span className='text-black font-semibold font-mono ml-2'>{moment(props?.safSubmitResponse?.data?.applyDate, 'YYYY-MM-DD').format('DD-MMM-yy')}</span></div>
-              <div>Rebate (Rs)<span className='text-black font-semibold font-mono ml-2'>{props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmt}</span></div>
-              <div>Late Assessment Penalty(Rs)<span className='text-black font-semibold font-mono ml-2'>{props?.safSubmitResponse?.data?.demand?.amounts?.lateAssessmentPenalty}</span></div>
+              <div>GB SAF No. :<span className='text-black font-semibold font-mono ml-2 bg-amber-100 px-2 py-1 rounded-lg cursor-pointer hover:bg-amber-200'>{nullToNA(props?.safSubmitResponse?.data?.safNo)} <span><MdContentCopy className='inline' /></span> </span></div>
+              <div>Apply date :<span className='text-black font-semibold font-mono ml-2'>{moment(nullToNA(props?.safSubmitResponse?.data?.applyDate), 'YYYY-MM-DD').format('DD-MMM-yy')}</span></div>
+              <div>Rebate (Rs)<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmt)}</span></div>
+              <div>Late Assessment Penalty(Rs)<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.lateAssessmentPenalty)}</span></div>
 
-              <div>1% Penalty Rebate<span className='text-black font-semibold font-mono ml-2'>{props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty}</span></div>
+              <div>1% Penalty Rebate<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty)}</span></div>
 
             </div>
             <div className='col-span-12 md:col-span-4 float-left text-left'>
-              <CitizenTaxCard time="Total Tax" tax={props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount} />
+              <CitizenTaxCard time="Total Tax" tax={nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount)} />
             </div>
             <div className='col-span-12 md:col-span-4 pl-10 float-right'>
               <div>
-                <span className='font-bold'> {props?.safSubmitResponse?.data?.safNo}</span> is your gb saf application no, for any issue please go to your near jan seva kendra with this application no.
+                <span className='font-bold'> {nullToNA(props?.safSubmitResponse?.data?.safNo)}</span> is your gb saf application no, for any issue please go to your near jan seva kendra with this application no.
               </div>
             </div>
           </div>
@@ -169,8 +107,8 @@ function GovSafDemand(props) {
                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Tax Amount (Rs)</th>
                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Late Assessment Penalty (Rs)</th>
                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% Penalty (Rs)</th>
-                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate( {props?.safSubmitResponse?.data?.demand?.amounts?.rebatePerc}% in Rs)</th>
-                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Special Rebate( {props?.safSubmitResponse?.data?.demand?.amounts?.specialRebatePerc}% in Rs)</th>
+                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate( {nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.rebatePerc)}% in Rs)</th>
+                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Special Rebate( {nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.specialRebatePerc)}% in Rs)</th>
                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Payable Amount (Rs)</th>
 
                   </tr>
@@ -181,12 +119,12 @@ function GovSafDemand(props) {
 
                     <tr className="bg-white shadow-lg border-b border-gray-200">
                       <td className="px-2 py-2 text-sm text-left">1</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.totalDemand}</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.lateAssessmentPenalty}</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty}</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmt}</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.specialRebateAmt}</td>
-                      <td className="px-2 py-2 text-sm text-left">{props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.totalDemand)}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.lateAssessmentPenalty)}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty)}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmt)}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.specialRebateAmt)}</td>
+                      <td className="px-2 py-2 text-sm text-left">{nullToZero(props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount)}</td>
 
 
                     </tr>
@@ -239,19 +177,19 @@ function GovSafDemand(props) {
                         {props?.safSubmitResponse?.data?.demand?.details?.RuleSet1?.map((items, index) => (
                           <tr className="bg-white shadow-lg border-b border-gray-200">
                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.arv}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.qtr}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.quarterYear}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.holdingTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.onePercPenaltyTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.waterTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.latrineTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.educationTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.healthTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.totalTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.adjustAmount}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.balance}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.dueDate}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.waterTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrineTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.educationTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.healthTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                           </tr>
                         ))}
 
@@ -304,16 +242,16 @@ function GovSafDemand(props) {
                         {props?.safSubmitResponse?.data?.demand?.details?.RuleSet2?.map((items, index) => (
                           <tr className="bg-white shadow-lg border-b border-gray-200">
                             <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.arv}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.qtr}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.quarterYear}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.holdingTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.onePercPenaltyTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.rwhPenalty}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.totalTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.adjustAmount}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.balance}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.dueDate}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                           </tr>
                         ))}
 
@@ -368,16 +306,16 @@ function GovSafDemand(props) {
                         {props?.safSubmitResponse?.data?.demand?.details?.RuleSet3?.map((items) => (
                           <tr className="bg-white shadow-lg border-b border-gray-200">
                             <td className="px-2 py-2 text-sm text-left">1</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.arv}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.qtr}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.quarterYear}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.holdingTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.onePercPenaltyTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.rwhPenalty}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.totalTax}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.adjustAmount}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.balance}</td>
-                            <td className="px-2 py-2 text-sm text-left">{items.dueDate}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                           </tr>
                         ))}
 
@@ -399,7 +337,7 @@ function GovSafDemand(props) {
                   />
                 </div>
                 <div className='text-left'>
-                  <button onClick={() => navigate(``)} type="button" className=" px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Pay Tax</button>
+                  <button onClick={() => navigate(``)} type="button" className=" font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay Tax</button>
                 </div>
                 <div className='text-right flex-1'>
                   <button onClick={() => navigate(``)} type="button" className="font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">View Applications<span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>

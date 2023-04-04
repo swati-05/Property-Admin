@@ -7,6 +7,9 @@ import CitizenApplyApiList from '@/Components/CitizenApplyApiList';
 import BarLoader from '@/Components/Common/BarLoader';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
 import ComponentToPrint from './GbSafPaymentReceipt';
+import BrandLoader from '@/Components/Common/BrandLoader';
+import CommonModal from '@/Components/GlobalData/CommonModal';
+import ServerErrorCard from '@/Components/Common/ServerErrorCard';
 
 function GbSafPaymentReceiptIndex() {
 
@@ -24,6 +27,9 @@ function GbSafPaymentReceiptIndex() {
     const componentRef = useRef();
     const [paymentData, setpaymentData] = useState();
     const [show, setshow] = useState(false)
+    const [erroState2, seterroState2] = useState(false);
+    const [isLoading, setisLoading] = useState(false)
+
     // const [paymentId, setpaymentId] = useState('pay_KiI7acuJomb5eq');
 
     // const { licenseId, tranId } = useParams();
@@ -35,7 +41,8 @@ function GbSafPaymentReceiptIndex() {
     }, [])
 
     const fetchPaymentData = () => {
-        showLoader(true);
+        setisLoading(true);
+        seterroState2(false)
 
         let url
         let requestBody
@@ -57,30 +64,37 @@ function GbSafPaymentReceiptIndex() {
                 // console.log("payment data", response.data.data);
                 console.log("payment data at receipt.....", response);
                 if (response.data.status) {
-
-                    setpaymentData(response.data.data);
-                    setTimeout(() => {
-                        showLoader(false);
-                    }, 500);
-
+                    setpaymentData(response?.data?.data);
                 } else {
-
-
-                    showLoader(false);
+                    setisLoading(false);
+                    seterroState2(true)
                 }
+                setisLoading(false)
             })
             .catch((error) => {
-                // showLoader(false);
-                setTimeout(() => {
-                    showLoader(false);
-                }, 500);
-
+                setisLoading(false);
+                seterroState2(true)
                 console.log(error);
             })
     }
 
     const showLoader = (val) => {
         setshow(val);
+    }
+
+    if (isLoading) {
+        return (
+            <>
+                <BrandLoader />
+            </>
+        )
+    }
+    if (erroState2) {
+        return (
+            <CommonModal>
+                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
+            </CommonModal>
+        )
     }
 
     return (

@@ -19,6 +19,8 @@ import { useEffect } from "react";
 import CitizenApplyApiList from "@/Components/CitizenApplyApiList";
 import ProjectApiList from "@/Components/ApiList/ProjectApiList";
 import BarLoader from "@/Components/Common/BarLoader";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
+
 
 export const ClusterForm = (props) => {
   // ===========Navigate Constant================
@@ -27,18 +29,22 @@ export const ClusterForm = (props) => {
   // ===========Destructing Api==================
   const { addCluster, updateCluster } = apiList();
   const { api_wardByUlb, api_newWardByOldWard } = CitizenApplyApiList()
-  const {ulbList} = ProjectApiList()
+  const { ulbList } = ProjectApiList()
+const [erroState, seterroState] = useState(false);
+
 
   // ===========constants==============
   const [ulbData, setulbData] = useState()
   const [wardByUlb, setwardByUlb] = useState()
   const [newWardList, setnewWardList] = useState()
   const [loader, setloader] = useState(false)
+  const [erroMessage, seterroMessage] = useState(null);
+
 
   // ============Getting dependent List================
   useEffect(() => {
 
-    if(props?.editState){
+    if (props?.editState) {
       getDependentList()
       fetchNewWardByOldWard()
     }
@@ -46,34 +52,34 @@ export const ClusterForm = (props) => {
     setloader(false)
 
     axios.get(ulbList, ApiHeader())
-        .then((res) => {
-          if(res?.data?.status){
-            console.log("ulb list => ", res)
-            setulbData(res?.data?.data)
-          } else {
-            toast.error("Something went wrong !!!")
-            props?.backFun()
-          }
-        })
-        .catch((error) => {
+      .then((res) => {
+        if (res?.data?.status) {
+          console.log("ulb list => ", res)
+          setulbData(res?.data?.data)
+        } else {
           toast.error("Something went wrong !!!")
-            props?.backFun()
-        })
-        .finally(() => setloader(false))
-  },[])
+          props?.backFun()
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong !!!")
+        props?.backFun()
+      })
+      .finally(() => setloader(false))
+  }, [])
 
   const getDependentList = (e) => {
     setloader(true)
 
     let body;
 
-    props?.editState ? (body = {ulbId : props?.userData?.ulb_id}) : (body = { ulbId : e.target.value})
+    props?.editState ? (body = { ulbId: props?.userData?.ulb_id }) : (body = { ulbId: e.target.value })
 
     axios.post(api_wardByUlb, body, ApiHeader())
-    .then((res) => {
-        if(res?.data?.status){
+      .then((res) => {
+        if (res?.data?.status) {
           console.log("ward by ulb list => ", res)
-          setwardByUlb(res?.data?.data) 
+          setwardByUlb(res?.data?.data)
         } else {
           toast.error("Something went wrong !!!")
           console.log("false getting ward", res)
@@ -83,41 +89,41 @@ export const ClusterForm = (props) => {
       .catch((error) => {
         toast.error("Something went wrong !!!")
         console.log("error getting ward", error)
-          props?.backFun()
+        props?.backFun()
       })
       .finally(() => setloader(false))
-}
+  }
 
-const fetchNewWardByOldWard = (e) => {
+  const fetchNewWardByOldWard = (e) => {
 
-  let requestBody;
+    let requestBody;
 
-  props?.editState ? (requestBody = {oldWardMstrId : props?.userData?.ward_mstr_id, ulbId : props?.userData?.ulb_id}) : (requestBody = {oldWardMstrId: e.target.value, ulbId: formik.values.ulbId})
-  
-  console.log('before fetch wardby old ward...', requestBody)
+    props?.editState ? (requestBody = { oldWardMstrId: props?.userData?.ward_mstr_id, ulbId: props?.userData?.ulb_id }) : (requestBody = { oldWardMstrId: e.target.value, ulbId: formik.values.ulbId })
 
-  axios.post(api_newWardByOldWard, requestBody, ApiHeader())
+    console.log('before fetch wardby old ward...', requestBody)
+
+    axios.post(api_newWardByOldWard, requestBody, ApiHeader())
       .then(function (response) {
-        if(response?.data?.status){
-          console.log('wardlist by oldward list ....', response.data.data)
-          setnewWardList(response.data.data)
-        }else {
+        if (response?.data?.status) {
+          console.log('wardlist by oldward list ....', response?.data?.data)
+          setnewWardList(response?.data?.data)
+        } else {
           toast.error("Something went wrong !!!")
           props?.backFun()
         }
       })
       .catch((error) => {
         toast.error("Something went wrong !!!")
-          props?.backFun()
+        props?.backFun()
       })
       .finally(() => setloader(false))
-}
+  }
 
   // ==============Form Validation=====================
   const validationSchema = yup.object({
-    ulbId : yup.string().required('Select ulb id'),
-    wardNo : yup.string().required('Select ward'),
-    newWardNo : yup.string().required('Select new ward'),
+    ulbId: yup.string().required('Select ulb id'),
+    wardNo: yup.string().required('Select ward'),
+    newWardNo: yup.string().required('Select new ward'),
     clusterName: yup.string().required("Enter name"),
     clusterType: yup.string().required("Select type"),
     clusterAddress: yup.string().required("Enter address"),
@@ -147,7 +153,7 @@ const fetchNewWardByOldWard = (e) => {
   const formik = useFormik({
     initialValues: {
       id: props?.userData?.id,
-      ulbId : props?.userData?.ulb_id,
+      ulbId: props?.userData?.ulb_id,
       wardNo: props?.userData?.ward_mstr_id,
       newWardNo: props?.userData?.new_ward_mstr_id,
       clusterName: props?.userData?.cluster_name,
@@ -168,37 +174,66 @@ const fetchNewWardByOldWard = (e) => {
   // ============Submit function=======================
   const submitForm = (values) => {
     console.log("--2-- before fetch data => ", values);
+    setloader(true)
 
     // ===========post data with condition===================
     {
       props?.editState
         ? // ============axios to update data=====================
-          axios
-            .post(updateCluster, values, ApiHeader())
-            .then((res) => {
-              console.log("--3-- form updated successfully \n data => ", res);
+        axios
+          .post(updateCluster, values, ApiHeader())
+          .then((res) => {
+            console.log("--3-- form updated successfully \n data => ", res);
+            if (res?.data?.status) {
               toast.success("Updated Successfully");
               props.backFun();
               props.refresh()
-            })
-            .catch((err) => console.log("--3-- form updation error => ", err))
+            } else {
+              activateBottomErrorCard(true, 'Error occured while updating cluster. Please try again later.')
+            }
+            setloader(false)
+          })
+          .catch((err) => {
+            console.log("--3-- form updation error => ", err)
+            setloader(false)
+            activateBottomErrorCard(true, 'Error occured while updating cluster. Please try again later.')
+          }
+          )
         : // =============axios to add data=======================
-          axios
-            .post(addCluster, values, ApiHeader())
-            .then((res) => {
-              console.log("--3-- form added successfully \n data => ", res);
+        axios
+          .post(addCluster, values, ApiHeader())
+          .then((res) => {
+            console.log("--3-- form added successfully \n data => ", res);
+
+            if (res?.data?.status) {
               props.backFun();
               toast.success("Added Successfully");
               props.refresh()
-            })
-            .catch((err) => console.log("--3-- form addition error => ", err));
+            } else {
+              activateBottomErrorCard(true, 'Error occured while adding cluster. Please try again later.')
+            }
+            setloader(false)
+          })
+          .catch((err) => {
+            console.log("--3-- form addition error => ", err)
+            setloader(false)
+            activateBottomErrorCard(true, 'Error occured while adding cluster. Please try again later.')
+          });
     }
   };
 
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
+
+
   return (
     <>
-    {/* ===============Loader============ */}
-    {loader && <BarLoader />}
+      {/* ===============Loader============ */}
+      {loader && <BarLoader />}
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       {/* ==============For toastify================ */}
       <ToastContainer position="top-right" autoClose={2000} />
@@ -229,13 +264,13 @@ const fetchNewWardByOldWard = (e) => {
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" >Select</option>
-                                {
-                                    ulbData?.map((data) => (
-                                        <option value={data.id}>{data.ulb_name}</option>
-                                    ))
-                                }
+                {
+                  ulbData?.map((data) => (
+                    <option value={data.id}>{data.ulb_name}</option>
+                  ))
+                }
               </select>
-               <span className="text-red-600 absolute text-xs">
+              <span className="text-red-600 absolute text-xs">
                 {formik.touched.ulbId && formik.errors.ulbId
                   ? formik.errors.ulbId
                   : null}
@@ -257,13 +292,13 @@ const fetchNewWardByOldWard = (e) => {
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" >Select</option>
-                                {
-                                    wardByUlb?.map((data) => (
-                                        <option value={data.id}>{data.ward_name}</option>
-                                    ))
-                                }
+                {
+                  wardByUlb?.map((data) => (
+                    <option value={data.id}>{data.ward_name}</option>
+                  ))
+                }
               </select>
-               <span className="text-red-600 absolute text-xs">
+              <span className="text-red-600 absolute text-xs">
                 {formik.touched.wardNo && formik.errors.wardNo
                   ? formik.errors.wardNo
                   : null}
@@ -284,13 +319,13 @@ const fetchNewWardByOldWard = (e) => {
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
               >
                 <option value="" >Select</option>
-                                {
-                                    newWardList?.map((data) => (
-                                        <option value={data.id}>{data.ward_name}</option>
-                                    ))
-                                }
+                {
+                  newWardList?.map((data) => (
+                    <option value={data.id}>{data.ward_name}</option>
+                  ))
+                }
               </select>
-               <span className="text-red-600 absolute text-xs">
+              <span className="text-red-600 absolute text-xs">
                 {formik.touched.newWardNo && formik.errors.newWardNo
                   ? formik.errors.newWardNo
                   : null}
@@ -313,7 +348,7 @@ const fetchNewWardByOldWard = (e) => {
                 className="form-control block w-[80%] px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                 placeholder="Enter your name.."
               />
-               <span className="text-red-600 absolute text-xs">
+              <span className="text-red-600 absolute text-xs">
                 {formik.touched.clusterName && formik.errors.clusterName
                   ? formik.errors.clusterName
                   : null}
@@ -429,7 +464,7 @@ const fetchNewWardByOldWard = (e) => {
                 Back
               </button>
 
-               {/* ============Add and Update common button====================== */}
+              {/* ============Add and Update common button====================== */}
               <button
                 type="submit"
                 className="md:mt-2 px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"

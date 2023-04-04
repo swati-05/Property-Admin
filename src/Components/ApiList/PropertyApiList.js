@@ -117,7 +117,7 @@ export default function PropertyApiList() {
     // 34
     get_HoldingDeactivationOutbox: `${baseUrl}/api/property/outboxDeactivation`,
     // 35
-    get_HoldingDeactivationSpecial: `${baseUrl}`,
+    get_HoldingDeactivationSpecial: `${baseUrl}/api/property/specialDeactivation`,
     // 36
     get_HoldingDeactivationDetailsById: `${baseUrl}/api/property/getDeactivationDtls`,
     // 37
@@ -128,6 +128,8 @@ export default function PropertyApiList() {
     post_HoldingDeactivationApprovalRejection: `${baseUrl}/api/property/approve-reject-deactivation-request`,
     // 40
     post_HoldingDeactivationIndependentComment: `${baseUrl}/api/property/commentIndependentPrpDeactivation`,
+    // 41
+    get_HoldingDeactivationUploadedDocuments: `${baseUrl}/api/property/getDocumentsPrpDeactivation`,
     // 41
     get_HoldingDeactivationUploadedDocuments: `${baseUrl}/api/property/getDocumentsPrpDeactivation`,
     ////////************ D GB SAF WORKFLOW API ************\\\\\\\\\\\

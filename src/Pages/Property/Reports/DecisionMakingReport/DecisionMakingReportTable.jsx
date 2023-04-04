@@ -138,6 +138,7 @@ const DecisionMakingReportTable = (props) => {
 
 
 </table>
+<div className='h-[20vh]'></div>
 
 </>
 )

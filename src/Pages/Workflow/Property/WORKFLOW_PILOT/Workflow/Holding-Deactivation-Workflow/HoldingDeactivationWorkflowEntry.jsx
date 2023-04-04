@@ -27,7 +27,8 @@ function HoldingDeactivationWorkflowEntry() {
     get_HoldingDeactivationDetailsById,
     post_HoldingDeactivationNextLevel,
     post_HoldingDeactivationEscalate,
-    get_HoldingDeactivationUploadedDocuments } = PropertyApiList()
+    get_HoldingDeactivationUploadedDocuments,
+    get_HoldingDeactivationSpecial } = PropertyApiList()
 
   const workflowRules = {
     api: {
@@ -36,7 +37,7 @@ function HoldingDeactivationWorkflowEntry() {
       // 2 - API TO FETCH OUTBOX LIST
       api_outboxList: { method: 'post', url: get_HoldingDeactivationOutbox },
       // 3 - API TO FETCH SPECIAL LIST
-      api_specialList: { method: 'post', url: '' },
+      api_specialList: { method: 'post', url: get_HoldingDeactivationSpecial },
       // 4 - API TO FETCH BACK TO CITIZEN LIST
       apt_btcList: { method: 'post', url: '' },
       // 5 - API TO FETCH FIELD VERIFICATION LIST

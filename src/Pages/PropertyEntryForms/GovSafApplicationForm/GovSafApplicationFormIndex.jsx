@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FormSubmitResponse from '@/Components/Common/ResponseScreen/FormSubmitResponse'
 import GovSafBasicDetails from './GovSafBasicDetails'
@@ -25,6 +25,8 @@ function GovSafApplicationFormIndex() {
     const [responseScreenStatus, setResponseScreenStatus] = useState('')
     const [preFormData, setPreFormData] = useState()///{***state variable to hold all form required data***}///
     const [demandData, setdemandData] = useState()
+    const [erroState, seterroState] = useState(false);
+    const [erroMessage, seterroMessage] = useState(null);
 
 
     useSetTitle('Government SAF Form')
@@ -125,12 +127,13 @@ function GovSafApplicationFormIndex() {
             </>
         )
     }
+
+    
+
     return (
         <>
-            {
-                isLoading &&
-                <BarLoader />
-            }
+            {isLoading && <BarLoader />}
+           
 
             {/* <div className="flex mt-0">
                 <FormStatusTimeline active={formIndex == 1 && true} index="1" level="Property Details" verificationStatus={formIndex >= 2 && true} last={false} />

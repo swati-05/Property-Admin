@@ -8,6 +8,9 @@ import PropertyApiList from '@/Components/ApiList/PropertyApiList';
 import Popup from 'reactjs-popup';
 import { toast, ToastContainer } from 'react-toastify';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
+import BarLoader from '@/Components/Common/BarLoader';
+import BottomErrorCard from '@/Components/Common/BottomErrorCard';
+import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
 
 const customStyles = {
     overlay: {
@@ -31,11 +34,15 @@ function CashVerificationDetailedModal(props) {
 
     useSetTitle('Cash Verification')
 
-    const {api_verifiedTcCollection, api_notVerifiedTcCollection, api_verifyTcCollection} = PropertyApiList()
+    const { api_verifiedTcCollection, api_notVerifiedTcCollection, api_verifyTcCollection } = PropertyApiList()
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fetchedData, setFetchedData] = useState()
     const [tradeSeleteAll, setTradeSeleteAll] = useState(false)
+    const [isLoading2, setisLoading2] = useState(false);
+    const [erroState, seterroState] = useState(false);
+    const [erroMessage, seterroMessage] = useState(null);
+
 
     const [allTest, setAllTest] = useState([])
 
@@ -47,28 +54,32 @@ function CashVerificationDetailedModal(props) {
     //Fetch data
     useEffect(() => {
         if (!props || !props.data) return;
-      
+
         const payload = {
-          "date": props?.data?.date,
-          "userId": props?.data?.id
+            "date": props?.data?.date,
+            "userId": props?.data?.id
         };
 
         let url;
-      
-       props?.reportType == '1' && (url = api_notVerifiedTcCollection )
-       props?.reportType == '2' && (url = api_verifiedTcCollection)
-      
-        axios.post(url, payload, ApiHeader())
-          .then((res) => {
-            console.log("response of te data in modal", res)
-            setFetchedData(res?.data?.data)
-          })
-          .catch((err) => console.log("Error while tc list data in modal", err));
-      }, [props?.data]);
-      
-console.log('getting data in cash verification modal => ', props?.data)
 
-//     console.log("fetchedData in modal", fetchedData)
+        props?.reportType == '1' && (url = api_notVerifiedTcCollection)
+        props?.reportType == '2' && (url = api_verifiedTcCollection)
+
+        axios.post(url, payload, ApiHeader())
+            .then((res) => {
+                console.log("response of te data in modal", res)
+                setFetchedData(res?.data?.data)
+            })
+            .catch((err) => {
+                console.log("Error while tc list data in modal", err)
+                activateBottomErrorCard(true, 'Some error occured. Please try again later.')
+
+            });
+    }, [props?.data]);
+
+    console.log('getting data in cash verification modal => ', props?.data)
+
+    //     console.log("fetchedData in modal", fetchedData)
 
     function openModal() {
         setIsOpen(true);
@@ -120,7 +131,7 @@ console.log('getting data in cash verification modal => ', props?.data)
             })
             .catch((err) => {
                 console.log("Exception While Verifying Data", err)
-                toast.error("Something went wrong !!!")
+                activateBottomErrorCard(true, 'Some error occured. Please try again later.')
             })
 
         console.log("Verify Data", payload)
@@ -131,9 +142,18 @@ console.log('getting data in cash verification modal => ', props?.data)
         setTradeSeleteAll(e.target.checked)
     }
 
+    const activateBottomErrorCard = (state, msg) => {
+        seterroMessage(msg)
+        seterroState(state)
+
+    }
+
+
     return (
         <>
-        <ToastContainer autoClose={2000}/>
+            {isLoading2 && <BarLoader />}
+            {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
+            <ToastContainer autoClose={2000} />
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
@@ -165,10 +185,10 @@ console.log('getting data in cash verification modal => ', props?.data)
                                         <p> Number of Transaction</p>
                                     </div>
                                     <div className='col-span-1 font-semibold'>
-                                        <p className='uppercase'>: {fetchedData?.collectorName}</p>
-                                        <p>: {fetchedData?.date}</p>
-                                        <p>: {fetchedData?.totalAmount}</p>
-                                        <p>: {fetchedData?.numberOfTransaction}</p>
+                                        <p className='uppercase'>: {nullToNA(fetchedData?.collectorName)}</p>
+                                        <p>: {nullToNA(fetchedData?.date)}</p>
+                                        <p>: {nullToNA(fetchedData?.totalAmount)}</p>
+                                        <p>: {nullToNA(fetchedData?.numberOfTransaction)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +233,7 @@ console.log('getting data in cash verification modal => ', props?.data)
                                         <th className="px-2 py-2 border-r">Owner Name</th>
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
-                                        <th className="px-2 py-2 border-r">Check/DD No</th>    
+                                        <th className="px-2 py-2 border-r">Check/DD No</th>
                                         <th className="px-2 py-2 border-r">Bank Name</th>
                                         <th className="px-2 py-2 border-r">Paid Amount</th>
                                         <th className="px-2 py-2 border-r">Payment Date</th>
@@ -224,14 +244,14 @@ console.log('getting data in cash verification modal => ', props?.data)
                                         fetchedData?.property?.map((item, i) => (
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_no == '' ? 'N/A' : item?.tran_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.user_name == '' ? 'N/A' : item?.user_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.payment_mode == '' ? 'N/A' : item?.payment_mode}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.application_no == '' ? 'N/A' : item?.application_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.cheque_dd_no == '' ? 'N/A' : item?.cheque_dd_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.bank_name == '' ? 'N/A' : item?.bank_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{item?.amount == '' ? 'N/A' : item?.amount}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_date == '' ? 'N/A' : item?.tran_date}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToNA(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
                                     }
@@ -245,13 +265,13 @@ console.log('getting data in cash verification modal => ', props?.data)
                             <p className='uppercase'>Water Payment</p>
                             <table className="table-auto w-full">
                                 <thead className="bg-gray-100 border-t border-l border-r text-left">
-                                <tr>
+                                    <tr>
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
                                         <th className="px-2 py-2 border-r">Owner Name</th>
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
-                                        <th className="px-2 py-2 border-r">Check/DD No</th>    
+                                        <th className="px-2 py-2 border-r">Check/DD No</th>
                                         <th className="px-2 py-2 border-r">Bank Name</th>
                                         <th className="px-2 py-2 border-r">Paid Amount</th>
                                         <th className="px-2 py-2 border-r">Payment Date</th>
@@ -262,14 +282,14 @@ console.log('getting data in cash verification modal => ', props?.data)
                                         fetchedData?.water?.map((item, i) => (
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_no == '' ? 'N/A' : item?.tran_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.user_name == '' ? 'N/A' : item?.user_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.payment_mode == '' ? 'N/A' : item?.payment_mode}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.application_no == '' ? 'N/A' : item?.application_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.cheque_dd_no == '' ? 'N/A' : item?.cheque_dd_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.bank_name == '' ? 'N/A' : item?.bank_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{item?.amount == '' ? 'N/A' : item?.amount}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_date == '' ? 'N/A' : item?.tran_date}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToNA(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
                                     }
@@ -287,13 +307,13 @@ console.log('getting data in cash verification modal => ', props?.data)
                             <p className='uppercase'>Trade Payment</p>
                             <table className="table-auto w-full">
                                 <thead className="bg-gray-100 border-t border-l border-r text-left">
-                                <tr>
+                                    <tr>
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
                                         <th className="px-2 py-2 border-r">Owner Name</th>
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
-                                        <th className="px-2 py-2 border-r">Check/DD No</th>    
+                                        <th className="px-2 py-2 border-r">Check/DD No</th>
                                         <th className="px-2 py-2 border-r">Bank Name</th>
                                         <th className="px-2 py-2 border-r">Paid Amount</th>
                                         <th className="px-2 py-2 border-r">Payment Date</th>
@@ -304,14 +324,14 @@ console.log('getting data in cash verification modal => ', props?.data)
                                         fetchedData?.trade?.map((item, i) => (
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_no == '' ? 'N/A' : item?.tran_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.user_name == '' ? 'N/A' : item?.user_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.payment_mode == '' ? 'N/A' : item?.payment_mode}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.application_no == '' ? 'N/A' : item?.application_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.cheque_dd_no == '' ? 'N/A' : item?.cheque_dd_no}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.bank_name == '' ? 'N/A' : item?.bank_name}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{item?.amount == '' ? 'N/A' : item?.amount}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{item?.tran_date == '' ? 'N/A' : item?.tran_date}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name)}</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToNA(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
                                     }
@@ -327,45 +347,45 @@ console.log('getting data in cash verification modal => ', props?.data)
                         </div> */}
                         <div className='my-5'>
                             <div className="flex justify-center pt-3 space-x-3">
-                            {props?.reportType == '1' &&
-                            <Popup
-                trigger={
-                    <button className="w-full px-10 rounded bg-indigo-600 py-2 text-white sm:w-auto"> Verify </button>
-                }
-                modal
-                nested
-              >
-                {(close) => (
-                  <div className="h-screen w-screen flex-row justify-center items-center backdrop-blur-sm">
-                    <div className="flex flex-col justify-center h-max w-max absolute top-[40%] right-[40%] bg-indigo-50 px-4 py-2 rounde-md shadow-lg animate__animated animate__fadeInDown animate__faster">
-                      <button className="close text-end text-lg" onClick={close}>
-                        &times;
-                      </button>
-                      <div className="text-md">
-                        Are you sure ?
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <button
-                          className="bg-green-500 hover:bg-green-600 text-white shadow-md text-xs px-4 py-1 m-4 rounded-md"
-                          onClick={() => {
-                            close()
-                            handleVerifyBtn()
-                        }}
-                        >
-                          Yes
-                        </button>
-                        <button
-                          className="bg-red-500 hover:bg-red-600 text-white px-4 shadow-md text-xs py-1 m-4 rounded-md"
-                          onClick={close}
-                        >
-                          No
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                            </Popup>
-                            }
+                                {props?.reportType == '1' &&
+                                    <Popup
+                                        trigger={
+                                            <button className="w-full px-10 rounded bg-indigo-600 py-2 text-white sm:w-auto"> Verify </button>
+                                        }
+                                        modal
+                                        nested
+                                    >
+                                        {(close) => (
+                                            <div className="h-screen w-screen flex-row justify-center items-center backdrop-blur-sm">
+                                                <div className="flex flex-col justify-center h-max w-max absolute top-[40%] right-[40%] bg-indigo-50 px-4 py-2 rounde-md shadow-lg animate__animated animate__fadeInDown animate__faster">
+                                                    <button className="close text-end text-lg" onClick={close}>
+                                                        &times;
+                                                    </button>
+                                                    <div className="text-md">
+                                                        Are you sure ?
+                                                    </div>
+                                                    <div className="flex justify-center items-center">
+                                                        <button
+                                                            className="bg-green-500 hover:bg-green-600 text-white shadow-md text-xs px-4 py-1 m-4 rounded-md"
+                                                            onClick={() => {
+                                                                close()
+                                                                handleVerifyBtn()
+                                                            }}
+                                                        >
+                                                            Yes
+                                                        </button>
+                                                        <button
+                                                            className="bg-red-500 hover:bg-red-600 text-white px-4 shadow-md text-xs py-1 m-4 rounded-md"
+                                                            onClick={close}
+                                                        >
+                                                            No
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Popup>
+                                }
                                 <button onClick={closeModal} className="w-full px-10 rounded bg-red-600 py-2 text-white sm:w-auto"> Cancel </button>
                             </div>
 

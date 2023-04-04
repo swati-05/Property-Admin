@@ -30,7 +30,7 @@ function ConcessionWorkflowEntry() {
     get_ConcessionDocumentsToUpload,
     get_ConcessionUploadedDocuments,
     post_ConcessionDocumentUpload,
-    get_HarvestingBtcList,
+    get_ConcessionBtcList,
     post_ConcessionDocVerify } = PropertyApiList()
 
   const workflowRules = {
@@ -42,7 +42,7 @@ function ConcessionWorkflowEntry() {
       // 3 - API TO FETCH SPECIAL LIST
       api_specialList: { method: 'post', url: get_ConcessionSpecial },
       // 4 - API TO FETCH BACK TO CITIZEN LIST
-      apt_btcList: { method: 'post', url: get_HarvestingBtcList },
+      apt_btcList: { method: 'post', url: get_ConcessionBtcList },
       // 5 - API TO FETCH FIELD VERIFICATION LIST
       api_fieldVerificationList: { method: 'post', url: '' },
 

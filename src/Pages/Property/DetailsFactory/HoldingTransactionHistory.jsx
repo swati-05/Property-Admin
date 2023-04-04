@@ -131,7 +131,7 @@ function HoldingTransactionHistory(props) {
         console.log('before fetch factory data')
         axios.post(api_getSpecificHoldingTranscationHistory, requestBody, ApiHeader())
             .then(function (response) {
-                console.log("all transcation list at holding specific----- ", response.data);
+                console.log("all transcation list at holding specific----- ", response?.data);
 
                 if (response?.data?.status) {
                     setreadyMadeListData(response?.data?.data)
@@ -171,8 +171,8 @@ function HoldingTransactionHistory(props) {
             },
             header)
             .then(function (response) {
-                console.log('view prop prop full details...', response.data.data)
-                setapplicationFullData(response.data.data)
+                console.log('view prop prop full details...', response?.data?.data)
+                setapplicationFullData(response?.data?.data)
                 setisLoading(false)
             })
             .catch(function (error) {
@@ -326,10 +326,8 @@ function HoldingTransactionHistory(props) {
                     </div>
                 }
 
-                <div className='mt-10'>
-                    <button onClick={() => navigate(`/viewDemandHoldingProperty/${id}`)} type="button" className="float-right px-6 py-2.5 bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay</button>
-                </div>
-                <div className='w-full h-40'></div>
+               
+                <div className='w-full mt-52'></div>
             </div>
         </>
     )

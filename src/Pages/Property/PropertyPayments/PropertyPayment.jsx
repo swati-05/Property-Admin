@@ -53,8 +53,8 @@ function PropertyPayment(props) {
 
         axios.post(url, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('payment details data...', response.data)
-                setdemandDetail(response.data.data)
+                console.log('payment details data...', response?.data)
+                setdemandDetail(response?.data?.data)
                 setfullData(response?.data)
                 setisLoading(false)
             })

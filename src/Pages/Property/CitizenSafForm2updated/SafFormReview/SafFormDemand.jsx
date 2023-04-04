@@ -37,7 +37,6 @@ function SafFormDemand(props) {
   //   behavior: 'smooth'
   // })
 
-  const { propertyGenerateOrderId } = CitizenApplyApiList();
   const [loaderStatus, setloaderStatus] = useState(false)
 
   const [loader, setLoader] = useState(false) // Used when click on Pay Now
@@ -51,73 +50,7 @@ function SafFormDemand(props) {
   }
 
 
-  ////// PAYMENT METHOD  ////
-  const dreturn = (data) => {   // In (DATA) this function returns the Paymen Status, Message and Other Response data form Razorpay Server
-    console.log('Payment Status =>', data)
-    if (data?.status) {
-      toast.success('Payment Success....', data)
-      // return
-      navigate(`/paymentReceipt/${data?.data?.razorpay_payment_id}`)
-    } else {
-      toast.error('Payment failed....')
-      navigate('/propertyDashboard')
-    }
 
-  }
-
-  const getOrderId = async () => { // This Function is used to Order Id Generation
-    console.log('loader clicked...')
-    const orderIdPayload = {
-      "id": props?.safSubmitResponse?.data?.safId,
-      "amount": props?.safSubmitResponse?.data?.demand?.amounts?.payableAmount,
-      "departmentId": 1,
-      "workflowId": 4,
-      "uldId": 2
-    }
-
-    // setLoader(true)
-
-    let token = window.localStorage.getItem('token')
-    console.log('token at basic details is post method...', token)
-    const header = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-      }
-    }
-    console.log('before order id creation....', orderIdPayload)
-    axios.post(propertyGenerateOrderId, orderIdPayload, header)  // This API will generate Order ID
-      .then((res) => {
-        console.log("Order Id Response ", res.data)
-        if (res.data.status === true) {
-          console.log("OrderId Generated True", res.data)
-          setloaderStatus(false)
-
-          RazorpayPaymentScreen(res.data.data, dreturn);  //Send Response Data as Object (amount, orderId, ulbId, departmentId, applicationId, workflowId, userId, name, email, contact) will call razorpay payment function to show payment popup                                      
-          setTimeout(() => {
-            props.showLoader(false)
-          }, 500)
-
-        }
-        else {
-          setloaderStatus(false)
-
-          props.showLoader(false)
-        }
-      })
-      .catch((err) => {
-        alert("Backend Server error. Unable to Generate Order Id");
-        console.log("ERROR :-  Unable to Generate Order Id ", err)
-
-        props.showLoader(false)
-      })
-
-
-  }
-
-
-
-  console.log("demand detail", props?.safSubmitResponse?.data?.demand?.amounts?.rebatePerc)
 
   return (
     <>

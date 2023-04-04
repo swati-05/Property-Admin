@@ -3,12 +3,12 @@ import rupee from '../../../Components/Media/rupee.png'
 import brief from '../../../Components/Media/brief.png'
 import pay2 from '../../../Components/Media/pay2.png'
 import axios from 'axios'
-import RazorpayPaymentScreen from '../../../Components/Common/RazorpayPaymentScreen'
+import RazorpayPaymentScreen from '@/Components/Common/RazorpayPaymentScreen'
 import { useNavigate, useParams } from 'react-router-dom'
-import CitizenApplyApiList from '../../../Components/CitizenApplyApiList'
-import PaymentTranscationScreen from '../../../Components/Common/PaymentTranscationScreen'
+import CitizenApplyApiList from '@/Components/CitizenApplyApiList'
+import PaymentTranscationScreen from '@/Components/Common/PaymentTranscationScreen'
 import { ToastContainer, toast } from 'react-toastify';
-import ApiHeader from '../../../Components/ApiList/ApiHeader'
+import ApiHeader from '@/Components/ApiList/ApiHeader'
 import BarLoader from '@/Components/Common/BarLoader'
 import TopTabs from './TopTabs'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
@@ -24,9 +24,9 @@ import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 
 
-function ViewDemandDetails(props) {
+function GbSafDemandDetails (props) {
 
-    const { id, location, tabIndex } = useParams()
+    const { id } = useParams()
 
     console.log("param demand screen...", id)
 
@@ -52,7 +52,7 @@ function ViewDemandDetails(props) {
             .then(function (response) {
                 console.log('view demand for my saf..', response?.data?.data)
                 setsafNo(response?.data?.safNo)
-                setdemandDetail(response?.data?.data)
+                setdemandDetail(response.data.data)
                 setisLoading(false)
             })
             .catch(function (error) {
@@ -99,7 +99,7 @@ function ViewDemandDetails(props) {
                 {/* <h1 className='px-2 font-semibold text-center text-gray-600 font-serif py-2 xl md:text-3xl mt-2'>{props?.detailRules?.detailInfo?.title}</h1> */}
 
                 <div className='pt-10'>
-                    <TopTabs payButton={demandDetail?.paymentStatus !== 1} payableAmount={demandDetail?.amounts?.payableAmount} title={`Demand Details`} type="application" id={id} safNo={safNo} active="demand" />
+                    <TopTabs payButton={demandDetail?.paymentStatus !== 1} payableAmount={demandDetail?.amounts?.payableAmount} title={`Demand Details`} type="gbSaf" id={id} safNo={safNo} active="demand" />
                 </div>
 
                 <div className='w-full bg-white shadow-xl mb-6'>
@@ -313,7 +313,7 @@ function ViewDemandDetails(props) {
                                         </div>
                                         <div className='text-right flex-1'>
                                             {/* <button onClick={() => navigate(`/property-payment/${id}/saf`)} type="submit" className=" px-6 py-1 bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <img src={pay2} alt="pay image" className='inline w-5' /></button> */}
-                                            <button onClick={() => navigate(`/property-payment/${id}/${props?.type == 'holding' ? 'holding' : 'saf'}`)} type="button" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(demandDetail?.amounts?.payableAmount)} <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
+                                            <button onClick={() => navigate(`/property-payment/${id}/saf`)} type="button" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(demandDetail?.amounts?.payableAmount)} <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
                                         </div>
                                     </>
                                 }</div>
@@ -336,4 +336,4 @@ function ViewDemandDetails(props) {
     )
 }
 
-export default ViewDemandDetails
+export default GbSafDemandDetails 

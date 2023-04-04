@@ -134,9 +134,9 @@ function SafDetailsEntry() {
         }
         axios.post(api_getStaticSafDetails, { applicationId: id }, header)
             .then(function (response) {
-                console.log('get saf data in saf view ...', response.data.data)
+                console.log('get saf data in saf view ...', response?.data?.data)
                 if (response?.data?.status) {
-                    setapplicationFullData(response.data.data)
+                    setapplicationFullData(response?.data?.data)
                 } else {
                     seterroState(true)
                 }

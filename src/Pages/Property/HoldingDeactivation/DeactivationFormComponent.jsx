@@ -84,14 +84,14 @@ function DeactivationFormComponent(props) {
           notify('Holding deactivation applied successfully !!', "success");
           setdeactivationSubmitStatus(true)
         } else {
-          activateBottomErrorCard(true,'Something went wrong in submitting deactivation application')
+          activateBottomErrorCard(true,'Error occured in submitting deactivation application. Please try again later.')
         }
         setisLoading2(false)
 
       })
       .catch((error) => {
         console.log('error at submit deactivation ', error);
-        activateBottomErrorCard(true,'Something went wrong in submitting deactivation application')
+        activateBottomErrorCard(true,'Error occured in submitting deactivation application. Please try again later.')
         setisLoading2(false)
       });
   };
@@ -107,9 +107,9 @@ function DeactivationFormComponent(props) {
     console.log('before fetch property details in deactivation')
     axios.post(api_getHoldingDeactivationDetails, { propertyId: id }, ApiHeader())
       .then(function (response) {
-        console.log('view prop prop full details...', response.data)
+        console.log('view prop prop full details...', response?.data)
         if (response?.data?.status) {
-          setapplicationFullData(response.data)
+          setapplicationFullData(response?.data)
         } else {
           seterroState2(true)
         }

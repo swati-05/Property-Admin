@@ -55,8 +55,8 @@ function DemandDetailsHoldingProperty(props) {
         seterroState(false)
         axios.post(`${api_getHoldingDemandById}`, { propId: id }, ApiHeader())
             .then(function (response) {
-                console.log('view deamnd details at property in egov...', response.data)
-                setdemandDetail(response.data.data)
+                console.log('view deamnd details at property in egov...', response?.data)
+                setdemandDetail(response?.data?.data)
                 setfullData(response?.data)
                 setisLoading(false)
             })

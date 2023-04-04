@@ -8,9 +8,9 @@ import DetailsFactory from '../DetailsFactory'
 function GBSAFDetailsEntry() {
 
     // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
-    useSetTitle('GB Details')
+    useSetTitle('GB SAF Details')
 
-    // const { id } = useParams()
+    const { id } = useParams()
     // LIST OF API'S
     const { get_GbSafDetailsById } = PropertyApiList()
 
@@ -34,7 +34,7 @@ function GBSAFDetailsEntry() {
    
     return (
         <CustomErrorBoundary errorMsg="Bug in GBSAF " >
-            <DetailsFactory detailRules={detailRules} />
+            <DetailsFactory detailRules={detailRules} id={id}/>
         </CustomErrorBoundary>
     )
 }

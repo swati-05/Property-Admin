@@ -18,6 +18,7 @@ import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 
 
@@ -45,13 +46,13 @@ function ClusterHoldingDemand(props) {
         setisLoading(true)
         axios.post(`${api_getClusterPropertyDemand}`, { clusterId: id }, ApiHeader())
             .then(function (response) {
-                console.log('view cluster demand details at property in egov...', response.data)
+                console.log('view cluster demand details at property in egov...', response?.data)
                 setdemandStatus(response?.data?.status)
                 if (response?.data?.status) {
-                    setdemandDetail(response.data.data)
+                    setdemandDetail(response?.data?.data)
                     setfullData(response?.data)
                 } else {
-                    setdemandDetail(response.data.data)
+                    setdemandDetail(response?.data?.data)
                     setfullData(response?.data)
                 }
                 setisLoading(false)
@@ -95,7 +96,7 @@ function ClusterHoldingDemand(props) {
                     <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
 
-                        <div className='flex-1'>
+                            <div className='flex-1'>
                                 <div className='font-bold text-sm'>{nullToNA(demandDetail?.basicDetails?.cluster_name)}</div>
                                 <div className='text-gray-500 text-xs'>Cluster Name</div>
                             </div>
@@ -163,9 +164,9 @@ function ClusterHoldingDemand(props) {
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
                                         <tr>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Rebate (%)</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% Penalty (Rs) </th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Total Tax (Rs)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Rebate ({demandDetail?.duesList?.rebatePerc}%)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% Penalty (Rs) </th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Payable Amount (Rs)</th>
 
 
@@ -177,11 +178,11 @@ function ClusterHoldingDemand(props) {
 
                                             <tr className="bg-white border-b border-gray-200">
                                                 <td className="px-2 py-2 text-sm text-left">1</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.totalDues)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.rebateAmt)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.onePercPenalty)}</td>
 
 
-                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.totalDues)}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToNA(demandDetail?.duesList?.payableAmount)}</td>
 
 
@@ -192,6 +193,35 @@ function ClusterHoldingDemand(props) {
                                     </tbody>
                                 </table>
                             </div>
+
+                            {/* // REABATE DESCRIPTION */}
+                            {demandDetail?.duesList?.rebates?.length !== 0 && <>
+                                <div className='mt-10 text-md font-semibold'>Rebate Description</div>
+                                <table className='min-w-full leading-normal mt-2'>
+                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                        <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amount</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+
+                                        {demandDetail?.duesList?.rebates?.map((data, index) => (
+                                            <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </>
+                            }
 
 
 
@@ -248,7 +278,7 @@ function ClusterHoldingDemand(props) {
                                             </div>
                                         </div>
                                         <div className='text-right flex-1'>
-                                            <button onClick={() => navigate(`/property-payment/${id}/cluster-holding`)} type="submit" className=" px-6 py-1 bg-green-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <img src={pay2} alt="pay image" className='inline w-5' /></button>
+                                            <button onClick={() => navigate(`/property-payment/${id}/cluster-holding`)} type="submit" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay Now</button>
                                         </div>
                                     </>
                                 </div>

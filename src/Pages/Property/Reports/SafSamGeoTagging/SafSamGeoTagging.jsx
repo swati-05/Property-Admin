@@ -178,6 +178,7 @@ const SafSamGeoTagging = () => {
         }           
 
 
+<div className='h-[20vh]'></div>
 
 
     </>

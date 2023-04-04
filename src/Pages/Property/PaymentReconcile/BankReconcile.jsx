@@ -23,6 +23,8 @@ import ApiHeader from "@/Components/ApiList/ApiHeader";
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
 import BarLoader from "@/Components/Common/BarLoader";
 import { toast, ToastContainer } from "react-toastify";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
+import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
 
 const customStyles = {
   content: {
@@ -50,6 +52,8 @@ function BankReconcile() {
   const [cdata, setcdata] = useState()
   const [cId, setcId] = useState(0)
   const [mdId, setmdId] = useState('')
+  const [erroState, seterroState] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   const [loaderForClearBtn, setLoaderForClearBtn] = useState(false);
 
@@ -94,7 +98,11 @@ function BankReconcile() {
       .then(
         (res) => (console.log("Fetched Filter Data", res), setFilteredData(res?.data?.data), setloader(false))
       )
-      .catch((err) => (console.log("Error while fetching filter Data", err), setloader(false)));
+      .catch((err) => {
+        console.log("Error while fetching filter Data", err)
+        activateBottomErrorCard(true,'Error occured while fetching bank reconciliation list. Please try again later.')
+         setloader(false)
+    });
   };
 
   const validationSchema = yup.object({
@@ -155,7 +163,7 @@ function BankReconcile() {
         (err) => (
           console.log("Error : Data Not Updated", err),
           setloader(false),
-          toast.error("Something went wrong !!!")
+          activateBottomErrorCard(true,'Error occured while bank reconile. Please try again later.')
         )
       );
   };
@@ -221,12 +229,16 @@ function BankReconcile() {
 
       if(res?.data?.status == false){
         console.log('error getting data by id with payload is => ', body, "\n and  response is => ", res)
+        activateBottomErrorCard(true,'Error occured while fetching bank reconcile details. Please try again later.')
+
         setloader(false)
       } 
       
     })
     .catch((err) => {
       console.log('error getting data by id with payload is => ', body, "\n and  response is => ", err)
+      activateBottomErrorCard(true,'Error occured while fetching bank reconcile details. Please try again later.')
+
       setloader(false)
     })
   }
@@ -465,12 +477,17 @@ function BankReconcile() {
     },
   ];
 
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
 
+  }
   return (
     <>
     <ToastContainer autoClose={2000} />
 
     {loader && <BarLoader /> }
+    {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       {/* FORM 1 -> For Search and Filter */}
       <form onSubmit={formik.handleSubmit}>
@@ -624,19 +641,19 @@ function BankReconcile() {
 
             <div className="col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque No.</div>
-              <div className="col-span-6 font-semibold">{cdata?.cheque_no}</div>
+              <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_no)}</div>
             </div>
             <div className="col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque Date</div>
-              <div className="col-span-6 font-semibold">{cdata?.cheque_date}</div>
+              <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_date)}</div>
             </div>
             <div className="col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Bank Name</div>
-              <div className="col-span-6 font-semibold">{cdata?.bank_name}</div>
+              <div className="col-span-6 font-semibold">{nullToNA(cdata?.bank_name)}</div>
             </div>
             <div className="col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Branch Name</div>
-              <div className="col-span-6 font-semibold">{cdata?.branch_name}</div>
+              <div className="col-span-6 font-semibold">{nullToNA(cdata?.branch_name)}</div>
             </div>
 
           </div>

@@ -14,6 +14,7 @@ import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 
 function ClusterSafDemand(props) {
@@ -39,11 +40,11 @@ function ClusterSafDemand(props) {
                 setdemandStatus(response?.data?.status)
                 if (response?.data?.status) {
                     setsafNo(response?.data?.safNo)
-                    setdemandDetail(response.data.data)
+                    setdemandDetail(response?.data?.data)
                 } else {
 
                     setsafNo(response?.data?.safNo)
-                    setdemandDetail(response.data.data)
+                    setdemandDetail(response?.data?.data)
                 }
                 setisLoading(false)
             })
@@ -199,6 +200,35 @@ function ClusterSafDemand(props) {
                                 </table>
                             </div>
 
+                            {/* // REABATE DESCRIPTION */}
+                            {demandDetail?.demand?.rebates?.length !== 0 && <>
+                                <div className='mt-10 text-md font-semibold'>Rebate Description</div>
+                                <table className='min-w-full leading-normal mt-2'>
+                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                        <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amount</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+
+                                        {demandDetail?.demand?.rebates?.map((data, index) => (
+                                            <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </>
+                            }
+
 
                             {/* due detail list */}
                             <div className='mt-10'>
@@ -275,7 +305,7 @@ function ClusterSafDemand(props) {
                                             </div>
                                         </div>
                                         <div className='text-right flex-1'>
-                                           <button onClick={() => navigate(`/property-payment/${id}/cluster-saf`)} type="submit" className=" px-8 py-2 border border-white bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <span><BiRightArrowAlt className="inline font-bold text-xl" /></span></button>
+                                            <button onClick={() => navigate(`/property-payment/${id}/cluster-saf`)} type="submit" className=" px-8 py-2 border border-white bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <span><BiRightArrowAlt className="inline font-bold text-xl" /></span></button>
                                         </div>
                                     </>
                                 </div>

@@ -108,7 +108,7 @@ const SafApplyCard = React.lazy(() => import('./Pages/Workflow/Property/SafApply
 const GBSAFDetailsEntry = React.lazy(() => import('./Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry'));
 const GbSafPaymentReceiptIndex = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
 // const GbSafPaymentReceiptIndex = React.lazy(() => import('./Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
-
+const GbSafDemandDetails = React.lazy(() => import('@/Pages/Property/DetailsFactory/gbSafDemandDetails'))
 
 
 function App(props) {
@@ -289,6 +289,7 @@ function App(props) {
               <Route path='/cluster-payment/:id/:moduleType' element={<ClusterPayment />} />
               <Route path='/cluster-payment-receipt/:paymentId/:module' element={<ClusterPaymentReceiptIndex />} />
 
+              {/* =============Reciept============ */}
               <Route path='/sam-reciept/:id' element={<SamReciept />} />
               <Route path='/fam-reciept/:id' element={<PrintPage />} />
               <Route path='/comparative-demand-reciept/:id' element={<ComparativeDemandReciept />} />
@@ -296,6 +297,7 @@ function App(props) {
               <Route path="/demand-reciept/:id" element={<DemandPrint />} />
               <Route path="/gb-saf-reciept/:paymentId/:module" element={<GbSafPaymentReceiptIndex />} />
 
+              {/* ===========Reports============= */}
               <Route path='/report/:type' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
               <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
               {/* here ('/collection-demand-report') is the detailing of the ListTable2 which is used while backend pagination*/}
@@ -324,6 +326,7 @@ function App(props) {
               <Route path="/ward-wise-saf-pending-details" element={<WardWiseSafPendingDetails />} /> {/* Ward Wise SAF Pending Details */}
               <Route path="/date-ward-wise-generated-notice" element={<DateWardWiseGeneratedNotice />} /> {/* Date & Ward Wise Generated Notice */}
               <Route path="/deactivated-holding" element={<DeactivatedHolding />} /> {/* Deactivated Holding */}
+              {/* ============Reports End================ */}
 
               <Route path='/bank-reconcile' element={<BankReconcile />} />
               <Route path='/cash-verification' element={<CashVerification />} />

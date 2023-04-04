@@ -33,6 +33,7 @@ import { contextVar } from '@/Components/Context/Context'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
+import BottomErrorCard from '@/Components/Common/BottomErrorCard'
 
 
 const customStyles = {
@@ -57,8 +58,13 @@ function LandingHomeDashBoard() {
     const [selectedImageUrl, setselectedImageUrl] = useState(role)
     const [currenRoleView, setcurrenRoleView] = useState(role)
     const [isLoading, setisLoading] = useState(false)
+    const [isLoading2, setisLoading2] = useState(false)
     const [currentRole, setcurrentRole] = useState('jsk')
     const [erroState, seterroState] = useState(false);
+    const [erroState2, seterroState2] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
+
+
 
     const imageRef = useRef()
     const { api_editAdminProfile } = ProjectApiList()
@@ -180,10 +186,9 @@ function LandingHomeDashBoard() {
 
     // FUNCTION TO UPDATE PROFILE DATA
     const postEditProfile = () => {
-        seterroState(false)
         closeModal()
         closeModal2()
-        setisLoading(true)
+        setisLoading2(true)
 
         let fd = new FormData()
         fd.append('name', formik.values?.name)
@@ -195,20 +200,19 @@ function LandingHomeDashBoard() {
         // return
         axios.post(api_editAdminProfile, fd, ApiHeader2())
             .then(function (response) {
-                console.log('edit profile response ....', response.data)
+                console.log('edit profile response ....', response?.data)
 
                 if (response?.data?.status) {
                     notify('Profile Updated Successfully !', 'success')
                 } else {
-                    notify(response?.data?.message, 'error')
+                    activateBottomErrorCard(true, 'Error occured while updating profile. Please try again later.')
                 }
-                setisLoading(false)
+                setisLoading2(false)
 
             })
             .catch(function (error) {
-                setisLoading(false)
-                seterroState(true)
-                notify('Network Problem', 'error')
+                setisLoading2(false)
+                activateBottomErrorCard(true, 'Error occured while updating profile. Please try again later.')
                 console.log('errorrr.... ', error);
             })
     }
@@ -216,6 +220,12 @@ function LandingHomeDashBoard() {
     // FUNCTION TO CHANGE MODULE LAYOUT
     const changeModuleType = (moduleType) => {
         setactiveModuleType(moduleType)
+    }
+
+    const activateBottomErrorCard = (state, msg) => {
+        seterroMessage(msg)
+        seterroState2(state)
+
     }
 
 
@@ -236,11 +246,8 @@ function LandingHomeDashBoard() {
 
     return (
         <>
-            {/* {
-                isLoading && <div className='inline'>
-                    <BarLoader />
-                </div>
-            } */}
+            {isLoading2 && <BarLoader />}
+            {erroState2 && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
             <div className='w-full bg-white shadow-xl p-10 mt-4'>
                 <div className="flex">
