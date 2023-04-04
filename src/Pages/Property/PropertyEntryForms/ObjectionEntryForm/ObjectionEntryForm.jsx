@@ -21,12 +21,13 @@ import apiLinks from "@/Components/ApiList/ObjectionAssessmentApi";
 import ObjectionFloor from "./ObjectionFloor";
 import { ColorRing } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
-import {contextVar} from '@/Components/Context/Context'
-import {useContext} from 'react'
+import { contextVar } from '@/Components/Context/Context'
+import { useContext } from 'react'
 import EmptyDetailsIllustration from "./EmptyDetailsIllustration";
 import ApiHeader2 from "@/Components/ApiList/ApiHeader2";
 import BarLoader from "@/Components/Common/BarLoader";
-import {FcDepartment} from 'react-icons/fc'
+import { FcDepartment } from 'react-icons/fc'
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 function ObjectionEntryForm(props) {
   const {
@@ -35,11 +36,10 @@ function ObjectionEntryForm(props) {
     getWardList
   } = apiLinks();
 
-  const {id} = useParams()
+  const { id } = useParams()
 
   const navigate = useNavigate();
 
-  const [loader, setloader] = useState(false);
   const [evidenceDoc, setevidenceDoc] = useState('');
   const [refresh, setrefresh] = useState(0);
   const [formDoc, setformDoc] = useState('');
@@ -57,6 +57,9 @@ function ObjectionEntryForm(props) {
   const [floorStatus, setfloorStatus] = useState(false);
   const [status, setstatus] = useState(true)
   const [ulbId, setulbId] = useState()
+  const [erroState, seterroState] = useState(false);
+  const [isLoading2, setisLoading2] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   const validationSchema = yup.object({
     harvestingToggleStatus: yup.boolean(),
@@ -151,8 +154,8 @@ function ObjectionEntryForm(props) {
       setformDoc(e.target.files[0]);
       formik.setFieldValue("objFormDoc", e.target.files[0])
       // console.log("--1-- objFormDoc file on change..", file);
-    } 
-    
+    }
+
     if (e.target.name == "objEvidenceDoc") {
       let file = e.target.files[0];
       setevidenceDoc(e.target.files[0]);
@@ -163,7 +166,7 @@ function ObjectionEntryForm(props) {
 
   useEffect(() => {
     // console.log("Entering getting details function............", id);
-    setloader(true);
+    setisLoading2(true);
     axios
       .post(getAssessment, { "propertyId": id }, ApiHeader())
       .then((res) => {
@@ -171,14 +174,14 @@ function ObjectionEntryForm(props) {
         settempData(res?.data?.data);
         setfloor(res?.data?.data?.floors);
         setrefresh(refresh + 1);
-        setloader(false);
+        setisLoading2(false);
         setstatus(res?.data?.status)
         setulbId(res?.data?.data?.ulb_id)
       })
       .catch((err) => {
         // console.log("error getting assessment details => ", err);
         toast("Something went wrong !!");
-        setloader(false);
+        setisLoading2(false);
       });
   }, []);
 
@@ -186,29 +189,29 @@ function ObjectionEntryForm(props) {
     // getting ward List 
     // =========================================
     axios.get(getWardList, ApiHeader())
-    .then((res) => {
-      // console.log("getting ward list => ", res)
-      setpropertyList(res?.data?.data?.property_type)
-      setroadList(res?.data?.data?.road_type);
-    })
-    .catch((err) => {
-      // console.log("getting ward list error => ",err)
-    })
+      .then((res) => {
+        // console.log("getting ward list => ", res)
+        setpropertyList(res?.data?.data?.property_type)
+        setroadList(res?.data?.data?.road_type);
+      })
+      .catch((err) => {
+        // console.log("getting ward list error => ",err)
+      })
   }, [refresh]);
 
   // useEffect(() => {
   //   //  getting road type list
-  //   setloader(true);
+  //   setisLoading2(true);
   //   axios
   //     .get(roadTypeList, ApiHeader())
   //     .then((res) => {
   //       console.log("road type list => ", res);
   //       setroadList(res?.data?.data);
-  //       setloader(false);
+  //       setisLoading2(false);
   //     })
   //     .catch((err) => {
   //       console.log("road type error => ", err);
-  //       setloader(false);
+  //       setisLoading2(false);
   //     });
   // }, [refresh]);
 
@@ -224,11 +227,9 @@ function ObjectionEntryForm(props) {
   const submitFun = (values) => {
     // console.log("Entering submit function with values => ", values)
 
-    setTimeout(() => {
-      setloader(false)
-    }, 10000);
 
-    setloader(true);
+
+    setisLoading2(true);
 
     let assessData = []
 
@@ -306,30 +307,22 @@ function ObjectionEntryForm(props) {
     // fd.append("objFormDoc", formDoc);
     fd.append("objEvidenceDoc", evidenceDoc);
 
-    console.log("before send data => ", fd,'\n assessment data => ', assessData, '\n floor data =>', allfloor);
+    console.log("before send data => ", fd, '\n assessment data => ', assessData, '\n floor data =>', allfloor);
 
     axios
       .post(postAssessment, fd, ApiHeader2())
       .then((res) => {
-        if(res?.data?.status == true){
-        // console.log("Submitted assessment => ", res);
-        setloader(false);
-        toast.success("Assessment Objection Applied Successfully...");
-        props.submitForm(res?.data?.data);
+        if (res?.data?.status == true) {
+          toast.success("Assessment Objection Applied Successfully...");
+          props.submitForm(res?.data?.data);
         } else {
-          setloader(false)
+          activateBottomErrorCard(true, 'Error occured in submitting objection application. Please try again later.')
         }
-
-        if(res?.data?.status == false){
-        // console.log("Error assessment => ", res);
-        setloader(false);
-        toast.error("Something went wrong");
-        } else {
-          setloader(false)
-        }
+        setisLoading2(false);
       })
       .catch((err) => {
-       setloader(false)
+        activateBottomErrorCard(true, 'Error occured in submitting objection application. Please try again later.')
+        setisLoading2(false)
       });
   };
 
@@ -395,9 +388,17 @@ function ObjectionEntryForm(props) {
     props.closePopUp();
   }
 
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
+
   return (
     <>
-    <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} />
+      {isLoading2 && <BarLoader />}
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       {/* <h1 className='mt-6 mb-2 font-serif font-semibold  text-gray-800'><GiFlatHammer className="inline mr-2" />Assessment Error</h1> */}
 
@@ -411,306 +412,302 @@ function ObjectionEntryForm(props) {
             <span className="font-semibold poppins text-xl">Assessment Objection</span>
       </div> */}
 
-<div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center capitalize text-xs poppins 2xl:text-base poppins mb-4 shadow-md py-2 rounded-md">
-           <div className="flex items-center gap-2">
-           <span className="font-extrabold text-[30px]">
-              <FcDepartment />
-            </span>
-            <span className="font-semibold poppins 2xl:text-xl text-lg">
-              Assessment Objection
-            </span>
-           </div>
-          </div>
+      <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center capitalize text-xs poppins 2xl:text-base poppins mb-4 shadow-md py-2 rounded-md">
+        <div className="flex items-center gap-2">
+          <span className="font-extrabold text-[30px]">
+            <FcDepartment />
+          </span>
+          <span className="font-semibold poppins 2xl:text-xl text-lg">
+            Assessment Objection
+          </span>
+        </div>
+      </div>
 
-          <div className="poppins my-2 2xl:font-base text-sm poppins">
-          Under Section 167 of the Jharkhand Municipal Act 2011, citizen can file the following objections in this objection form.
-          </div>
+      <div className="poppins my-2 2xl:font-base text-sm poppins">
+        Under Section 167 of the Jharkhand Municipal Act 2011, citizen can file the following objections in this objection form.
+      </div>
 
-      {loader && <BarLoader/>}
+     
 
-      {(status && !loader) &&
-      <div className=" px-4 w-full md:py-6 rounded-lg shadow-lg bg-white mt-6 ">
-        <form onSubmit={formik.handleSubmit} onChange={handleChange}>
-          <div className="grid grid-cols-1 md:grid-cols-4 h-max">
-          <FormGroup className="col-span-4 grid grid-cols-4 h-max">
-              {/* harvesting objection content */}
-              <div className="col-span-4 grid grid-cols-4 gap-2">
-                <div className="col-span-4 grid grid-cols-4">
-                  <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
-                    <label className=" text-gray-800 pr-2">
-                      {" "}
-                      <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
-                        RainWater Harvesting
-                      </span>
-                    </label>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          // checked={harvestingStatus}
-                          // name="harvestingSwitch"
-                          // onChange={switchHandleChange}
-                          {...formik.getFieldProps("harvestingToggleStatus")}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label=""
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className={`col-span-4 ${
-                    harvestingStatus ? "grid" : "hidden"
-                  } grid-cols-1 md:grid-cols-4  mt-2`}
-                >
-                  <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
-                    <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                      Objection On: Rainwater Harvesting
-                    </label>
-                  </div>
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      As Per Assessment
-                    </label>
-                    <div className="font-bold font-serif">
-                      {tempData?.is_water_harvesting ? <>Yes</> : <>No</>}
+      {(status && !isLoading2) &&
+        <div className=" px-4 w-full md:py-6 rounded-lg shadow-lg bg-white mt-6 ">
+          <form onSubmit={formik.handleSubmit} onChange={handleChange}>
+            <div className="grid grid-cols-1 md:grid-cols-4 h-max">
+              <FormGroup className="col-span-4 grid grid-cols-4 h-max">
+                {/* harvesting objection content */}
+                <div className="col-span-4 grid grid-cols-4 gap-2">
+                  <div className="col-span-4 grid grid-cols-4">
+                    <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
+                      <label className=" text-gray-800 pr-2">
+                        {" "}
+                        <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
+                          RainWater Harvesting
+                        </span>
+                      </label>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            // checked={harvestingStatus}
+                            // name="harvestingSwitch"
+                            // onChange={switchHandleChange}
+                            {...formik.getFieldProps("harvestingToggleStatus")}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label=""
+                      />
                     </div>
                   </div>
 
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
-                        *
-                      </small>
-                      As Per Applicant
-                    </label>
-                    <select
-                      {...formik.getFieldProps("isWaterHarvesting")}
-                      value={formik.values.isWaterHarvesting}
-                      type="text"
-                      className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                    >
-                      <option value="0" >
-                        No
-                      </option>
-                      <option value="1">Yes</option>
-                    </select>
-                    <span className="text-red-600 absolute text-xs">
-                      {formik.touched.isWaterHarvesting &&
-                      formik.errors.isWaterHarvesting
-                        ? formik.errors.isWaterHarvesting
-                        : null}
-                    </span>
-                  </div>
-                </div>
-                {/* roadWidth objection content */}
-                <div className="col-span-4 grid grid-cols-4">
-                  <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
-                    <label className=" text-gray-800 pr-2">
-                      {" "}
-                      <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
-                        Road Width
-                      </span>
-                    </label>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          // checked={roadWidthStatus}
-                          // name="roadWidthSwitch"
-                          // onChange={switchHandleChange}
-                          {...formik.getFieldProps("roadWidthToggleStatus")}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label=""
-                    />
-                  </div>
-                </div>
+                  <div
+                    className={`col-span-4 ${harvestingStatus ? "grid" : "hidden"
+                      } grid-cols-1 md:grid-cols-4  mt-2`}
+                  >
+                    <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
+                      <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                        Objection On: Rainwater Harvesting
+                      </label>
+                    </div>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        As Per Assessment
+                      </label>
+                      <div className="font-bold font-serif">
+                        {tempData?.is_water_harvesting ? <>Yes</> : <>No</>}
+                      </div>
+                    </div>
 
-                <div
-                  className={`col-span-4 ${
-                    roadWidthStatus ? "grid" : "hidden"
-                  } grid-cols-1 md:grid-cols-4  mt-2`}
-                >
-                  <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
-                    <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                      Objection On: Road Width (in sq.ft.)
-                    </label>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
+                          *
+                        </small>
+                        As Per Applicant
+                      </label>
+                      <select
+                        {...formik.getFieldProps("isWaterHarvesting")}
+                        value={formik.values.isWaterHarvesting}
+                        type="text"
+                        className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                      >
+                        <option value="0" >
+                          No
+                        </option>
+                        <option value="1">Yes</option>
+                      </select>
+                      <span className="text-red-600 absolute text-xs">
+                        {formik.touched.isWaterHarvesting &&
+                          formik.errors.isWaterHarvesting
+                          ? formik.errors.isWaterHarvesting
+                          : null}
+                      </span>
+                    </div>
                   </div>
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      As Per Assessment
-                    </label>
-                    <div className="font-bold font-serif">
-                      {tempData?.road_type}
+                  {/* roadWidth objection content */}
+                  <div className="col-span-4 grid grid-cols-4">
+                    <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
+                      <label className=" text-gray-800 pr-2">
+                        {" "}
+                        <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
+                          Road Width
+                        </span>
+                      </label>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            // checked={roadWidthStatus}
+                            // name="roadWidthSwitch"
+                            // onChange={switchHandleChange}
+                            {...formik.getFieldProps("roadWidthToggleStatus")}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label=""
+                      />
                     </div>
                   </div>
 
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
-                        *
-                      </small>
-                      As Per Applicant
-                    </label>
-                    <select
-                      {...formik.getFieldProps("roadType")}
-                      value={formik.values.roadType}
-                      type="text"
-                      className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                    >
-                      <option disabled value="">
-                        --select--
-                      </option>
-                      {roadList?.map((elem) => (
-                        <>
-                          <option value={elem?.id}>{elem?.road_type}</option>
-                        </>
-                      ))}
-                    </select>
-                    <span className="text-red-600 absolute text-xs">
-                      {formik.touched.roadType && formik.errors.roadType
-                        ? formik.errors.roadType
-                        : null}
-                    </span>
-                  </div>
-                </div>
-                {/* propertyType objection content */}
-                <div className="col-span-4 grid grid-cols-4">
-                  <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
-                    <label className=" text-gray-800 pr-2">
-                      {" "}
-                      <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
-                        Property Type
-                      </span>
-                    </label>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          // checked={propertyTypeStatus}
-                          // name="propertyTypeSwitch"
-                          // onChange={switchHandleChange}
-                          {...formik.getFieldProps("propertyTypeToggleStatus")}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label=""
-                    />
-                  </div>
-                </div>
+                  <div
+                    className={`col-span-4 ${roadWidthStatus ? "grid" : "hidden"
+                      } grid-cols-1 md:grid-cols-4  mt-2`}
+                  >
+                    <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
+                      <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                        Objection On: Road Width (in sq.ft.)
+                      </label>
+                    </div>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        As Per Assessment
+                      </label>
+                      <div className="font-bold font-serif">
+                        {tempData?.road_type}
+                      </div>
+                    </div>
 
-                <div
-                  className={`col-span-4 ${
-                    propertyTypeStatus ? "grid" : "hidden"
-                  } grid-cols-1 md:grid-cols-4  mt-2`}
-                >
-                  <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
-                    <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                      Objection On: Property Type
-                    </label>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
+                          *
+                        </small>
+                        As Per Applicant
+                      </label>
+                      <select
+                        {...formik.getFieldProps("roadType")}
+                        value={formik.values.roadType}
+                        type="text"
+                        className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                      >
+                        <option disabled value="">
+                          --select--
+                        </option>
+                        {roadList?.map((elem) => (
+                          <>
+                            <option value={elem?.id}>{elem?.road_type}</option>
+                          </>
+                        ))}
+                      </select>
+                      <span className="text-red-600 absolute text-xs">
+                        {formik.touched.roadType && formik.errors.roadType
+                          ? formik.errors.roadType
+                          : null}
+                      </span>
+                    </div>
                   </div>
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      As Per Assessment
-                    </label>
-                    <div className="font-bold font-serif">
-                      {tempData?.property_type}
+                  {/* propertyType objection content */}
+                  <div className="col-span-4 grid grid-cols-4">
+                    <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
+                      <label className=" text-gray-800 pr-2">
+                        {" "}
+                        <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
+                          Property Type
+                        </span>
+                      </label>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            // checked={propertyTypeStatus}
+                            // name="propertyTypeSwitch"
+                            // onChange={switchHandleChange}
+                            {...formik.getFieldProps("propertyTypeToggleStatus")}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label=""
+                      />
                     </div>
                   </div>
 
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
-                        *
-                      </small>
-                      As Per Applicant
-                    </label>
-                    <select
-                      {...formik.getFieldProps("propertyType")}
-                      value={formik.values.propertyType}
-                      type="text"
-                      className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                    >
-                      <option  disabled value="">
-                        --select--
-                      </option>
-                      {propertyList?.map((elem) => (
-                        <>
-                          <option value={elem?.id}>{elem?.property_type}</option>
-                        </>
-                      ))}
-                    </select>
-                    <span className="text-red-600 absolute text-xs">
-                      {formik.touched.propertyType && formik.errors.propertyType
-                        ? formik.errors.propertyType
-                        : null}
-                    </span>
-                  </div>
-                </div>
-                {/* area of plot objection content */}
-                <div className="col-span-4 grid grid-cols-4">
-                  <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
-                    <label className=" text-gray-800 pr-2">
-                      {" "}
-                      <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
-                        Area of Plot
-                      </span>
-                    </label>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          // checked={plotAreaStatus} name="areaPlotSwitch"
-                          //     onChange={switchHandleChange}
-                          {...formik.getFieldProps("plotAreaToggleStatus")}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label=""
-                    />
-                  </div>
-                </div>
+                  <div
+                    className={`col-span-4 ${propertyTypeStatus ? "grid" : "hidden"
+                      } grid-cols-1 md:grid-cols-4  mt-2`}
+                  >
+                    <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
+                      <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                        Objection On: Property Type
+                      </label>
+                    </div>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        As Per Assessment
+                      </label>
+                      <div className="font-bold font-serif">
+                        {tempData?.property_type}
+                      </div>
+                    </div>
 
-                <div
-                  className={`col-span-4 ${
-                    plotAreaStatus ? "grid" : "hidden"
-                  } grid-cols-1 md:grid-cols-4  mt-2`}
-                >
-                  <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
-                    <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                      Objection On: Area of plot (in sq.ft.)
-                    </label>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
+                          *
+                        </small>
+                        As Per Applicant
+                      </label>
+                      <select
+                        {...formik.getFieldProps("propertyType")}
+                        value={formik.values.propertyType}
+                        type="text"
+                        className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                      >
+                        <option disabled value="">
+                          --select--
+                        </option>
+                        {propertyList?.map((elem) => (
+                          <>
+                            <option value={elem?.id}>{elem?.property_type}</option>
+                          </>
+                        ))}
+                      </select>
+                      <span className="text-red-600 absolute text-xs">
+                        {formik.touched.propertyType && formik.errors.propertyType
+                          ? formik.errors.propertyType
+                          : null}
+                      </span>
+                    </div>
                   </div>
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      As Per Assessment
-                    </label>
-                    <div className="font-bold font-serif">
-                      {tempData?.area_of_plot}
+                  {/* area of plot objection content */}
+                  <div className="col-span-4 grid grid-cols-4">
+                    <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
+                      <label className=" text-gray-800 pr-2">
+                        {" "}
+                        <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
+                          Area of Plot
+                        </span>
+                      </label>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            // checked={plotAreaStatus} name="areaPlotSwitch"
+                            //     onChange={switchHandleChange}
+                            {...formik.getFieldProps("plotAreaToggleStatus")}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label=""
+                      />
                     </div>
                   </div>
 
-                  <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
-                    <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                      <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
-                        *
-                      </small>
-                      As Per Applicant
-                    </label>
-                    <input
-                      {...formik.getFieldProps("areaOfPlot")}
-                      type="number"
-                      value={formik.values.areaOfPlot}
-                      className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                    />
-                    <span className="text-red-600 absolute text-xs">
-                      {formik.touched.areaOfPlot && formik.errors.areaOfPlot
-                        ? formik.errors.areaOfPlot
-                        : null}
-                    </span>
-                  </div>
-                </div>
+                  <div
+                    className={`col-span-4 ${plotAreaStatus ? "grid" : "hidden"
+                      } grid-cols-1 md:grid-cols-4  mt-2`}
+                  >
+                    <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
+                      <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                        Objection On: Area of plot (in sq.ft.)
+                      </label>
+                    </div>
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        As Per Assessment
+                      </label>
+                      <div className="font-bold font-serif">
+                        {tempData?.area_of_plot}
+                      </div>
+                    </div>
 
-                {/* <div className="col-span-4 grid grid-cols-4">
+                    <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4">
+                      <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                        <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
+                          *
+                        </small>
+                        As Per Applicant
+                      </label>
+                      <input
+                        {...formik.getFieldProps("areaOfPlot")}
+                        type="number"
+                        value={formik.values.areaOfPlot}
+                        className="form-control block w-full px-3 py-1.5 text-xs poppins 2xl:text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                      />
+                      <span className="text-red-600 absolute text-xs">
+                        {formik.touched.areaOfPlot && formik.errors.areaOfPlot
+                          ? formik.errors.areaOfPlot
+                          : null}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* <div className="col-span-4 grid grid-cols-4">
                   mobile tower objection content
                   <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
                     <label className=" text-gray-800 pr-2">
@@ -825,8 +822,8 @@ function ObjectionEntryForm(props) {
                   }
 
                 </div> */}
-                {/* hoarding objection content */}
-                {/* <div className="col-span-4 grid grid-cols-4">
+                  {/* hoarding objection content */}
+                  {/* <div className="col-span-4 grid grid-cols-4">
                   <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
                     <label className=" text-gray-800 pr-2">
                       {" "}
@@ -937,55 +934,54 @@ function ObjectionEntryForm(props) {
                     </>
                   }
                 </div> */}
-                {/* floor objection content */}
-                <div className="col-span-4 grid grid-cols-4">
-                  <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
-                    <label className=" text-gray-800 pr-2">
-                      {" "}
-                      <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
-                        Floor Detail
-                      </span>
-                    </label>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          // checked={floorStatus} name="floorSwitch"
-                          //     onChange={switchHandleChange}
-                          {...formik.getFieldProps("floorToggleStatus")}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label=""
-                    />
+                  {/* floor objection content */}
+                  <div className="col-span-4 grid grid-cols-4">
+                    <div className="col-span-4 md:col-span-1  mb-2 px-2 md:px-4 bg-gray-100 shadow-md border border-gray-300">
+                      <label className=" text-gray-800 pr-2">
+                        {" "}
+                        <span className="inline text-gray-700 2xl:text-sm text-xs poppins font-semibold">
+                          Floor Detail
+                        </span>
+                      </label>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            // checked={floorStatus} name="floorSwitch"
+                            //     onChange={switchHandleChange}
+                            {...formik.getFieldProps("floorToggleStatus")}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label=""
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={`col-span-4 ${floorStatus ? "grid" : "hidden"
+                      } grid-cols-1 md:grid-cols-4  mt-2`}
+                  >
+                    <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
+                      <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                        Objection On: Floor Details
+                      </label>
+                    </div>
+
+                    <ObjectionFloor floor={floor} getFloorData={getFloorData} />
                   </div>
                 </div>
-                <div
-                  className={`col-span-4 ${
-                    floorStatus ? "grid" : "hidden"
-                  } grid-cols-1 md:grid-cols-4  mt-2`}
-                >
-                  <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-red-100 shadow-md">
-                    <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                      Objection On: Floor Details
-                    </label>
-                  </div>
+              </FormGroup>
 
-                  <ObjectionFloor floor={floor} getFloorData={getFloorData} />
+              {/* ==========Documents=============== */}
+              <div
+                className={`col-span-4 grid grid-cols-1 md:grid-cols-4 h-max mt-10 border`}
+              >
+                <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-green-100 shadow-md">
+                  <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
+                    Documents
+                  </label>
                 </div>
-              </div>
-            </FormGroup>
 
-            {/* ==========Documents=============== */}
-            <div
-              className={`col-span-4 grid grid-cols-1 md:grid-cols-4 h-max mt-10 border`}
-            >
-              <div className="form-group col-span-4 mb-6 px-2 md:px-4 bg-green-100 shadow-md">
-                <label className="form-label inline-block mb-1 text-gray-700 2xl:text-sm text-xs poppins text-xs poppins font-semibold">
-                  Documents
-                </label>
-              </div>
-
-              {/* <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4" onChange={formik.handleChange}>
+                {/* <div className="form-group mb-6 col-span-4 md:col-span-1 px-2 md:px-4" onChange={formik.handleChange}>
                 <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
                   <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
                     *
@@ -1006,29 +1002,29 @@ function ObjectionEntryForm(props) {
                     : null}
                 </span>
               </div> */}
-              
-              <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4" onChange={formik.handleChange}>
-                <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
-                  <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
-                    *
-                  </small>
-                  Evidence Document
-                </label>
-                <input
-                  // {...formik.getFieldProps("objEvidenceDoc")}
-                  name="objEvidenceDoc"
-                  onChange={handleChangeImage}
-                  accept=".pdf,.jpg,.jpeg"
-                  type="file"
-                  className="form-control block w-full px-3 py-1 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
-                />
-                <span className="text-red-600 absolute text-xs">
-                  {formik.touched.objEvidenceDoc && formik.errors.objEvidenceDoc
-                    ? formik.errors.objEvidenceDoc
-                    : null}
-                </span>
-              </div>
-              {/* <div className="form-group mb-6 col-span-4 md:col-span-4 md:px-4">
+
+                <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4" onChange={formik.handleChange}>
+                  <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
+                    <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
+                      *
+                    </small>
+                    Evidence Document
+                  </label>
+                  <input
+                    // {...formik.getFieldProps("objEvidenceDoc")}
+                    name="objEvidenceDoc"
+                    onChange={handleChangeImage}
+                    accept=".pdf,.jpg,.jpeg"
+                    type="file"
+                    className="form-control block w-full px-3 py-1 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                  />
+                  <span className="text-red-600 absolute text-xs">
+                    {formik.touched.objEvidenceDoc && formik.errors.objEvidenceDoc
+                      ? formik.errors.objEvidenceDoc
+                      : null}
+                  </span>
+                </div>
+                {/* <div className="form-group mb-6 col-span-4 md:col-span-4 md:px-4">
                 <label className="form-label inline-block mb-1 text-gray-600 2xl:text-sm text-xs poppins font-semibold">
                   <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
                     *
@@ -1046,31 +1042,31 @@ function ObjectionEntryForm(props) {
                     : null}
                 </span>
               </div> */}
-            </div>
+              </div>
 
-            <div className="col-span-4 flex flex-row flex-wrap justify-between items-center w-full h-max mt-4">
-              <div
-                onClick={() => closeModal()}
-                className="cursor-pointer px-3 py-1.5 2xl:px-6 2xl:py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out poppins"
-              >
-                Close
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className=" poppins px-3 py-1.5 2xl:px-6 2xl:py-2.5 bg-green-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
+              <div className="col-span-4 flex flex-row flex-wrap justify-between items-center w-full h-max mt-4">
+                <div
+                  onClick={() => closeModal()}
+                  className="cursor-pointer px-3 py-1.5 2xl:px-6 2xl:py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out poppins"
                 >
-                  {" "}
-                  Submit{" "}
-                </button>
+                  Close
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className=" poppins px-3 py-1.5 2xl:px-6 2xl:py-2.5 bg-green-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
+                  >
+                    {" "}
+                    Submit{" "}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>}
-      
-     {!status &&  <>
-                    <EmptyDetailsIllustration title={"Oops !! No Assessment Details Found !!"} location={closeModal}/>
+          </form>
+        </div>}
+
+      {!status && <>
+        <EmptyDetailsIllustration title={"Oops !! No Assessment Details Found !!"} location={closeModal} />
       </>
       }
     </>

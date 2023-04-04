@@ -22,6 +22,7 @@ import { ColorRing } from "react-loader-spinner";
 import BarLoader from "@/Components/Common/BarLoader";
 import moment from "moment/moment";
 import ApplicationSubmitScreen from "../ApplicationSubmitScreen";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 
 function ConcessionForm(props) {
   const { getConcessionOwners, postConcessionForm, getDocMaster } = apiList();
@@ -41,7 +42,6 @@ function ConcessionForm(props) {
   // const [resultData, setresultData] = useState({});
   const [ownerList, setownerList] = useState()
   const [selectBox, setselectBox] = useState('')
-  const [isLoading, setisLoading] = useState(false)
   // const [propId, setpropId] = useState(12)
   const [genderStatus, setgenderStatus] = useState(false)
   const [seniorStatus, setseniorStatus] = useState(false)
@@ -62,6 +62,9 @@ function ConcessionForm(props) {
   const [openSubmit, setopenSubmit] = useState()
   const [docStatus, setdocStatus] = useState(0)
   const [docList, setdocList] = useState()
+  const [erroState, seterroState] = useState(false);
+  const [isLoading2, setisLoading2] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   const closeModal = () => {
     navigate(`/holdingPropertyDetails/${id}`)
@@ -72,17 +75,18 @@ function ConcessionForm(props) {
   // Getting owner list
   useEffect(() => {
     setopenSubmit(false)
-    setisLoading(true)
+    setisLoading2(true)
     axios.post(getConcessionOwners, { "propId": id }, ApiHeader())
       .then((res) => {
         console.log("getting owner data => ", res)
-        setisLoading(false)
+        setisLoading2(false)
         setownerList(res.data)
         setulbId(res?.data?.data?.ulbId)
+
       })
       .catch((err) => {
         console.log("getting owner data err => ", err)
-        setisLoading(false)
+        setisLoading2(false)
       })
   }, [id])
 
@@ -223,7 +227,7 @@ function ConcessionForm(props) {
     }
 
     console.log("--2-- before fetch...", fd);
-    setisLoading(true)
+    setisLoading2(true)
 
 
     axios
@@ -239,18 +243,17 @@ function ConcessionForm(props) {
           toast.success("Concession Applied Successfully!!");
           setappId(res?.data?.data)
           setopenSubmit(true)
-          setisLoading(false)
         } else {
-          setisLoading(false)
+          activateBottomErrorCard(true, 'Error occured in submitting Concession application. Please try again later.')
         }
-        if (res?.data?.status == false) {
-          console.log("error posting data => ", res, "\n result data =>", fd);
-          toast.error("Something went wrong !!!")
-          setisLoading(false)
-        } else {
-          setisLoading(false)
-        }
-      }).catch((err) => setisLoading(false))
+        setisLoading2(false)
+
+
+      }).catch((err) => {
+        setisLoading2(false)
+        activateBottomErrorCard(true, 'Error occured in submitting Concession application. Please try again later.')
+
+      })
   };
 
   const handleChange = (e) => {
@@ -315,7 +318,7 @@ function ConcessionForm(props) {
     }
 
     if (name != 'declaration') {
-      setisLoading(true)
+      setisLoading2(true)
       axios.post(getDocMaster, { doc: e.target.value }, ApiHeader())
         .then((res) => {
           console.log("response doc master id => ", res)
@@ -335,8 +338,8 @@ function ConcessionForm(props) {
             setdocList(res?.data?.data?.masters)
             // setspeciallyName(res?.data?.data?.doc_name)
           }
-          setisLoading(false)
-        }).catch((err) => setisLoading(false))
+          setisLoading2(false)
+        }).catch((err) => setisLoading2(false))
     }
 
     { (name == 'declaration' && checkValue == true) && setdeclaration(true) }
@@ -344,27 +347,19 @@ function ConcessionForm(props) {
 
   }
 
-  // console.log("doc mstr names => ", genderName, seniorName, armedName, speciallyName)
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
 
   return (
     <>
 
       <ToastContainer position="top-right" autoClose={2000} />
 
-      {/* {isLoading && <div className="w-full z-10 absolute mx-auto text-center flex justify-center items-center top-[70%]">
-            <span className="inline">
-              <ColorRing
-                visible={true}
-                height="120"
-                width="120"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
-                colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-              />
-            </span>
-          </div>} */}
-      {isLoading && <BarLoader />}
+      {isLoading2 && <BarLoader />}
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center capitalize text-base poppins mb-4 shadow-md py-2 rounded-md">
         <div className="flex items-center gap-2">
@@ -427,7 +422,7 @@ function ConcessionForm(props) {
 
           {/*===============Concession Selection=================== */}
 
-          {!isLoading && <div className="bg-red-200 text-red-600 rounded-md shadow-lg px-6 py-4 poppins">
+          {!isLoading2 && <div className="bg-red-200 text-red-600 rounded-md shadow-lg px-6 py-4 poppins">
             ! No Data Found !
           </div>}
 

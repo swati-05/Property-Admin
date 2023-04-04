@@ -23,6 +23,8 @@ import BarLoader from "@/Components/Common/BarLoader";
 import PropertyAddOwnerObjection from "./PropertyAddOwnerObjection";
 import { FiMinusCircle } from "react-icons/fi";
 import { BsPlusCircle } from "react-icons/bs";
+import BottomErrorCard from "@/Components/Common/BottomErrorCard";
+import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
 
 const ObjectionRectificationTable = (props) => {
   const navigate = useNavigate();
@@ -47,7 +49,6 @@ const ObjectionRectificationTable = (props) => {
   const [json, setjson] = useState();
   // const [addressUpload, setaddressUpload] = useState();
   const [addressUpload, setaddressUpload] = useState();
-  const [loader, setloader] = useState(false);
   const [status, setstatus] = useState(true);
   const [nameStatus, setnameStatus] = useState(false);
   const [mobileStatus, setmobileStatus] = useState(false);
@@ -65,23 +66,26 @@ const ObjectionRectificationTable = (props) => {
   const [mobileCardStatus, setmobileCardStatus] = useState(false);
   const [otpCardStatus, setotpCardStatus] = useState(false);
   const [verifedMobileNo, setverifedMobileNo] = useState(null);
+  const [erroState, seterroState] = useState(false);
+  const [isLoading2, setisLoading2] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
 
   useEffect(() => {
     console.log("Api Header => ", ApiHeader());
     console.log("prop id => ", id);
-    setloader(true);
+    setisLoading2(true);
     axios
       .post(getPropData, { propertyId: id?.id }, ApiHeader())
       .then((res) => {
         console.log("Getting owner data => ", res);
         setownerData(res?.data?.data?.owners);
-        setloader(false);
+        setisLoading2(false);
         setstatus(res?.data?.status);
         setulbId(res?.data?.data?.ulb_id);
       })
       .catch((err) => {
         console.log("Error getting owner data => ", err);
-        setloader(false);
+        setisLoading2(false);
       });
   }, []);
 
@@ -166,7 +170,7 @@ const ObjectionRectificationTable = (props) => {
   });
 
   const submitData = (values) => {
-    setloader(true);
+    setisLoading2(true);
     console.log(
       "values before sending data => ",
       values,
@@ -221,27 +225,17 @@ const ObjectionRectificationTable = (props) => {
             fd
           );
           toast.success("Clerical Objection Applied Successfully !!");
-          setloader(false);
           props.submitForm(res?.data?.data);
         } else {
-          setloader(false);
-        }
+          activateBottomErrorCard(true, 'Error occured in submitting objection application. Please try again later.')
 
-        if (res?.data?.status == false) {
-          console.log(
-            "error posting application data => ",
-            res,
-            "\n result data =>",
-            fd
-          );
-          toast.error("Something went wrong !!");
-          setloader(false);
-        } else {
-          setloader(false);
         }
+        setisLoading2(false);
+
       })
       .catch((error) => {
-        setloader(false);
+        activateBottomErrorCard(true, 'Error occured in submitting objection application. Please try again later.')
+        setisLoading2(false);
       });
   };
 
@@ -358,13 +352,12 @@ const ObjectionRectificationTable = (props) => {
     setverifyStatus(true);
   };
 
-  // if (mobileCardStatus) {
-  //   return (
-  //       <>
-  //           <MobileNoCard setverifedMobileNo={setverifedMobileNo} setmobileCardStatus={setmobileCardStatus} setotpCardStatus={setotpCardStatus} />
-  //       </>
-  //   )
-  // }
+  const activateBottomErrorCard = (state, msg) => {
+    seterroMessage(msg)
+    seterroState(state)
+
+  }
+
   if (otpCardStatus) {
     return (
       <>
@@ -379,7 +372,8 @@ const ObjectionRectificationTable = (props) => {
 
   return (
     <>
-      {loader && <BarLoader />}
+      {isLoading2 && <BarLoader />}
+      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
       <ToastContainer position="top-right" autoClose={2000} />
 
@@ -389,14 +383,14 @@ const ObjectionRectificationTable = (props) => {
         </span>
       </div> */}
 
-      {ownerData != null && !loader && (
+      {ownerData != null && !isLoading2 && (
         <>
           <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center uppercase text-base poppins mb-4 shadow-md py-2 rounded-md">
             <div className="flex items-center gap-2">
-          <span className="font-extrabold text-base sm:text-[30px]">
+              <span className="font-extrabold text-base sm:text-[30px]">
                 <FcDepartment />
               </span>
-          <span className="font-semibold poppins 2xl:text-xl text-base sm:text-lg">
+              <span className="font-semibold poppins 2xl:text-xl text-base sm:text-lg">
                 Clerical Objection
               </span>
             </div>
@@ -444,7 +438,7 @@ const ObjectionRectificationTable = (props) => {
                 </>
               )}
 
-             {!addMember && <> <div
+              {!addMember && <> <div
                 className="flex self-start sm:self-auto items-center w-max poppins text-xs text-gray-800 ml-4 font-semibold px-2 py-1 rounded-sm shadow-sm cursor-pointer bg-green-200 hover:bg-green-300"
                 onClick={() => setaddMember(true)}
               >
@@ -588,7 +582,7 @@ const ObjectionRectificationTable = (props) => {
                         <div className="col-span-12 md:col-span-3 poppins 2xl:text-base text-xs">
                           Name : <br />
                           <span className="font-semibold 2xl:text-base text-sm poppins">
-                            {ownerDetails?.owner_name}
+                            {nullToNA(ownerDetails?.owner_name)}
                           </span>
                         </div>
                         <div className="col-span-12 md:col-span-3 poppins 2xl:text-base text-xs">
@@ -680,7 +674,7 @@ const ObjectionRectificationTable = (props) => {
                         <div className="col-span-12 md:col-span-4 poppins 2xl:text-base text-xs">
                           Mobile No. : <br />
                           <span className="font-semibold 2xl:text-base text-sm poppins">
-                            {ownerDetails?.mobile_no}
+                            {nullToNA(ownerDetails?.mobile_no)}
                           </span>
                         </div>
                         <div className="col-span-12 md:col-span-5 poppins  2xl:text-base text-xs">
@@ -732,11 +726,11 @@ const ObjectionRectificationTable = (props) => {
                           <div className="col-span-12 md:col-span-3 poppins pr-4  2xl:text-base text-xs">
                             Corresponding Address : <br />
                             <span className="font-semibold 2xl:text-base text-sm poppins">
-                              {ownerDetails?.corr_address},{" "}
-                              {ownerDetails?.corr_city},{" "}
-                              {ownerDetails?.corr_dist},{" "}
-                              {ownerDetails?.corr_state},{" "}
-                              {ownerDetails?.corr_pin_code}
+                              {nullToNA(ownerDetails?.corr_address)},{" "}
+                              {nullToNA(ownerDetails?.corr_city)},{" "}
+                              {nullToNA(ownerDetails?.corr_dist)},{" "}
+                              {nullToNA(ownerDetails?.corr_state)},{" "}
+                              {nullToNA(ownerDetails?.corr_pin_code)}
                             </span>
                           </div>
                           <div className="col-span-12 md:col-span-3 poppins  2xl:text-base text-xs">
@@ -790,7 +784,7 @@ const ObjectionRectificationTable = (props) => {
                             {docStatus == 1 && (
                               <div className="text-red-600 text-xs poppins">
                                 {formik.touched.addressDoc &&
-                                formik.errors.addressDoc
+                                  formik.errors.addressDoc
                                   ? formik.errors.addressDoc
                                   : null}
                               </div>
@@ -814,7 +808,7 @@ const ObjectionRectificationTable = (props) => {
                             />
                             <div className="text-red-600 text-xs">
                               {formik.touched.corrLocality &&
-                              formik.errors.corrLocality
+                                formik.errors.corrLocality
                                 ? formik.errors.corrLocality
                                 : null}
                             </div>
@@ -878,7 +872,7 @@ const ObjectionRectificationTable = (props) => {
                             />
                             <div className="text-red-600 text-xs">
                               {formik.touched.corrState &&
-                              formik.errors.corrState
+                                formik.errors.corrState
                                 ? formik.errors.corrState
                                 : null}
                             </div>
@@ -901,7 +895,7 @@ const ObjectionRectificationTable = (props) => {
                             />
                             <div className="text-red-600 text-xs">
                               {formik.touched.corrPinCode &&
-                              formik.errors.corrPinCode
+                                formik.errors.corrPinCode
                                 ? formik.errors.corrPinCode
                                 : null}
                             </div>
@@ -972,7 +966,7 @@ const ObjectionRectificationTable = (props) => {
         </>
       )}
 
-      {ownerData == null && !loader && (
+      {ownerData == null && !isLoading2 && (
         <>
           <EmptyDetailsIllustration
             title={"Oops !! No Clerical Details Found !!"}
