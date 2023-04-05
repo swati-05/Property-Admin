@@ -256,9 +256,9 @@ function App(props) {
 
     props.LOGIN();
   }
-  // if (token == null) {
-  //   navigate('/login/fresh')
-  // }
+  if (token == null) {
+    navigate('/login')
+  }
 
   useEffect(() => {
     if (props.navOriginalCloseStatus == true) {
@@ -333,6 +333,7 @@ function App(props) {
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            <Route path='/login' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
             {/* <Route index element={<NavigatePage />} /> */}
 
             {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}
