@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
 import Login from "@/Pages/Auth/Login";
 import './App.css'
 import "animate.css";
@@ -9,6 +9,9 @@ import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-route
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import BottomErrorCard from './Components/Common/BottomErrorCard';
 import ChangePassword from './Pages/ChangePassword';
+import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundaryForRoutes';
+import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand';
+import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -223,6 +226,7 @@ const GbSafDemandDetails = React.lazy(() => import('@/Pages/Property/DetailsFact
 
 
 
+
 function App(props) {
   const [boxWidth, setBoxWidth] = useState({ width: "md:w-5/6", margin: "md:ml-60" });
   ////***** global data containers *****\\\\
@@ -323,6 +327,7 @@ function App(props) {
           <ToastContainer position="top-right" autoClose={2000} />
           <Header />
           <Sidebar menuFetchStatus={menuFetchStatus} />
+
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
@@ -334,7 +339,7 @@ function App(props) {
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[40vh]`}
           >
             <TitleBar titleText={titleText} />
-           
+
             <Routes>
               {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
               <Route path="/change-password/:type" element={<ChangePassword />} />
@@ -445,6 +450,7 @@ function App(props) {
               <Route path='/cash-verification' element={<CashVerification />} />
 
             </Routes>
+
             <WorkflowRoutes />
 
           </div>
