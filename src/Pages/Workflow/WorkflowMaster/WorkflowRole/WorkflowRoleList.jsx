@@ -20,6 +20,7 @@ import ApiHeader from "@/Components/ApiList/ApiHeader";
 import apiList from "../Common/ApiList";
 import { useContext } from "react";
 import { contextVar } from "../Common/Context/Context";
+import BarLoader from "@/Components/Common/BarLoader";
 
 function WorkflowRoleList(props) {
   const [openAddNewWorkflowRoleModal, setOpenAddNewWorkflowRoleModal] =
@@ -606,19 +607,7 @@ function WorkflowRoleList(props) {
         deleteWorkflowId={deleteWorkflowId}
       />
 
-      {isLoading && (
-        <div className="inline">
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-          />
-        </div>
-      )}
+      {isLoading && <BarLoader />}
       {!isLoading && wfRoleData?.length != null && (
         <div className="poppins p-4 px-6">
           <div className="uppercase font-semibold text-gray-700 text-2xl py-2 text-center tracking-[0.7rem]">
@@ -642,7 +631,7 @@ function WorkflowRoleList(props) {
         </div>
       )}
       {/* <LoadingData/> */}
-      <div className="h-20"></div>
+      <div className="h-[20vh]"></div>
     </>
   );
 }

@@ -113,11 +113,11 @@ const CashVerification = (props) => {
         // },
         {
             Header: "Action",
-            accessor: "id",
+            // accessor: "id",
             Cell: ({ cell }) => (
                 <button
                     onClick={() =>
-                        handleViewBtn(cell.row.values.id, cell.row.values.date, cell.row.values.user_name)
+                        handleViewBtn(cell.row.original.id, cell.row.original.date, cell.row.original.user_name)
                     }
                     className="bg-blue-600 hover:bg-blue-400 py-1 px-3 text-white rounded-sm"
                 >
