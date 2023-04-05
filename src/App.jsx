@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
 import Login from "@/Pages/Auth/Login";
 import './App.css'
 import "animate.css";
@@ -8,6 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import BottomErrorCard from './Components/Common/BottomErrorCard';
+import ChangePassword from './Pages/ChangePassword';
+import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundaryForRoutes';
+import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -225,7 +228,7 @@ function App(props) {
             <TitleBar titleText={titleText} />
            
             <Routes>
-              <Route path="/change-password/:type" element={<Login />} />
+              <Route path="/change-password/:type" element={<ChangePassword />} />
               <Route path="/home" element={<LandingHomeDashBoard />} />
               <Route path="/user-permission" element={<UserPermission />} />
               <Route path="/user-role" element={<UserRole />} />

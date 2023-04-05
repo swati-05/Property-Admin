@@ -102,6 +102,7 @@ import NavigatePage from './Pages/NavigatePage';
 import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
 import GBSAFDetailsEntry from './Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry';
 import GbSafPaymentReceiptIndex from './Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex';
+import ChangePassword from './Pages/ChangePassword';
 
 
 
@@ -201,7 +202,7 @@ function App(props) {
             <TitleBar titleText={titleText} />
 
             <Routes>
-              <Route path="/change-password/:type" element={<Login />} />
+              {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
               <Route path="/home" element={<LandingHomeDashBoard />} />
               <Route path="/user-permission" element={<UserPermission />} />
               <Route path="/user-role" element={<UserRole />} />
