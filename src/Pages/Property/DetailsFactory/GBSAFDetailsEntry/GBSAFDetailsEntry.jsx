@@ -33,9 +33,9 @@ function GBSAFDetailsEntry() {
 
    
     return (
-        <CustomErrorBoundary errorMsg="Bug in GBSAF " >
+        // <CustomErrorBoundary errorMsg="Bug in GBSAF " >
             <DetailsFactory detailRules={detailRules} id={id}/>
-        </CustomErrorBoundary>
+        // </CustomErrorBoundary>
     )
 }
 

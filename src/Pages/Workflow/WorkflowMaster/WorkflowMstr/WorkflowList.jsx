@@ -21,10 +21,13 @@ import ApiHeader from "@/Components/ApiList/ApiHeader";
 import { useContext } from "react";
 import { contextVar } from "../Common/Context/Context";
 import BarLoader from "@/Components/Common/BarLoader";
+import useSetTitle from "@/Components/GlobalData/useSetTitle";
 
 function WorkflowList(props) {
 
   const { workflowList} = apiList()
+
+  useSetTitle('Worflow Master')
 
   const {refresh, setrefresh} = useContext(contextVar)
   

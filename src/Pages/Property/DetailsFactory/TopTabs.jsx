@@ -34,7 +34,7 @@ function TopTabs(props) {
     }
 
     if(props?.type == 'gbSaf'){
-        demandDetailsRoute = `/viewDemand/${id}`
+        demandDetailsRoute = `/viewDemandGbSaf/${id}`
         properyDetailsRoute = `/gbsaf-details/${id}`
     }
 
