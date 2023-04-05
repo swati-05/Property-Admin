@@ -1,14 +1,10 @@
 import { useMemo, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { User } from '../Components/Data/User'
-import logo from '../Components/Media/logo1.png'
 import { connect } from "react-redux";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Captcha from '@/Components/Auth/Captcha/Captcha';
-import robot from './robot.png'
 import './login.css'
 import axios from 'axios';
 import ProjectApiList from '@/Components/ApiList/ProjectApiList';

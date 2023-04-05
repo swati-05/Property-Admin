@@ -91,14 +91,14 @@ function WaterHarvestingForm(props) {
                 if (response?.data?.status) {
                     setdocCode(response?.data?.data?.masters[0]?.documentCode)
                 } else {
-                    activateBottomErrorCard(true, 'Error occured in submitting Water harvesting application. Please try again later.')
+                    activateBottomErrorCard(true, 'Error occured in submittion. Please try again later.')
                 }
                 setisLoading2(false)
 
             })
             .catch(function (error) {
                 console.log('water harvesting doc code errorrr.... ', error);
-                activateBottomErrorCard(true, 'Error occured in submitting Water harvesting application. Please try again later.')
+                activateBottomErrorCard(true, 'Error occured in submittion. Please try again later.')
                 setisLoading2(false)
 
             })

@@ -9,7 +9,6 @@ import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-route
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import BottomErrorCard from './Components/Common/BottomErrorCard';
 import ChangePassword from './Pages/ChangePassword';
-import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -112,6 +111,117 @@ const GbSafPaymentReceiptIndex = React.lazy(() => import('@/Pages/PaymentScreen/
 // const GbSafPaymentReceiptIndex = React.lazy(() => import('./Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
 const GbSafDemandDetails = React.lazy(() => import('@/Pages/Property/DetailsFactory/gbSafDemandDetails'))
 
+// JUST FOR BACKUP
+// import React,{ useState, useEffect } from 'react'
+// import Login from "@/Pages/Auth/Login";
+// import './App.css'
+// import ApiHeader from '@/Components/ApiList/ApiHeader';
+// import BottomErrorCard from './Components/Common/BottomErrorCard';
+// import ChangePassword from './Pages/ChangePassword';
+// import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundaryForRoutes';
+// import { connect } from "react-redux";
+// import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+// import { ToastContainer, toast } from "react-toastify";
+// import LandingHomeDashBoard from '@/Pages/Home/LandingHomeDashBoard';
+// import Sidebar from "@/Components/Common/Sidebar/Sidebar";
+// import Header from "@/Components/Common/Header/Header";
+// import WorkflowMaster from "@/Pages/WorkflowMaster/WorkflowMaster";
+// import { contextVar } from "@/Components/Context/Context";
+// import UserPermission from "@/Pages/UserPermission/UserPermission";
+// import GovSafApplicationFormIndex from "@/Pages/PropertyEntryForms/GovSafApplicationForm/GovSafApplicationFormIndex";
+// import ColonySafApplicationFormIndex from "@/Pages/PropertyEntryForms/ColonySafEntryForm/ColonySafApplicationFormIndex";
+// import ObjectionFormIndex from "@/Pages/Property/PropertyEntryForms/ObjectionEntryForm/ObjectionFormIndex";
+// import "animate.css";
+// import UserRole from "@/Pages/UserRole/UserRole";
+// import ClusterFormIndex from "@/Pages/Property/ClusterForms/ClusterFormIndex";
+// import ObjectionIndex from "@/Pages/Property/PropertyEntryForms/ObjectionEntryForm/ObjectionIndex";
+// import ObjectionRectificationTable from "@/Pages/Property/PropertyEntryForms/ObjectionEntryForm/ObjectionRectificationTable";
+// import ObjectionForgery from "@/Pages/Property/PropertyEntryForms/ObjectionEntryForm/ObjectionForgery";
+// import SearchIndex from "@/Pages/Search/SearchIndex";
+// import PropApplicationDetailById from "@/Pages/Property/PropApplicationView/PropApplicationDetailById";
+// import AppliedApplicationSearch from "@/Pages/Search/AppliedApplicationSearch";
+// import ActiveSafApplicationDeatilsByid from "@/Pages/Property/PropApplicationView/ActiveSafApplicationDeatilsByid";
+// import ActiveSafDemandDetails from "@/Pages/Property/PropApplicationView/ActiveSafDemandDetails";
+// import PropertyDemandDetails from "@/Pages/Property/PropApplicationView/PropertyDemandDetails";
+// import ActiveSafPaymentDetail from "@/Pages/Property/PropApplicationView/ActiveSafPaymentDetail";
+// import PropertyPaymentDetails from "@/Pages/Property/PropApplicationView/PropertyPaymentDetails";
+// import ConcessionForm from "@/Pages/Property/PropertyEntryForms/ConcessionForm/ConcessionForm";
+// import CitizenPropSafUpdateFormIndex from "@/Pages/Workflow/Property/PropertySafWorkflow/SafApplicationForm/CitizenPropSafUpdateFormIndex";
+// import PaymentDashboard from "@/Pages/PaymentMaster/PaymentDashboard";
+// import ConcessionWorkflowEntry from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/Concession-Workflow/ConcessionWorkflowEntry";
+// import HarvestingWorkflowEntry from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/Harvesting-Workflow/HarvestingWorkflowEntry";
+// import ObjectionWorkflowEntry from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/Objection-Workflow/ObjectionWorkflowEntry";
+// import HoldingDeactivationWorkflowEntry from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/Holding-Deactivation-Workflow/HoldingDeactivationWorkflowEntry";
+// import SafDetailsEntry from "@/Pages/Property/DetailsFactory/SafDetailsEntry/SafDetailsEntry";
+// import ConcessionDetailsEntry from "@/Pages/Property/DetailsFactory/ConcessionDetailsEntry/ConcessionDetailsEntry";
+// import ObjectionDetailsEntry from "@/Pages/Property/DetailsFactory/ObjectionDetailsEntry/ObjectionDetailsEntry";
+// import HarvestingDetailsEntry from "@/Pages/Property/DetailsFactory/HarvestingDetailsEntry/HarvestingDetailsEntry";
+// import ViewDemandDetails from "@/Pages/Property/DetailsFactory/ViewDemandDetails";
+// import PropApplicationFullDetail_Property from "@/Pages/Property/DetailsFactory/PropApplicationFullDetail_Property";
+// import DemandDetailsHoldingProperty from "@/Pages/Property/DetailsFactory/DemandDetailsHoldingProperty";
+// import WaterHarvestingForm from "@/Pages/PropertyEntryForms/waterHarvesting/WaterHarvestingForm";
+// import DeactivationFormComponent from "@/Pages/Property/HoldingDeactivation/DeactivationFormComponent";
+// import TcComparision from "@/Pages/Property/HoldingDeactivation/TcComparision";
+// import HoldingDeactivationDetailsEntry from "@/Pages/Property/DetailsFactory/HoldingDeactivatioinDetailsEntry/HoldingDeactivationDetailsEntry";
+// import HoldingTransactionHistory from "@/Pages/Property/DetailsFactory/HoldingTransactionHistory";
+// import TitleBar from "@/Pages/Property/DetailsFactory/TitleBar";
+// import PropertyPayment from "@/Pages/Property/PropertyPayments/PropertyPayment";
+// import ComparativeDemand from "@/Pages/Property/DetailsFactory/ComparativeDemand";
+// import SamReciept from "@/Pages/PaymentScreen/Reciept/SAM/SamReciept";
+// import PrintPage from "@/Pages/PaymentScreen/Reciept/FAM/PrintPage";
+// import ComparativeDemandReciept from "@/Pages/PaymentScreen/Reciept/ComparativeDemand/ComparativeDemandReciept";
+// import PropSafSearchCollection from "@/Pages/Property/Reports/PropSafSearchCollection";
+// import PropSafIndDemCollection from "@/Pages/Property/Reports/PropSafIndDemCollection";
+// import LevelWisePendingReport from "@/Pages/Property/Reports/LevelWiseCollection/LevelWisePendingReport";
+// import WardWiseDetails from "@/Pages/Property/Reports/LevelWiseCollection/WardWiseDetails";
+// import SafWiseDetails from "@/Pages/Property/Reports/LevelWiseCollection/SafWiseDetails";
+// import EmployeeWiseDetails from "@/Pages/Property/Reports/LevelWiseCollection/EmployeeWiseDetails";
+// import RmcPrint from "@/Pages/PaymentScreen/Reciept/RMC/RmcPrint";
+// import DemandPrint from "@/Pages/PaymentScreen/Reciept/Demand/DemandPrint";
+// import ClusterSafDemand from "@/Pages/Property/ClusterForms/ClusterSafDemand";
+// import ClusterHoldingDemand from "@/Pages/Property/ClusterForms/ClusterHoldingDemand";
+// import BankReconcile from "@/Pages/Property/PaymentReconcile/BankReconcile";
+// import CashVerification from "@/Pages/Property/CashVerification/CashVerification";
+// import ClusterHoldingTransactionHistory from "@/Pages/Property/DetailsFactory/ClusterHoldingTransactionHistory";
+// import ClusterPayment from "@/Pages/Property/PropertyPayments/ClusterPayment";
+// import WardWiseHolding from "@/Pages/Property/Reports/WardWiseHolding/WardWiseHolding";
+// import GBSafWorkflow from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/GBSafWorkflow/GBSafWorkflow";
+// import PaymentModeWiseSummary from "@/Pages/Property/Reports/PaymentModeWiseSummary";
+// import WardWiseDcb from "@/Pages/Property/Reports/WardWiseDcb";
+// import HoldingDcb from "@/Pages/Property/Reports/HoldingDcb";
+// import WardWiseCollectionSummary from "@/Pages/Property/Reports/WardWiseCollectionSummary/WardWiseCollectionSummary";
+// import TaxRecieptBulkPrint from "@/Pages/Property/Reports/TaxRecieptBulkPrint/TaxRecieptBulkPrint";
+// import HoldingWiseRebate from "@/Pages/Property/Reports/HoldingWiseRebate/HoldingWiseRebate";
+// import ArrearCurrentCollectionSummary from "@/Pages/Property/Reports/ArrearCurrentCollectionSummary/ArrearCurrentCollectionSummary";
+// import SafSamGeoTagging from "@/Pages/Property/Reports/SafSamGeoTagging/SafSamGeoTagging";
+// import DecisionMakingReport from "@/Pages/Property/Reports/DMR/DecisionMakingReport";
+// import HoldingWithElectricityDetailReport from "@/Pages/Property/Reports/HoldingWithElectricityDetailReport/HoldingWithElectricityDetailReport";
+// import PropIndividualDemandCollection from "@/Pages/Property/Reports/PropIndividualDemandCollection/PropIndividualDemandCollection";
+// import GovDcbReport from "@/Pages/Property/Reports/GovDcbReport/GovDcbReport";
+// import GovSafIndividualDemandCollection from "@/Pages/Property/Reports/GovSafIndividualDemandCollection/GovSafIndividualDemand&Collection";
+// import WardWiseDemand from "@/Pages/Property/Reports/WardWiseDemand/WardWiseDemand";
+// import WardWiseSafPendingDetails from "@/Pages/Property/Reports/WardWiseSafPendingDetails/WardWiseSafPendingDetails";
+// import DateWardWiseGeneratedNotice from "@/Pages/Property/Reports/DateWardWiseGeneratedNotice/DateWardWiseGeneratedNotice";
+// import DeactivatedHolding from "@/Pages/Property/Reports/DeactivatedHolding/DeactivatedHolding";
+// import PropSafCollectionReportwithRebatePenalty from "@/Pages/Property/Reports/PropSafCollectionReportwithRebatePenalty/PropSafCollectionReportwithRebatePenalty";
+// import BasicEditFormIndex from "@/Pages/Property/BasicEditForm/BasicEditFormIndex";
+// import NotPaidFrom from "@/Pages/Property/Reports/NotPaidFrom/NotPaidFrom";
+// import DecisionMakingReportTable from "@/Pages/Property/Reports/DecisionMakingReport/DecisionMakingReportTable";
+// import ClusterView from "@/Pages/Property/ClusterForms/ClusterView";
+// import SafWorkflowEntry from '@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/SafWorkflow/SafWorkflowEntry';
+// import CitizenSafEntryScreenForm from '@/Pages/Property/CitizenSafForm2updated/CitizenSafEntryScreenForm';
+// import SafPaymentReceiptIndex from '@/Pages/Property/CitizenSafForm2updated/PaymentReceipt2/SafPaymentReceiptIndex';
+// import ClusterPaymentReceiptIndex from '@/Pages/Property/Reports/TaxRecieptBulkPrint/ClusterPaymentReceiptIndex';
+// import CitizenPropSafApplicationFormIndex from './Pages/Property/CitizenSafForm2updated/CitizenPropSafApplicationFormIndex';
+// import UlbWorkflowRolesIndex from '@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex';
+// import NavigatePage from './Pages/NavigatePage';
+// import SafApplyCard from './Pages/Workflow/Property/SafApplyCard/SafApplyCard';
+// import GBSAFDetailsEntry from './Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry';
+// import GbSafPaymentReceiptIndex from './Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex';
+// import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
+// JUST FOR BACKUP
+
+
 
 function App(props) {
   const [boxWidth, setBoxWidth] = useState({ width: "md:w-5/6", margin: "md:ml-60" });
@@ -213,7 +323,6 @@ function App(props) {
           <ToastContainer position="top-right" autoClose={2000} />
           <Header />
           <Sidebar menuFetchStatus={menuFetchStatus} />
-          
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
@@ -227,6 +336,7 @@ function App(props) {
             <TitleBar titleText={titleText} />
            
             <Routes>
+              {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
               <Route path="/change-password/:type" element={<ChangePassword />} />
               <Route path="/home" element={<LandingHomeDashBoard />} />
               <Route path="/user-permission" element={<UserPermission />} />
@@ -273,7 +383,7 @@ function App(props) {
               <Route path='/holding-deactivatioin-details/:id' element={<HoldingDeactivationDetailsEntry />} />
 
               <Route path='/viewDemand/:id' element={<ViewDemandDetails />} />
-              <Route path='/viewDemandGbSaf/:id' element={<GbSafDemandDetails />} />
+              <Route path='/viewgbdemand/:id' element={<GbSafDemandDetails />} />
 
               <Route path='/holdingPropertyDetails/:id' element={<PropApplicationFullDetail_Property />} />
               <Route path='/viewDemandHoldingProperty/:id' element={<DemandDetailsHoldingProperty />} />
@@ -336,6 +446,7 @@ function App(props) {
 
             </Routes>
             <WorkflowRoutes />
+
           </div>
           {/* </BrowserRouter> */}
         </CustomErrorBoundaryForRoutes>
