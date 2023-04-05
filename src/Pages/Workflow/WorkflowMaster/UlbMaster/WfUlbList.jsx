@@ -21,8 +21,12 @@ import apiList from '../Common/ApiList'
 import { useContext } from "react";
 import { contextVar } from "../Common/Context/Context";
 import BarLoader from "@/Components/Common/BarLoader";
+import useSetTitle from "@/Components/GlobalData/useSetTitle";
 
 function WfUlbList(props) {
+
+  useSetTitle('ULB Workflow')
+
   const [openAddNewWfUlbModal, setOpenAddNewWfUlbModal] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(0);
   const [openModelForEdit, setOpenModelForEdit] = useState(0);

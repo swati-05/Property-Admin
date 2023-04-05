@@ -17,6 +17,7 @@ import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import BottomErrorCard from '@/Components/Common/BottomErrorCard'
+import { FaUserNurse } from 'react-icons/fa'
 
 
 function GovSafBasicDetails(props) {
@@ -74,34 +75,36 @@ function GovSafBasicDetails(props) {
         address: yup.string().required('Enter address'),
 
         mobileTowerStatus: yup.string().required('Select mobile tower status'),
-        hoardingStatus: yup.string().required('Select hoarding status'),
-        petrolPumpStatus: yup.string().required('Select petrol pump status'),
-        waterHarvestingStatus: yup.string().required('Select water harvesting status'),
-        mobileTowerArea: yup.string().when('mobileTowerStatus', {
-            is: 'yes',
-            then: yup.string().required('Field is required')
+        mobileTowerArea: yup.string().when([], {
+            is: () => mobileTowerStatusToggle == true,
+            then:() => yup.string().required('Field is required')
         }),
-        hoardingArea: yup.string().when('hoardingStatus', {
-            is: 'yes',
-            then: yup.string().required('Field is required')
-        }),
-        petrolPumpArea: yup.string().when('petrolPumpStatus', {
-            is: 'yes',
-            then: yup.string().required('Field is required')
-        }),
-        mobileTowerDate: yup.date().when('mobileTowerStatus', {
-            is: 'yes',
-            then: yup.date().required('Field is required')
-        }),
-        hoardingDate: yup.date().when('hoardingStatus', {
-            is: 'yes',
-            then: yup.date().required('Field is required')
-        }),
-        petrolPumpDate: yup.date().when('petrolPumpStatus', {
-            is: 'yes',
-            then: yup.date().required('Field is required')
+        mobileTowerDate: yup.string().when([], {
+            is: () => mobileTowerStatusToggle == true,
+            then: () => yup.string().required('Field is required')
         }),
 
+        hoardingStatus: yup.string().required('Select hoarding status'),
+        hoardingArea: yup.string().when([], {
+            is: () => hoardingStatusToggle == true,
+            then:() => yup.string().required('Field is required')
+        }),
+        hoardingDate: yup.string().when([], {
+            is: () => hoardingStatusToggle == true,
+            then: () => yup.string().required('Field is required')
+        }),
+
+        petrolPumpStatus: yup.string().required('Select petrol pump status'),
+        petrolPumpArea: yup.string().when([], {
+            is: () => petrolPumpStatusToggle == true,
+            then:() => yup.string().required('Field is required')
+        }),
+        petrolPumpDate: yup.string().when([], {
+            is: () => petrolPumpStatusToggle == true,
+            then: () => yup.string().required('Field is required')
+        }),
+
+        waterHarvestingStatus: yup.string().required('Select water harvesting status'),
 
         // floorNo: yup.string().required('Select floor no.').max(50, 'Enter maximum 50 characters'),
         // useType: yup.string().required('Select use type'),
@@ -111,6 +114,7 @@ function GovSafBasicDetails(props) {
         // dateFrom: yup.date().required('Select from date'),
         // dateUpto: yup.date()
     })
+
     const formik = useFormik({
         initialValues: {
             ulbId: '',
@@ -156,7 +160,7 @@ function GovSafBasicDetails(props) {
             console.log('submit form of gov ', values)
             collectDataFun2('basicDetails', values)
             setformHide(!formHide)
-            alert("Please check again your filled data before submit !!!")
+            alert("Please review your form and then submit !!!")
         }
         , validationSchema
     })
@@ -565,6 +569,12 @@ function GovSafBasicDetails(props) {
 
     }
 
+    let labelStyle = 'form-label inline-block mb-1 text-gray-600 text-sm font-semibold'
+    let labelStylePreview = 'form-label inline-block mb-1 text-gray-600 text-sm font-normal'
+
+    let commonStyle = 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md'
+    let commonStylePreview = 'form-control block w-full text-base font-semibold text-gray-700 bg-white bg-clip-padding border-none rounded transition ease-in-out m-0 focus:outline-none placeholder:text-white bg-white appearance-none'
+
     return (
         <>
             {isLoading && <BarLoader />}
@@ -578,8 +588,8 @@ function GovSafBasicDetails(props) {
 
                         {/* 1 BASIC DETAILS */}
                         <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">ULB<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('ulbId')} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >ULB<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('ulbId')} className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option value="" >Select</option>
                                 {
@@ -591,20 +601,20 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.ulbId && formik.errors.ulbId ? formik.errors.ulbId : null}</span>
                         </div>
                         <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Name of Building<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('buildingName')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Name of Building<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('buildingName')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." />
                             <span className="text-red-600 absolute text-xs">{formik.touched.buildingName && formik.errors.buildingName ? formik.errors.buildingName : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Name of office operated by the Building<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('buildingOfficeName')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Name of office operated by the Building<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('buildingOfficeName')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." />
                             <span className="text-red-600 absolute text-xs">{formik.touched.buildingOfficeName && formik.errors.buildingOfficeName ? formik.errors.buildingOfficeName : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Ward No<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('wardNo')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Ward No<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('wardNo')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option value="" >Select</option>
                                 {
@@ -616,8 +626,8 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.wardNo && formik.errors.wardNo ? formik.errors.wardNo : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">New Ward No<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('newWardNo')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >New Ward No<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('newWardNo')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option value="" >Select</option>
                                 {
@@ -629,15 +639,15 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.wardNo && formik.errors.wardNo ? formik.errors.wardNo : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Holding No.(Previous holding no. if any)</label>
-                            <input disabled={formHide} {...formik.getFieldProps('holdingNo')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Holding No.(Previous holding no. if any)</label>
+                            <input disabled={formHide} {...formik.getFieldProps('holdingNo')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter holding no." />
                             <span className="text-red-600 absolute text-xs">{formik.touched.holdingNo && formik.errors.holdingNo ? formik.errors.holdingNo : null}</span>
                         </div>
 
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Govt. Building Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('govBuildingUsageType')} type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Govt. Building Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('govBuildingUsageType')} type="date" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option>Select</option>
                                 {
@@ -649,8 +659,8 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.govBuildingUsageType && formik.errors.govBuildingUsageType ? formik.errors.govBuildingUsageType : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Property Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('propertyUsageType')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Property Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('propertyUsageType')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option>Select</option>
                                 {
@@ -662,8 +672,8 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.propertyUsageType && formik.errors.propertyUsageType ? formik.errors.propertyUsageType : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Zone<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <select disabled={formHide} {...formik.getFieldProps('zone')} type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Zone<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <select disabled={formHide} {...formik.getFieldProps('zone')} type="date" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter new ward no." >
                                 <option value="">Select</option>
                                 {
@@ -675,14 +685,14 @@ function GovSafBasicDetails(props) {
                             <span className="text-red-600 absolute text-xs">{formik.touched.zone && formik.errors.zone ? formik.errors.zone : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Road Width (in ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('roadWidth')} type="number" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Road Width (in ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('roadWidth')} type="number" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter road width" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.roadWidth && formik.errors.roadWidth ? formik.errors.roadWidth : null}</span>
                         </div>
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Area of plot (In Decimal)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('plotArea')} type="number" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Area of plot (In Decimal)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('plotArea')} type="number" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter plot area" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.plotArea && formik.errors.plotArea ? formik.errors.plotArea : null}</span>
                         </div>
@@ -690,29 +700,29 @@ function GovSafBasicDetails(props) {
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4"></div>
 
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Street Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('streetName')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Street Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('streetName')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter street name" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.streetName && formik.errors.streetName ? formik.errors.streetName : null}</span>
                         </div>
 
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Location<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('location')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Location<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('location')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter location" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.location && formik.errors.location ? formik.errors.location : null}</span>
                         </div>
 
                         <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Landmark<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('landmark')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Landmark<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('landmark')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter landmark" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.landmark && formik.errors.landmark ? formik.errors.landmark : null}</span>
                         </div>
 
                         <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                            <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Building Address<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                            <input disabled={formHide} {...formik.getFieldProps('buildingAddress')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                            <label className={formHide ? labelStylePreview : labelStyle} >Building Address<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                            <input disabled={formHide} {...formik.getFieldProps('buildingAddress')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                 placeholder="Enter building address" />
                             <span className="text-red-600 absolute text-xs">{formik.touched.buildingAddress && formik.errors.buildingAddress ? formik.errors.buildingAddress : null}</span>
                         </div>
@@ -728,32 +738,32 @@ function GovSafBasicDetails(props) {
                                 <label className="form-check-label text-gray-800" > <small className="block mt-1 text-xs text-blue-400 inline ">Authorized Person for the payment of Property Tax</small></label>
                             </div> */}
                             <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Officer Designation<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={formHide} {...formik.getFieldProps('designation')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Officer Designation<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                <input disabled={formHide} {...formik.getFieldProps('designation')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                     placeholder="Enter designation" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.designation && formik.errors.designation ? formik.errors.designation : null}</span>
                             </div>
                             <div className="form-group col-span-12 md:col-span-3  md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Officer Address <small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={formHide} {...formik.getFieldProps('address')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Officer Address <small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                <input disabled={formHide} {...formik.getFieldProps('address')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                     placeholder="Enter address" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.address && formik.errors.address ? formik.errors.address : null}</span>
                             </div>
                             <div className="form-group col-span-12 md:col-span-3  md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Officer Name</label>
-                                <input disabled={formHide} {...formik.getFieldProps('officerName')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Officer Name</label>
+                                <input disabled={formHide} {...formik.getFieldProps('officerName')} type="text" className={formHide ? commonStylePreview : commonStyle}
                                     placeholder="Enter name" />
                                 {/* <span className="text-red-600 absolute text-xs">{formik.touched.address && formik.errors.address ? formik.errors.address : null}</span> */}
                             </div>
                             <div className="form-group col-span-12 md:col-span-3  md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Officer Email</label>
-                                <input disabled={formHide} {...formik.getFieldProps('officerEmail')} type="email" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Officer Email</label>
+                                <input disabled={formHide} {...formik.getFieldProps('officerEmail')} type="email" className={formHide ? commonStylePreview : commonStyle}
                                     placeholder="Enter email" />
                                 {/* <span className="text-red-600 absolute text-xs">{formik.touched.address && formik.errors.address ? formik.errors.address : null}</span> */}
                             </div>
                             <div className="form-group col-span-12 md:col-span-3  md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Officer Mobile</label>
-                                <input disabled={formHide} {...formik.getFieldProps('officerMobile')} type="number" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Officer Mobile</label>
+                                <input disabled={formHide} {...formik.getFieldProps('officerMobile')} type="number" className={formHide ? commonStylePreview : commonStyle}
                                     placeholder="Enter mobile" />
                                 {/* <span className="text-red-600 absolute text-xs">{formik.touched.address && formik.errors.address ? formik.errors.address : null}</span> */}
                             </div>
@@ -768,8 +778,8 @@ function GovSafBasicDetails(props) {
                         {/* 3 ADDITIONAL DEAILS */}
                         <div className="col-span-12 grid grid-cols-12">
                             <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Property has Mobile Tower(s) ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={formHide} {...formik.getFieldProps('mobileTowerStatus')} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Property has Mobile Tower(s) ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                <select disabled={formHide} {...formik.getFieldProps('mobileTowerStatus')} className={formHide ? commonStylePreview : commonStyle}
                                 >
                                     <option value="no" selected>No</option>
                                     <option value="yes">Yes</option>
@@ -780,17 +790,17 @@ function GovSafBasicDetails(props) {
                                 mobileTowerStatusToggle &&
                                 <>
                                     <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                                        <label className="form-label inline-block mb-1 text-gray-600 text-xs font-normal">Total Area Covered<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <input disabled={formHide} {...formik.getFieldProps('mobileTowerArea')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" />
+                                        <label className={formHide ? labelStylePreview : labelStyle}>Total Area Covered<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                        <input disabled={formHide} {...formik.getFieldProps('mobileTowerArea')} type="text" className={formHide ? commonStylePreview : commonStyle} />
                                         {/* <label className="form-check-label text-gray-800"><small className="block mt-1 text-[10px] text-gray-600 inline leading-[0.5px]"> Total Area Covered by Mobile Tower & its Supporting Equipments & Accessories (in Sq. Ft.)</small></label> */}
                                         <span className="text-red-600 absolute text-xs">{formik.touched.mobileTowerArea && formik.errors.mobileTowerArea ? formik.errors.mobileTowerArea : null}</span>
                                     </div>
 
                                     <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
 
-                                        <label className="form-label inline-block mb-1 text-gray-600 text-xs font-normal">Date of Installation of Mobile Tower<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                        <label className={formHide ? labelStylePreview : labelStyle}>Date of Installation of Mobile Tower<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
 
-                                        <input disabled={formHide} {...formik.getFieldProps('mobileTowerDate')} type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+                                        <input disabled={formHide} {...formik.getFieldProps('mobileTowerDate')} type="date" className={formHide ? commonStylePreview : commonStyle}
                                         />
                                         <span className="text-red-600 absolute text-xs">{formik.touched.mobileTowerDate && formik.errors.mobileTowerDate ? formik.errors.mobileTowerDate : null}</span>
                                     </div>
@@ -798,8 +808,8 @@ function GovSafBasicDetails(props) {
                             }
                             <div className="col-span-12 grid grid-cols-12">
                                 <div className={`form-groupcol-span-12 md:col-span-3 mb-6 md:px-4`}>
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Property has Hoarding Board(s) ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <select disabled={formHide} {...formik.getFieldProps('hoardingStatus')} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                                    <label className={formHide ? labelStylePreview : labelStyle} >Property has Hoarding Board(s) ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <select disabled={formHide} {...formik.getFieldProps('hoardingStatus')} className={formHide ? commonStylePreview : commonStyle}
                                     >
                                         <option value="no" selected>No</option>
                                         <option value="yes">Yes</option>
@@ -813,14 +823,14 @@ function GovSafBasicDetails(props) {
                                     <>
                                         <div className="form-groupcol-span-12 md:col-span-3 mb-6 md:px-4">
 
-                                            <label className="form-label inline-block mb-1 text-gray-600 text-xs font-normal">Total Area<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                            <input disabled={formHide} {...formik.getFieldProps('hoardingArea')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" />
+                                            <label className={formHide ? labelStylePreview : labelStyle}>Total Area<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                            <input disabled={formHide} {...formik.getFieldProps('hoardingArea')} type="text" className={formHide ? commonStylePreview : commonStyle} />
                                             {/* <label className="form-check-label text-gray-800"><small className="block mt-1 text-xs text-gray-600 inline "> Total Area of Wall / Roof / Land (in Sq. Ft.)</small></label> */}
                                             <span className="text-red-600 absolute text-xs">{formik.touched.hoardingArea && formik.errors.hoardingArea ? formik.errors.hoardingArea : null}</span>
                                         </div>
                                         <div className="form-groupcol-span-12 md:col-span-3 mb-6 md:px-4">
                                             <label className="form-check-label text-gray-800"><small className=" mt-1 text-xs text-gray-600 inline ">Date of Installation of Hoarding Board(s)<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></small></label>
-                                            <input disabled={formHide} {...formik.getFieldProps('hoardingDate')} type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+                                            <input disabled={formHide} {...formik.getFieldProps('hoardingDate')} type="date" className={formHide ? commonStylePreview : commonStyle}
                                             />
                                             <span className="text-red-600 absolute text-xs">{formik.touched.hoardingDate && formik.errors.hoardingDate ? formik.errors.hoardingDate : null}</span>
                                         </div>
@@ -831,8 +841,8 @@ function GovSafBasicDetails(props) {
 
                             <div className="col-span-12 grid grid-cols-12">
                                 <div className="form-groupcol-span-12 md:col-span-3 mb-6 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Is property a Petrol Pump ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <select disabled={formHide} {...formik.getFieldProps('petrolPumpStatus')} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                                    <label className={formHide ? labelStylePreview : labelStyle} >Is property a Petrol Pump ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <select disabled={formHide} {...formik.getFieldProps('petrolPumpStatus')} className={formHide ? commonStylePreview : commonStyle}
                                     >
                                         <option value="no" selected>No</option>
                                         <option value="yes">Yes</option>
@@ -845,14 +855,14 @@ function GovSafBasicDetails(props) {
                                     <>
                                         <div className="form-groupcol-span-12 md:col-span-3 mb-6 md:px-4">
 
-                                            <label className="form-label inline-block mb-1 text-gray-600 text-xs font-normal">Total Area<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                            <input disabled={formHide} {...formik.getFieldProps('petrolPumpArea')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" />
+                                            <label className={formHide ? labelStylePreview : labelStyle}>Total Area<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                            <input disabled={formHide} {...formik.getFieldProps('petrolPumpArea')} type="text" className={formHide ? commonStylePreview : commonStyle} />
                                             {/* <label className="form-check-label text-gray-800"><small className="block mt-1 text-xs text-gray-600 inline ">Underground Storage Area (in Sq. Ft.)</small></label> */}
                                             <span className="text-red-600 absolute text-xs">{formik.touched.petrolPumpArea && formik.errors.petrolPumpArea ? formik.errors.petrolPumpArea : null}</span>
                                         </div>
                                         <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
                                             <label className="form-check-label text-gray-800"><small className=" mt-1 text-xs text-gray-600 inline ">Completion Date of Petrol Pump<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></small></label>
-                                            <input disabled={formHide} {...formik.getFieldProps('petrolPumpDate')} type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
+                                            <input disabled={formHide} {...formik.getFieldProps('petrolPumpDate')} type="date" className={formHide ? commonStylePreview : commonStyle}
                                             />
                                             <span className="text-red-600 absolute text-xs">{formik.touched.petrolPumpDate && formik.errors.petrolPumpDate ? formik.errors.petrolPumpDate : null}</span>
                                         </div>
@@ -861,8 +871,8 @@ function GovSafBasicDetails(props) {
                             </div>
 
                             <div className="form-group col-span-12 md:col-span-3 mb-6 md:px-4">
-                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Rainwater harvesting provision ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={formHide} {...formik.getFieldProps('waterHarvestingStatus')} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
+                                <label className={formHide ? labelStylePreview : labelStyle} >Rainwater harvesting provision ?<small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                <select disabled={formHide} {...formik.getFieldProps('waterHarvestingStatus')} className={formHide ? commonStylePreview : commonStyle}
                                 >
                                     <option value="no" selected>No</option>
                                     <option value="yes">Yes</option>
@@ -964,7 +974,7 @@ function GovSafBasicDetails(props) {
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.floorNo && formik.errors.floorNo ? formik.errors.floorNo : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                 <select disabled={formHide} ref={useTypeRef} {...formik.getFieldProps('useType')} className="cypress_usage_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md" >
                                                     <option value="" >Select</option>
                                                     {
@@ -976,7 +986,7 @@ function GovSafBasicDetails(props) {
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.useType && formik.errors.useType ? formik.errors.useType : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Occupancy Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >Occupancy Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                 <select disabled={formHide} ref={occupancyTypeRef} {...formik.getFieldProps('occupancyType')} className="cypress_occupancy_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md">
                                                     <option value="" >Select</option>
                                                     {
@@ -988,7 +998,7 @@ function GovSafBasicDetails(props) {
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.occupancyType && formik.errors.occupancyType ? formik.errors.occupancyType : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Construction Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >Construction Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                 <select disabled={formHide} ref={constructionTypeRef} {...formik.getFieldProps('constructionType')} className="cypress_construction_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
                                                     placeholder="Enter guardian name" >
                                                     <option value="" >Select</option>
@@ -1001,17 +1011,17 @@ function GovSafBasicDetails(props) {
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.constructionType && formik.errors.constructionType ? formik.errors.constructionType : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Built Up Area (in Sq. Ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >Built Up Area (in Sq. Ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                 <input disabled={formHide} {...formik.getFieldProps('buildupArea')} type="text" className="cypress_builtup_area form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" />
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.buildupArea && formik.errors.buildupArea ? formik.errors.buildupArea : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">From Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >From Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                 <input disabled={formHide} {...formik.getFieldProps('dateFrom')} type="date" className="cypress_construction_date_from form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md" placeholder='Enter dateFrom no' />
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.dateFrom && formik.errors.dateFrom ? formik.errors.dateFrom : null}</span>
                                             </div>
                                             <div className="form-group col-span-12 mb-3 md:px-4">
-                                                <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Upto Date (Leave blank for current date)</label>
+                                                <label className={formHide ? labelStylePreview : labelStyle} >Upto Date (Leave blank for current date)</label>
                                                 <input disabled={formHide} {...formik.getFieldProps('dateUpto')} type="date" className="form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
                                                     placeholder="Enter dateUpto no." />
                                                 <span className="text-red-600 absolute text-xs">{formik.touched.dateUpto && formik.errors.dateUpto ? formik.errors.dateUpto : null}</span>
@@ -1027,7 +1037,7 @@ function GovSafBasicDetails(props) {
                         </div>} */}
 
                         <div className="w-full col-span-12">
-                            {/* <h1 className='mt-6 mb-3 font-serif font-semibold absolute text-gray-600'><FaUserNurse className="inline mr-2" />Floor Details </h1> */}
+                            <h1 className='mt-6 mb-3 font-serif font-semibold absolute text-gray-600'><FaUserNurse className="inline mr-2" />Floor Details </h1>
 
                             <div className={`${AddFloorForm} transition-all relative block  w-full  md:w-full mx-auto top-0 -mt-16  z-50`}>
                                 <form onSubmit={formik2.handleSubmit} onChange={handleChange2}>
@@ -1055,7 +1065,7 @@ function GovSafBasicDetails(props) {
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.floorNo && formik2.errors.floorNo ? formik2.errors.floorNo : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                     <select disabled={formHide} ref={useTypeRef} {...formik2.getFieldProps('useType')} className="cypress_usage_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md" >
                                                         <option value="" >Select</option>
                                                         {
@@ -1067,7 +1077,7 @@ function GovSafBasicDetails(props) {
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.useType && formik2.errors.useType ? formik2.errors.useType : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Occupancy Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >Occupancy Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                     <select disabled={formHide} ref={occupancyTypeRef} {...formik2.getFieldProps('occupancyType')} className="cypress_occupancy_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md">
                                                         <option value="" >Select</option>
                                                         {
@@ -1079,7 +1089,7 @@ function GovSafBasicDetails(props) {
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.occupancyType && formik2.errors.occupancyType ? formik2.errors.occupancyType : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Construction Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >Construction Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                     <select disabled={formHide} ref={constructionTypeRef} {...formik2.getFieldProps('constructionType')} className="cypress_construction_type form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
                                                         placeholder="Enter guardian name" >
                                                         <option value="" >Select</option>
@@ -1092,17 +1102,17 @@ function GovSafBasicDetails(props) {
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.constructionType && formik2.errors.constructionType ? formik2.errors.constructionType : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Built Up Area (in Sq. Ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >Built Up Area (in Sq. Ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                     <input disabled={formHide} {...formik2.getFieldProps('buildupArea')} type="text" className="cypress_builtup_area form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" />
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.buildupArea && formik2.errors.buildupArea ? formik2.errors.buildupArea : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">From Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >From Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                                     <input disabled={formHide} {...formik2.getFieldProps('dateFrom')} type="date" className="cypress_construction_date_from form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md" placeholder='Enter dateFrom no' />
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.dateFrom && formik2.errors.dateFrom ? formik2.errors.dateFrom : null}</span>
                                                 </div>
                                                 <div className="form-group col-span-12 mb-3 md:px-4">
-                                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Upto Date (Leave blank for current date)</label>
+                                                    <label className={formHide ? labelStylePreview : labelStyle} >Upto Date (Leave blank for current date)</label>
                                                     <input disabled={formHide} {...formik2.getFieldProps('dateUpto')} type="date" className="form-control block w-full px-3 py-1.5 text-base  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
                                                         placeholder="Enter dateUpto no." />
                                                     <span className="text-red-600 absolute text-xs">{formik2.touched.dateUpto && formik2.errors.dateUpto ? formik2.errors.dateUpto : null}</span>

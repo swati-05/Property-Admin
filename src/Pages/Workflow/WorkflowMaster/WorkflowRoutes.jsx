@@ -28,7 +28,7 @@ const WorkflowRoutes = () => {
 
     <contextVar.Provider value={contextData}>
       <Routes>
-        <Route path="/workflow-main" element={<WorkflowSidebar />} />
+        <Route path="/workflow-master" element={<WorkflowSidebar />} />
       </Routes>
       </contextVar.Provider>
     </>

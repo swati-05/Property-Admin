@@ -15,6 +15,7 @@ import { contextVar } from "../../Common/Context/Context";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import ApiList from "../../Common/ApiList";
 
 const customStyles = {
   content: {
@@ -32,6 +33,8 @@ const customStyles = {
 function EditWorkflowModal(props) {
 
   const {refresh, setrefresh} = useContext(contextVar)
+
+  const {workflowUpdate} = ApiList()
 
   let workflowId = props?.editWorkflowId?.id;
   let workflowName = props?.editWorkflowId?.workflow_name;
@@ -72,7 +75,7 @@ function EditWorkflowModal(props) {
     };
 
     axios
-      .post("http://192.168.0.205:8000/api/workflow/master/edit", payload, header)
+      .post(workflowUpdate, payload, header)
       .then(
         (res) => (toast.success("Workflow Updated successfully"), closeModal(),  setrefresh(refresh+1))
       )

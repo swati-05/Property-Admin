@@ -35,7 +35,7 @@ function AddNewWorkflowModal(props) {
 
   const {refresh, setrefresh} = useContext(contextVar)
 
-  const { workflowAdd} = apiList()
+  const { workflowAdd } = apiList()
 
   const [ulbList, setUlbList] = useState();
 
