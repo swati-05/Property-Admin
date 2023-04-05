@@ -278,7 +278,8 @@ function HoldingTransactionHistory(props) {
                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">From Qtr/Year</th>
                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Upto Qtr/Year</th>
                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Amount</th>
-                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Action</th>
+                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Receipt1</th>
+                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Receipt2</th>
 
                                 </tr>
                             </thead>
@@ -296,6 +297,9 @@ function HoldingTransactionHistory(props) {
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
+                                        </td>
+                                        <td className="px-2 py-2 text-sm text-left">
+                                            <button onClick={() => navigate(`/rmc-reciept/${data?.tran_no}`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">RMC Receipt</button>
                                         </td>
 
                                     </tr>

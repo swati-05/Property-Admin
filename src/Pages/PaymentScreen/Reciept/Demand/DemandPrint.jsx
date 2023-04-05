@@ -26,6 +26,7 @@ const DemandPrint = () => {
     const [demandDetails, setdemandDetails] = useState()
     const [erroState2, seterroState2] = useState(false);
     const [isLoading, setisLoading] = useState(false)
+    const [demandStatus, setdemandStatus] = useState(true)
 
 
     useEffect(() => {
@@ -37,11 +38,13 @@ const DemandPrint = () => {
             .then((res) => {
                 console.log('getting demand details => ', res)
                 setisLoading(false)
+                setdemandStatus(res?.data?.status)
                 if (res?.data?.status) {
                     setdemandDetails(res?.data?.data?.dueReceipt)
-                } else {
-                    seterroState2(true)
                 }
+                //  else {
+                //     seterroState2(true)
+                // }
             })
             .catch((err) => {
                 console.log("getting demand error => ", err)
@@ -63,6 +66,14 @@ const DemandPrint = () => {
             <CommonModal>
                 <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
             </CommonModal>
+        )
+    }
+
+    if (!demandStatus) {
+        return (
+            <div className='w-full mt-20 text-center'>
+                <span className='text-3xl text-red-500 border border-red-500 font-semibold px-4 py-2'>No demand found for this property!</span>
+            </div>
         )
     }
 
