@@ -49,7 +49,7 @@ function CashVerificationDetailedModal(props) {
     const userId = props?.data?.id;
     const date = props?.data?.date;
 
-    // console.log('cash verification data => ', props?.data)
+    console.log('cash verification data => ', props?.data)
 
     //Fetch data
     useEffect(() => {
