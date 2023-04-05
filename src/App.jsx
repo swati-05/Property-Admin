@@ -324,7 +324,7 @@ function App(props) {
           <ToastContainer position="top-right" autoClose={2000} />
           <Header />
           <Sidebar menuFetchStatus={menuFetchStatus} />
-          
+
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
@@ -336,7 +336,7 @@ function App(props) {
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[40vh]`}
           >
             <TitleBar titleText={titleText} />
-           
+
             <Routes>
               {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
               <Route path="/change-password/:type" element={<ChangePassword />} />
@@ -385,6 +385,7 @@ function App(props) {
               <Route path='/holding-deactivatioin-details/:id' element={<HoldingDeactivationDetailsEntry />} />
 
               <Route path='/viewDemand/:id' element={<ViewDemandDetails />} />
+              <Route path='/viewgbdemand/:id' element={<GbSafDemandDetails />} />
 
               <Route path='/holdingPropertyDetails/:id' element={<PropApplicationFullDetail_Property />} />
               <Route path='/viewDemandHoldingProperty/:id' element={<DemandDetailsHoldingProperty />} />
@@ -446,6 +447,8 @@ function App(props) {
               <Route path='/cash-verification' element={<CashVerification />} />
 
             </Routes>
+
+            <WorkflowRoutes />
 
           </div>
           {/* </BrowserRouter> */}
