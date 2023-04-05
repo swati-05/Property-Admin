@@ -103,7 +103,7 @@ OR Call us at 1800 8904115 or 0651-3500700
                 </div>
                 <div className='w-[30%]'>
                 In Collaboration with <br />
-Sparrow Softech Pvt. Ltd.
+                Sri Publication & Stationers Pvt Ltd
                 </div>
 
             </div>
