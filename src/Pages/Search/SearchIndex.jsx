@@ -137,6 +137,20 @@ function SearchIndex() {
       accessor: "owner_name",
     },
     {
+      Header: "Property Tax No.",
+      accessor: "pt_no",
+      Cell: (props) => {
+          if (props?.value == null || props?.value == '' || props?.value == undefined) {
+              return (
+                  <i>N/A</i>
+              );
+          }
+          if (props?.value != null) {
+              return props?.value;
+          }
+      }
+  },
+    {
       Header: "Holding No",
       accessor: "holding_no",
     },
@@ -224,6 +238,7 @@ function SearchIndex() {
                 className="cursor-pointer w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
               >
                 <option value="">Select</option>
+                <option value="ptn">Property Tax No</option>
                 <option value="holdingNo">Holding No</option>
                 <option value="ownerName">Owner Name</option>
                 <option value="mobileNo">Mobile No</option>
