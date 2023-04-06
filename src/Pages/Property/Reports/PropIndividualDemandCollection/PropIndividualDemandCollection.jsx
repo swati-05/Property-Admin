@@ -164,7 +164,7 @@ const PropIndividualDemandCollection = () => {
             }
         },
         {
-            Header: "Total Demand",
+            Header: "Total Demand (in ₹)",
             accessor: "total_demand",
             Cell: (props) => {
                 if (props?.value == null || props?.value == '' || props?.value == undefined) {
@@ -178,7 +178,7 @@ const PropIndividualDemandCollection = () => {
             }
         },
         {
-          Header: "Total Collection",
+          Header: "Total Collection (in ₹)",
           accessor: "collection_amount",
           Cell: (props) => {
               if (props?.value == null || props?.value == '' || props?.value == undefined) {
@@ -192,7 +192,7 @@ const PropIndividualDemandCollection = () => {
           }
       },
       {
-        Header: "Total Remaining",
+        Header: "Total Remaining (in ₹)",
         accessor: "balance_amount",
         Cell: (props) => {
             if (props?.value == null || props?.value == '' || props?.value == undefined) {
