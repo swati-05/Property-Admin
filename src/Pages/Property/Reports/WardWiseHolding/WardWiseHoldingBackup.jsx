@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 import { useLocation } from 'react-router-dom'
-import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
+import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2Cc'
 import { CSVDownload, CSVLink } from 'react-csv'
 import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
@@ -60,20 +60,18 @@ const WardWiseHolding = () => {
             wardMstrId : formik.values.wardMstrId,
             year : (formik.values.year).split('-')[0],
             // page : pageCount,
-            perPage : perPageCount
+            // perPage : perPageCount
         }
 
         console.log('data before hitting api => ', body)
 
         axios.post(
-            wardWiseHolding+'?page='+pageCount, body, ApiHeader())
+            wardWiseHolding, body, ApiHeader())
         .then((res) => {
             if(res?.data?.status == true){
                 console.log('search success => ', res)
-                setdataList(res?.data?.data?.data)
-                settotalCount(res?.data?.data?.total)
-                setcurrentPage(res?.data?.data?.current_page)
-                setlastPage(res?.data?.data?.last_page)
+                setdataList(res?.data?.data)
+                // settotalCount(res?.data?.data?.total)
             } else {
                 console.log('error while search => ', res)
             }
@@ -96,10 +94,10 @@ const WardWiseHolding = () => {
         .then((res) => {
 
             if(res?.data?.status == true){
-                console.log("getting master list data => ", res)
+                // console.log("getting master list data => ", res)
                 setwardList(res?.data?.data?.ward_master)
             } else {
-                console.log("error getting master list", res)
+                // console.log("error getting master list", res)
             }
             
         })
@@ -258,19 +256,17 @@ const WardWiseHolding = () => {
 
         const [perPageCount, setperPageCount] = useState(5)
         const [pageCount, setpageCount] = useState(1)
-        const [currentPage, setcurrentPage] = useState(0)
-        const [lastPage, setlastPage] = useState(0)
         const [totalCount, settotalCount] = useState(0)
         const [exportData, setexportData] = useState()
         const [csvStatus, setcsvStatus] = useState(false)
         const [loader2, setloader2] = useState(false)
 
         const nextPageFun = () => {
-            setpageCount(currentPage + 1)
+            setpageCount(pageCount + 1)
         }
     
         const prevPageFun = () => {
-            setpageCount(currentPage - 1)
+            setpageCount(pageCount - 1)
         }
     
         const perPageFun = (val) => {
@@ -281,14 +277,6 @@ const WardWiseHolding = () => {
             setloader2(true)
             searchFun()
         }, [pageCount, perPageCount])
-
-        const firstPageFun = () => {
-            setpageCount(1)
-        }
-
-        const lastPageFun = () =>{
-            setpageCount(lastPage)
-        }
     
         const exportDataFun = () => {
 
@@ -296,19 +284,23 @@ const WardWiseHolding = () => {
             setcsvStatus(false)
 
             let body = {
-                wardMstrId : formik.values.wardMstrId,
-                year : (formik.values.year).split('-')[0],
+                fromDate : formik.values.fromDate,
+                uptoDate : formik.values.uptoDate,
+                wardId : formik.values.wardId,                          
+                userId : formik.values.userId,   
+                paymentMode : formik.values.paymentMode,
+                page : '',
                 perPage : totalCount
             }
     
             // console.log('data before hitting api => ', body)
 
         axios.post(
-            wardWiseHolding+'?page=1', body, ApiHeader())
+            wardWiseHolding, body, ApiHeader())
         .then((res) => {
             if(res?.data?.status == true){
                 // console.log('search success => ', res)
-                setexportData(res?.data?.data?.data)
+                setexportData(res?.data?.data?.items)
                 downloadFun()
             } else {
                 // console.log('error while search => ', res)
@@ -396,9 +388,9 @@ const WardWiseHolding = () => {
         {
             (dataList != undefined && dataList?.length != 0) ? <>
             
-            <ListTable2 currentPage={currentPage} lastPage={lastPage} goFirst={firstPageFun} goLast={lastPageFun} count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+            {/* <ListTable2 count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} /> */}
 
-            {/* <ListTable columns={COLUMNS} dataList={dataList} /> */}
+            <ListTable columns={COLUMNS} dataList={dataList} />
             </> : 
             <>
                 <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>

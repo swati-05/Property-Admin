@@ -206,7 +206,8 @@ export default function PropertyApiList() {
     safWiseCollection: `${baseUrl}/api/property/reports/saf/levelformdetail`,
     employeeWiseCollection: `${baseUrl}/api/property/reports/saf/leveluserpending`, // employee
     wardWiseCollection: `${baseUrl}/api/property/reports/saf/userWiseWardWireLevelPending`,
-    wardWiseHolding: baseUrl + '/api/property/reports/ward-wise-holding',
+    // wardWiseHolding: baseUrl + '/api/property/reports/ward-wise-holding',
+    wardWiseHolding: 'http://192.168.0.237:8000/api/property/reports/ward-wise-holding',
     propPaymentModeWiseSummary: baseUrl + '/api/property/reports/property/payment-mode-wise-summery',
     safPaymentModeWiseSummary: baseUrl + '/api/property/reports/saf/payment-mode-wise-summery',
     searchWardWiseDcb: baseUrl + '/api/property/reports/property/ward-wise-dcb',
