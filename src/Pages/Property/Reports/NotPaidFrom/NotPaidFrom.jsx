@@ -13,6 +13,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
 import { useNavigate, useParams } from 'react-router-dom'
+import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 
 const NotPaidFrom = () => {
 
@@ -21,6 +22,8 @@ const NotPaidFrom = () => {
     const [wardList, setwardList] = useState()
     const [dataList, setdataList] = useState()
     const [loader, setloader] = useState(false)
+    const [requestBody, setrequestBody] = useState(null)// create this for list table connect
+    const [changeData, setchangeData] = useState(0)// create this for list table connect
 
     const {year} = useParams()
 
@@ -36,42 +39,13 @@ const NotPaidFrom = () => {
           wardId : '',
         },
         onSubmit: (values) => {
-            // console.log("submitting report search values => ", values)
-            setperPageCount(5)
-            setpageCount(1)
-            searchFun(values)
+            setrequestBody({
+                wardMstrId : formik.values.wardId,                   
+            })
+            setchangeData(prev => prev + 1)
         }
 
     })
-
-    const searchFun = () => {
-        
-        setloader(true)
-
-        let body = {
-                wardMstrId : formik.values.wardId,                             
-                page : pageCount,
-                perPage : perPageCount
-        }
-
-        // console.log('data before hitting api => ', body)
-
-        axios.post(year == 'current' ? searchPreviousYearPaidButNotPaidCurrentYear : searchNotPaidFrom20162017, body, ApiHeader())
-        .then((res) => {
-            if(res?.data?.status == true){
-                console.log('search success => ', res)
-                setdataList(res?.data?.data?.items)
-                settotalCount(res?.data?.data?.total)
-            } else {
-                console.log('error while search => ', res)
-            }
-
-            setloader(false)
-            setloader2(false)
-        })
-        .catch((err) => (console.log('error while search => ', err), setloader(false), setloader2(false)))
-
-    }
 
     useEffect(() => {
         gettingMasterList()
@@ -315,78 +289,9 @@ const NotPaidFrom = () => {
   },
 ]
 
-        // ============List Table=========
-
-        const [perPageCount, setperPageCount] = useState(5)
-        const [pageCount, setpageCount] = useState(1)
-        const [totalCount, settotalCount] = useState(0)
-        const [exportData, setexportData] = useState()
-        const [csvStatus, setcsvStatus] = useState(false)
-        const [loader2, setloader2] = useState(false)
-
-        const nextPageFun = () => {
-            setpageCount(pageCount + 1)
-        }
-    
-        const prevPageFun = () => {
-            setpageCount(pageCount - 1)
-        }
-    
-        const perPageFun = (val) => {
-            setperPageCount(val)
-        }
-    
-        useEffect(() => {
-            setloader2(true)
-            searchFun()
-        }, [pageCount, perPageCount])
-    
-        const exportDataFun = () => {
-
-            setloader2(true)
-            setcsvStatus(false)
-
-            let body = {
-                wardMstrId : formik.values.wardId,                              
-                page : '',
-                perPage : totalCount
-        }
-    
-            // console.log('data before hitting api => ', body)
-
-        axios.post(year == 'current' ? searchPreviousYearPaidButNotPaidCurrentYear : searchNotPaidFrom20162017, body, ApiHeader())
-        .then((res) => {
-            if(res?.data?.status == true){
-                // console.log('search success => ', res)
-                setexportData(res?.data?.data?.items)
-                downloadFun()
-            } else {
-                // console.log('error while search => ', res)
-            }
-
-            setloader2(false)
-        })
-        .catch((err) => {
-            // console.log('error while search => ', err)
-            setloader2(false)
-        })
-        }
-    
-        const downloadFun = () => {
-            setcsvStatus(true)
-        }
     
   return (
     <>
-
-            {
-                csvStatus && <CSVDownload data={exportData} />
-            }
-
-            {
-                loader2 && <BarLoader />
-            }
-    
         <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
             <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Report</h1>
 
@@ -412,34 +317,23 @@ const NotPaidFrom = () => {
                 </div>
 
                 <div className="w-full md:w-[20%] flex justify-start items-end">
-                    {loader ? <>
-                                <div className='flex justify-start items-end'>
-                                <RotatingLines
-                                    strokeColor="grey"
-                                    strokeWidth="5"
-                                    animationDuration="0.75"
-                                    width="25"
-                                    visible={true}
-                                />
-                                </div>
-                    </>
-                    :
-                    <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>}
+                    <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
                 </div>
 
             </div>
         </form>
 
-        {
-            (dataList != undefined && dataList?.length != 0) ? <>
-            
-            <ListTable2 count1={totalCount} columns={year == 'current' ? COLUMNS2 : COLUMNS1} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+{
+                (requestBody != null) && 
+                <ListTableConnect 
+                type='new' // if pagination is from laravel
+                api={year == 'current' ? searchPreviousYearPaidButNotPaidCurrentYear : searchNotPaidFrom20162017} // sending api
+                columns={year == 'current' ? COLUMNS2 : COLUMNS1} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
+            }
 
-            </> : 
-            <>
-                <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
-            </>
-        }
 <div className='h-[20vh]'></div>
 
     </>

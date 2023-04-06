@@ -187,7 +187,7 @@ import BankReconcile from "@/Pages/Property/PaymentReconcile/BankReconcile";
 import CashVerification from "@/Pages/Property/CashVerification/CashVerification";
 import ClusterHoldingTransactionHistory from "@/Pages/Property/DetailsFactory/ClusterHoldingTransactionHistory";
 import ClusterPayment from "@/Pages/Property/PropertyPayments/ClusterPayment";
-import WardWiseHolding from "@/Pages/Property/Reports/WardWiseHolding/WardWiseHolding";
+import WardWiseHolding from "@/Pages/Property/Reports/WardWiseHolding/WardWiseHoldingV2";
 import GBSafWorkflow from "@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/GBSafWorkflow/GBSafWorkflow";
 import PaymentModeWiseSummary from "@/Pages/Property/Reports/PaymentModeWiseSummary";
 import WardWiseDcb from "@/Pages/Property/Reports/WardWiseDcb";

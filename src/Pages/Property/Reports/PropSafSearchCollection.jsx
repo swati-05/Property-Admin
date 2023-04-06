@@ -13,6 +13,7 @@ import { CSVDownload, CSVLink } from 'react-csv'
 import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
+import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 
 const PropSafSearchCollection = () => {
 
@@ -26,7 +27,8 @@ const PropSafSearchCollection = () => {
     const [collectorList, setcollectorList] = useState()
     const [dataList, setdataList] = useState()
     const [loader, setloader] = useState(false)
-    // const [isProperty, setisProperty] = useState(true)
+    const [requestBody, setrequestBody] = useState(null)// create this for list table connect
+    const [changeData, setchangeData] = useState(0)// create this for list table connect
 
     let title;
     type == 'property' && (title = 'Property Collection Report')
@@ -71,7 +73,14 @@ const PropSafSearchCollection = () => {
             // console.log("submitting report search values => ", values)
             setperPageCount(5)
             setpageCount(1)
-            searchFun(values)
+            type != 'gbSaf' && searchFun(values)
+            setrequestBody({
+                fromDate : formik.values.fromDate,
+                uptoDate : formik.values.uptoDate,
+                wardId : formik.values.wardId,                          
+                paymentMode : formik.values.paymentMode,
+            })
+            setchangeData(prev => prev + 1)
         }
         , validationSchema
     })
@@ -85,18 +94,18 @@ const PropSafSearchCollection = () => {
 
         type == 'property' && (url = searchPropertyCollection)
         type == 'saf' && (url = searchSafCollection)
-        type == 'gbSaf' && (url = searchGbSafCollection)
+        // type == 'gbSaf' && (url = searchGbSafCollection)
         
-        if(type == 'gbSaf'){
-            body = {
-            fromDate : formik.values.fromDate,
-            uptoDate : formik.values.uptoDate,
-            wardId : formik.values.wardId,                          
-            paymentMode : formik.values.paymentMode,
-            page : pageCount,
-            perPage : perPageCount
-        }
-        } else {
+        // if(type == 'gbSaf'){
+        //     body = {
+        //     fromDate : formik.values.fromDate,
+        //     uptoDate : formik.values.uptoDate,
+        //     wardId : formik.values.wardId,                          
+        //     paymentMode : formik.values.paymentMode,
+        //     page : pageCount,
+        //     perPage : perPageCount
+        // }
+        // } else {
             body = {
                 fromDate : formik.values.fromDate,
                 uptoDate : formik.values.uptoDate,
@@ -106,7 +115,7 @@ const PropSafSearchCollection = () => {
                 page : pageCount,
                 perPage : perPageCount
         }
-    }
+    // }
 
         // console.log('data before hitting api => ', body)
 
@@ -761,17 +770,28 @@ const PropSafSearchCollection = () => {
         </form>
 
         {
-            (dataList != undefined && dataList?.length != 0) ? <>
+                (requestBody != null && type == 'gbSaf') && 
+                <ListTableConnect 
+                type='new' // if pagination is from laravel
+                api={searchGbSafCollection} // sending api
+                columns={COLUMNS2} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
+            }
+
+        {
+            (dataList != undefined && dataList?.length != 0 && type != 'gbSaf') ? <>
 
             {type != 'gbSaf' && <div className='w-full text-end'>
             <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Wise Summary</button>
             </div>}
             
-            <ListTable2 count1={totalCount} columns={type != 'gbSaf' ? COLUMNS : COLUMNS2} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+            <ListTable2 count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
 
             </> : 
             <>
-                <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
+                {type != 'gbSaf' && <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>}
             </>
         }
 <div className='h-[20vh]'></div>
