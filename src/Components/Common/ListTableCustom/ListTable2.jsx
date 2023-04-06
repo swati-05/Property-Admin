@@ -80,28 +80,28 @@ function ListTable2(props) {
 
     const nextPageFun = () => {
 
-        if(props?.lastPage != props?.currentPage){
-            // setpageInd(props?.currentPage + 1)
+        if(pageSize != pageInd){
+            setpageInd(pageInd + 1)
             setcanPrev(true)
             console.log("clicked next true")
             props.nextPage()
         }
 
-        if(props?.lastPage == props?.currentPage) {
+        if(pageSize == pageInd) {
             setcanNext(false)
             console.log("clicked next false")
         }
     }
 
     const prevPageFun = () => {
-        if(props?.currentPage != 1){
+        if(pageInd != 1){
             console.log("clicked prev true")
             setcanNext(true)
-            // setpageInd(props?.currentPage - 1)
+            setpageInd(pageInd - 1)
             props.prevPage()
         }
 
-        if(props?.currentPage == 1) {
+        if(pageInd == 1) {
             console.log("clicked prev false")
             setcanPrev(false)
         }
@@ -187,15 +187,15 @@ function ListTable2(props) {
                             page {''}
                             <strong>
                                 {/* {pageIndex + 1} of {pageOptions.length} */}
-                                {props?.currentPage} of {props?.lastPage}
+                                {pageInd} of {pageSize}
                             </strong>{''}
                         </span></div>
 
                         <div className='col-span-4 text-right'>
-                            <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => (props?.goFirst(), setcanPrev(false), setcanNext(true))} disabled={!canPrev} ><AiOutlineDoubleLeft /> </button>
+                            {/* <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => gotoPage(0)} disabled={!canPreviousPage}><AiOutlineDoubleLeft /> </button> */}
                             <button className={(!canPrev ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => prevPageFun()} disabled={!canPrev}>⬅️</button>
                             <button className={(!canNext ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => nextPageFun()} disabled={!canNext}>➡️</button>
-                            <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => (props?.goLast(), setcanNext(false), setcanPrev(true))} disabled={!canNext} >  <AiOutlineDoubleRight /></button>
+                            {/* <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => gotoPage(pageCount - 1)} >  <AiOutlineDoubleRight /></button> */}
                         </div>
 
 
