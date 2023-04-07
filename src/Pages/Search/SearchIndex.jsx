@@ -16,6 +16,7 @@ import { superNavigation, changeUrl } from "@/Components/Navigation/superNavigat
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
 import CommonModal from "@/Components/GlobalData/CommonModal";
 import ServerErrorCard from "@/Components/Common/ServerErrorCard";
+import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
 
 function SearchIndex() {
   const [searchBy, setSearchBy] = useState();
@@ -138,33 +139,31 @@ function SearchIndex() {
     },
     {
       Header: "Property Tax No.",
-      accessor: "pt_no",
-      Cell: (props) => {
-          if (props?.value == null || props?.value == '' || props?.value == undefined) {
-              return (
-                  <i>N/A</i>
-              );
-          }
-          if (props?.value != null) {
-              return props?.value;
-          }
-      }
-  },
+      // accessor: "pt_no",
+      Cell: ({cell}) =>(<span>{nullToNA(cell.row.original.pt_no)}</span>)
+    },
     {
       Header: "Holding No",
       accessor: "holding_no",
+      Cell: ({cell}) =>(<span>{nullToNA(cell.row.original.holding_no)}</span>)
     },
     {
       Header: "New Holding No",
       accessor: "new_holding_no",
+      Cell: ({cell}) =>(<span>{nullToNA(cell.row.original.new_holding_no)}</span>)
+
     },
     {
       Header: "Mobile No",
       accessor: "mobile_no",
+      Cell: ({cell}) =>(<span>{nullToNA(cell.row.original.mobile_no)}</span>)
+
     },
     {
       Header: "Address",
       accessor: "prop_address",
+      Cell: ({cell}) =>(<span>{nullToNA(cell.row.original.prop_address)}</span>)
+
     },
     {
       Header: "Status",
@@ -219,14 +218,14 @@ function SearchIndex() {
         <AiFillInfoCircle className="inline mr-2 text-3xl" />For <span className="font-semibold">{type == 're' ? 'Re-Assessment' : 'Mutation'}</span> of property search the property and then apply for {type == 're' ? 'Re-Assessment' : 'Mutation'}
       </div>}
       <div className="border shadow-xl bg-white mt-6">
-        <div className="flex ml-5 mt-2 ">
+        <div className="hidden sm:flex  ml-5 mt-2 ">
           <img src={searchImg} alt="" className="w-10 h-10" />
           <p className="font-bold text-3xl ml-4 mt-1 text-gray-600">
             Holding Search...
           </p>
         </div>
         <form onSubmit={formik.handleSubmit}>
-          <div className="flex justify-center space-x-8 my-5 m-10">
+          <div className="flex flex-col sm:flex-row justify-center sm:space-x-8 my-5 m-10">
             <div>
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 Filter By<span className="text-red-500">*</span>
@@ -272,7 +271,7 @@ function SearchIndex() {
                   : null}
               </p>
             </div> */}
-            <div>
+            <div className="mt-3 sm:mt-0">
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 Search By {searchBy} <span className="text-red-500">*</span>
               </label>
@@ -287,10 +286,10 @@ function SearchIndex() {
                   : null}
               </p>
             </div>
-            <div className="mt-4">
+            <div className="mt-6">
               <button
                 type="submit"
-                className="w-full border rounded-md border-indigo-700 bg-indigo-600 hover:bg-indigo-700 text-white  shadow-lg text-base font-semibold px-5 m-3 py-1"
+                className="w-full border rounded-md border-indigo-700 bg-indigo-600 hover:bg-indigo-700 text-white  shadow-lg text-base font-semibold px-5 sm:m-3 py-1"
               >
                 {" "}
                 <p className="flex">
@@ -310,7 +309,7 @@ function SearchIndex() {
       </div>
       <div className="mt-10">
         {readymadeListStatus && readymadeListData?.length != 0 &&
-          <ListTable columns={COLUMNS} dataList={readymadeListData} />
+          <ListTable exportStatus={false} columns={COLUMNS} dataList={readymadeListData} />
         }
         {
           readymadeListStatus && readymadeListData?.length == 0 &&

@@ -187,7 +187,8 @@ function SafDetailsEntry() {
                         <div className="col-span-12 rounded-lg sm:p-4">
                             {/* <h1 className='px-2 font-semibold mt-0 text-center text-gray-600 font-serif py-2 xl md:text-3xl '>PROPERTY DETAILS</h1> */}
                             {/* <TopTabs id={id} safNo={applicationFullData?.saf_no} active="property" application={false} /> */}
-                            <TopTabs title={`SAF Details`} type="application" id={id} safNo={''} active="property" />
+                           <div className='hidden sm:block'> <TopTabs title={`SAF Details`} type="application" id={id} safNo={''} active="property" /></div>
+                           <div className='block sm:hidden'> <TopTabs title={``} type="application" id={id} safNo={''} active="property" /></div>
 
 
 

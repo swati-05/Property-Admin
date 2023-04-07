@@ -98,8 +98,11 @@ function ViewDemandDetails(props) {
                 </div>} */}
                 {/* <h1 className='px-2 font-semibold text-center text-gray-600 font-serif py-2 xl md:text-3xl mt-2'>{props?.detailRules?.detailInfo?.title}</h1> */}
 
-                <div className='pt-10'>
+                <div className='pt-10 hidden sm:block'>
                     <TopTabs payButton={demandDetail?.paymentStatus !== 1} payableAmount={demandDetail?.amounts?.payableAmount} title={`Demand Details`} type="application" id={id} safNo={safNo} active="demand" />
+                </div>
+                <div className='pt-10 block sm:hidden'>
+                    <TopTabs payButton={demandDetail?.paymentStatus !== 1} payableAmount={demandDetail?.amounts?.payableAmount} title={``} type="application" id={id} safNo={safNo} active="demand" />
                 </div>
 
                 <div className='w-full bg-white shadow-xl mb-6'>
@@ -165,7 +168,7 @@ function ViewDemandDetails(props) {
 
                     {demandDetail?.paymentStatus != 1 &&
                         <>
-                            <div className='mt-10'>
+                            <div className='mt-10 w-[100vw] overflow-x-auto'>
                                 <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
                                 <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
                                     <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
@@ -207,7 +210,7 @@ function ViewDemandDetails(props) {
                             </div>
 
                             {/* // REABATE DESCRIPTION */}
-                            {demandDetail?.amounts?.rebates?.length !== 0 && <>
+                            {demandDetail?.demand?.rebates?.length !== 0 && <>
                                 <div className='mt-10 text-md font-semibold'>Rebate Description</div>
                                 <table className='min-w-full leading-normal mt-2'>
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
@@ -222,7 +225,7 @@ function ViewDemandDetails(props) {
                                     </thead>
                                     <tbody className="text-sm">
 
-                                        {demandDetail?.amounts?.rebates?.map((data, index) => (
+                                        {demandDetail?.demand?.rebates?.map((data, index) => (
                                             <tr className="bg-white shadow-lg border-b border-gray-200">
                                                 <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
@@ -241,7 +244,7 @@ function ViewDemandDetails(props) {
 
                                 {
                                     demandDetail?.details &&
-                                    <div>
+                                    <div className='w-[100vw] overflow-x-auto'>
                                         <h1 className='px-1 font-semibold font-serif text-md mt-10'><img src={brief} alt="pin" className='w-5 inline' /> Tax Description of Annual Rental Value - As Per Old Rule (Effect Upto 31-03-2016)</h1>
                                         <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
                                             <div className='flex-initial px-2 font-bold'>Annual Rental Value (ARV)</div>
@@ -250,7 +253,7 @@ function ViewDemandDetails(props) {
                                             <div className='flex-initial px-2'>x</div>
                                             <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Rental Rate</div>
                                         </div>
-                                        <table className='min-w-full leading-normal mt-2'>
+                                        <table className=' leading-normal mt-2'>
                                             <thead className='font-bold text-left text-sm bg-white text-gray-600'>
 
                                                 <tr>

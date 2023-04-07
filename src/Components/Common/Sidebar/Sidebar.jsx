@@ -142,7 +142,7 @@ function Sidebar(props) {
   return (
     <>
       {
-        ((location.pathname != '/landing') && (location.pathname != '/')  && (location.pathname != '/login') && (location.pathname != '/error')) && <div className={(props.navCloseStatus ? "w-0 sm:w-9" : "w-56 pr-2") + " shadow-lg px-0 bg-indigo-400 h-screen pb-12 overflow-y-scroll absolute top-16 left-0  text-white  transition-all z-40 border-r-2 scbar animate__animated animate__fadeInLeft"} onMouseEnter={expandSidebar} onMouseLeave={contractSidebar}>
+        ((location.pathname != '/landing') && (location.pathname != '/mobile-property-options') &&  (location.pathname != '/mobile-modules') && (location.pathname != '/') && (location.pathname != '/login') && (location.pathname != '/mobile-login') && (location.pathname != '/error')) && <div className={(props.navCloseStatus ? "w-0 sm:w-9" : "w-56 pr-2") + " shadow-lg px-0 bg-indigo-400 h-screen pb-12 overflow-y-scroll absolute top-16 left-0  text-white  transition-all z-40 border-r-2 scbar animate__animated animate__fadeInLeft"} onMouseEnter={expandSidebar} onMouseLeave={contractSidebar}>
           <div className='py-4' >
             <ImageCard sideBarStatus={props.navCloseStatus} />
           </div>
@@ -181,12 +181,12 @@ function Sidebar(props) {
             {props?.menuFetchStatus &&
               <div className='w-full flex justify-center items-center'>
                 <RotatingLines
-              strokeColor="white"
-              strokeWidth="5"
-              animationDuration="0.75"
-              width="25"
-              visible={true}
-          /></div>
+                  strokeColor="white"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="25"
+                  visible={true}
+                /></div>
             }
             {!props?.menuFetchStatus && menuList != '' &&
               menuList?.map((data, index) => (

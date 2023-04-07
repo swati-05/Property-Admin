@@ -412,7 +412,7 @@ function CitizenPropPropertyAddressDetails(props) {
                                 <input {...formik.getFieldProps('addressCheckbox')} type="checkbox"
                                     className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
                                 />
-                                <label className="form-check-label text-gray-800 ml-2"> <span className='inline text-red-400 text-sm font-semibold'>Note : </span><small className="mt-1 text-sm text-red-300 inline">If Corresponding Address Different from Property Address (Please Tick)</small></label>
+                                <label className="form-check-label text-gray-800 ml-2"> <span className='inline text-red-400 text-sm font-semibold'>Note : </span><small className="mt-1 text-sm text-red-300 inline">If Corresponding Address is same as Property Address (Please Tick)</small></label>
                             </div>
                         </div>
 

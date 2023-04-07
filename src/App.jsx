@@ -223,6 +223,9 @@ import GBSAFDetailsEntry from './Pages/Property/DetailsFactory/GBSAFDetailsEntry
 import GbSafPaymentReceiptIndex from './Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex';
 import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
 import GbSafDemandDetails from '@/Pages/Property/DetailsFactory/gbSafDemandDetails'
+import MobileLogin from './Pages/Mobile/MobileLogin';
+import ModuleOption from './Pages/Mobile/ModuleOption';
+import PropertyOptions from './Pages/Mobile/PropertyOptions';
 
 // JUST FOR BACKUP
 
@@ -256,9 +259,9 @@ function App(props) {
 
     props.LOGIN();
   }
-  if (token == null) {
-    navigate('/login')
-  }
+  // if (token == null) {
+  //   navigate('/login')
+  // }
 
   useEffect(() => {
     if (props.navOriginalCloseStatus == true) {
@@ -334,6 +337,9 @@ function App(props) {
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
             <Route path='/login' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            <Route path='/mobile-login' element={<MobileLogin menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            <Route path='/mobile-modules' element={<ModuleOption menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            <Route path='/mobile-property-options' element={<PropertyOptions menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
             {/* <Route index element={<NavigatePage />} /> */}
 
             {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}

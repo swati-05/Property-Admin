@@ -98,6 +98,7 @@ import SafFormDemand from './SafFormReview/SafFormDemand'
 import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import useSetTitle from '@/Components/GlobalData/useSetTitle'
 
 function CitizenPropSafApplicationFormIndex() {
 
@@ -138,6 +139,8 @@ function CitizenPropSafApplicationFormIndex() {
     const [selectedUlbId, setselectedUlbId] = useState()
     const [apartmentList, setapartmentList] = useState([])
     const [erroState, seterroState] = useState(false);
+
+   
 
 
 
@@ -275,6 +278,13 @@ function CitizenPropSafApplicationFormIndex() {
 
     //*receiving saf type 
     const { safType, safId } = useParams()
+    let title
+    if (safType == 'new') { title = 'New-Assessment' }
+    if (safType == 're') { title = 'Re-Assessment' }
+    if (safType == 'mu') { title = 'Mutation' }
+    if (safType == 'bi') { title = 'Bifurcation' }
+    if (safType == 'am') { title = 'Amalgamation' }
+    useSetTitle(title)
 
 
     const backFun = (formIndex) => {
@@ -1074,10 +1084,11 @@ function CitizenPropSafApplicationFormIndex() {
                                 <div className='relative font-bold text-gray-700  text-2xl text-center'><span className='text-gray-500'>Holding No.</span> {existingPropertyDetails?.data?.data?.holding_no}</div>} */}
                             <div>
                             </div>
-                            {formIndex < 7 && <div className="flex mt-5 mb-5 md:pr-6">
+                            {/* WEB VIEW */}
+                            {formIndex < 7 && <div className="hidden sm:flex mt-5 mb-5 md:pr-6">
                                 <>
                                     <div class="border-b-2 py-4 w-full">
-                                        <div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight" >Updated now form Step {formIndex} of 6</div>
+                                        <div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight" >Step {formIndex} of 6</div>
                                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                             <div class="flex-1">
                                                 <div >
@@ -1101,6 +1112,54 @@ function CitizenPropSafApplicationFormIndex() {
                                                 </span>
 
                                             </div>
+
+                                            <div className="flex-1 float-right text-right">
+                                                <div class="flex items-center md:w-64 float-right">
+                                                    <div class="flex-1 bg-white rounded-full mr-2 shadow-xl">
+                                                        <div class={`rounded-full 
+                                                    ${formIndex == 1 && 'w-[0%]'}
+                                                    ${formIndex == 2 && 'w-[16%]'}
+                                                    ${formIndex == 3 && 'w-[32%]'}
+                                                    ${formIndex == 4 && 'w-[50%]'}
+                                                    ${formIndex == 5 && 'w-[66%]'}
+                                                    ${formIndex == 6 && 'w-[86%]'}
+                                                     bg-indigo-400 text-xs leading-none h-3 text-center text-white`} ></div>
+                                                    </div>
+
+                                                    <div class="text-xs  text-gray-600" >
+                                                        {formIndex == 1 && '0%'}
+                                                        {formIndex == 2 && '16%'}
+                                                        {formIndex == 3 && '32%'}
+                                                        {formIndex == 4 && '50%'}
+                                                        {formIndex == 5 && '66%'}
+                                                        {formIndex == 6 && '86%'}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            </div>}
+
+                            {/* MOBILE VIEW */}
+                            {formIndex < 7 && <div className="flex sm:hidden md:pr-6">
+                                <>
+                                    <div class="border-b-2 py-4 w-full">
+
+                                        <div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight" >Step {formIndex} of 6</div>
+                                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                                            <div class="flex-1">
+                                                <div >
+                                                    {formIndex == 1 && <div class="text-lg font-bold text-gray-700 leading-tight">Basic Details</div>}
+                                                    {formIndex == 2 && <div class="text-lg font-bold text-gray-700 leading-tight">Property Address & Details</div>}
+                                                    {formIndex == 3 && <div class="text-lg font-bold text-gray-700 leading-tight">Electricity & Water Details</div>}
+                                                    {formIndex == 4 && <div class="text-lg font-bold text-gray-700 leading-tight">Owner Details</div>}
+                                                    {formIndex == 5 && <div class="text-lg font-bold text-gray-700 leading-tight">Floor Details</div>}
+                                                    {formIndex == 6 && <div class="text-lg font-bold text-gray-700 leading-tight">Additional Details</div>}
+                                                </div>
+
+                                            </div>
+
 
                                             <div className="flex-1 float-right text-right">
                                                 <div class="flex items-center md:w-64 float-right">
@@ -1297,7 +1356,7 @@ function CitizenPropSafApplicationFormIndex() {
                     </div>
 
                     {/* FeedBack Screen*/}
-                    {formIndex < 7 && <div className={`transition-all ${previewCloseStatus ? 'col-span-0 hidden' : 'col-span-3 block'} w-full h-screen  rounded-lg p-2 overflow-auto`}>
+                    {formIndex < 7 && <div className={`hidden sm:block transition-all ${previewCloseStatus ? 'col-span-0 hidden' : 'col-span-3 block'} w-full h-screen  rounded-lg p-2 overflow-auto`}>
                         <div className=''>
                             <PropFeedbackScreen
                                 basicDetailsPreview={basicDetailsPreview}

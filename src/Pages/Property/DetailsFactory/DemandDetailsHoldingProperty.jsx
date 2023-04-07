@@ -230,7 +230,7 @@ function DemandDetailsHoldingProperty(props) {
 
 
 
-                            <div className='mt-10'>
+                            <div className='mt-10 w-[100vw] overflow-x-auto'>
                                 <div className="grid grid-cols-12">
                                     <div className="col-span-4">Total Dues (Rs) : <span className='font-semibold text-lg'>{nullToNA(demandDetail?.duesList?.totalDues)}</span> </div>
                                     <div className="col-span-4">Dues From : <span className='font-semibold text-lg'>{nullToNA(demandDetail?.duesList?.duesFrom)}</span> </div>
@@ -256,20 +256,18 @@ function DemandDetailsHoldingProperty(props) {
                                     </thead>
                                     <tbody className="text-sm">
 
-                                        <>
-                                            {demandDetail?.demandList?.map((items, index) => (
-                                                <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                    <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.qtr)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.additional_tax)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(items.balance)}</td>
-                                                </tr>
-                                            ))}
+                                        {demandDetail?.demandList?.map((items, index) => (
+                                            <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.arv)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.qtr)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.fyear)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.additional_tax)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.amount)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToNA(items.balance)}</td>
+                                            </tr>
+                                        ))}
 
-                                        </>
 
                                     </tbody>
                                 </table>
