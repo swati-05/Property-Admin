@@ -243,7 +243,7 @@ const PropIndividualDemandCollection = () => {
             {
                 (requestBody != null) && 
                 <ListTableConnect 
-                type='new' // if pagination is from laravel
+                type='old' // if pagination is from laravel
                 api={searchPropIndividualDemandCollection} // sending api
                 columns={COLUMNS} // sending column
                 requestBody={requestBody} // sending body

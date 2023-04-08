@@ -639,7 +639,7 @@ const PropSafSearchCollection = () => {
         {
                 (requestBody != null && type == 'gbSaf') && 
                 <ListTableConnect 
-                type='new' // if pagination is from laravel
+                type='old' // if pagination is from laravel
                 api={searchGbSafCollection} // sending api
                 columns={COLUMNS2} // sending column
                 requestBody={requestBody} // sending body

@@ -197,7 +197,7 @@ const GovSafIndividualDemandCollection = () => {
             {
                 (requestBody != null) && 
                 <ListTableConnect 
-                type='new' // if pagination is from laravel
+                type='old' // if pagination is from laravel
                 api={searchGovSafIndividualDemandCollection} // sending api
                 columns={COLUMNS} // sending column
                 requestBody={requestBody} // sending body

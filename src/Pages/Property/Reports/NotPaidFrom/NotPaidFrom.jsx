@@ -326,7 +326,7 @@ const NotPaidFrom = () => {
 {
                 (requestBody != null) && 
                 <ListTableConnect 
-                type='new' // if pagination is from laravel
+                type='old' // if pagination is from laravel
                 api={year == 'current' ? searchPreviousYearPaidButNotPaidCurrentYear : searchNotPaidFrom20162017} // sending api
                 columns={year == 'current' ? COLUMNS2 : COLUMNS1} // sending column
                 requestBody={requestBody} // sending body

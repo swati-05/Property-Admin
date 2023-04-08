@@ -9,6 +9,7 @@ import axios from 'axios'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
 import { useNavigate, useParams } from 'react-router-dom'
+import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 
 const SafWiseDetails = () => {
 
@@ -18,14 +19,8 @@ const SafWiseDetails = () => {
 
   const [loader, setloader] = useState(false)
   const [dataList, setdataList] = useState()
-
-  // =======List table============
-  const [perPageCount, setperPageCount] = useState(5)
-  const [pageCount, setpageCount] = useState(1)
-  const [totalCount, settotalCount] = useState(0)
-  const [exportData, setexportData] = useState()
-  const [csvStatus, setcsvStatus] = useState(false)
-  // =========List table end=========
+  const [requestBody, setrequestBody] = useState(null)// create this for list table connect
+  const [changeData, setchangeData] = useState(0)// create this for list table connect
 
   useSetTitle('SAF Wise Details')
 
@@ -39,29 +34,10 @@ const SafWiseDetails = () => {
 
     setloader(true)
 
-    let body = {
+    setrequestBody({
       roleId:id,
-	    page : pageCount,
-      perPage : perPageCount
-    }
-
-    axios.post(
-      safWiseCollection, body, ApiHeader())
-  .then((res) => {
-      if(res?.data?.status == true){
-          console.log('search success => ', res)
-          setdataList(res?.data?.data?.items)
-          settotalCount(res?.data?.data?.total)
-      } else {
-          console.log('error while search => ', res)
-      }
-
-      setloader(false)
   })
-  .catch((err) => {
-      console.log('error while search => ', err)
-      setloader(false)
-  })
+  setchangeData(prev => prev + 1)
   }
 
   const COLUMNS = [
@@ -166,84 +142,22 @@ const SafWiseDetails = () => {
 },
   ]
 
-          // ============List Table=========
-  
-          const nextPageFun = () => {
-              setpageCount(pageCount + 1)
-          }
-      
-          const prevPageFun = () => {
-              setpageCount(pageCount - 1)
-          }
-      
-          const perPageFun = (val) => {
-              setperPageCount(val)
-          }
-      
-          useEffect(() => {
-              getAllData()
-          }, [pageCount, perPageCount])
-      
-          const exportDataFun = () => {
-  
-              setloader(true)
-              setcsvStatus(false)
-  
-              let body = {
-                  roleId : id,
-                  page : '',
-                  perPage : totalCount
-              }
-      
-              // console.log('data before hitting api => ', body)
-  
-          axios.post(
-              safWiseCollection, body, ApiHeader())
-          .then((res) => {
-              if(res?.data?.status == true){
-                  // console.log('search success => ', res)
-                  setexportData(res?.data?.data?.items)
-                  downloadFun()
-              } else {
-                  // console.log('error while search => ', res)
-              }
-  
-              setloader(false)
-          })
-          .catch((err) => {
-              // console.log('error while search => ', err)
-              setloader(false)
-          })
-          }
-      
-          const downloadFun = () => {
-              setcsvStatus(true)
-          }
-      
-
     return (
         <>
 
-            {
-                csvStatus && <CSVDownload data={exportData} />
-            }
-
-            {
-                loader && <BarLoader />
-            }
-
             <div className="mt-4"></div>
 
-          {
-            (dataList != undefined && dataList?.length != 0) ? <>
-            
-            <ListTable2 count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+            {
+                (requestBody != null) && 
+                <ListTableConnect 
+                    type='old' // if pagination is from laravel
+                    api={safWiseCollection} // sending api
+                    columns={COLUMNS} // sending column
+                    requestBody={requestBody} // sending body
+                    changeData={changeData} // send action for new payload
+                />
+            }
 
-            </> : 
-            <>
-                <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
-            </>
-        } 
 <div className='h-[20vh]'></div>
 
         </>
