@@ -269,7 +269,7 @@ function WaterHarvestingForm(props) {
 
                 <form onSubmit={formik.handleSubmit} onChange={formik.handleChange}>
 
-                    <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 py-4 gap-4'>
+                    {/* <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 py-4 gap-4'>
                         <div className='col-span-3'>
                             <div className='flex flex-row space-x-3'>
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold poppins"><small className="block mt-1 text-sm font-semibold text-red-600 inline ">*</small>For JSK: Do you want to upload documents ?  </label>
@@ -298,7 +298,7 @@ function WaterHarvestingForm(props) {
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 pb-4'>
 

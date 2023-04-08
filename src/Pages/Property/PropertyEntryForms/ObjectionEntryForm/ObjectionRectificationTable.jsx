@@ -524,7 +524,7 @@ const ObjectionRectificationTable = (props) => {
                   </div>
 
                   <div className="w-full mb-4 mt-2">
-                    <div className="flex flex-wrap flex-row items-center space-x-3">
+                    {/* <div className="flex flex-wrap flex-row items-center space-x-3">
                       <label className="form-label inline-block mb-1 text-gray-00 text-sm font-semibold poppins">
                         <small className="block mt-1 text-sm font-semibold text-red-600 inline ">
                           *
@@ -562,7 +562,7 @@ const ObjectionRectificationTable = (props) => {
                       >
                         No
                       </label>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               )}
