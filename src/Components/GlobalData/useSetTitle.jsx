@@ -1,11 +1,12 @@
 import React,{useEffect} from 'react'
 import { contextVar } from '@/Components/Context/Context'
 
-function useSetTitle(props) {
+function useSetTitle(title,status) {
 
-    const { settitleText } = React.useContext(contextVar)
+    const { settitleText,settitleBarVisibility } = React.useContext(contextVar)
     useEffect(() => {
-        settitleText(props)
+        settitleText(title)
+        settitleBarVisibility(status)
     }, [])
 
 

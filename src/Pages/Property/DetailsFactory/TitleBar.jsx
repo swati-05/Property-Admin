@@ -10,10 +10,13 @@ function TitleBar(props) {
     useSetTitle('Verification')
 
 
-    if (routeLocation.pathname == '/' || routeLocation?.pathname == '/login' &&  routeLocation?.pathname == '/mobile-modules') {
+    if (routeLocation.pathname == '/' || routeLocation?.pathname == '/login' && routeLocation?.pathname == '/mobile-modules') {
         return
     }
 
+    if (props?.titleBarVisibility === false) {
+        return
+    }
 
     return (
         <>

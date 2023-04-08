@@ -137,7 +137,7 @@ function LandingHomeDashBoard() {
 
     const navigate = useNavigate()
 
-    useSetTitle('Home')
+    useSetTitle('Home',true)
 
 
     const validationSchema = yup.object({
@@ -278,13 +278,13 @@ function LandingHomeDashBoard() {
                         <div className='text-2xl font-bold text-black google-roboto'>Property Dashboard</div>
                         <div className='mt-2'>
                             <span className='text-gray-600'><MdVerified className="inline text-green-500 text-xl" /> verified Account</span>
-                            <span className='text-gray-600 ml-10'><FaRegBuilding className="inline" /> {profileData?.ulb}</span>
+                            {/* <span className='text-gray-600 ml-10'><FaRegBuilding className="inline" /> {profileData?.ulb}</span> */}
 
                         </div>
-                        <div className='mt-2'>
+                        {/* <div className='mt-2'>
                             <span className='text-gray-600'><FaMobileAlt className="inline" /> {profileData?.mobileNo}</span>
                             <span className='text-gray-600 ml-10'><MdAlternateEmail className="inline text-xl" /> {profileData?.email}</span>
-                        </div>
+                        </div> */}
                         <div></div>
                     </div>
                     <div className="flex-1 text-right justify-center items-center h-full">

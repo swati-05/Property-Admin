@@ -13,7 +13,7 @@ import useSetTitle from '@/Components/GlobalData/useSetTitle'
 
 function ModuleOption(props) {
     const navigate = useNavigate()
-    useSetTitle('Choose Module')
+    useSetTitle('',false)
     const [infoCardCount, setinfoCardCount] = useState(0)
 
     const activateInfoCard = (e, count) => {

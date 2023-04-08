@@ -241,6 +241,7 @@ function App(props) {
   const [userName, setuserName] = useState("");
   const [roles, setroles] = useState("");
   const [titleText, settitleText] = useState('');
+  const [titleBarVisibility, settitleBarVisibility] = useState(true);
   const [photoUploadUpdation, setphotoUploadUpdation] = useState("");
   const [activeMenuId, setactiveMenuId] = useState(null);
   const [confirmBoxOpenStatus, setconfirmBoxOpenStatus] = useState(false);
@@ -300,6 +301,8 @@ function App(props) {
     photoUploadUpdation,
     titleText,
     settitleText,
+    titleBarVisibility,
+    settitleBarVisibility,
     activeMenuId,
     setactiveMenuId,
     confirmBoxOpenStatus,
@@ -336,7 +339,7 @@ function App(props) {
           <Sidebar menuFetchStatus={menuFetchStatus} />
 
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
-          {device=='mobile' && <TitleBar titleText={titleText} />}
+          {device=='mobile' && <TitleBar titleBarVisibility={titleBarVisibility} titleText={titleText} />}
 
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
@@ -352,7 +355,7 @@ function App(props) {
           <div
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[40vh]`}
           >
-           {device=='web' && <TitleBar titleText={titleText} />}
+           {device=='web' && <TitleBar titleBarVisibility={titleBarVisibility} titleText={titleText} />}
 
 
             <Routes>

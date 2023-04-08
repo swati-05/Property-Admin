@@ -26,6 +26,7 @@ import CommonModal from '@/Components/GlobalData/CommonModal';
 import ServerErrorCard from '@/Components/Errors/ServerErrorCard';
 import useSetToast from '@/Components/GlobalData/useSetToast';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
+import useSetTitle from '@/Components/GlobalData/useSetTitle';
 
 const { api_login } = ProjectApiList()
 
@@ -46,6 +47,7 @@ function MobileLogin(props) {
     const { tokenPassed } = useParams()
 
     const { api_getFreeMenuList } = ProjectApiList()
+    useSetTitle('fafdsf',false)
 
 
     const notify = useSetToast()
