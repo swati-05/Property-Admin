@@ -226,6 +226,8 @@ import GbSafDemandDetails from '@/Pages/Property/DetailsFactory/gbSafDemandDetai
 import MobileLogin from './Pages/Mobile/MobileLogin';
 import ModuleOption from './Pages/Mobile/ModuleOption';
 import PropertyOptions from './Pages/Mobile/PropertyOptions';
+import MobileHeader from './Pages/Mobile/MobileHeader';
+import VerificationOptions from './Pages/Mobile/VerificationOptions';
 
 // JUST FOR BACKUP
 
@@ -252,11 +254,10 @@ function App(props) {
 
 
   const navigate = useNavigate()
+  let device = window.localStorage.getItem('device')
   let token = window.localStorage.getItem('token')
-  console.log("token save from login ", token);
+  // IF TOKEN IS PRESENT THEN CHANGE STATUS TO LOGIN
   if (token != null) {
-    console.log('===token defined............')
-
     props.LOGIN();
   }
   // if (token == null) {
@@ -330,16 +331,20 @@ function App(props) {
           {/* <BrowserRouter basename="/property"> */}
           {/* common notify toast to run from anywhere */}
           <ToastContainer position="top-right" autoClose={2000} />
-          <Header />
+          {device == 'web' && <Header />}
+          {device == 'mobile' && <MobileHeader />}
           <Sidebar menuFetchStatus={menuFetchStatus} />
 
           {/* <ConfirmBox confirmBoxOpenStatus={confirmBoxOpenStatus} setconfirmBoxOpenStatus={setconfirmBoxOpenStatus} /> */}
+          {device=='mobile' && <TitleBar titleText={titleText} />}
+
           <Routes>
             <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
             <Route path='/login' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
-            <Route path='/mobile-login' element={<MobileLogin menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
-            <Route path='/mobile-modules' element={<ModuleOption menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
-            <Route path='/mobile-property-options' element={<PropertyOptions menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+            <Route path='/mobile-login' element={<MobileLogin />} />
+            <Route path='/mobile-modules' element={<ModuleOption />} />
+            <Route path='/mobile-property-options' element={<PropertyOptions />} />
+            <Route path='/mobile-property-verification-options' element={<VerificationOptions />} />
             {/* <Route index element={<NavigatePage />} /> */}
 
             {/* <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} /> */}
@@ -347,7 +352,8 @@ function App(props) {
           <div
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${boxWidth.width}  ${boxWidth.margin} mt-24 h-screen overflow-y-scroll pb-[40vh]`}
           >
-            <TitleBar titleText={titleText} />
+           {device=='web' && <TitleBar titleText={titleText} />}
+
 
             <Routes>
               {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}

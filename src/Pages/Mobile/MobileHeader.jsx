@@ -7,11 +7,8 @@
 //    Component  - Header
 //    DESCRIPTION - Header Component
 //////////////////////////////////////////////////////////////////////////////////////
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import LogoText from './LogoText'
-import NavButton from './NavButton'
-import HeaderIcons from './HeaderIcons'
 import { connect } from "react-redux";
 import { BiLogOutCircle } from 'react-icons/bi'
 import { BsBell } from 'react-icons/bs'
@@ -21,7 +18,6 @@ import Modal from 'react-modal';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import NotificationComponent from './NotificationComponent'
-import { TiArrowRightThick } from 'react-icons/ti'
 
 const customStyles = {
   content: {
@@ -63,7 +59,7 @@ Modal.setAppElement('#root');
 // }
 
 // export default Header
-function Header(props) {
+function MobileHeader(props) {
   const location = useLocation();
   const [navClose, setnavClose] = useState(false)
   const [tootlTipId, settootlTipId] = useState(null)
@@ -94,7 +90,7 @@ function Header(props) {
     props.LOGOUT()
 
     // SEND TO MOBILE LOGIN PAGE AS PER CONDITION
-      navigate('/')
+      navigate('/mobile-login')
 
 
     // navigate('/')
@@ -133,89 +129,33 @@ function Header(props) {
     // }
   }
 
+  const navigateHome = () => {
+    navigate('/mobile-modules')
+  }
+
   return (
     <>
 
 
       {((location.pathname != '/landing') && (location.pathname != '/') && (location.pathname != '/login') && (location.pathname != '/mobile-login') && (location.pathname != '/error')) && <div className="flex flex-col transition-all duration-500 ease-in-out ">
         {/* Navbar */}
-        <nav className="w-full bg-white z-50 fixed flex flex-row flex-nowrap items-center justify-between mt-0 py-2  px-6 darks:bg-gray-800 shadow-sm transition-all duration-500 ease-in-out" id="desktop-menu">
+        <nav className="w-full bg-white z-50  flex flex-row flex-nowrap items-center justify-between mt-0 py-2  px-6 darks:bg-gray-800 shadow-sm transition-all duration-500 ease-in-out" id="desktop-menu">
           <div className='flex items-center'>
+
             <div class=" text-center py-3">
-              <a href="#" class="relative">
-                <h2 class="text-2xl font-semibold text-gray-200 px-4 max-h-9 overflow-hidden hidden-compact">
-                  <span class="text-gray-700 darks:text-gray-200">UD&HD</span>
-                </h2>
-                <h2 class="text-3xl font-semibold mx-auto logo-compact hidden">
-                  <Tooltip anchorId="navButton_icon2" />
-                  <svg id='navButton_icon2' data-tooltip-content="Click to Toggle Sidebar" onClick={navToggle} xmlns="http://www.w3.org/2000/svg" class="inline-block w-7 h-7 -mt-1" viewBox="0 0 300.000000 300.000000">
-                    <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
-                      <path class="text-pink-500" d="M1225 2825 c-546 -115 -959 -534 -1065 -1080 -28 -147 -28 -373 0
-                  -520 81 -419 350 -774 728 -964 115 -58 120 -58 65 3 -27 29 -65 84 -85 122
-                  -68 131 -90 236 -89 428 0 229 44 470 167 923 41 149 74 275 74 278 0 4 -102
-                  5 -227 3 -198 -4 -236 -7 -290 -25 -35 -12 -63 -18 -63 -14 0 4 22 43 49 87
-                  58 93 123 157 177 175 22 6 124 14 234 16 l195 5 33 112 c91 305 200 431 405
-                  465 43 7 31 9 -73 9 -94 1 -152 -5 -235 -23z"/>
-                      <path class="text-indigo-500" d="M1695 2763 c-48 -77 -122 -231 -179 -375 -25 -65 -46 -120 -46 -123
-                  0 -7 995 -6 1069 1 34 4 61 12 61 18 0 6 -30 46 -65 88 -170 201 -426 361
-                  -687 428 -110 29 -111 28 -153 -37z"/>
-                      <path class="text-indigo-500" d="M2660 2104 c-33 -36 -54 -47 -120 -67 -21 -6 -256 -12 -595 -16
-                  l-560 -6 -51 -180 c-62 -215 -116 -445 -144 -608 -74 -435 -37 -655 124 -740
-                  62 -32 189 -30 274 5 174 72 337 212 410 353 l20 40 24 -50 c32 -70 32 -162
-                  -1 -229 -48 -97 -216 -250 -383 -347 -86 -51 -170 -85 -261 -109 l-69 -17 94
-                  -6 c469 -33 947 205 1214 605 229 342 291 790 163 1173 -24 70 -76 192 -94
-                  217 -10 16 -14 14 -45 -18z"/>
-                    </g>
-                  </svg>
-                </h2>
-              </a>
+              <div onClick={navigateHome} class="text-2xl font-semibold text-gray-200 px-4 max-h-9 overflow-hidden hidden-compact cursor-pointer">
+                <span class="text-gray-700 darks:text-gray-200">UD&HD</span>
+              </div>
             </div>
 
-            {/* <form className="hidden sm:inline-block md:inline-block mx-5 ml-20">
-              <div className="flex flex-wrap items-stretch w-full relative">
-                <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600 cursor-pointer" placeholder="Search…" aria-label="Search" >
-                  <option value="property">Property</option>
-                  <option value="water">Water</option>
-                  <option value="trade">Trade</option>
-                  <option value="advertisement">Advertisement</option>
-                  <option value="dashboard">Dashboard</option>
-                </select>
-                <div className="flex -mr-px">
-                  <button onClick={() => navigateModule()} className="flex items-center py-2 px-4 ltr:-ml-1 rtl:-mr-1 ltr:rounded-r rtl:rounded-l leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0" type="button">
-                    <TiArrowRightThick className='text-white inline' />
-                  </button>
-                </div>
-              </div>
-            </form> */}
 
-            {/* sidenav button*/}
-            <Tooltip anchorId="navButton_icon" />
-            <button id='navButton_icon' data-tooltip-content="Click to Toggle Sidebar" onClick={navToggle} type="button" className="inline-flex items-center justify-center text-gray-800 hover:text-gray-600 darks:text-gray-300 darks:hover:text-gray-200 focus:outline-none focus:ring-0" aria-controls="sidebar-menu" aria-expanded="false" >
-              <span className="sr-only">Mobile menu</span>
-              <svg className="hidden h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                <path className="hidden md:block" fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-                <path className="md:hidden" d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-              </svg>
-              <svg className="block h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                <path className="md:hidden" fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-                <path className="hidden md:block" d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-              </svg>
-              {/* <i class="text-2xl fas fa-bars"></i> */}
-            </button>
 
           </div>
 
 
           {/* Search */}
           <form className="hidden sm:inline-block md:hidden lg:inline-block mx-5">
-            {/* <div className="flex flex-wrap items-stretch w-full relative">
-              <input type="text" className="flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" placeholder="Search…" aria-label="Search" />
-              <div className="flex -mr-px">
-                <button className="flex items-center py-2 px-4 ltr:-ml-1 rtl:-mr-1 ltr:rounded-r rtl:rounded-l leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0" type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2="16.65" y2="16.65" /></svg>
-                </button>
-              </div>
-            </div> */}
+
           </form>
           {/* menu */}
           <ul className="flex ltr:ml-auto rtl:mr-auto mt-2 ">
@@ -484,7 +424,7 @@ const mapDispatchToProps = (dispatch) => {
 
 
 // export default NavigationButton
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileHeader);
 // export default Header
 /**
  * Exported to :

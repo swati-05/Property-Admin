@@ -8,10 +8,12 @@ import objection from '@/Components/Media/objection.png'
 import home from '@/Components/Media/home.png'
 import water from '@/Components/Media/water.png'
 import team from '@/Components/Media/team.png'
+import useSetTitle from '@/Components/GlobalData/useSetTitle'
 
 
 function ModuleOption(props) {
     const navigate = useNavigate()
+    useSetTitle('Choose Module')
     const [infoCardCount, setinfoCardCount] = useState(0)
 
     const activateInfoCard = (e, count) => {
@@ -28,18 +30,12 @@ function ModuleOption(props) {
 
 
     return (
-        <div className='w-full  mx-auto mt-20'>
+        <div className='w-full  mx-auto'>
             <div className='bg-white shadow-xl flex justify-center items-center relative'>
               
                 <div
                     className="w-full px-4 mx-auto py-4 md:py-6 ">
-                    <div
-                        className="w-full">
-                        <div>
-                            <h2 className="text-3xl font-medium text-center">Choose Module</h2>
-                            {/* <div className="mt-2 text-center w-full">Choose from these application types</div> */}
-                        </div>
-                    </div>
+                   
                     <div className="my-10 relative">
                         <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
                             {/* 1 NEW ASSESSMENT */}
@@ -85,7 +81,7 @@ function ModuleOption(props) {
                                     className="h-20 w-20"
                                     src={objection}
                                     alt="Electronics" /> */}
-                                <div className="font-bold mt-4 text-center">...</div>
+                                <div className="font-bold mt-4 text-center"></div>
                             </div>
 
 

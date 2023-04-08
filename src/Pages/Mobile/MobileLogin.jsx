@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 })
 
 function MobileLogin(props) {
-    const { setmenuList, setuserName, setroles,setuserUlbName,setuserMobile,setuserEmail,setuserImage } = useContext(contextVar)
+    const { setmenuList, setuserName, setroles, setuserUlbName, setuserMobile, setuserEmail, setuserImage } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
     const [mobileCardStatus, setmobileCardStatus] = useState(false)
     const [otpCardStatus, setotpCardStatus] = useState(false)
@@ -92,9 +92,11 @@ function MobileLogin(props) {
                     // setuserName(response?.data?.data?.userDetails?.userName)
                     // setroles(response?.data?.data?.userDetails?.role)
 
+                    // DEVICE TYPE TO AUTO LOGIN AND SEND TO MOBILE HOME PAGE
+                    window.localStorage.setItem('device', 'mobile')
 
                     props.LOGIN() //set global login state to true
-                    fetchMenuList()
+                    // fetchMenuList()
                     navigate('/mobile-modules') //navigate to home page after login
 
                 } else {
@@ -234,26 +236,14 @@ function MobileLogin(props) {
             {(!reset) && <div>
                 <header className="border-b border-gray-200 bg-white darks:bg-gray-800 darks:border-gray-800">
                     <div className="container mx-auto xl:max-w-6xl ">
-                        {/* Navbar */}
                         <nav className="flex flex-row flex-nowrap items-center justify-between mt-0 py-4 px-6" id="desktop-menu">
-                            {/* logo */}
                             <a className="flex items-center py-2 ltr:mr-4 rtl:ml-4 text-xl" href="../index.html">
                                 <div> <span className="font-bold text-xl">UD&HD</span> <span className="hidden text-gray-700 darks:text-gray-200">JUIDCO</span></div>
                             </a>
-                            {/* menu */}
                             <ul className="flex ltr:ml-auto rtl:mr-auto mt-2">
-                                {/* Customizer (Only for demo purpose) */}
                                 <li x-data="{ open: false }" className="relative">
-                                    <a href="javascript:;" className="py-3 px-4 flex text-sm rounded-full focus:outline-none" aria-controls="mobile-canvas" aria-expanded="false" >
-                                        <span className="sr-only">Customizer</span>
-                                        <svg className="block h-6 w-6" xmlnsXlink="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-                                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
-                                        </svg>
-                                    </a>
-                                    {/* Right Offcanvas */}
+                                  <span className='font-semibold text-gray-600 text-length'>Welcome Back</span>
                                     <div className="fixed w-full h-full inset-0 z-50" id="mobile-canvas" xDescription="Mobile menu" x-show="open" style={{ display: 'none' }}>
-                                        {/* bg open */}
                                         <span className="fixed bg-gray-900 bg-opacity-70 w-full h-full inset-x-0 top-0" />
                                         <nav id="mobile-nav" className="flex flex-col ltr:right-0 rtl:left-0 w-72 fixed top-0 bg-white darks:bg-gray-800 h-full overflow-auto z-40 scrollbars show" >
                                             <div className="p-6 bg-indigo-500 text-gray-100 border-b border-gray-200 darks:border-gray-700">
@@ -331,7 +321,7 @@ function MobileLogin(props) {
                                         </nav>
                                     </div>
                                 </li>
-                                <li className="relative">
+                                {/* <li className="relative">
                                     <a href="#" className="py-3 px-4 flex hover:text-indigo-500 focus:outline-none">
                                         <div className="relative inline-block">Login</div>
                                     </a>
@@ -340,7 +330,7 @@ function MobileLogin(props) {
                                     <a href="#" className="py-3 px-4 flex hover:text-indigo-500 focus:outline-none">
                                         <div className="relative inline-block">Register</div>
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
 
@@ -358,7 +348,7 @@ function MobileLogin(props) {
                                             <div className="p-6 sm:py-8 sm:px-12 rounded-lg bg-white darks:bg-gray-800 shadow-xl">
                                                 <form onSubmit={formik.handleSubmit}>
                                                     <div className="text-center">
-                                                        <h1 className="text-2xl leading-normal mb-3 font-bold text-gray-800 darks:text-gray-300 text-center">Welcome Back(M)</h1>
+                                                        <h1 className="text-2xl leading-normal mb-3 font-bold text-gray-800 darks:text-gray-300 text-center">Log in to your account</h1>
                                                     </div>
                                                     <div class="flex flex-col mt-4 text-center">
                                                         <span className='text-center text-red-400'>{errorMsg}</span>
@@ -379,13 +369,8 @@ function MobileLogin(props) {
                                                         <input {...formik.getFieldProps('password')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                         <span className='text-red-600'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
                                                     </div>
-                                                    <div className="mb-6 flex items-center">
-                                                        <input className="form-checkbox h-5 w-5 text-indigo-500 darks:bg-gray-700 border border-gray-300 darks:border-gray-700 rounded focus:outline-none mr-2" type="checkbox" defaultValue id="remember" />
-                                                        <label className="" htmlFor="remember">
-                                                            Remember me
-                                                        </label>
-                                                    </div>
-                                                    <div className="grid">
+                                                 
+                                                    <div className="grid mt-10">
                                                         {loaderStatus ?
                                                             <div className='flex justify-center'>
                                                                 <RotatingLines
@@ -409,10 +394,10 @@ function MobileLogin(props) {
 
                                                 <div className="my-4">
                                                     <div className='flex flex-col items-center justify-center flex-wrap gapx-x-2 gap-y-2 w-full poppins'>
-                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() =>{ 
+                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => {
                                                             // setmobileCardStatus(true)
                                                         }
-                                                    }>Forgot Password</span>
+                                                        }>Forgot Password</span>
                                                     </div>
                                                 </div>
 

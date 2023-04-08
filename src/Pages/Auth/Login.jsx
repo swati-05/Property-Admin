@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 })
 
 function Login(props) {
-    const { setmenuList, setuserName, setroles,setuserUlbName,setuserMobile,setuserEmail,setuserImage } = useContext(contextVar)
+    const { setmenuList, setuserName, setroles, setuserUlbName, setuserMobile, setuserEmail, setuserImage } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
     const [mobileCardStatus, setmobileCardStatus] = useState(false)
     const [otpCardStatus, setotpCardStatus] = useState(false)
@@ -92,6 +92,8 @@ function Login(props) {
                     // setuserName(response?.data?.data?.userDetails?.userName)
                     // setroles(response?.data?.data?.userDetails?.role)
 
+                    // DEVICE TYPE TO AUTO LOGIN AND SEND TO WEB HOME PAGE
+                    window.localStorage.setItem('device', 'web')
 
                     props.LOGIN() //set global login state to true
                     fetchMenuList()
@@ -197,6 +199,18 @@ function Login(props) {
     //     console.log('routes... parama via naviate.', tokenPassed)
     //     setAuthState()
     // }, [])
+
+    // 1 AUTO NAVIGATE TO HOME PAGE IF TOKEN EXISTS(IF DEVICE IS WEB THEN WEB HOME PAGE AND IF DEVICE IS MOBILE THEN MOBILE HOME PAGE)
+    useEffect(() => {
+        let token = window.localStorage.getItem('token')
+        let device = window.localStorage.getItem('device')
+        if (token != null && device !=null && device=='web') {
+            navigate('/home')
+        }
+        if (token != null && device !=null && device=='mobile') {
+            navigate('/mobile-modules')
+        }
+    }, [])
 
     // return
 
@@ -379,13 +393,8 @@ function Login(props) {
                                                         <input {...formik.getFieldProps('password')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                         <span className='text-red-600'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
                                                     </div>
-                                                    <div className="mb-6 flex items-center">
-                                                        <input className="form-checkbox h-5 w-5 text-indigo-500 darks:bg-gray-700 border border-gray-300 darks:border-gray-700 rounded focus:outline-none mr-2" type="checkbox" defaultValue id="remember" />
-                                                        <label className="" htmlFor="remember">
-                                                            Remember me
-                                                        </label>
-                                                    </div>
-                                                    <div className="grid">
+                                                  
+                                                    <div className="grid mt-10">
                                                         {loaderStatus ?
                                                             <div className='flex justify-center'>
                                                                 <RotatingLines
@@ -409,10 +418,10 @@ function Login(props) {
 
                                                 <div className="my-4">
                                                     <div className='flex flex-col items-center justify-center flex-wrap gapx-x-2 gap-y-2 w-full poppins'>
-                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() =>{ 
+                                                        <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => {
                                                             // setmobileCardStatus(true)
                                                         }
-                                                    }>Forgot Password</span>
+                                                        }>Forgot Password</span>
                                                     </div>
                                                 </div>
 
