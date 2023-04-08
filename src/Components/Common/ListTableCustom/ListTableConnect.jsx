@@ -78,6 +78,7 @@ const ListTableConnect = (props) => {
         if(props?.requestBody!= null && props?.type == 'new') {
             console.log('calling new fun')
             setpageCount(1)
+            setperPageCount(5)
             searchFun()
         }
 
