@@ -7,7 +7,7 @@
 //    Component  - Home
 //    DESCRIPTION - Home Component
 //////////////////////////////////////////////////////////////////////////////////////
-import { useState, useEffect, useRef, useContext } from 'react'
+import { useState, useEffect, useRef, useContext, useMemo } from 'react'
 import role from '@/Components/Media/role.png'
 import { MdVerified } from 'react-icons/md'
 import { FaRegBuilding } from 'react-icons/fa'
@@ -64,8 +64,6 @@ function LandingHomeDashBoard() {
     const [erroState2, seterroState2] = useState(false);
   const [erroMessage, seterroMessage] = useState(null);
 
-
-
     const imageRef = useRef()
     const { api_editAdminProfile } = ProjectApiList()
     const notify = useToast()
@@ -104,6 +102,20 @@ function LandingHomeDashBoard() {
         // setuserImage(limage)
 
     }, [])
+
+    // Back Office
+    // Dealing Assistant
+    // Executive Officer
+    // Jsk
+    // Section Incharge
+
+    const allRole = JSON.parse(window.localStorage.getItem('roles'))
+
+    const matchForApply = ['Jsk'];
+    const applyButtonStatus = useMemo(() => Array.isArray(allRole) && allRole.some(role => matchForApply.includes(role)), [allRole]);
+
+    const matchForSafWf = ['Dealing Assistant', 'Executive Officer', 'Back Office', 'Section Incharge'];
+    const SafWfButtonStatus = useMemo(() => Array.isArray(allRole) && allRole.some(role => matchForSafWf.includes(role)), [allRole]);
 
     function openModal() {
         feedProfileData(profileData)
@@ -251,7 +263,7 @@ function LandingHomeDashBoard() {
 
             <div className='w-full bg-white shadow-xl p-10 mt-4'>
                 <div className="flex">
-                    <div className="flex-initial">
+                    {/* <div className="flex-initial">
                         <div className='flex flex-col w-20 h-20 justify-center items-center'>
                             <div className='relative'>
                                 <img className='w-20 rounded-full border bg-gray-700' src={role} alt="" />
@@ -260,9 +272,10 @@ function LandingHomeDashBoard() {
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
                     <div className="flex-initial ml-4">
-                        <div className='text-2xl font-bold text-black google-roboto'>Welcome to Property.... {localStorage.getItem('userName')}</div>
+                        {/* <div className='text-2xl font-bold text-black google-roboto'>Welcome to Property.... {localStorage.getItem('userName')}</div> */}
+                        <div className='text-2xl font-bold text-black google-roboto'>Property Dashboard</div>
                         <div className='mt-2'>
                             <span className='text-gray-600'><MdVerified className="inline text-green-500 text-xl" /> verified Account</span>
                             <span className='text-gray-600 ml-10'><FaRegBuilding className="inline" /> {profileData?.ulb}</span>
@@ -275,11 +288,24 @@ function LandingHomeDashBoard() {
                         <div></div>
                     </div>
                     <div className="flex-1 text-right justify-center items-center h-full">
-                        <Tooltip anchorId="button-1" />
-                        <button id="button-1" data-tooltip-content="Click to go to saf workflow." onClick={() => navigate('/saf-workflow')} className="mr-4 cypress_floor_add_update text-gray-700 px-8 py-3 bg-white-600 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-500 hover:shadow-lg focus:bg-indigo-500 hover:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">SAF Workflow</button>
-                        <Tooltip anchorId="button-2" />
-                        <button id="button-2" data-tooltip-content="Click to apply new assessment." onClick={() => navigate('/saf-entry')} className="cypress_floor_add_update text-white px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply Assessment</button>
 
+                                <Tooltip anchorId="button-3" />
+                                <button id="button-3" data-tooltip-content="Click to change password." onClick={() => navigate('/change-password/change')} className="mr-4 cypress_floor_add_update text-gray-700 px-8 py-3 bg-white-600 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-500 hover:shadow-lg focus:bg-indigo-500 hover:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Change Password</button>
+
+
+                        {
+                            SafWfButtonStatus && 
+                            <>
+                               <Tooltip anchorId="button-1" />
+                               <button id="button-1" data-tooltip-content="Click to go to saf workflow." onClick={() => navigate('/saf-workflow')} className="cypress_floor_add_update text-white px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">SAF Workflow</button>
+                            </>
+                        }
+                        
+                        {applyButtonStatus && <>
+                           <Tooltip anchorId="button-2" />
+                            <button id="button-2" data-tooltip-content="Click to apply new assessment." onClick={() => navigate('/saf-entry')} className="cypress_floor_add_update text-white px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply Assessment</button>
+                        </>}
+                     
                     </div>
                 </div>
             </div>

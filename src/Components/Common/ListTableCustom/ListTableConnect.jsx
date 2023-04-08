@@ -25,6 +25,8 @@ const ListTableConnect = (props) => {
         setloader(true)
         // props.loading(loader)
 
+        console.log("entered in new method...")
+
         console.log(`data before hitting api (${props?.api+'?page='+pageCount}) => `, {...props?.requestBody, perPage: perPageCount})
 
         axios.post(
@@ -49,6 +51,7 @@ const ListTableConnect = (props) => {
     const searchOldFun = () => {
         
         setloader(true)
+        console.log("entered in old method...")
 
         console.log(`data before hitting api (${props?.api}) => `, {...props?.requestBody, perPage: perPageCount, page: pageCount})
 
@@ -65,14 +68,26 @@ const ListTableConnect = (props) => {
                 console.log('error while search => ', res)
             }
 
-
+            setloader(false)
         })
         .catch((err) => (console.log('error while search => ', err), setloader(false)))
 
     }
 
     useEffect(() => {
-        (props?.requestBody!= null && props?.type == 'new') && (setpageCount(1), searchFun())
+        if(props?.requestBody!= null && props?.type == 'new') {
+            console.log('calling new fun')
+            setpageCount(1)
+            setperPageCount(5)
+            searchFun()
+        }
+
+        if(props?.requestBody!= null && props?.type == 'old') {
+            console.log('calling old fun')
+            setpageCount(1)
+            setperPageCount(5)
+            searchOldFun()
+        }
         console.log('change data', props?.changeData, 'and requestBody => ', props?.requestBody)
     }, [props?.changeData])
 

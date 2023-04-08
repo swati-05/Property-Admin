@@ -78,33 +78,33 @@ function ListTable2(props) {
 
     const { globalFilter, pageIndex, pageSize } = state
 
-    console.log('ttttttttttttttttt', props?.currentPage, props?.lastPage, canNext, canPrev)
+    // console.log('ttttttttttttttttt', props?.currentPage, props?.lastPage, canNext, canPrev)
 
     const nextPageFun = () => {
 
         if(props?.lastPage != props?.currentPage){
             // setpageInd(props?.currentPage + 1)
             setcanPrev(true)
-            console.log("clicked next true")
+            // console.log("clicked next true")
             props.nextPage()
         }
 
         if(props?.lastPage == props?.currentPage) {
             setcanNext(false)
-            console.log("clicked next false")
+            // console.log("clicked next false")
         }
     }
 
     const prevPageFun = () => {
         if(props?.currentPage != 1){
-            console.log("clicked prev true")
+            // console.log("clicked prev true")
             setcanNext(true)
             // setpageInd(props?.currentPage - 1)
             props.prevPage()
         }
 
         if(props?.currentPage == 1) {
-            console.log("clicked prev false")
+            // console.log("clicked prev false")
             setcanPrev(false)
         }
     }

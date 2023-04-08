@@ -71,70 +71,28 @@ const PropSafSearchCollection = () => {
         initialValues: initialVal,
         onSubmit: (values) => {
             // console.log("submitting report search values => ", values)
-            setperPageCount(5)
-            setpageCount(1)
-            type != 'gbSaf' && searchFun(values)
-            setrequestBody({
+            if(type == 'gbSaf'){
+              setrequestBody({
                 fromDate : formik.values.fromDate,
                 uptoDate : formik.values.uptoDate,
                 wardId : formik.values.wardId,                          
                 paymentMode : formik.values.paymentMode,
-            })
+            })  
+            } else {
+                setrequestBody({
+                    fromDate : formik.values.fromDate,
+                    uptoDate : formik.values.uptoDate,
+                    wardId : formik.values.wardId, 
+                    userId : formik.values.userId,                              
+                    paymentMode : formik.values.paymentMode
+                })
+            }
+            
             setchangeData(prev => prev + 1)
         }
         , validationSchema
     })
 
-    const searchFun = () => {
-        
-        setloader(true)
-
-        let body
-        let url
-
-        type == 'property' && (url = searchPropertyCollection)
-        type == 'saf' && (url = searchSafCollection)
-        // type == 'gbSaf' && (url = searchGbSafCollection)
-        
-        // if(type == 'gbSaf'){
-        //     body = {
-        //     fromDate : formik.values.fromDate,
-        //     uptoDate : formik.values.uptoDate,
-        //     wardId : formik.values.wardId,                          
-        //     paymentMode : formik.values.paymentMode,
-        //     page : pageCount,
-        //     perPage : perPageCount
-        // }
-        // } else {
-            body = {
-                fromDate : formik.values.fromDate,
-                uptoDate : formik.values.uptoDate,
-                wardId : formik.values.wardId, 
-                userId : formik.values.userId,                              
-                paymentMode : formik.values.paymentMode,
-                page : pageCount,
-                perPage : perPageCount
-        }
-    // }
-
-        // console.log('data before hitting api => ', body)
-
-        axios.post(url, body, ApiHeader())
-        .then((res) => {
-            if(res?.data?.status == true){
-                console.log('search success => ', res)
-                setdataList(res?.data?.data?.items)
-                settotalCount(res?.data?.data?.total)
-            } else {
-                console.log('error while search => ', res)
-            }
-
-            setloader(false)
-            setloader2(false)
-        })
-        .catch((err) => (console.log('error while search => ', err), setloader(false), setloader2(false)))
-
-    }
 
     useEffect(() => {
         gettingMasterList()
@@ -571,99 +529,8 @@ const PropSafSearchCollection = () => {
             type == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
         }
 
-        // ============List Table=========
-
-        const [perPageCount, setperPageCount] = useState(5)
-        const [pageCount, setpageCount] = useState(1)
-        const [totalCount, settotalCount] = useState(0)
-        const [exportData, setexportData] = useState()
-        const [csvStatus, setcsvStatus] = useState(false)
-        const [loader2, setloader2] = useState(false)
-
-        const nextPageFun = () => {
-            setpageCount(pageCount + 1)
-        }
-    
-        const prevPageFun = () => {
-            setpageCount(pageCount - 1)
-        }
-    
-        const perPageFun = (val) => {
-            setperPageCount(val)
-        }
-    
-        useEffect(() => {
-            setloader2(true)
-            searchFun()
-        }, [pageCount, perPageCount])
-    
-        const exportDataFun = () => {
-
-            setloader2(true)
-            setcsvStatus(false)
-
-            let body
-        let url
-
-        type == 'property' && (url = searchPropertyCollection)
-        type == 'saf' && (url = searchSafCollection)
-        type == 'gbSaf' && (url = searchGbSafCollection)
-        
-        if(type == 'gbSaf'){
-            body = {
-            fromDate : formik.values.fromDate,
-            uptoDate : formik.values.uptoDate,
-            wardId : formik.values.wardId,                          
-            paymentMode : formik.values.paymentMode,
-            page : '',
-            perPage : totalCount
-        }
-        } else {
-            body = {
-                fromDate : formik.values.fromDate,
-                uptoDate : formik.values.uptoDate,
-                wardId : formik.values.wardId, 
-                userId : formik.values.userId,                              
-                paymentMode : formik.values.paymentMode,
-                page : '',
-                perPage : totalCount
-        }
-    }
-    
-            // console.log('data before hitting api => ', body)
-
-        axios.post(url, body, ApiHeader())
-        .then((res) => {
-            if(res?.data?.status == true){
-                // console.log('search success => ', res)
-                setexportData(res?.data?.data?.items)
-                downloadFun()
-            } else {
-                // console.log('error while search => ', res)
-            }
-
-            setloader2(false)
-        })
-        .catch((err) => {
-            // console.log('error while search => ', err)
-            setloader2(false)
-        })
-        }
-    
-        const downloadFun = () => {
-            setcsvStatus(true)
-        }
-    
   return (
     <>
-
-            {
-                csvStatus && <CSVDownload data={exportData} />
-            }
-
-            {
-                loader2 && <BarLoader />
-            }
     
         <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
             <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Collection Report</h1>
@@ -780,20 +647,17 @@ const PropSafSearchCollection = () => {
                 />
             }
 
-        {
-            (dataList != undefined && dataList?.length != 0 && type != 'gbSaf') ? <>
+{
+                (requestBody != null && type != 'gbSaf') && 
+                <ListTableConnect 
+                type='old' // if pagination is from laravel
+                api={type == 'property' ? searchPropertyCollection : searchSafCollection} // sending api
+                columns={COLUMNS} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
+            }
 
-            {type != 'gbSaf' && <div className='w-full text-end'>
-            <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Wise Summary</button>
-            </div>}
-            
-            <ListTable2 count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
-
-            </> : 
-            <>
-                {type != 'gbSaf' && <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>}
-            </>
-        }
 <div className='h-[20vh]'></div>
     </>
   )
