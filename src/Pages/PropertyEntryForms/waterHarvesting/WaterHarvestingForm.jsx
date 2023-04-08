@@ -54,10 +54,10 @@ function WaterHarvestingForm(props) {
     const validationSchema = yup.object(
         {
             dateOfCompletion: yup.string().required("This is a required field"),
-            rwhImage: yup.mixed().when([], {
-                is: () => docStatus == 1,
-                then: yup.mixed().required("Select document")
-            }),
+            // rwhImage: yup.mixed().when([], {
+            //     is: () => docStatus == 1,
+            //     then: yup.mixed().required("Select document")
+            // }),
 
         }
     )
@@ -221,7 +221,7 @@ function WaterHarvestingForm(props) {
             </div>
 
             <div className="poppins my-2 2xl:font-base text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae in pariatur ipsam repellat. Ratione cupiditate ullam tempora facilis laudantium inventore vero eligendi incidunt. Et natus autem vel excepturi, reiciendis veniam.
+                Rain Water Harvesting can be applied by this form.
             </div>
 
 

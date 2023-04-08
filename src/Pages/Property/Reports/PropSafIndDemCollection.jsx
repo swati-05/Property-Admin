@@ -13,6 +13,7 @@ import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
 import ListTable3 from '@/Components/Common/ListTableCustom/ListTable3'
+import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 
 const PropSafIndDemCollection = () => {
 
@@ -23,6 +24,8 @@ const PropSafIndDemCollection = () => {
     const [wardList, setwardList] = useState()
     const [dataList, setdataList] = useState()
     const [loader, setloader] = useState(false)
+    const [requestBody, setrequestBody] = useState(null)// create this for list table connect
+    const [changeData, setchangeData] = useState(0)// create this for list table connect
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
@@ -33,43 +36,14 @@ const PropSafIndDemCollection = () => {
         },
         onSubmit: (values) => {
             console.log("submitting report search values => ", values)
-            setperPageCount(5)  // this constant is from ListTable2 constant
-            setpageCount(1) // this constant is from ListTable2 constant
-            searchFun(values)
+            setrequestBody({
+                wardId: formik.values.wardId,
+                key: formik.values.key,
+            })
+            setchangeData(prev => prev + 1)
         }
 
     })
-
-    const searchFun = (values) => {
-
-        setloader(true)
-
-        let body = {
-            wardId: formik.values.wardId,
-            key: formik.values.key,
-            page: pageCount,    // this constant is from ListTable2 constant
-            perPage: perPageCount   // this constant is from ListTable2 constant
-        }
-
-        console.log('data before hitting api => ', body)
-
-        axios.post(
-            searchPropSafIndDemCollection, body, ApiHeader())
-            .then((res) => {
-                if (res?.data?.status == true) {
-                    console.log('search success => ', res)
-                    setdataList(res?.data?.data?.items)
-                    settotalCount(res?.data?.data?.total)
-                } else {
-                    console.log('error while search => ', res)
-                }
-
-                setloader(false)
-                setloader2(false)
-            })
-            .catch((err) => (console.log('error while search => ', err), setloader(false), setloader2(false)))
-
-    }
 
 
     useEffect(() => {
@@ -234,93 +208,8 @@ const PropSafIndDemCollection = () => {
         },
     ]
 
-    // ============List Table (ListTable2)=========
-
-    const [perPageCount, setperPageCount] = useState(5)  // for no. of data in single page
-    const [pageCount, setpageCount] = useState(1)  // for page no.
-    const [totalCount, settotalCount] = useState(0)  // total no. of data
-    const [exportData, setexportData] = useState()  // to store all data for exporting as csv
-    const [csvStatus, setcsvStatus] = useState(false)  // csvStatus to toggle download csv file
-    const [loader2, setloader2] = useState(false)  // loader for ListTable2
-
-    // 1 DO props.setpageCount(prev=>prev+1)  in listable3 component  ==> Ignore this comment for ListTable2
-
-    // ========function to go to next page========
-    const nextPageFun = () => {
-        setpageCount(pageCount + 1)
-    }
-
-    // 2 DO props.setpageCount(prev=>prev-1)  in listable3 component  ==> Ignore this comment for ListTable2
-
-    // =========function to go to previous page===========
-    const prevPageFun = () => {
-        setpageCount(pageCount - 1)
-    }
-
-    // 3 DO props.setperPageCount(20) in listable3 component  ==> Ignore this comment for ListTable2
-
-    // ==========function to set how many data to be viewed in single page=======
-    const perPageFun = (val) => {
-        setperPageCount(val)
-    }
-
-    // =========on changing page no. refetching to data================
-    useEffect(() => {
-        setloader2(true)
-        searchFun()
-    }, [pageCount, perPageCount])
-
-
-    // ==========function to download all data as csv============
-    const exportDataFun = () => {
-
-        setloader2(true)
-
-        // =====toggle csvStatus download======
-        setcsvStatus(false)
-
-        // body will be changed as per requirement to get all data
-        let body = {
-            wardId: formik.values.wardId,
-            key: formik.values.key,
-            page: '',
-            perPage: totalCount
-        }
-
-        axios.post(
-            searchPropSafIndDemCollection, body, ApiHeader())
-            .then((res) => {
-                if (res?.data?.status == true) {
-                    setexportData(res?.data?.data?.items) // storing all data in exportData constant
-                    downloadFun()
-                } else {
-                }
-
-                setloader2(false)
-            })
-            .catch((err) => {
-                setloader2(false)
-            })
-    }
-
-    // =====Event to toggle csvStatus to download=======
-    const downloadFun = () => {
-        setcsvStatus(true)
-    }
-
-
     return (
         <>
-            {/* ====Export data for ListTable2==== */}
-            {
-                csvStatus && <CSVDownload data={exportData} />
-            }
-            {/* ============================================ */}
-
-
-            {
-                loader2 && <BarLoader />
-            }
 
             <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md">
                 <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Individual Demand And Collection</h1>
@@ -374,27 +263,16 @@ const PropSafIndDemCollection = () => {
                 </div>
             </form>
 
-            {
-                (dataList != undefined && dataList?.length != 0) ? <>
 
-                    <ListTable2 
-                        columns={COLUMNS}            // sending columns 
-                        dataList={dataList}          // sending data List
-                        exportStatus={true}          // recieving export status toggle
-                        perPage={perPageCount}       // sending no. of data in single page also for s.no.
-                        perPageC={perPageFun}        // recieving to change no. of data in single page
-                        totalCount={totalCount}      // sending total no. of data
-                        nextPage={nextPageFun}       // recieving to go to next page
-                        prevPage={prevPageFun}       // recieving to go to previous page
-                        exportDataF={exportDataFun}  // recieving action to export data
-                    /> 
-
-                    {/* <ListTable3 setpageCount={setpageCount} setperPageCount={setperPageCount} perPage={perPageCount} count1={totalCount} columns={COLUMNS} dataList={dataList} exportStatus={true}  exportDataF={exportDataFun} exportData={exportData} /> */}
-
-                </> :
-                    <>
-                        <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
-                    </>
+{
+                (requestBody != null) && 
+                <ListTableConnect 
+                type='old' // if pagination is from laravel
+                api={searchPropSafIndDemCollection} // sending api
+                columns={COLUMNS} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
             }
             
 <div className='h-[20vh]'></div>
