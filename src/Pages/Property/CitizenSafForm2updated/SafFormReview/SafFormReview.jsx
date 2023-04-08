@@ -91,24 +91,24 @@ function SafFormReview(props) {
                     <div>
                         <h1 className='px-1 font-semibold font-serif text-xs'><img src={folder} alt="pin" className='w-5 inline' /> Basic Details</h1>
                         <div className='bg-white rounded-lg shadow-lg py-6'>
-                            <div className="flex space-x-10 pl-4 ">
-                                <div className='flex-1 text-xs'>
+                            <div className="block sm:flex sm:space-x-10 pl-4 ">
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.basicDetailsPreview?.wardNo)}</div>
                                     <div className='text-gray-500'>Ward No.</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{nullToNA(props?.basicDetailsPreview?.newWardNo)}</div>
                                     <div className='text-gray-500'>New Ward No</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{nullToNA(props?.basicDetailsPreview?.ownerShiptype)}</div>
                                     <div className='text-gray-500'>Ownership Type</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.basicDetailsPreview?.propertyType)} BUILDING</div>
                                     <div className='text-gray-500'>Property Type</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     {/* <div className='font-bold text-sm'>{props?.formReviewData?.basicDetails?.zone}</div>
                                 <div className='text-gray-500'>Zone</div> */}
                                 </div>
@@ -120,47 +120,47 @@ function SafFormReview(props) {
                     {/* Property  details */}
                     <h1 className='px-1 font-semibold font-serif text-xs mt-10'><img src={home} alt="pin" className='w-5 inline' /> Property Address & Details</h1>
                     <div className='bg-white rounded-lg shadow-lg py-6'>
-                        <div className="flex space-x-10 pl-4 ">
-                            <div className='flex-1 text-xs'>
+                        <div className="block sm:flex sm:space-x-10 pl-4 ">
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.khataNo)}</div>
                                 <div className='text-gray-500'>Khata No.</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.plotNo)}</div>
                                 <div className='text-gray-500'>Plot No</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.village_mauja)}</div>
                                 <div className='text-gray-500'>Village/Mauja Name</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.plotArea)}</div>
                                 <div className='text-gray-500'>Area of Plot(decimal)</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.roadWidth)}</div>
                                 <div className='text-gray-500'>Road Width(ft)</div>
                             </div>
                         </div>
 
-                        <div className="flex space-x-10  pl-4 mt-4">
-                            <div className='flex-1 text-xs'>
+                        <div className="block sm:flex sm:space-x-10  pl-4 mt-4">
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.city)}</div>
                                 <div className='text-gray-500'>City</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.district)}</div>
                                 <div className='text-gray-500'>District</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.state)}</div>
                                 <div className='text-gray-500'>State</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.pin)}</div>
                                 <div className='text-gray-500'>Pin</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.locality)}</div>
                                 <div className='text-gray-500'>Locality</div>
                             </div>
@@ -175,24 +175,24 @@ function SafFormReview(props) {
                             <div className="col-span-2 flex justify-center items-center w-full h-[1px] bg-gray-400"></div>
                         </div>
                         {props?.propAddressDetails?.addressCheckbox != true ? <div className='pl-4 font-bold text-sm text-center'>Same as Property Address</div> :
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                <div className='flex-1 text-xs'>
+                            <div className="block sm:flex sm:space-x-10  pl-4 mt-4">
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_city) }</div>
                                     <div className='text-gray-500'>City</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.c_district) }</div>
                                     <div className='text-gray-500'>District</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{nullToNA(props?.propAddressDetails?.c_state)}</div>
                                     <div className='text-gray-500'>State</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_pin) }</div>
                                     <div className='text-gray-500'>Pin</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.propAddressDetails?.c_locality) }</div>
                                     <div className='text-gray-500'>Locality</div>
                                 </div>
@@ -203,54 +203,54 @@ function SafFormReview(props) {
                     {/* electricity details */}
                     <h1 className='px-1 font-semibold font-serif text-xs mt-6'> Electricity & Water Details</h1>
                     <div className='bg-white rounded-lg shadow-lg py-6'>
-                        <div className="flex space-x-10 pl-4 ">
-                            <div className='flex-1 text-xs'>
+                        <div className="block sm:flex sm:space-x-10 pl-4 ">
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.electricityKNo)}</div>
                                 <div className='text-gray-500'>Electricity K. No</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.accNo)}</div>
                                 <div className='text-gray-500'>ACC No.</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.bindBookNo) }</div>
                                 <div className='text-gray-500'>BIND/BOOK No.</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.electrictyConsumerNo) }</div>
                                 <div className='text-gray-500'>Electricity Consumer Category</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
 
                             </div>
                         </div>
 
 
-                        <div className="flex space-x-10  pl-4 mt-4">
-                            <div className='flex-1 text-xs'>
+                        <div className="block sm:flex sm:space-x-10  pl-4 mt-4">
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.bpApprovalNo) }</div>
                                 <div className='text-gray-500'>Building Plan Approval No.</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.bpApprovalDate) }</div>
                                 <div className='text-gray-500'>Building Plan Approval Date</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-semibold text-sm'>{nullToNA(props?.elecWaterDetails?.waterConsumerNo)}</div>
                                 <div className='text-gray-500'>Water Consumer No.</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                 <div className='font-bold text-sm'>{nullToNA(props?.elecWaterDetails?.waterConnectionDate)}</div>
                                 <div className='text-gray-500'>Water Connection Date</div>
                             </div>
-                            <div className='flex-1 text-xs'>
+                            <div className='flex-1 mt-2 sm:mt-0 text-xs'>
 
                             </div>
                         </div>
                     </div>
 
                     {/* owner details */}
-                    <div className='mt-8'>
+                    <div className='mt-8 overflow-x-auto'>
                         <h1 className='px-1 font-semibold font-serif text-xs'>Owner Details</h1>
 
                         <table className='min-w-full leading-normal mt-2'>
@@ -299,7 +299,7 @@ function SafFormReview(props) {
                     </div>
 
                     {/* floor details */}
-                    {props?.propertyTypeState != 4 && <div className='mt-8'>
+                    {props?.propertyTypeState != 4 && <div className='mt-8 overflow-x-auto'>
                         <h1 className='px-1 font-semibold font-serif text-xs'><img src={building} alt="building image" className='inline w-4' /> Floor Details</h1>
 
                         <table className='min-w-full leading-normal mt-2'>
@@ -342,28 +342,28 @@ function SafFormReview(props) {
                     <div className='mt-8'>
                         <h1 className='px-1 font-semibold font-serif text-xs'><img src={folder} alt="pin" className='w-5 inline' /> Additional Details</h1>
                         <div className='bg-white rounded-lg shadow-lg py-6'>
-                            <div className="flex space-x-10  pl-4 mt-4">
-                                {props?.zoneValue && <div className='flex-1 text-xs'>
+                            <div className="block sm:flex sm:space-x-10  pl-4 mt-4">
+                                {props?.zoneValue && <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{nullToNA(props?.additionalDetailsPreview?.zone)}</div>
                                     <div className='text-gray-500'>Zone</div>
                                 </div>}
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.mobileTowerStatus == '0' ? 'No' : 'Yes'}</div>
                                     <div className='text-gray-500'>Property has Mobile Tower(s) ?</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{props?.additionalDetailsPreview?.hoardingStatus == '0' ? 'No' : 'Yes'}</div>
                                     <div className='text-gray-500'>Property has Hoarding Board(s) ?</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-semibold text-sm'>{props?.additionalDetailsPreview?.petrolPumpStatus == '0' ? 'No' : 'Yes'}</div>
                                     <div className='text-gray-500'>Property a Petrol Pump ?</div>
                                 </div>
-                                <div className='flex-1 text-xs'>
+                                <div className='flex-1 mt-2 sm:mt-0 text-xs'>
                                     <div className='font-bold text-sm'>{props?.additionalDetailsPreview?.waterHarvestingStatus == '0' ? 'No' : 'Yes'}</div>
                                     <div className='text-gray-500'>Rainwater harvesting provision ?</div>
                                 </div>
-                                {props?.zoneValue == false && <div className='flex-1 text-xs'>
+                                {props?.zoneValue == false && <div className='flex-1 mt-2 sm:mt-0 text-xs'>
 
                                 </div>}
                             </div>
@@ -660,7 +660,7 @@ function SafFormReview(props) {
                                         {/* Calculation Rates*/}
 
                                         <h1 className='px-4 font-semibold mt-4 text-gray-600 text-xs'>Rates</h1>
-                                        <div className='flex font-mono text-xs bg-amber-100 px-1'>
+                                        <div className='block sm:flex font-mono text-xs bg-amber-100 px-1'>
                                             <div onClick={() => openModal('usageFactor_rate2')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View Usage Factor </span></div>
                                             <div onClick={() => openModal('occupancyFactor_rate2')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View Occupancy Factor</span></div>
                                             <div onClick={() => openModal('rental_rate2')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View Rental Rate</span></div>
@@ -785,7 +785,7 @@ function SafFormReview(props) {
                                         {/* Calculation Rates*/}
 
                                         <h1 className='px-4 font-semibold mt-4 text-gray-600 text-xs'>Rates</h1>
-                                        <div className='flex font-mono text-xs bg-amber-100 px-1'>
+                                        <div className='block sm:flex font-mono text-xs bg-amber-100 px-1'>
                                             <div onClick={() => openModal('circle_rate3')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View Circle Rate</span></div>
                                             <div onClick={() => openModal('occupancyFactor_rate3')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View Occupancy Factor</span></div>
                                             <div onClick={() => openModal('matrixFactor_rate3')} className='flex-initial px-2 text-white rounded-lg mt-4'><span className='bg-gray-200 border border-white text-gray-900 px-2 py-2 shadow-lg rounded-lg cursor-pointer hover:bg-white'><img className='w-5 inline' src={pointer} alt="icon-image" /> View  Matrix Factor Rate</span></div>

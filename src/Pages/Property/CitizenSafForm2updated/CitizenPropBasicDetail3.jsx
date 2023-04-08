@@ -273,11 +273,11 @@ function CitizenPropBasicDetail3(props) {
 
             {/* <div className='mt-6 mb-2 font-serif font-semibold absolute text-gray-600 w-full'><FaHome className="inline mr-2" /><span>Basic Details</span>{props?.safType != 'new' && <span className='inline-block float-right'> <span className='font-normal'>Holding No. : </span>{props?.existingPropertyDetails?.data?.data?.holding_no}</span>}</div> */}
 
-            <div className="block md:p-4 w-full md:py-6 rounded-lg mx-auto  shadow-xl bg-white">
+            <div className="block md:p-4 w-full md:py-6 rounded-lg mx-auto  shadow-xl bg-white px-4 sm:px-0">
                 {/* <div className='relative -top-14 -left-4 col-span-12 rounded-lg pl-2 font-semibold text-xl'><MdTag className="inline" />Basic Details</div> */}
                 <form onChange={handleOnChange} onSubmit={formik.handleSubmit}>
                     <Tooltip anchorId="my-element" />
-                    <div className="grid grid-cols-12  space-x-2">
+                    <div className="grid grid-cols-12  sm:space-x-2">
 
 
 

@@ -33,7 +33,7 @@ function AppliedApplicationSearch() {
 
 
   // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
-  useSetTitle('Search Applied Applications')
+  useSetTitle('Search Applications')
 
   const {
     api_getWardListByLogin,
@@ -169,7 +169,7 @@ function AppliedApplicationSearch() {
     {
       Header: "Current Level",
       Cell: ({ cell }) => (
-        <span className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl">{nullToNA(cell.row.original.currentRole)}</span>
+        <div className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl text-center">{nullToNA(cell.row.original.currentRole)}</div>
       )
     },
     {
@@ -375,14 +375,14 @@ function AppliedApplicationSearch() {
       }
 
       <div className="border shadow-xl bg-white mt-6">
-        <div className="flex ml-5 mt-2 ">
+        <div className="hidden sm:flex ml-5 mt-2 ">
           <img src={searchImg} alt="" className="w-10 h-10" />
           <p className="font-bold text-3xl ml-4 mt-1 text-gray-600">
             Search Applied Applications
           </p>
         </div>
         <form onSubmit={formik.handleSubmit} onChange={handleChange}>
-          <div className="flex justify-center space-x-8 my-5 m-10">
+          <div className="flex-col sm:flex-row flex justify-center sm:space-x-8 my-5 m-10">
             <div>
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 Application Type<span className="text-red-500">*</span>
@@ -406,7 +406,7 @@ function AppliedApplicationSearch() {
               </p>
             </div>
 
-            <div>
+            <div className="mt-5 sm:mt-0">
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 {" "}
                 Application / SAF No. {searchBy}{" "}
@@ -423,10 +423,10 @@ function AppliedApplicationSearch() {
                   : null}
               </p>
             </div>
-            <div className="mt-4">
+            <div className="mt-6">
               <button
                 type="submit"
-                className="w-full border rounded-md border-indigo-500 bg-indigo-500 hover:bg-indigo-700 text-white  shadow-lg  text-base font-semibold px-5 m-3 py-1"
+                className="w-full border rounded-md border-indigo-500 bg-indigo-500 hover:bg-indigo-700 text-white  shadow-lg  text-base font-semibold px-5 sm:m-3 py-1"
               >
                 {" "}
                 <p className="flex">
@@ -442,7 +442,7 @@ function AppliedApplicationSearch() {
           </div>
         </form>
         {/* View Search Result in List Table */}
-        <div className="m-10">
+        <div className="sm:m-10">
           {/* {readymadeListData == false && data?.data?.status == true ? <ListTable columns={COLUMNS} dataList={data?.data?.data} /> : readymadeListData == false && <p className='text-center font-semibold'> No data Found!</p>} */}
           {readymadeListStatus && readymadeListData?.length != 0 &&
             <ListTable exportStatus={false} columns={readymadeListColumns} dataList={readymadeListData} />

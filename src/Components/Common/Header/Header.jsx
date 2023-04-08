@@ -131,7 +131,7 @@ function Header(props) {
     <>
 
 
-      {((location.pathname != '/landing') && (location.pathname != '/') && (location.pathname != '/login')  && (location.pathname != '/error')) && <div className="flex flex-col transition-all duration-500 ease-in-out ">
+      {((location.pathname != '/landing') && (location.pathname != '/') && (location.pathname != '/login') && (location.pathname != '/mobile-login')  && (location.pathname != '/error')) && <div className="flex flex-col transition-all duration-500 ease-in-out ">
         {/* Navbar */}
         <nav className="w-full bg-white z-50 fixed flex flex-row flex-nowrap items-center justify-between mt-0 py-2  px-6 darks:bg-gray-800 shadow-sm transition-all duration-500 ease-in-out" id="desktop-menu">
           <div className='flex items-center'>
