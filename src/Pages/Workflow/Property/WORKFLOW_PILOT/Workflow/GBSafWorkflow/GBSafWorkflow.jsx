@@ -116,6 +116,11 @@ function GBSafWorkflow() {
 
       },
       {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.apply_date)}</span>)
+
+      },
+      {
         Header: "Assessment Type",
         accessor: "assessment",
         Cell: ({ cell }) => (

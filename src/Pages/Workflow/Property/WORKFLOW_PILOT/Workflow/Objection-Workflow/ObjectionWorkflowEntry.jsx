@@ -123,6 +123,11 @@ function ObjectionWorkflowEntry() {
 
       },
       {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.application_date)}</span>)
+
+      },
+      {
         Header: "Objection Type",
         accessor: "objection_for",
         Cell: (props) => {

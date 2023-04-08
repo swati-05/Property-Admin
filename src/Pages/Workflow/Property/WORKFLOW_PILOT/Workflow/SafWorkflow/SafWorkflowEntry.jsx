@@ -108,6 +108,10 @@ function SafWorkflowEntry() {
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
       },
       {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.apply_date)}</span>)
+      },
+      {
         Header: "Assessment Type",
         accessor: "assessment",
         Cell: ({ cell }) => (

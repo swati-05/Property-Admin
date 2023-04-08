@@ -107,6 +107,10 @@ function ConcessionWorkflowEntry() {
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.owner_name)}</span>)
       },
       {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.apply_date)}</span>)
+      },
+      {
         Header: "Property Type",
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
       },

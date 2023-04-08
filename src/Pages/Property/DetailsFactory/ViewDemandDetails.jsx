@@ -210,7 +210,7 @@ function ViewDemandDetails(props) {
                             </div>
 
                             {/* // REABATE DESCRIPTION */}
-                            {demandDetail?.demand?.rebates?.length !== 0 && <>
+                            {demandDetail?.amounts?.rebates?.length !== 0 && <>
                                 <div className='mt-10 text-md font-semibold'>Rebate Description</div>
                                 <table className='min-w-full leading-normal mt-2'>
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
@@ -218,14 +218,14 @@ function ViewDemandDetails(props) {
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amount</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amounts</th>
 
 
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm">
 
-                                        {demandDetail?.demand?.rebates?.map((data, index) => (
+                                        {demandDetail?.amounts?.rebates?.map((data, index) => (
                                             <tr className="bg-white shadow-lg border-b border-gray-200">
                                                 <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                                 <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
@@ -262,15 +262,17 @@ function ViewDemandDetails(props) {
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quater</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarter / Year</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% penalty (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Latrine/Conservancy Tax (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess (Rs)</th>
+                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Additional Tax (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax (Rs)</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjuted Amount</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
                                                     <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Due Date</th>
+                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% penalty (Rs)</th>
+
 
 
                                                 </tr>
@@ -285,15 +287,16 @@ function ViewDemandDetails(props) {
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.fyear)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holding_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.water_tax)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrine_tax)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.education_cess)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.health_cess)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.additional_tax)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.amount)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjust_amount)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
                                                             <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.due_date)}</td>
+                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                                                         </tr>
                                                     ))}
 

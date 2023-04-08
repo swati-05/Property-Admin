@@ -562,7 +562,7 @@ function PaymentCard(props) {
                   <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.rebatePerc)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.onePercPenalty)}</span>
+                  <span>1% Penalty :</span> <span className='font-mono font-semibold'>{nullToZero(props?.paymentDetails?.onePercPenalty)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
                   <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToZero(props?.paymentDetails?.payableAmount)}</span></div>
@@ -571,16 +571,16 @@ function PaymentCard(props) {
               {/* SHOW IN CASE OF SAF */}
               {moduleType === 'saf' && <div className='bg-white col-span-12 grid grid-cols-12 pt-6 mb-4 border border-gray-200'>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.rebateAmount)}</span>
+                  <span>Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.rebateAmt)}</span>
                 </div>
                 {moduleType == 'saf' && <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
                   <span>Late Assessment Penalty :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.lateAssessmentPenalty)}</span>
                 </div>}
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.specialRebateAmount)}</span>
+                  <span>Special Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.specialRebateAmt)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
-                  <span>1% Penalty Rebate :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.totalOnePercPenalty)}</span>
+                  <span>1% Penalty :</span> <span className='font-mono font-semibold'>{nullToZero(props?.safPaymentDetailsData?.totalOnePercPenalty)}</span>
                 </div>
                 <div className="form-group mb-6 col-span-12 md:col-span-6 md:px-4">
                   <div className='w-2/3'><span>Total Payable Amount :</span> <span className='font-mono font-semibold text-xl'>{nullToZero(props?.safPaymentDetailsData?.payableAmount)}</span></div>

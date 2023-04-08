@@ -107,9 +107,15 @@ function HoldingDeactivationWorkflowEntry() {
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.new_holding_no)}</span>)
 
       },
+      
       {
         Header: "Mobile No.",
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.mobile_no)}</span>)
+
+      },
+      {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.apply_date)}</span>)
 
       },
 

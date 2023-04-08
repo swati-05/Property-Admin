@@ -65,7 +65,7 @@ function CitizenPropOwnerDetails(props) {
             mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
             aadhar: yup.string().min(12, 'Enter 12 digit aadhar no.'),
             pan: yup.string().min(10, 'enter 10 digit PAN no.'),
-            email: yup.string().required('Enter email address').min(11, 'enter atleast 11 character'),
+            email: yup.string().min(11, 'enter atleast 11 character'),
             isArmedForce: yup.string(),
             isSpeciallyAbled: yup.string(),
 
@@ -79,8 +79,8 @@ function CitizenPropOwnerDetails(props) {
             relation: yup.string().required('Select relation'),
             mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
             aadhar: yup.string().required('Enter aadhar no').min(12, 'Enter 12 digit aadhar no.'),
-            pan: yup.string().required('Enter PAN no.').min(10, 'enter 10 digit PAN no.'),
-            email: yup.string().required('Enter email address').min(11, 'enter atleast 11 character'),
+            pan: yup.string().min(10, 'enter 10 digit PAN no.'),
+            email: yup.string().min(11, 'enter atleast 11 character'),
             isArmedForce: yup.string().required('Select armed force status'),
             isSpeciallyAbled: yup.string().required('Select specially-abled status'),
 
@@ -600,13 +600,13 @@ function CitizenPropOwnerDetails(props) {
                                     <span className="text-red-600 absolute text-xs">{formik.touched.aadhar && formik.errors.aadhar ? formik.errors.aadhar : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">PAN No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">PAN No.</label>
                                     <input disabled={inputConditionState?.pan?.readOnly} {...formik.getFieldProps('pan')} type="text" className={`cypress_pan form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.pan?.style}`}
                                         placeholder="Enter pan no." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.pan && formik.errors.pan ? formik.errors.pan : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Email<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Email</label>
                                     <input disabled={inputConditionState?.email?.readOnly}  {...formik.getFieldProps('email')} type="email" className={`cypress_email form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.email?.style}`}
                                         placeholder="Enter email." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.email && formik.errors.email ? formik.errors.email : null}</span>

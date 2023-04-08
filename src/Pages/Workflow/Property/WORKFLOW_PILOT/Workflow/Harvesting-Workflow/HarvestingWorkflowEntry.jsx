@@ -113,6 +113,10 @@ function HarvestingWorkflowEntry() {
         Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.property_type)}</span>)
 
       },
+      {
+        Header: "Apply Date",
+        Cell: ({ cell }) => (<span>{nullToNA(cell.row.original?.date)}</span>)
+      },
       // {
       //   Header: "Assessment Type",
       //   accessor: "assessment",

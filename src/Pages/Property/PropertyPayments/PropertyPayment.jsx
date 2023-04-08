@@ -178,7 +178,7 @@ function PropertyPayment(props) {
                 </div>
                 <div>
 
-                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
+                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
                 </div>
             </div>
 
