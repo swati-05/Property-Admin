@@ -1,5 +1,5 @@
 import React from 'react'
-import './BrandLoader.css'
+import './barloader.css'
 import jlogo from '../../Components/Media/jlogo.svg'
 
 function BarLoader() {

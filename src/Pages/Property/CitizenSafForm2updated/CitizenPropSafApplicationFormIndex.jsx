@@ -99,6 +99,7 @@ import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
+import BottomErrorCard from '@/Components/Common/BottomErrorCard'
 
 function CitizenPropSafApplicationFormIndex() {
 
@@ -139,6 +140,8 @@ function CitizenPropSafApplicationFormIndex() {
     const [selectedUlbId, setselectedUlbId] = useState()
     const [apartmentList, setapartmentList] = useState([])
     const [erroState, seterroState] = useState(false);
+  const [erroMessage, seterroMessage] = useState(null);
+
 
    
 
@@ -402,7 +405,6 @@ function CitizenPropSafApplicationFormIndex() {
 
     ///////////{*** NEW ASSESSMENT TYPE SUBMIT FUNCTION***}/////////
     const submitSafForm = () => {
-        seterroState(false)
         setLoaderStatus(true)
         let token = window.localStorage.getItem('token')
         console.log('token at basic details is post method...', token)
@@ -574,17 +576,15 @@ function CitizenPropSafApplicationFormIndex() {
                     setLoaderStatus(false)
 
                 } else {
-                    notify('Something went wrong in applying', 'error')
                     setLoaderStatus(false)
+                    activateBottomErrorCard(true,'Error occured in submitting form. Please try again later.')
                 }
 
 
             })
             .catch(function (error) {
                 console.log('error in submitting saf form ', 'error');
-                // notify('Something went wrong','error')
-                toast.error("Something went wrong !!")
-                seterroState(true)
+                activateBottomErrorCard(true,'Error occured in submitting form. Please try again later.')
                 setLoaderStatus(false)
             })
     }
@@ -1002,8 +1002,7 @@ function CitizenPropSafApplicationFormIndex() {
     }
 
     const submitRuelsetData = () => {
-        seterroState(false)
-        // return
+       
         setLoaderStatus(true);
         let payloadData = payloadDataMake()
 
@@ -1013,14 +1012,19 @@ function CitizenPropSafApplicationFormIndex() {
             .post(api_reviewCalculation, payloadData, ApiHeader())
             .then(function (response) {
                 console.log("==3 cacluator tax response===", response);
+               if(response?.data?.status){
                 settotalAmountData(response?.data?.data?.demand)
-                setrulesetData(response?.data);
+                 setrulesetData(response?.data)
+               }else{
+                activateBottomErrorCard(true,'Error occured in fetching tax details. Please try again later.')
+               }
+               
                 setLoaderStatus(false)
             })
             .catch(function (error) {
                 console.log("== 3 calcualte tax error== ", error);
-                notify(`Something went wrong`, "error");
-                seterroState(true)
+              
+                activateBottomErrorCard(true,'Error occured in fetching tax details. Please try again later.')
                 setLoaderStatus(false)
             });
     };
@@ -1033,7 +1037,11 @@ function CitizenPropSafApplicationFormIndex() {
     const closeHoldingModal = (status) => {
         navigate('/home')
     }
-
+    const activateBottomErrorCard = (state, msg) => {
+        seterroMessage(msg)
+        seterroState(state)
+    
+      }
 
     //SHOW WELCOME SCREEN FIRST
     if ((safType == 'bi' || safType == 'am') && holdingCardStatus) {
@@ -1044,19 +1052,14 @@ function CitizenPropSafApplicationFormIndex() {
         )
     }
 
-    if (erroState) {
-        return (
-            <CommonModal>
-                <ServerErrorCard title="Server is busy" desc="Server is too busy to respond. Please try again later." buttonText="View Dashboard" buttonUrl="/propertyDashboard" />
-            </CommonModal>
-        )
-    }
+   
 
 
     else {
         return (
             <>
                 <ToastContainer autoClose={2000} position="top-right" />
+                {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
                 {loaderStatus && <BarLoader />}
                 {/* take a parent div ...style it as displayed below    ,....make it a grid with col-12 */}
                 <div className='w-full grid grid-cols-1 md:grid-cols-12 gap-2 lg:grid-cols-12 px-2 md:px-2 md:space-x-2'>

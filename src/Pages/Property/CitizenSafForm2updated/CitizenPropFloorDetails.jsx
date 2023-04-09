@@ -339,7 +339,7 @@ function CitizenPropFloorDetails(props) {
                         </div>
                     </div>
                 </div>
-                {floorFormStatus && <div className={`transition-all -top-60 relative block  w-full  md:w-full mx-auto  z-50`}>
+                {floorFormStatus && <div className={`transition-all -top-[400px] relative block  w-full  md:w-full mx-auto  z-50`}>
                     <form onSubmit={formik.handleSubmit} onChange={handleChange}>
                         <div className="grid grid-cols-12">
                             <div className={`md:col-start-4 col-span-12 md:col-span-6 grid grid-cols-12 bg-white relative p-10 shadow-xl`}>

@@ -534,7 +534,7 @@ function CitizenPropOwnerDetails(props) {
                     </div>
                 </div>
 
-                {ownerFormStatus && <div className={`transition-all relative -top-80 block w-full  md:w-full mx-auto   z-50`}>
+                {ownerFormStatus && <div className={`transition-all relative -top-[450px] block w-full  md:w-full mx-auto   z-50`}>
 
                     <form onSubmit={formik.handleSubmit} onChange={handleChange} className="" >
                         <div className="grid grid-cols-12 pt-10">
