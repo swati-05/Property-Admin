@@ -233,7 +233,7 @@ const CashVerification = (props) => {
                                 <div className='col-span-3'>
                                     <p className='py-1 text-base font-semibold'>Report Type <span className='text-red-400'>*</span></p>
                                     <select
-                                        // onChange={(e) => setReportType(e.target.value)}
+                                        onChange={(e) => setReportType(e.target.value)}
                                         value={formik.values.reportType}
                                         className="w-full rounded border-gray-500 p-1.5 text-base border shadow-sm outline-blue-300 outline-1"
                                         placeholder="Enter New Taluka"
