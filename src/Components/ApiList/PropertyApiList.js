@@ -10,7 +10,7 @@ import BackendUrl from "./BackendUrl"
 
 export default function PropertyApiList() {
 
-  const baseUrlT = 'http://192.168.0.205:8000'
+  const baseUrlT = 'http://192.168.0.105:8000'
 
   let baseUrl = BackendUrl
   let apiList = {

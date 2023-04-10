@@ -173,31 +173,6 @@ function ConcessionForm(props) {
 
   const submitData = (values) => {
 
-    let documents = [
-      {
-        document: genderUpload,
-        docMstrId: genderId,
-        docRefName: genderName
-      },
-      {
-        document: dobUpload,
-        docMstrId: seniorId,
-        docRefName: seniorName
-      },
-      {
-        document: armedForceUpload,
-        docMstrId: armedId,
-        docRefName: armedName
-      },
-      {
-        document: speciallyUpload,
-        docMstrId: speciallyId,
-        docRefName: speciallyName
-      }
-    ]
-
-    // console.log('before fetch docs => ', documents)
-
     //creating formData object to send file data
     let fd = new FormData();
 
