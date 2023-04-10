@@ -159,7 +159,7 @@ const CashVerification = (props) => {
     const formik = useFormik({
         initialValues: {
             empName: '',
-            collectionDate: '',
+            collectionDate: moment(new Date()).format("yy-MM-DD"),
             reportType: '1'
         },
 
