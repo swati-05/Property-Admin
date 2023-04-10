@@ -66,11 +66,11 @@ const CashVerification = (props) => {
         },
         {
             Header: "EmployeeName",
-            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.user_name)}</span>)
+            Cell: ({ cell }) => (<span>  {nullToNA(cell.row.original?.user_name)}</span>)
         },
         {
-            Header: "Property.",
-            Cell: ({ cell }) => (<span> ₹ {nullToNA(cell.row.original?.property)}</span>)
+            Header: "Property",
+            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.property)}</span>)
         },
         // {
         //     Header: "GBSAF.",
@@ -90,7 +90,7 @@ const CashVerification = (props) => {
         },
         {
             Header: "Paid Date",
-            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.date)}</span>)
+            Cell: ({ cell }) => (<span>  {nullToNA(cell.row.original?.date)}</span>)
 
         },
         // {

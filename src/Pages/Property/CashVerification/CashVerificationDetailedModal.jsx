@@ -387,7 +387,7 @@ function CashVerificationDetailedModal(props) {
                                         )}
                                     </Popup>
                                 }
-                                <button onClick={closeModal} className="w-full px-10 rounded bg-red-600 py-2 text-white sm:w-auto"> Cancel </button>
+                                <button onClick={closeModal} className="w-full px-10 rounded bg-red-600 py-2 text-white sm:w-auto"> Close </button>
                             </div>
 
                         </div>
