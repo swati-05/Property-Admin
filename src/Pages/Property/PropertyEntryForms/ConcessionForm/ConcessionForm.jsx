@@ -93,13 +93,13 @@ function ConcessionForm(props) {
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "application/pdf"];
 
   const validationSchema = yup.object({
-    gender: yup.string().when([], {
-      is: () => genderStatus === true,
+    gender: yup.string().typeError("type error").when([], {
+      is: () => genderStatus == true,
       then: yup.string().typeError('Select gender').required("Select gender")
     }),
-    dob: yup.string().when([], {
-      is: () => seniorStatus === true,
-      then: yup.string().test(
+    dob: yup.string().typeError("type error").when([], {
+      is: () => seniorStatus == true,
+      then: yup.string().typeError("type error").test(
         "dob",
         "not 60 years old",
         value => {
@@ -111,34 +111,34 @@ function ConcessionForm(props) {
     //   is: () => speciallyStatus === true,
     //   then: yup.boolean().required("Select specially-abled status")
     // }),
-    speciallyAbledPercentage: yup.number().when([], {
-      is: () => speciallyStatus === true,
-      then: yup.number().min(40, 'must be between 40% to 100%').max(100, 'must be between 40% to 100%').required("Enter specially-abled percentage")
+    speciallyAbledPercentage: yup.number().typeError("type error").when([], {
+      is: () => speciallyStatus == true,
+      then: yup.number().typeError("type error").min(40, 'must be between 40% to 100%').max(100, 'must be between 40% to 100%').required("Enter specially-abled percentage")
     }),
-    armedForce: yup.boolean().when([], {
-      is: () => armedStatus === true,
-      then: yup.boolean().required("Select armed force status")
-    }),
-    genderDoc: yup.mixed().when([], {
-      is: () => genderStatus === true && docStatus == 1,
-      then: yup.mixed().required("Select document")
-    }),
-    dobDoc: yup.mixed().when([], {
-      is: () => seniorStatus === true && docStatus == 1,
-      then: yup.mixed().required("Select document")
-    }),
-    speciallyAbledDoc: yup.mixed().when([], {
-      is: () => speciallyStatus === true && docStatus == 1,
-      then: yup.mixed().required("Select document")
-    }),
-    armedForceDoc: yup.mixed().when([], {
-      is: () => armedStatus === true && docStatus == 1,
-      then: yup.mixed().required("Select document")
-    }),
-    documentCode: yup.string().when([], {
-      is: () => docStatus == 1,
-      then: yup.string().required("Select document type")
-    }),
+    // armedForce: yup.boolean().when([], {
+    //   is: () => armedStatus === true,
+    //   then: yup.boolean().required("Select armed force status")
+    // }),
+    // genderDoc: yup.mixed().when([], {
+    //   is: () => genderStatus === true && docStatus == 1,
+    //   then: yup.mixed().required("Select document")
+    // }),
+    // dobDoc: yup.mixed().when([], {
+    //   is: () => seniorStatus === true && docStatus == 1,
+    //   then: yup.mixed().required("Select document")
+    // }),
+    // speciallyAbledDoc: yup.mixed().when([], {
+    //   is: () => speciallyStatus === true && docStatus == 1,
+    //   then: yup.mixed().required("Select document")
+    // }),
+    // armedForceDoc: yup.mixed().when([], {
+    //   is: () => armedStatus === true && docStatus == 1,
+    //   then: yup.mixed().required("Select document")
+    // }),
+    // documentCode: yup.string().when([], {
+    //   is: () => docStatus == 1,
+    //   then: yup.string().required("Select document type")
+    // }),
 
   });
 
@@ -162,7 +162,7 @@ function ConcessionForm(props) {
       console.log("--1-- values => ", values);
       submitData(values);
     },
-    validationSchema,
+    // validationSchema,
   });
 
   const submitData = (values) => {
@@ -202,27 +202,27 @@ function ConcessionForm(props) {
 
     if (genderStatus == true) {
       fd.append("gender", values.gender);
-      docStatus == 1 && fd.append("genderDoc", genderUpload);
-      docStatus == 1 && fd.append("genderCode", values.documentCode)
+      fd.append("genderDoc", genderUpload);
+      fd.append("genderCode", values.documentCode)
       fd.append('appliedFor', 'Gender')
     }
     if (seniorStatus == true) {
       fd.append("dob", values.dob);
-      docStatus == 1 && fd.append("dobDoc", dobUpload);
-      docStatus == 1 && fd.append("dobCode", values.documentCode)
+      fd.append("dobDoc", dobUpload);
+      fd.append("dobCode", values.documentCode)
       fd.append('appliedFor', 'Senior Citizen')
     }
     if (speciallyStatus == true) {
       fd.append("speciallyAbled", true);
       fd.append("speciallyAbledPercentage", values.speciallyAbledPercentage)
-      docStatus == 1 && fd.append("speciallyAbledDoc", speciallyUpload);
-      docStatus == 1 && fd.append("speciallyAbledCode", values.documentCode)
+      fd.append("speciallyAbledDoc", speciallyUpload);
+      fd.append("speciallyAbledCode", values.documentCode)
       fd.append('appliedFor', 'Specially Abled')
     }
     if (armedStatus == true) {
       fd.append("armedForce", true);
-      docStatus == 1 && fd.append("armedForceDoc", armedForceUpload);
-      docStatus == 1 && fd.append("armedForceCode", values.documentCode)
+      fd.append("armedForceDoc", armedForceUpload);
+      fd.append("armedForceCode", values.documentCode)
       fd.append('appliedFor', 'Armed Force')
     }
 
@@ -500,7 +500,7 @@ function ConcessionForm(props) {
               </div>
             </div>
 
-            {(genderStatus || seniorStatus || armedStatus || speciallyStatus) && <div className='w-full mb-4 mt-2'>
+            {/* {(genderStatus || seniorStatus || armedStatus || speciallyStatus) && <div className='w-full mb-4 mt-2'>
               <div className='flex flex-row space-x-3'>
                 <label className="form-label inline-block mb-1 text-gray-00 text-sm font-semibold poppins"><small className="block mt-1 text-sm font-semibold text-red-600 inline ">*</small>For JSK: Do you want to upload documents ?  </label>
                 <input
@@ -527,7 +527,7 @@ function ConcessionForm(props) {
 
               </div>
 
-            </div>}
+            </div>} */}
 
             <div className="grid grid-cols-1 md:grid-cols-3">
 
@@ -594,7 +594,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                       className="form-control block w-full  px-3 py-1.5 md:py-1 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
 
                     />
-                    {docStatus == 1 && <span className="text-red-600 absolute text-xs">
+                    {<span className="text-red-600 absolute text-xs">
                       {formik.touched.genderDoc && formik.errors.genderDoc
                         ? formik.errors.genderDoc
                         : null}
@@ -643,7 +643,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
 
                     />
-                    {docStatus == 1 && <span className="text-red-600 absolute text-xs">
+                    {<span className="text-red-600 absolute text-xs">
                       {formik.touched.dobDoc && formik.errors.dobDoc
                         ? formik.errors.dobDoc
                         : null}
@@ -715,7 +715,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                       type="file" accept=".jpg,.jpe" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
                     />
-                    {docStatus == 1 && <span className="text-red-600 absolute text-xs">
+                    {<span className="text-red-600 absolute text-xs">
                       {formik.touched.speciallyAbledDoc &&
                         formik.errors.speciallyAbledDoc
                         ? formik.errors.speciallyAbledDoc
@@ -769,7 +769,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                       type="file" accept=".jpg,.jpe" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
                     />
-                    {docStatus == 1 && <span className="text-red-600 absolute text-xs">
+                    {<span className="text-red-600 absolute text-xs">
                       {formik.touched.armedForceDoc && formik.errors.armedForceDoc
                         ? formik.errors.armedForceDoc
                         : null}

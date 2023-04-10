@@ -1,7 +1,9 @@
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 export default function PaymentApiList() {
-    let baseUrl = "http://192.168.0.16:8000"
+    // let baseUrl = "http://192.168.0.16:8000"
+    let baseUrl = BackendUrl
 
     const header = ApiHeader()
 

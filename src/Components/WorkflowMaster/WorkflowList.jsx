@@ -59,6 +59,7 @@ import deleteImage from "@/Components/WorkflowMaster/delete.svg";
 import Multiselect from "multiselect-react-dropdown";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
 import BarLoader from "../Common/BarLoader";
+import BackendUrl from "../ApiList/BackendUrl";
 
 const customStyles = {
   content: {
@@ -317,7 +318,7 @@ function WorkflowList(props) {
       { id: 38, name: "Benry" },
     ];
     axios
-      .get("http://192.168.0.16:8000/api/get-all-users", header) // all user list
+      .get(BackendUrl + "/api/get-all-users", header) // all user list
       .then(function (response) {
         //filtering the incoming data for multiselect
         const candidateList = response.data

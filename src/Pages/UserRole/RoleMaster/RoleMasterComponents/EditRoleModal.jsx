@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import PaymentApiList from "@/Pages/PaymentMaster/PaymentApiList";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 const customStyles = {
   content: {
@@ -60,7 +61,7 @@ function EditRoleModal(props) {
     };
 
     axios
-      .put("http://192.168.0.16:8000/api/crud/roles/edit-role", payload, header)
+      .put(BackendUrl + "/api/crud/roles/edit-role", payload, header)
       .then(
         (res) => (console.log("Role Update successfully", res), closeModal())
       )

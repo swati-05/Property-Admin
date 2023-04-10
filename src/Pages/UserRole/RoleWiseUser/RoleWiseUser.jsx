@@ -13,6 +13,8 @@ import axios from "axios";
 // import UserPermissionDataTable from './Common/UserPermissionDataTable';
 import UserPermissionDataTable from "../Common/UserPermissionDataTable";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import ListTable from "@/Components/Common/ListTable/ListTable";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function RoleWiseUser(props) {
   const header = ApiHeader()
@@ -62,7 +64,7 @@ function RoleWiseUser(props) {
     () => {
       try {
         return axios.get(
-          `http://192.168.0.16:8000/api/crud/roles/get-all-roles`,
+          BackendUrl + `/api/crud/roles/get-all-roles`,
           header
         );
       } catch (err) {
@@ -89,10 +91,10 @@ function RoleWiseUser(props) {
         <div>
           <div>
             {!isLoading || data ? (
-              <UserPermissionDataTable
+              <ListTable
                 searchText="Roles"
                 columns={columns}
-                data={data?.data.data}
+                data={data?.data?.data}
               />
             ) : (
               "No Data Found"

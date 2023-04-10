@@ -16,6 +16,7 @@ import { useQuery } from "react-query";
 import ManageUserRoleByID from "../UserManagement/ManageUserRoleByID";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
 import WaterApiList from "@/Components/ApiList/WaterApiList";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function UserPermissionView(props) {
   const [bgColor, setBgcColor] = useState("red");
@@ -78,7 +79,7 @@ function UserPermissionView(props) {
     "get-all-roles-UserPermissionView",
     () => {
       return axios.get(
-        `http://192.168.0.16:8000/api/crud/roles/get-all-roles`,
+        BackendUrl + `/api/crud/roles/get-all-roles`,
         header
       );
     },

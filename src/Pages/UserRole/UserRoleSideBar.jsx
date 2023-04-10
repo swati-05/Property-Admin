@@ -36,7 +36,7 @@ function UserRoleSideBar() {
     return (
         <>
 
-            <div className="grid grid-cols-12 rounded-lg mt-4 -ml-10 shadow-xl broder-2 border-sky-200 bg-gray-200">
+            <div className="grid grid-cols-12 rounded-lg mt-4 shadow-xl broder-2 border-sky-200 bg-gray-200">
                 <div className='col-span-12 md:col-span-12 '>
                     <MailboxSidebar tabs={tabs} fun={tabSwitch} /></div>
                 {tabIndex == 0 && <div className='col-span-12 sm:col-span-12 shadow-lg bg-white overflow-y-scroll' style={{ 'height': '90vh' }}> <UserRoleTab /> </div>}

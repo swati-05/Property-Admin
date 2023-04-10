@@ -90,7 +90,7 @@ function MenuMasterIndex(props) {
     refetch();
   };
 
-  const { isLoading, data, isError, error, refetch } = useQuery("api/crud/menu/get-all-menues--", () => {
+  const { data, isError, error, refetch } = useQuery("api/crud/menu/get-all-menues--", () => {
     try {
       return axios.get(api_getAllMenu, header);
     } catch (err) {
@@ -98,8 +98,7 @@ function MenuMasterIndex(props) {
     }
   });
 
-
-  if (!isLoading) { }
+  // if (!isLoading) { }
   if (isError) { console.log("Error useQuery ", isError); }
 
 
@@ -124,7 +123,7 @@ function MenuMasterIndex(props) {
         </div>
         <div>
           <div>
-            {!isLoading ? (<UserPermissionDataTable searchText="Roles" columns={columns} data={data?.data?.data} />) : <BarLoader />}
+            {(Array.isArray(data?.data?.data) && data?.data?.data?.length > 0) ? (<UserPermissionDataTable searchText="Roles" columns={columns} data={data?.data?.data} />) : <> No Data Found !!! </>}
           </div>
         </div>
       </div>

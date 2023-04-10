@@ -18,6 +18,7 @@ import UserPermissionDataTable from "../Common/UserPermissionDataTable";
 import RoleBasedMenuPopUp from "./RoleBasedMenuPopUp";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
 import { format } from 'date-fns'
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function RoleBasedMenuIndex(props) {
   const [openPopUpState, setOpenPopUpState] = useState(null);
@@ -74,7 +75,7 @@ function RoleBasedMenuIndex(props) {
     () => {
       try {
         return axios.get(
-          `http://192.168.0.16:8000/api/crud/roles/get-all-roles`,
+          BackendUrl + `/api/crud/roles/get-all-roles`,
           header
         );
       } catch (err) {

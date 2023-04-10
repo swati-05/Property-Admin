@@ -4,6 +4,7 @@ import { GrFormClose } from "react-icons/gr";
 import axios from "axios";
 import api_headers from "@/Components/ApiList/api_headers";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 const customStyles = {
   content: {
@@ -33,7 +34,7 @@ function DeleteRoleModal(props) {
 
     axios
       .delete(
-        "http://192.168.0.16:8000/api/crud/roles/delete-role",
+        BackendUrl +"/api/crud/roles/delete-role",
         payload,
         api_headers()
       )

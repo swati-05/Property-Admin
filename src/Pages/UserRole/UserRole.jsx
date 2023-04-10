@@ -10,8 +10,12 @@
 
 import React from 'react'
 import UserRoleSideBar from './UserRoleSideBar'
+import useSetTitle from '@/Components/GlobalData/useSetTitle'
 
 function UserRole() {
+
+  useSetTitle("User Role Management Workfow")
+
   return (
     <UserRoleSideBar />
   )

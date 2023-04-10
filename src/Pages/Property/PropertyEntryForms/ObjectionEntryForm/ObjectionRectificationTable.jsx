@@ -166,7 +166,7 @@ const ObjectionRectificationTable = (props) => {
       console.log("--4-- application data => ", values);
       submitData(values);
     },
-    validationSchema,
+    // validationSchema,
   });
 
   const submitData = (values) => {
@@ -385,7 +385,7 @@ const ObjectionRectificationTable = (props) => {
 
       {ownerData != null && !isLoading2 && (
         <>
-          <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center uppercase text-base poppins mb-4 shadow-md py-2 rounded-md">
+           <div className="2xl:mt-6 mt-3 bg-indigo-500 text-white flex flex-row md:justify-evenly items-center justify-center uppercase text-base poppins mb-4 shadow-md py-2 rounded-md">
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-base sm:text-[30px]">
                 <FcDepartment />
@@ -397,17 +397,17 @@ const ObjectionRectificationTable = (props) => {
           </div>
 
           <div className="poppins my-2 2xl:font-base text-sm">
-            Under Section 167 of the Jharkhand Municipal Act 2011, citizen can
-            file requested amendment in “Clerical origin in the name,
-            Correspondence address and Mobile Number.
+            Under Section 167 of the Jharkhand Municipal Act 2011, citizen can file requested amendment in “Clerical origin in the name, Correspondence address and Mobile Number.
           </div>
+
 
           {/* <div className="w-full md:w-[15vw] border-b-2 mb-2"></div> */}
 
-          <div className="w-full flex flex-col sm:flex-row items-center justify-between sm:pr-4">
+          <div className="bg-white py-4 shadow-sm rounded-md transition-all duration-300">
+
             {/* ==============Clerical Selection=============== */}
 
-            <div className="poppins sm:px-4 mb-4 text-sm flex flex-col sm:flex-row sm:items-center">
+            <div className="w-full flex flex-col sm:flex-row items-center justify-between sm:pr-4">
               {(addMember == false || addMember == undefined) && (
                 <>
                   <div className="poppins px-4 mb-4 text-sm flex flex-row items-center">

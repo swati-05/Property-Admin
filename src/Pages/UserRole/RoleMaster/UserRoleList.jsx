@@ -19,6 +19,7 @@ import AddNewRoleModal from "./RoleMasterComponents/AddNewRoleModal";
 import DeleteRoleModal from "./RoleMasterComponents/DeleteRoleModal";
 import EditRoleModal from "./RoleMasterComponents/EditRoleModal";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function UserRoleList(props) {
   const [openAddNewRoleModal, setOpenAddNewRoleModal] = useState(0);
@@ -109,7 +110,7 @@ function UserRoleList(props) {
     "get-all-roleserew-query",
     () => {
       return axios.get(
-        `http://192.168.0.16:8000/api/crud/roles/get-all-roles`,
+        BackendUrl + `/api/crud/roles/get-all-roles`,
         header
       );
     }

@@ -7,6 +7,8 @@ import UserPermissionDataTable from "../Common/UserPermissionDataTable";
 import axios from "axios";
 import { useQuery } from "react-query";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
+import ListTable from "@/Components/Common/ListTable/ListTable";
 
 const customStyles = {
   content: {
@@ -65,7 +67,7 @@ function RoleBasedMenuPopUp(props) {
     };
     axios
       .post(
-        "http://192.168.0.16:8000/api/menu-roles/update-menu-by-role",
+        BackendUrl + "/api/menu-roles/update-menu-by-role",
         payload,
         header
       )
@@ -130,7 +132,7 @@ function RoleBasedMenuPopUp(props) {
     if (props?.roleId > 0) {
       axios
         .post(
-          `http://192.168.0.16:8000/api/menu-roles/get-menu-by-roles`,
+          BackendUrl + `/api/menu-roles/get-menu-by-roles`,
           { roleId: props?.roleId },
           header
         )
@@ -175,7 +177,7 @@ function RoleBasedMenuPopUp(props) {
           <div>
             <div>
               {data?.data?.data ? (
-                <UserPermissionDataTable
+                <ListTable
                   searchText="Menu"
                   columns={columns}
                   data={data?.data?.data}

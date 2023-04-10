@@ -18,9 +18,11 @@ import { FcDocument } from 'react-icons/fc'
 import CitizenApplyApiList from '../../../Components/CitizenApplyApiList';
 import { useNavigate, useParams } from "react-router-dom";
 import '../../../Components/Common/CommonTailwind/Fonts.css'
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function ServicesDocUpload(props) {
-  const base_url = 'http://192.168.0.16:8000'
+  // const base_url = 'http://192.168.0.16:8000'
+  const base_url = BackendUrl
 
   const {id,type} = useParams()
   console.log("id in upload........",id, 'and type => ', type);

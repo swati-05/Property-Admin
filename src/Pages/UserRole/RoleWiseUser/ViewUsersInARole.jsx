@@ -15,6 +15,7 @@ import UserPermissionDataTable from "../Common/UserPermissionDataTable";
 import { TiArrowBack } from "react-icons/ti";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
 import WaterApiList from "./WaterApiList";
+import ListTable from "@/Components/Common/ListTable/ListTable";
 
 function ViewUsersInARole(props) {
   const header = ApiHeader()
@@ -86,10 +87,10 @@ function ViewUsersInARole(props) {
         </div>
         <div className="pb-5">
           {!isLoading && (
-            <UserPermissionDataTable
+            <ListTable
               searchText="Roles"
               columns={columns}
-              data={data?.data.data}
+              data={data?.data?.data}
             />
           )}{" "}
         </div>

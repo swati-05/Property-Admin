@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import PaymentApiList from "@/Pages/PaymentMaster/PaymentApiList";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 const customStyles = {
   content: {
@@ -89,7 +90,7 @@ function AddNewUserModel(props) {
     };
 
     axios
-      .post("http://192.168.0.16:8000/api/authorised-register", payload, header)
+      .post(BackendUrl + "/api/authorised-register", payload, header)
       .then(
         (res) => (console.log("Menu saved successfully", res), closeModal())
       )

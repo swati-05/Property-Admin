@@ -15,6 +15,7 @@ import { MdPersonAdd } from "react-icons/md";
 import { BsFillTelephoneForwardFill } from "react-icons/bs";
 import AddNewUserModel from "../RoleMaster/AddNewUserModel";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function UserPermissionList(props) {
   const [openAddNewUserModel, setopenAddNewUserModel] = useState(0);
@@ -102,7 +103,7 @@ function UserPermissionList(props) {
   const { isLoading, data, isError, error, refetch } = useQuery(
     "get-allUSers-UserPermisonList-Query",
     () => {
-      return axios.get(`http://192.168.0.16:8000/api/get-all-users`, header);
+      return axios.get(BackendUrl + `/api/get-all-users`, header);
     }
   );
   if (!isLoading) {

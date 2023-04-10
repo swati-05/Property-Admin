@@ -15,6 +15,7 @@ import axios from "axios";
 import { contextVar } from "@/Components/Context/Context";
 import Loder from "../Common/Loder";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
+import BackendUrl from "@/Components/ApiList/BackendUrl";
 
 function UserWardPage(props) {
   const { notify } = useContext(contextVar);
@@ -34,7 +35,7 @@ function UserWardPage(props) {
     setLoader(true);
     axios({
       method: "post",
-      url: `http://192.168.0.16:8000/api/ward/masters/ward-user`,
+      url: BackendUrl + `/api/ward/masters/ward-user`,
       data: {
         userID: props.btnId,
         ulbWardID: ward,
@@ -66,7 +67,7 @@ function UserWardPage(props) {
     "UserWardPage-fetchAPi",
     () => {
       return axios.get(
-        `http://192.168.0.16:8000/api/ward/masters/ward-user/${props.btnId}`,
+        BackendUrl + `/api/ward/masters/ward-user/${props.btnId}`,
         header
       );
     }
