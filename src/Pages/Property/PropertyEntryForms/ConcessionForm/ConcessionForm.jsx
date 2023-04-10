@@ -93,13 +93,13 @@ function ConcessionForm(props) {
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "application/pdf"];
 
   const validationSchema = yup.object({
-    gender: yup.mixed().when([], {
+    gender: yup.string().when([], {
       is: () => genderStatus === true,
-      then: yup.mixed().typeError('Select gender').required("Select gender")
+      then: yup.string().typeError('Select gender').required("Select gender")
     }),
-    dob: yup.mixed().when([], {
+    dob: yup.string().when([], {
       is: () => seniorStatus === true,
-      then: yup.mixed().typeError("type error").test(
+      then: yup.string().typeError("type error").test(
         "dob",
         "not 60 years old",
         value => {
