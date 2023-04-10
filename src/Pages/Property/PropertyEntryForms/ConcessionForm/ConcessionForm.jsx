@@ -93,13 +93,13 @@ function ConcessionForm(props) {
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "application/pdf"];
 
   const validationSchema = yup.object({
-    gender: yup.string().typeError("type error").when([], {
-      is: () => genderStatus == true,
-      then: yup.string().typeError('Select gender').required("Select gender")
+    gender: yup.mixed().when([], {
+      is: () => genderStatus === true,
+      then: yup.mixed().typeError('Select gender').required("Select gender")
     }),
-    dob: yup.string().typeError("type error").when([], {
-      is: () => seniorStatus == true,
-      then: yup.string().typeError("type error").test(
+    dob: yup.mixed().when([], {
+      is: () => seniorStatus === true,
+      then: yup.mixed().typeError("type error").test(
         "dob",
         "not 60 years old",
         value => {
@@ -107,14 +107,20 @@ function ConcessionForm(props) {
         }
       )
     }),
+
+    speciallyAbledPercentage: yup.number().when([], {
+      is: () => speciallyStatus === true,
+      then: yup.number()
+            .typeError("type error")
+            .min(40, 'must be between 40% to 100%')
+            .max(100, 'must be between 40% to 100%')
+            .required("Enter specially-abled percentage")
+    }),
+    
     // speciallyAbled: yup.boolean().when([], {
     //   is: () => speciallyStatus === true,
     //   then: yup.boolean().required("Select specially-abled status")
     // }),
-    speciallyAbledPercentage: yup.number().typeError("type error").when([], {
-      is: () => speciallyStatus == true,
-      then: yup.number().typeError("type error").min(40, 'must be between 40% to 100%').max(100, 'must be between 40% to 100%').required("Enter specially-abled percentage")
-    }),
     // armedForce: yup.boolean().when([], {
     //   is: () => armedStatus === true,
     //   then: yup.boolean().required("Select armed force status")
@@ -590,7 +596,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                     </label>
                     <input
                       {...formik.getFieldProps("genderDoc")}
-                      type="file" accept=".jpg,.jpe" onChange={handleChange}
+                      type="file" accept=".jpg,.jpeg,.pdf" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 text-base md:text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
 
                     />
@@ -639,7 +645,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                     </label>
                     <input
                       {...formik.getFieldProps("dobDoc")}
-                      type="file" accept=".jpg,.jpe" onChange={handleChange}
+                      type="file" accept=".jpg,.jpeg,.pdf" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
 
                     />
@@ -712,7 +718,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                     </label>
                     <input
                       {...formik.getFieldProps("speciallyAbledDoc")}
-                      type="file" accept=".jpg,.jpe" onChange={handleChange}
+                      type="file" accept=".jpg,.jpeg,.pdf" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
                     />
                     {<span className="text-red-600 absolute text-xs">
@@ -766,7 +772,7 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                     </label>
                     <input
                       {...formik.getFieldProps("armedForceDoc")}
-                      type="file" accept=".jpg,.jpe" onChange={handleChange}
+                      type="file" accept=".jpg,.jpeg,.pdf" onChange={handleChange}
                       className="form-control block w-full  px-3 py-1.5 md:py-1 poppins 2xl:text-base text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 cursor-pointer shadow-md"
                     />
                     {<span className="text-red-600 absolute text-xs">
