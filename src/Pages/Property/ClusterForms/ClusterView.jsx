@@ -33,6 +33,7 @@ import BrandLoader from '@/Components/Common/BrandLoader';
 import CommonModal from '@/Components/GlobalData/CommonModal';
 import ServerErrorCard from '@/Components/Common/ServerErrorCard';
 import BottomErrorCard from '@/Components/Common/BottomErrorCard';
+import useSetTitle from '@/Components/GlobalData/useSetTitle';
 
 const ClusterView = (props) => {
 
@@ -53,6 +54,7 @@ const ClusterView = (props) => {
   const [erroState2, seterroState2] = useState(false);
   const [erroMessage, seterroMessage] = useState(null);
 
+  useSetTitle("Cluster Details View")
 
   const navigate = useNavigate()
 
