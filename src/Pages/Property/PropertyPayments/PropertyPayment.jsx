@@ -51,6 +51,14 @@ function PropertyPayment(props) {
             }
         }
 
+        // CLUSTER SAF PAYMENT
+        if(moduleType == 'cluster-saf'){
+            url = api_getsafDemandById;
+            requestBody = {
+                id : id
+            }
+        }
+
         axios.post(url, requestBody, ApiHeader())
             .then(function (response) {
                 console.log('payment details data...', response?.data)
@@ -64,13 +72,9 @@ function PropertyPayment(props) {
             })
     }
 
-
-
     useEffect(() => {
         fetchDemandDetail()
     }, [])
-
-
 
     return (
         <>

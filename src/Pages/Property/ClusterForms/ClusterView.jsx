@@ -441,7 +441,7 @@ const ClusterView = (props) => {
     <>
       {isLoading2 && <BarLoader />}
       {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
-      <div className='flex  flex-col w-full text-zinc-800 h-full overflow-y-auto'>
+      <div className='flex  flex-col w-full text-zinc-800 h-[100vh] overflow-y-auto'>
 
         {/* =================Basic Details============================== */}
         <div>

@@ -227,15 +227,15 @@ const ClusterTable = (props) => {
               {(close) => (
                 <div className="h-screen w-screen flex-row justify-center items-center backdrop-blur-sm">
                   <div className="flex flex-col justify-center h-max w-max absolute top-[40%] right-[40%] bg-white px-4 py-2 rounde-md shadow-lg animate__animated animate__fadeInDown animate__faster">
-                    <button className="close text-start" onClick={close}>
-                      &times;
+                    <button className="close text-end " onClick={close}>
+                     <span className="hover:bg-red-400 hover:text-white rounded-md px-1 ">&times;</span> 
                     </button>
-                    <div className="text-sm">
+                    <div className="text-base">
                       Are you sure want to delete ?
                     </div>
                     <div className="flex justify-center items-center">
                       <button
-                        className="bg-blue-200 hover:bg-blue-300 shadow-md text-xs px-4 py-1 m-4 rounded-md"
+                        className="bg-red-200 hover:bg-red-300 shadow-md text-xs px-4 py-1 m-4 rounded-md"
                         onClick={() => {
                           close();
                           funDel(cell?.row?.values?.id);
@@ -244,7 +244,7 @@ const ClusterTable = (props) => {
                         Yes
                       </button>
                       <button
-                        className="bg-blue-200 hover:bg-blue-300 px-4 shadow-md text-xs py-1 m-4 rounded-md"
+                        className="bg-green-200 hover:bg-green-300 px-4 shadow-md text-xs py-1 m-4 rounded-md"
                         onClick={close}
                       >
                         No

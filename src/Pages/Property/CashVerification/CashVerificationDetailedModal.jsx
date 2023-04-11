@@ -231,7 +231,7 @@ function CashVerificationDetailedModal(props) {
                                     <tr>
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
-                                        <th className="px-2 py-2 border-r">Owner Name</th>
+                                        {/* <th className="px-2 py-2 border-r">Owner Name</th> */}
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
                                         <th className="px-2 py-2 border-r">Check/DD No</th>
@@ -246,7 +246,7 @@ function CashVerificationDetailedModal(props) {
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                {/* <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td> */}
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
@@ -269,7 +269,7 @@ function CashVerificationDetailedModal(props) {
                                     <tr>
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
-                                        <th className="px-2 py-2 border-r">Owner Name</th>
+                                        {/* <th className="px-2 py-2 border-r">Owner Name</th> */}
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
                                         <th className="px-2 py-2 border-r">Check/DD No</th>
@@ -284,7 +284,7 @@ function CashVerificationDetailedModal(props) {
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                {/* <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td> */}
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no) }</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no) }</td>
@@ -311,7 +311,7 @@ function CashVerificationDetailedModal(props) {
                                     <tr>
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
-                                        <th className="px-2 py-2 border-r">Owner Name</th>
+                                        {/* <th className="px-2 py-2 border-r">Owner Name</th> */}
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
                                         <th className="px-2 py-2 border-r">Application No</th>
                                         <th className="px-2 py-2 border-r">Check/DD No</th>
@@ -326,7 +326,7 @@ function CashVerificationDetailedModal(props) {
                                             <tr key={i}>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no) }</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td>
+                                                {/* <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.user_name) }</td> */}
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
