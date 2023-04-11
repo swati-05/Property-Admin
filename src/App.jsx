@@ -364,7 +364,7 @@ function App(props) {
               <Route path="/home" element={<LandingHomeDashBoard />} />
               <Route path="/user-permission" element={<UserPermission />} />
               <Route path="/user-role" element={<UserRole />} />
-              <Route path="/workflow-mstr" element={<WorkflowMaster />} />
+              {/* <Route path="/workflow-mstr" element={<WorkflowMaster />} /> */}
               <Route path="/saf-workflow" element={<SafWorkflowEntry />} />
               <Route path="/gbsaf-workflow" element={<GBSafWorkflow />} />
               <Route path="/concession-workflow" element={<ConcessionWorkflowEntry />} />

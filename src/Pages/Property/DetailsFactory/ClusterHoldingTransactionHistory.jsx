@@ -282,7 +282,7 @@ function ClusterHoldingTransactionHistory(props) {
                             <tbody className="text-sm">
 
 
-                                {readyMadeListData?.Holding?.map((data, index) => (
+                                {readyMadeListData?.Property?.map((data, index) => (
                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                         <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}</td>
@@ -292,7 +292,7 @@ function ClusterHoldingTransactionHistory(props) {
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
-                                            <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
+                                            <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/cluster-holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>
 
                                     </tr>
@@ -310,7 +310,7 @@ function ClusterHoldingTransactionHistory(props) {
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
                                         <td className="px-2 py-2 text-sm text-left">
-                                            <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/saf`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
+                                            <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/cluster-saf`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>
 
                                     </tr>

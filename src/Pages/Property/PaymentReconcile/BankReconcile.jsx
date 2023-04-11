@@ -458,9 +458,22 @@ function BankReconcile() {
       }
     }
     },
-    
     {
-      Header: "Action",
+      Header : 'Status',
+      Cell : ({cell}) => <>
+      {cell?.row?.original?.status == '1' && <span className="text-green-500 font-semibold">
+          Clear
+        </span>}
+        {cell?.row?.original?.status == '2' && <span className="text-blue-500 font-semibold">
+          Pending
+        </span>}
+        {cell?.row?.original?.status == '3' && <span className="text-red-500 font-semibold">
+          Bounce
+        </span>}
+      </>
+    },
+    {
+      Header: "_",
       Cell: ({ cell }) =>
         cell.row?.original?.status == "2" && (
           <span
@@ -470,7 +483,7 @@ function BankReconcile() {
             }}
             className={` px-2 py-1 rounded-lg shadow-lg border border-gray-300 bg-indigo-500 hover:bg-indigo-600 text-white cursor-pointer`}
           >
-            <span className="font-semibold">View</span>{" "}
+            <span className="font-semibold">Action</span>{" "}
             {/* <BsCheckCircleFill className="inline text-sky-500 font-semibold text-lg cursor-pointer hover:text-sky-700 mb-1 relative hover:scale-150" /> */}
           </span>
         ),

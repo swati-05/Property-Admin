@@ -24,7 +24,7 @@ function PropertyPayment(props) {
 
     const { id, moduleType } = useParams()
 
-    const { api_getHoldingDemandById, api_getsafDemandById } = CitizenApplyApiList();
+    const { api_getHoldingDemandById, api_getsafDemandById, api_getClusterSafDemandById, api_getClusterHoldingDemandById } = CitizenApplyApiList();
 
     useSetTitle('Payment Screen')
 
@@ -53,9 +53,16 @@ function PropertyPayment(props) {
 
         // CLUSTER SAF PAYMENT
         if(moduleType == 'cluster-saf'){
-            url = api_getsafDemandById;
+            url = api_getClusterSafDemandById;
             requestBody = {
-                id : id
+                clusterId : id
+            }
+        }
+
+        if(moduleType == 'cluster-holding'){
+            url = api_getClusterHoldingDemandById;
+            requestBody = {
+                clusterId : id
             }
         }
 
@@ -182,7 +189,7 @@ function PropertyPayment(props) {
                 </div>
                 <div>
 
-                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
+                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={demandDetail?.amounts} paymentDetails={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.duesList} />
                 </div>
             </div>
 
