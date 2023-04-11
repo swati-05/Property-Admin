@@ -14,6 +14,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
 import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
+import { nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 const PropSafSearchCollection = () => {
 
@@ -139,213 +140,78 @@ const PropSafSearchCollection = () => {
             {
                 Header: "Ward No",
                 accessor: "ward_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                  }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Property Tax No",
                 accessor: "pt_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Holding No",
                 accessor: "holding_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: type == 'property' ? "Unique House No" : "Saf No",
                 accessor: type == 'property' ? "new_holding_no" : "saf_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Owner Name",
                 accessor: "owner_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Mobile No",
                 accessor: "mobile_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Payment(From/Upto)",
                 accessor: "from_upto_fy_qtr",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             
             {
                 Header: "Tran. Date",
                 accessor: "tran_date",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Tran. Mode",
                 accessor: "transaction_mode",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Amount",
                 accessor: "amount",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return <>₹{nullToZero(props?.value)}</>}
             },
             {
                 Header: "Tax Collector",
                 accessor: "emp_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Tran. No",
                 accessor: "tran_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Check/DD No",
                 accessor: "cheque_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Bank",
                 accessor: "bank_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Branch",
                 accessor: "branch_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             }
         ]
 
@@ -357,171 +223,63 @@ const PropSafSearchCollection = () => {
             {
                 Header: "Ward No",
                 accessor: "ward_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                  }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Application No.",
                 accessor: "application_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Address",
                 accessor: 'prop_address',
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Payment(From/Upto)",
                 accessor: "from_upto_fy_qtr",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             
             {
                 Header: "Tran. Date",
                 accessor: "tran_date",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Tran. Mode",
                 accessor: "transaction_mode",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Amount",
                 accessor: "amount",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return <>₹{nullToZero(props?.value)}</>}
             },
             {
                 Header: "Tax Collector",
                 accessor: "emp_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Tran. No",
                 accessor: "tran_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Check/DD No",
                 accessor: "cheque_no",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Bank",
                 accessor: "bank_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             },
             {
                 Header: "Branch",
                 accessor: "branch_name",
-                Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                  return (
-                      <i className="font-semibold ">N/A</i>
-                  );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-                }
+                Cell: (props) => {return nullToNA(props?.value)}
             }
         ]
 
@@ -618,19 +376,7 @@ const PropSafSearchCollection = () => {
                 </div>
 
                 <div className="w-full md:w-[20%] flex justify-start items-end">
-                    {loader ? <>
-                                <div className='flex justify-start items-end'>
-                                <RotatingLines
-                                    strokeColor="grey"
-                                    strokeWidth="5"
-                                    animationDuration="0.75"
-                                    width="25"
-                                    visible={true}
-                                />
-                                </div>
-                    </>
-                    :
-                    <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>}
+                    <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
                 </div>
 
             </div>

@@ -25,6 +25,7 @@ import BarLoader from "@/Components/Common/BarLoader";
 import { toast, ToastContainer } from "react-toastify";
 import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
+import { nullToZero } from "@/Components/PowerUps/PowerupFunctions";
 
 const customStyles = {
   content: {
@@ -251,212 +252,68 @@ function BankReconcile() {
     {
       Header: "Tran. No.",
       accessor: "tran_no",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Tran. Date",
       accessor: "tran_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Payment Mode",
       accessor: "payment_mode",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Tran. Type",
       accessor: "tran_type",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Cheque Date",
       accessor: "cheque_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Cheque No.",
       accessor: "cheque_no",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Bank Name",
       accessor: "bank_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Branch Name",
       accessor: "branch_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Tran. Amount",
       accessor: "amount",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return <>₹{nullToZero(props?.value)}</>}
     },
 
     {
       Header: "Clearance Date",
       accessor: "clear_bounce_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Remarks",
       accessor: "remarks",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
-      Header: "TC Name.",
+      Header: "TC Name",
       accessor: "user_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header : 'Status',
@@ -779,8 +636,7 @@ function BankReconcile() {
                 >
                   Submit
                 </button>
-              
-            
+  
             </div>
           </div>
         </form>
