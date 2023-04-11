@@ -88,7 +88,7 @@ function BankReconcile() {
       moduleId : formik?.values?.moduleId,
       paymentMode: formik?.values?.paymentMode,
       verificationType: formik?.values?.verificationType,
-      chequeDdNo: formik?.values?.cheque_dd_no,
+      chequeNo: formik?.values?.cheque_dd_no,
     };
 
     setmdId(parameters?.moduleId)
@@ -568,8 +568,8 @@ function BankReconcile() {
               className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
             >
               <option value="">All</option>
-              <option value="cheque">Cheque</option>
-              <option value="dd">DD</option>
+              <option value="CHEQUE">Cheque</option>
+              <option value="DD">DD</option>
             </select>
             {/* <span className="text-red-600 absolute text-xs">{formik.touched.paymentMode && formik.errors.paymentMode ? formik.errors.paymentMode : null}</span> */}
           </div>
@@ -618,7 +618,7 @@ function BankReconcile() {
         </div>
       </form>
 
-      <div className="form-group mb-1 md:mb-2 col-span-4 md:col-span-3 md:px-4">
+      {/* <div className="form-group mb-1 md:mb-2 col-span-4 md:col-span-3 md:px-4">
         {
           <button
             onClick={() => setFilteredData(false)}
@@ -627,7 +627,7 @@ function BankReconcile() {
             View All Record
           </button>
         }
-      </div>
+      </div> */}
 
       <div className="border-b mx-10 my-5"></div>
       <div className="p-5">
