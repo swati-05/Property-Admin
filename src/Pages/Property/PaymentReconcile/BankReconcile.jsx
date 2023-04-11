@@ -146,8 +146,8 @@ function BankReconcile() {
           moduleId : mdId,
           status: data?.clearStatus,
           clearanceDate: data?.clearanceDate,
-          remarks: data?.reason,
-          cancellationCharge: data?.charge,
+          remarks: actionState == "bounce" ? data?.reason : '',
+          cancellationCharge:actionState == "bounce" ?  data?.charge : '',
         },
         header
       )
