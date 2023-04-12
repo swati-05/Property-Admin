@@ -92,8 +92,6 @@ function BankReconcile() {
       chequeNo: formik?.values?.cheque_dd_no,
     };
 
-    setmdId(parameters?.moduleId)
-
     axios
       .post(getReconcillationDetails, payloadData, header)
       .then(
@@ -106,11 +104,11 @@ function BankReconcile() {
     });
   };
 
-  const validationSchema = yup.object({
-    fromDate: yup.string().required("Select from date"),
-    toDate: yup.string().required("Select to date"),
-    // paymentMode: yup.string().required('Select pyement mode'),
-  });
+  // const validationSchema = yup.object({
+  //   fromDate: yup.string().required("Select from date"),
+  //   toDate: yup.string().required("Select to date"),
+  //   // paymentMode: yup.string().required('Select pyement mode'),
+  // });
 
   const formik = useFormik({
     initialValues: {
@@ -130,8 +128,9 @@ function BankReconcile() {
       // setSubmitButtonStatus(false)
       // fetchBankReconcilliation()
       fetchFilterData(values);
+      setmdId(values?.moduleId)
     },
-    validationSchema,
+    // validationSchema,
   });
 
   // Form 2 - In Popup Story Start
@@ -169,14 +168,23 @@ function BankReconcile() {
       );
   };
 
-  const validationSchema2 = yup.object({
+  const validationSchema = yup.object({
     clearStatus: yup.string().required("Select to Status"),
-    clearanceDate: yup.string().required("Select from Date"),
+    clearanceDate: yup.mixed().required("Select from Date"),
+    clearStatus : yup.string().required("Select Status"),
+// reason : yup.string().when('clearStatus',{
+//   is: 'bounce',
+//   then : yup.string().required("Select reason")
+// }),
+// charge : yup.string().when('clearStatus',{
+//   is: 'bounce',
+//   then : yup.string().required("Enter cancellation charge")
+// })
   });
 
   const formik2 = useFormik({
     initialValues: {
-      transactionNo: transactionNo,
+      // transactionNo: transactionNo,
       clearanceDate: "",
       clearStatus: "",
       reason: "",
@@ -192,18 +200,18 @@ function BankReconcile() {
       // setSubmitButtonStatus(false)
       // fetchBankReconcilliation()
     },
-    validationSchema2,
+    validationSchema,
   });
 
-  const handleClearStatus = (e) => {
-    console.log("============sdfsdf---------", e.target.value);
-    formik2.values.clearStatus = e.target.value;
-    setactionState(e.target.value);
-  };
-  const handleClearanceDate = (e) =>
-    (formik2.values.clearanceDate = e.target.value);
-  const handleClearReason = (e) => (formik2.values.reason = e.target.value);
-  const HandleClearCharge = (e) => (formik2.values.charge = e.target.value);
+  // const handleClearStatus = (e) => {
+  //   console.log("============sdfsdf---------", e.target.value);
+  //   formik2.values.clearStatus = e.target.value;
+  //   setactionState(e.target.value);
+  // };
+  // const handleClearanceDate = (e) =>
+  //   (formik2.values.clearanceDate = e.target.value);
+  // const handleClearReason = (e) => (formik2.values.reason = e.target.value);
+  // const HandleClearCharge = (e) => (formik2.values.charge = e.target.value);
 
   // Form 2 - In Popup Story END!!
 
@@ -506,37 +514,39 @@ function BankReconcile() {
       >
         {/* FORM 2 ->In Popup For Reconcile */}
 
-        <form onSubmit={formik2.handleSubmit} className="bg-sky-200 rounded-lg shadow-xl border-2 border-gray-50 w-[50vw] p-4 text-sm">
+        <div className="bg-sky-200 rounded-lg shadow-xl border-2 border-gray-50 sm:w-[50vw] w-[100vw] p-4 text-sm">
           <div className="grid grid-cols-12">
 
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque No.</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_no)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque Date</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_date)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Bank Name</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.bank_name)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Branch Name</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.branch_name)}</div>
             </div>
 
           </div>
 
-          <div className="grid-cols-12 grid gap-y-2 gap-x-10 mt-4">
-            <div className="col-span-6 grid grid-cols-12 items-center">
+          <form onSubmit={formik2.handleSubmit} onChange={formik2.handleChange} className="grid-cols-12 grid gap-y-2 sm:gap-x-10 mt-4">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
               <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                 Status
               </label>
               <span className="col-span-6">
               <select
                 name="clearStatus"
-                onChange={(e) => handleClearStatus(e)}
+                // onChange={(e) => handleClearStatus(e)}
+                onChange={formik2.handleChange}
+                value={formik2.values.clearStatus}
                 className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
               >
                 <option value="">--select--</option>
@@ -551,33 +561,39 @@ function BankReconcile() {
               </span>
             </div>
 
-            <div className="col-span-6 grid grid-cols-12 items-center">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
               <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                 Clearance Date
               </label>
               <span className="col-span-6">
               <input
-                onChange={(e) => handleClearanceDate(e)}
+                // onChange={(e) => handleClearanceDate(e)}
+                onChange={formik2.handleChange}
+                value={formik2.values.clearanceDate}
+                name="clearanceDate"
                 type="date"
                 className="w-full form-control block w-fullpx-1 py-1.5 px-2 text-sm md:text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
               />
 
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clearDate && formik.errors.clearDate
-                  ? formik.errors.clearDate
+                {formik2.touched.clearanceDate && formik2.errors.clearanceDate
+                  ? formik2.errors.clearanceDate
                   : null}
               </span>
               </span>
             </div>
 
-            {actionState == "bounce" && (
-              <div className="col-span-6 grid grid-cols-12 items-center">
+            {formik2.values.clearStatus == "bounce" && (
+              <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
                 <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                   Reason
                 </label>
                 <span className="col-span-6">
                 <select
-                  onChange={(e) => handleClearReason(e)}
+                  // onChange={(e) => handleClearReason(e)}
+                  onChange={formik2.handleChange}
+                  value={formik2.values.reason}
+                  name="reason"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
                 >
                   <option value="">--select--</option>
@@ -592,29 +608,32 @@ function BankReconcile() {
                   <option value="Frozen account">Frozen account</option>
                   <option value="other">Other</option>
                 </select>
-                <span className="text-red-600 absolute text-xs">
-                  {formik.touched.reason && formik.errors.reason
-                    ? formik.errors.reason
+                <span className="text-red-600  text-xs">
+                  {formik2.touched.reason && formik2.errors.reason
+                    ? formik2.errors.reason
                     : null}
                 </span>
                 </span>
               </div>
             )}
 
-            {actionState == "bounce" && (
-              <div className="col-span-6 grid grid-cols-12 items-center">
+            {formik2.values.clearStatus == "bounce" && (
+              <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
                 <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                   Cancelation Charge
                 </label>
                 <span className="col-span-6">
                 <input
-                  onChange={(e) => HandleClearCharge(e)}
+                  // onChange={(e) => HandleClearCharge(e)}
+                  onChange={formik2.handleChange}
+                  value={formik2.values.charge}
+                  name="charge"
                   type="text"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
                 />
-                <span className="text-red-600 absolute text-xs">
-                  {formik.touched.charge && formik.errors.charge
-                    ? formik.errors.charge
+                <span className="text-red-600  text-xs">
+                  {formik2.touched.charge && formik2.errors.charge
+                    ? formik2.errors.charge
                     : null}
                 </span>
                 </span>
@@ -638,8 +657,9 @@ function BankReconcile() {
                 </button>
   
             </div>
-          </div>
-        </form>
+          </form>
+
+        </div>
       </Modal>
       <div className="h-[20vh]"></div>
     </>
