@@ -206,16 +206,16 @@ function BankReconcile() {
     validationSchema : yup.object({
       clearanceDate: yup.mixed().required("Select from Date"),
       clearStatus : yup.string().required("Select Status"),
-      values: yup.object({
-        reason: yup.string().when('clearStatus', {
-          is: 'bounce',
-          then: yup.string().required("Select reason")
-        }),
-        charge: yup.string().when('clearStatus', {
-          is: 'bounce',
-          then: yup.string().required("Enter cancellation charge")
-        })
-      })
+      // values: yup.object({
+      //   reason: yup.string().when('clearStatus', {
+      //     is: 'bounce',
+      //     then: yup.string().required("Select reason")
+      //   }),
+      //   charge: yup.string().when('clearStatus', {
+      //     is: 'bounce',
+      //     then: yup.string().required("Enter cancellation charge")
+      //   })
+      // })
     }),
   });
 
