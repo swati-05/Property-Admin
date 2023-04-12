@@ -13,6 +13,7 @@ import ListTable2 from '@/Components/Common/ListTableMargin/ListTable2'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
 import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
+import { indianAmount } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 const HoldingDcb = () => {
 
@@ -173,37 +174,19 @@ const HoldingDcb = () => {
             Header : 'DEMAND',
             columns : [
                 {
-            Header: "Arrear (₹)",
+            Header: "Arrear",
             accessor: "arrear_demand",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Current (₹)",
+            Header: "Current",
             accessor: "current_demand",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Total Demand (₹)",
+            Header: "Total Demand",
             Cell: ({cell}) => {
-                return parseFloat(cell?.row?.original?.arrear_demand) + parseFloat(cell?.row?.original?.current_demand)
+                return indianAmount(parseFloat(cell?.row?.original?.arrear_demand) + parseFloat(cell?.row?.original?.current_demand))
             }
         },
             ]
@@ -213,37 +196,19 @@ const HoldingDcb = () => {
             Header : "COLLECTION",
             columns : [
                {
-            Header: "Arrear (₹)",
+            Header: "Arrear",
             accessor: "arrear_collection",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Current (₹)",
+            Header: "Current",
             accessor: "current_collection",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Total Collection (₹)",
+            Header: "Total Collection",
             Cell: ({cell}) => {
-                return parseFloat(cell?.row?.original?.arrear_collection) + parseFloat(cell?.row?.original?.current_collection)
+                return indianAmount(parseFloat(cell?.row?.original?.arrear_collection) + parseFloat(cell?.row?.original?.current_collection))
             }
         },
             ]
@@ -253,46 +218,19 @@ const HoldingDcb = () => {
             Header : "BALANCE",
             columns : [
                 {
-            Header: "Arrear (₹)",
+            Header: "Arrear",
             accessor: "old_due",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Current (₹)",
+            Header: "Current",
             accessor: "current_due",
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
         {
-            Header: "Total Balance (₹)",
+            Header: "Total Balance",
             accessor: 'outstanding',
-            Cell: (props) => {
-                if (props?.value == null || props?.value == '' || props?.value == undefined) {
-                    return (
-                        <i className="font-semibold ">N/A</i>
-                    );
-                }
-                if (props?.value != null) {
-                    return props?.value;
-                }
-            }
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
         },
             ]
         },
@@ -377,6 +315,7 @@ const HoldingDcb = () => {
             {
                 (requestBody != null) && 
                 <ListTableConnect 
+                    margin={true}
                     type='old' // if pagination is from laravel
                     api={searchHoldingDcb} // sending api
                     columns={COLUMNS} // sending column
