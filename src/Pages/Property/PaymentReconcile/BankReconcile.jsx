@@ -104,7 +104,7 @@ function BankReconcile() {
     });
   };
 
-  // const validationSchema = yup.object({
+  // const validationSchema2 = yup.object({
   //   fromDate: yup.string().required("Select from date"),
   //   toDate: yup.string().required("Select to date"),
   //   // paymentMode: yup.string().required('Select pyement mode'),
@@ -130,7 +130,10 @@ function BankReconcile() {
       fetchFilterData(values);
       setmdId(values?.moduleId)
     },
-    // validationSchema,
+    validationSchema : yup.object({
+        fromDate: yup.string().required("Select from date"),
+        toDate: yup.string().required("Select to date"),
+      })
   });
 
   // Form 2 - In Popup Story Start
@@ -168,10 +171,10 @@ function BankReconcile() {
       );
   };
 
-  const validationSchema = yup.object({
-    clearStatus: yup.string().required("Select to Status"),
-    clearanceDate: yup.mixed().required("Select from Date"),
-    clearStatus : yup.string().required("Select Status"),
+  // const validationSchema = yup.object({
+  //   clearStatus: yup.string().required("Select to Status"),
+  //   clearanceDate: yup.mixed().required("Select from Date"),
+  //   clearStatus : yup.string().required("Select Status"),
 // reason : yup.string().when('clearStatus',{
 //   is: 'bounce',
 //   then : yup.string().required("Select reason")
@@ -180,7 +183,7 @@ function BankReconcile() {
 //   is: 'bounce',
 //   then : yup.string().required("Enter cancellation charge")
 // })
-  });
+  // });
 
   const formik2 = useFormik({
     initialValues: {
@@ -200,7 +203,20 @@ function BankReconcile() {
       // setSubmitButtonStatus(false)
       // fetchBankReconcilliation()
     },
-    validationSchema,
+    validationSchema : yup.object({
+      clearanceDate: yup.mixed().required("Select from Date"),
+      clearStatus : yup.string().required("Select Status"),
+      values: yup.object({
+        reason: yup.string().when('clearStatus', {
+          is: 'bounce',
+          then: yup.string().required("Select reason")
+        }),
+        charge: yup.string().when('clearStatus', {
+          is: 'bounce',
+          then: yup.string().required("Enter cancellation charge")
+        })
+      })
+    }),
   });
 
   // const handleClearStatus = (e) => {
@@ -547,6 +563,7 @@ function BankReconcile() {
                 // onChange={(e) => handleClearStatus(e)}
                 onChange={formik2.handleChange}
                 value={formik2.values.clearStatus}
+                onBlur={formik.handleBlur}
                 className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
               >
                 <option value="">--select--</option>
@@ -570,6 +587,7 @@ function BankReconcile() {
                 // onChange={(e) => handleClearanceDate(e)}
                 onChange={formik2.handleChange}
                 value={formik2.values.clearanceDate}
+                onBlur={formik.handleBlur}
                 name="clearanceDate"
                 type="date"
                 className="w-full form-control block w-fullpx-1 py-1.5 px-2 text-sm md:text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
@@ -593,6 +611,7 @@ function BankReconcile() {
                   // onChange={(e) => handleClearReason(e)}
                   onChange={formik2.handleChange}
                   value={formik2.values.reason}
+                  onBlur={formik.handleBlur}
                   name="reason"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
                 >
@@ -627,6 +646,7 @@ function BankReconcile() {
                   // onChange={(e) => HandleClearCharge(e)}
                   onChange={formik2.handleChange}
                   value={formik2.values.charge}
+                  onBlur={formik.handleBlur}
                   name="charge"
                   type="text"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
