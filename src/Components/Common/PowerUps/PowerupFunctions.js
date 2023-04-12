@@ -230,3 +230,11 @@ export const nullToZero = (value) => {
 
 }
 
+export const indianAmount = (value) => {
+    if (value === undefined || value === null || typeof value === "undefined" || value === "") {
+        return parseFloat(0).toLocaleString("en-IN", {style: "currency",currency: "INR"});
+    } else {
+        return parseFloat(value).toLocaleString("en-IN", {style: "currency",currency: "INR"});
+    }
+}
+

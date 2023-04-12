@@ -14,7 +14,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
 import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
-import { nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 const PropSafSearchCollection = () => {
 
@@ -186,7 +186,7 @@ const PropSafSearchCollection = () => {
             {
                 Header: "Amount",
                 accessor: "amount",
-                Cell: (props) => {return <>₹{nullToZero(props?.value)}</>}
+                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
             },
             {
                 Header: "Tax Collector",
@@ -254,7 +254,7 @@ const PropSafSearchCollection = () => {
             {
                 Header: "Amount",
                 accessor: "amount",
-                Cell: (props) => {return <>₹{nullToZero(props?.value)}</>}
+                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
             },
             {
                 Header: "Tax Collector",

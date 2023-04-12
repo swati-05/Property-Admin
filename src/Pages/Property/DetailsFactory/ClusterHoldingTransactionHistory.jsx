@@ -17,6 +17,7 @@ import { nullToNA } from '@/Components/PowerUps/PowerupFunctions';
 import BrandLoader from '@/Components/Common/BrandLoader';
 import CommonModal from '@/Components/GlobalData/CommonModal';
 import ServerErrorCard from '@/Components/Common/ServerErrorCard';
+import { nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions';
 
 
 
@@ -288,9 +289,9 @@ function ClusterHoldingTransactionHistory(props) {
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_no)}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}|{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}|{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToZero(parseFloat(data?.amount)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/cluster-holding`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>
@@ -306,9 +307,9 @@ function ClusterHoldingTransactionHistory(props) {
                                         </td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.payment_mode)}</td>
                                         <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.tran_date)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}/{nullToNA(data?.from_fyear)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}/{nullToNA(data?.to_fyear)}</td>
-                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.amount)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.from_qtr)}|{nullToNA(data?.from_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.to_qtr)}|{nullToNA(data?.to_fyear)}</td>
+                                        <td className="px-2 py-2 text-sm text-left">{nullToZero(parseFloat(data?.amount)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</td>
                                         <td className="px-2 py-2 text-sm text-left">
                                             <button onClick={() => navigate(`/paymentReceipt/${data?.tran_no}/cluster-saf`)} type="button" className="cypress_owner_add_update px-2 py-2.5 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View Receipt</button>
                                         </td>

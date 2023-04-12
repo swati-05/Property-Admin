@@ -88,7 +88,7 @@ function PropertyPayment(props) {
             {isLoading && <BarLoader />}
             {/* <div className=" font-bold text-2xl pb-4 md:py-4">Holding Deactivation</div> */}
 
-            <div className="p-10">
+            <div className="sm:p-10 p-2">
                 <div className='w-full bg-white shadow-xl mb-6'>
                     {(moduleType != 'cluster-saf' && moduleType != 'cluster-holding') && <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">

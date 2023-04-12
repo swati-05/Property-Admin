@@ -188,7 +188,7 @@ function CashVerificationDetailedModal(props) {
                                     <div className='col-span-1 font-semibold'>
                                         <p className='uppercase'>: {nullToNA(fetchedData?.collectorName)}</p>
                                         <p>: {nullToNA(fetchedData?.date)}</p>
-                                        <p>: {nullToZero(fetchedData?.totalAmount)}</p>
+                                        <p>: {nullToZero(parseFloat(fetchedData?.totalAmount).toLocaleString("en-IN", {style: "currency",currency: "INR"}))}</p>
                                         <p>: {nullToZero(fetchedData?.numberOfTransaction)}</p>
                                     </div>
                                 </div>
@@ -198,15 +198,15 @@ function CashVerificationDetailedModal(props) {
 
                                 <div className='flex flex-wrap-reverse m-0'>
                                     <div className='bg-emerald-500 shadow p-6 m-2 rounded'>
-                                        <p className="font-semibold text-3xl"><span className='text-lg mx-1'>₹</span>{nullToZero(fetchedData?.Cash)}<span className='text-lg'>.00</span></p>
+                                        <p className="font-semibold text-3xl">{nullToZero(parseFloat(fetchedData?.Cash)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</p>
                                         <p className='text-lg font-semibold'>Cash</p>
                                     </div>
                                     <div className='bg-indigo-400 shadow p-6 m-2 rounded'>
-                                        <p className="font-semibold text-3xl"><span className='text-lg mx-1'>₹</span>{nullToZero(fetchedData?.Cheque)}<span className='text-lg'>.00</span></p>
+                                        <p className="font-semibold text-3xl">{nullToZero(parseFloat(fetchedData?.Cheque)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</p>
                                         <p className='text-lg font-semibold'>Cheque</p>
                                     </div>
                                     <div className='bg-cyan-400 shadow p-6 m-2 rounded'>
-                                        <p className="font-semibold text-3xl"> <span className='text-lg mx-1'>₹</span>0<span className='text-lg'>.00</span></p>
+                                        <p className="font-semibold text-3xl">{nullToZero(parseFloat(fetchedData?.DD)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</p>
                                         <p className='text-lg font-semibold'>DD</p>
                                     </div>
                                     {/* <div className='bg-lime-400 shadow p-6 m-2 rounded'>
@@ -251,7 +251,7 @@ function CashVerificationDetailedModal(props) {
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name) }</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToZero(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToZero(parseFloat(item?.amount)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
@@ -289,7 +289,7 @@ function CashVerificationDetailedModal(props) {
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no) }</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no) }</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name) }</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToZero(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToZero(parseFloat(item?.amount)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
@@ -331,7 +331,7 @@ function CashVerificationDetailedModal(props) {
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name)}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">₹{nullToZero(item?.amount) }</td>
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToZero(parseFloat(item?.amount)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date) }</td>
                                             </tr>
                                         ))
