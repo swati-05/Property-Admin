@@ -8,13 +8,12 @@ import axios from 'axios'
 import { useState } from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 import { useLocation, useParams } from 'react-router-dom'
-import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
-import { CSVDownload, CSVLink } from 'react-csv'
-import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
-import ListTable from '@/Components/Common/ListTable/ListTable'
-import PaymentModeWiseSummaryTable from './PaymentModeWiseSummaryTable'
+import moment from 'moment'
+// import PaymentModeWiseSummaryTable from './PaymentModeWiseSummaryTable'
+
+const PaymentModeWiseSummaryTable = React.lazy(() => import('./PaymentModeWiseSummaryTable'))
 
 const PaymentModeWiseSummary = () => {
 
@@ -23,6 +22,9 @@ const PaymentModeWiseSummary = () => {
     const location = useLocation()
 
     const {type} = useParams()
+
+    let testDate = new Date().toLocaleDateString('in-IN');
+    let todayDate = moment(testDate).format('YYYY-DD-MM');
 
     const [wardList, setwardList] = useState()
     const [collectorList, setcollectorList] = useState()
@@ -47,8 +49,8 @@ const PaymentModeWiseSummary = () => {
 
     const formik = useFormik({
         initialValues: {
-            fromDate : '',
-            uptoDate : '',
+            fromDate : todayDate,
+            uptoDate : todayDate,
             wardId : '',
             userId : '',
             paymentMode: ''
@@ -150,7 +152,7 @@ const PaymentModeWiseSummary = () => {
                         From Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="fromDate" id="" className={commonInputStyle} />
+                        <input type="date" name="fromDate" id="" className={commonInputStyle} defaultValue={todayDate} />
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.fromDate && formik.errors.fromDate && <><span className="text-red-600 text-xs">{formik.errors.fromDate}</span></>}
@@ -162,7 +164,7 @@ const PaymentModeWiseSummary = () => {
                         Upto Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="uptoDate" id="" className={commonInputStyle} />
+                        <input type="date" name="uptoDate" id="" className={commonInputStyle} defaultValue={todayDate} />
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.uptoDate && formik.errors.uptoDate && <><span className="text-red-600 text-xs">{formik.errors.uptoDate}</span></>}

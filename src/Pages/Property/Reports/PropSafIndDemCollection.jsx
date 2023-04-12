@@ -6,14 +6,11 @@ import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import { useState } from 'react'
 import { RotatingLines } from 'react-loader-spinner'
-import { useLocation } from 'react-router-dom'
-import BarLoader from '@/Components/Common/BarLoader'
-import { CSVDownload, CSVLink } from 'react-csv'
-import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
-import ListTable3 from '@/Components/Common/ListTableCustom/ListTable3'
-import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
+// import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
+
+const ListTableConnect = React.lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
 
 const PropSafIndDemCollection = () => {
 

@@ -6,44 +6,46 @@ import { useEffect } from 'react'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import { useState } from 'react'
-import { RotatingLines } from 'react-loader-spinner'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import ListTable2 from '@/Components/Common/ListTableCustom/ListTable2'
-import { CSVDownload, CSVLink } from 'react-csv'
-import BarLoader from '@/Components/Common/BarLoader'
+import { useNavigate } from 'react-router-dom'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
-import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
+// import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
+import moment from 'moment'
+const ListTableConnect = React.lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
 
 const PropSafSearchCollection = () => {
 
     const {get_MasterData, get_collectorList, searchPropertyCollection, searchSafCollection, searchGbSafCollection} = PropertyApiList()
 
-    const {type} = useParams()
+    // const {type} = useParams()
 
     const navigate = useNavigate()
 
     const [wardList, setwardList] = useState()
     const [collectorList, setcollectorList] = useState()
-    const [dataList, setdataList] = useState()
     const [loader, setloader] = useState(false)
+    const [collection, setcollection] = useState('')
     const [requestBody, setrequestBody] = useState(null)// create this for list table connect
     const [changeData, setchangeData] = useState(0)// create this for list table connect
+    
+    let testDate = new Date().toLocaleDateString('in-IN');
+    let todayDate = moment(testDate).format('YYYY-DD-MM');
 
     let title;
-    type == 'property' && (title = 'Property Collection Report')
-    type == 'saf' && (title = 'SAF Collection Report')
-    type == 'gbSaf' && (title = 'GB SAF Collection Report')
+    // type == 'property' && (title = 'Property Collection Report')
+    // type == 'saf' && (title = 'SAF Collection Report')
+    // type == 'gbSaf' && (title = 'GB SAF Collection Report')
     
 
-    useSetTitle(title)
+    useSetTitle('Collection Report')
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
     const validationSchema = yup.object({
         fromDate : yup.string().required('Field Required'),
         uptoDate : yup.string().required('Field Required'),
+        collType : yup.string().required('Field Required'),
         // wardId : yup.string().required('Field Required'),
         // userId : yup.string().required('Field Required'),
         // paymentMode : yup.string().required('Field Required'),
@@ -51,28 +53,37 @@ const PropSafSearchCollection = () => {
 
     let initialVal;
 
-    if(type == 'gbSaf'){
-        initialVal = {
-        fromDate : '',
-            uptoDate : '',
-            wardId : '',
-            paymentMode: ''
-    }
-    } else {
-        initialVal ={
-        fromDate : '',
-            uptoDate : '',
+    // if(type == 'gbSaf'){
+    //     initialVal = {
+    //         fromDate : '',
+    //         uptoDate : '',
+    //         collType : '',
+    //         wardId : '',
+    //         paymentMode: ''
+    // }
+    // } else {
+    //     initialVal ={
+    //         fromDate : '',
+    //         uptoDate : '',
+    //         collType : '',
+    //         wardId : '',
+    //         userId : '',
+    //         paymentMode: ''
+    // }
+    // } 
+
+    const formik = useFormik({
+        initialValues: {
+            fromDate : todayDate,
+            uptoDate : todayDate,
+            collType : 'property',
             wardId : '',
             userId : '',
             paymentMode: ''
-    }
-    } 
-
-    const formik = useFormik({
-        initialValues: initialVal,
+        },
         onSubmit: (values) => {
-            // console.log("submitting report search values => ", values)
-            if(type == 'gbSaf'){
+            setcollection(values?.collType)
+            if(values?.collType == 'gbSaf'){
               setrequestBody({
                 fromDate : formik.values.fromDate,
                 uptoDate : formik.values.uptoDate,
@@ -93,7 +104,6 @@ const PropSafSearchCollection = () => {
         }
         , validationSchema
     })
-
 
     useEffect(() => {
         gettingMasterList()
@@ -132,7 +142,7 @@ const PropSafSearchCollection = () => {
         .catch(err => (console.log('error getting collector list => ', err), setloader(false)))
     }
 
-    const COLUMNS = [
+    const propColumn = [
             {
                 Header: "S.No.",
                 Cell: ({ row }) => <div>{row?.index + 1}</div>
@@ -153,8 +163,8 @@ const PropSafSearchCollection = () => {
                 Cell: (props) => {return nullToNA(props?.value)}
             },
             {
-                Header: type == 'property' ? "Unique House No" : "Saf No",
-                accessor: type == 'property' ? "new_holding_no" : "saf_no",
+                Header: "Unique House No",
+                accessor: "new_holding_no",
                 Cell: (props) => {return nullToNA(props?.value)}
             },
             {
@@ -215,7 +225,90 @@ const PropSafSearchCollection = () => {
             }
         ]
 
-        const COLUMNS2 = [
+        const safColumn = [
+            {
+                Header: "S.No.",
+                Cell: ({ row }) => <div>{row?.index + 1}</div>
+            },
+            {
+                Header: "Ward No",
+                accessor: "ward_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Property Tax No",
+                accessor: "pt_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Holding No",
+                accessor: "holding_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Saf No",
+                accessor: "saf_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Owner Name",
+                accessor: "owner_name",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Mobile No",
+                accessor: "mobile_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Payment(From/Upto)",
+                accessor: "from_upto_fy_qtr",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            
+            {
+                Header: "Tran. Date",
+                accessor: "tran_date",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Tran. Mode",
+                accessor: "transaction_mode",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Amount",
+                accessor: "amount",
+                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            },
+            {
+                Header: "Tax Collector",
+                accessor: "emp_name",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Tran. No",
+                accessor: "tran_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Check/DD No",
+                accessor: "cheque_no",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Bank",
+                accessor: "bank_name",
+                Cell: (props) => {return nullToNA(props?.value)}
+            },
+            {
+                Header: "Branch",
+                accessor: "branch_name",
+                Cell: (props) => {return nullToNA(props?.value)}
+            }
+        ]
+
+        const gbSafColumn = [
             {
                 Header: "S.No.",
                 Cell: ({ row }) => <div>{row?.index + 1}</div>
@@ -284,7 +377,7 @@ const PropSafSearchCollection = () => {
         ]
 
         const navigateFun = () => {
-            type == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
+            collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
         }
 
   return (
@@ -300,7 +393,7 @@ const PropSafSearchCollection = () => {
                         From Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="fromDate" id="" className={commonInputStyle} />
+                        <input type="date" name="fromDate" id="" className={commonInputStyle} defaultValue={todayDate}/>
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.fromDate && formik.errors.fromDate && <><span className="text-red-600 text-xs">{formik.errors.fromDate}</span></>}
@@ -312,7 +405,7 @@ const PropSafSearchCollection = () => {
                         Upto Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="uptoDate" id="" className={commonInputStyle} />
+                        <input type="date" name="uptoDate" id="" className={commonInputStyle} defaultValue={todayDate}/>
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.uptoDate && formik.errors.uptoDate && <><span className="text-red-600 text-xs">{formik.errors.uptoDate}</span></>}
@@ -321,10 +414,26 @@ const PropSafSearchCollection = () => {
 
                 <div className="flex flex-col w-full md:w-[20%]">
                     <div className="col-span-6 font-semibold">
+                        Collection Type : 
+                    </div>
+                    <div className="col-span-6">
+                        <select name="collType" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
+                            <option value='property'>Property</option>
+                            <option value='saf'>SAF</option>
+                            <option value='gbSaf'>GB SAF</option>
+                        </select>
+                    </div>
+                    <div className="col-span-12 text-end">
+                        {formik.touched.collType && formik.errors.collType && <><span className="text-red-600 text-xs">{formik.errors.collType}</span></>}
+                    </div>
+                </div>
+
+                <div className="flex flex-col w-full md:w-[20%]">
+                    <div className="col-span-6 font-semibold">
                         Ward No. : 
                     </div>
                     <div className="col-span-6">
-                        <select name="wardId" id="" className={commonInputStyle} onChange={type != 'gbSaf' && gettingCollectorList}>
+                        <select name="wardId" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
                             <option value=''>All</option>
                             {
                                 wardList?.map((elem) => <>
@@ -338,7 +447,7 @@ const PropSafSearchCollection = () => {
                     </div> */}
                 </div>
 
-                {type != 'gbSaf' && <div className="flex flex-col w-full md:w-[20%]">
+                {formik.values.collType != 'gbSaf' && <div className="flex flex-col w-full md:w-[20%]">
                     <div className="col-span-6 font-semibold">
                         Collector Name :
                     </div>
@@ -375,34 +484,60 @@ const PropSafSearchCollection = () => {
                     </div> */}
                 </div>
 
-                <div className="w-full md:w-[20%] flex justify-start items-end">
+                <div className="w-full md:w-[20%] flex justify-start items-center">
                     <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
                 </div>
 
             </div>
         </form>
 
+        {(collection != '' && collection != 'gbSaf') && <div className='w-full text-end'>
+            <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
+            </div>}
+
         {
-                (requestBody != null && type == 'gbSaf') && 
+                (requestBody != null && collection == 'gbSaf') && 
                 <ListTableConnect 
                 type='old' // if pagination is from laravel
                 api={searchGbSafCollection} // sending api
-                columns={COLUMNS2} // sending column
+                columns={gbSafColumn} // sending column
                 requestBody={requestBody} // sending body
                 changeData={changeData} // send action for new payload
                 />
             }
 
 {
-                (requestBody != null && type != 'gbSaf') && 
+                (requestBody != null && collection == 'saf') && 
                 <ListTableConnect 
                 type='old' // if pagination is from laravel
-                api={type == 'property' ? searchPropertyCollection : searchSafCollection} // sending api
-                columns={COLUMNS} // sending column
+                api={searchSafCollection} // sending api
+                columns={safColumn} // sending column
                 requestBody={requestBody} // sending body
                 changeData={changeData} // send action for new payload
                 />
             }
+
+{
+                (requestBody != null && collection == 'property') && 
+                <ListTableConnect 
+                type='old' // if pagination is from laravel
+                api={searchPropertyCollection} // sending api
+                columns={propColumn} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
+            }
+
+{/* {
+                (requestBody != null && collection != 'gbSaf') && 
+                <ListTableConnect 
+                type='old' // if pagination is from laravel
+                api={collection == 'property' ? searchPropertyCollection : searchSafCollection} // sending api
+                columns={collection == 'property' ? propColumn : safColumn} // sending column
+                requestBody={requestBody} // sending body
+                changeData={changeData} // send action for new payload
+                />
+            } */}
 
 <div className='h-[20vh]'></div>
     </>
