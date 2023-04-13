@@ -10,7 +10,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
-import { indianAmount } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { indianAmount, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 
 const WardWiseDcb = () => {
 
@@ -155,7 +155,7 @@ const WardWiseDcb = () => {
         {
             Header: "Collection From No of HH",
             accessor: "collection_from_hh",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{nullToZero(props?.value)}</>}
         },
             ]
         },

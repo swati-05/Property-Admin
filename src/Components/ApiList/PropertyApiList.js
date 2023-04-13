@@ -209,7 +209,7 @@ export default function PropertyApiList() {
     wardWiseHolding: baseUrl + '/api/property/reports/ward-wise-holding',
     propPaymentModeWiseSummary: baseUrl + '/api/property/reports/property/payment-mode-wise-summery',
     safPaymentModeWiseSummary: baseUrl + '/api/property/reports/saf/payment-mode-wise-summery',
-    searchWardWiseDcb: baseUrl + '/api/property/reports/property/ward-wise-dcb',
+    searchWardWiseDcb: baseUrlT + '/api/property/reports/property/ward-wise-dcb',
     searchHoldingDcb: baseUrl + '/api/property/reports/property/dcb',
     searchWardWiseCollectionSummary: baseUrl + '/',
     searchGbSafCollection: baseUrl + '/api/property/reports/property/gbsaf-collection',
@@ -231,6 +231,9 @@ export default function PropertyApiList() {
     searchWardWiseSafPendingDetails: baseUrl + '/',
     searchDateWardWiseGeneratedNotice: baseUrl + '/',
     searchDeactivatedHolding: baseUrl + '/api/property/reports/property/deactivated-list',
+
+    // pie chart api in dcb report
+    getPieChartData : baseUrlT + '/api/property/reports/dcb-piechart',
 
     yearList: baseUrl + '/api/property/reports/list-fy',
 
