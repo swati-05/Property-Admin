@@ -24,10 +24,10 @@ function ModuleOption(props) {
     const closeInfoModal = () => {
         setinfoCardCount(0)
     }
-
    
-
-
+    const replaceRoute = (route)=>{
+        window.location.replace(route)
+    }
 
     return (
         <div className='w-full  mx-auto'>
@@ -52,7 +52,7 @@ function ModuleOption(props) {
                           
 
                             {/* 4 BIFURCATION */}
-                            <div onClick={() => navigate('/safform/bi/0')}
+                            <div onClick={() => replaceRoute('/water/water-home')}
                                 className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
                                 href="">
                                 <img
@@ -64,7 +64,7 @@ function ModuleOption(props) {
                             </div>
                             
                             {/* 5 AMALGAMATION */}
-                            <div onClick={() => navigate('/safform/am/0')}
+                            <div onClick={() => replaceRoute('/trade/mobile-home')}
                                 className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
                                 href="">
                                 <img
@@ -74,7 +74,7 @@ function ModuleOption(props) {
                                 <div className="font-bold mt-4 text-center">Trade</div>
                             </div>
                             {/* 5 AMALGAMATION */}
-                            <div onClick={() => navigate('/gov-form')}
+                            <div 
                                 className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
                                 href="">
                                 {/* <img

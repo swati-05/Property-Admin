@@ -169,7 +169,7 @@ function AppliedApplicationSearch() {
     {
       Header: "Current Level",
       Cell: ({ cell }) => (
-        <div className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl text-center">{nullToNA(cell.row.original.currentRole)}</div>
+        <div className="bg-red-200 text-black px-2 py-0.5 shadow-xl rounded-xl text-center">{nullToNA(cell.row.original.currentRole)}</div>
       )
     },
     {
@@ -246,7 +246,7 @@ function AppliedApplicationSearch() {
     {
       Header: "Current Level",
       Cell: ({ cell }) => (
-        <span className="bg-indigo-100 text-black px-2 py-0.5 shadow-xl rounded-xl">{nullToNA(cell.row.original.currentRole)}</span>
+        <span className="bg-red-200 text-black px-2 py-0.5 shadow-xl rounded-xl">{nullToNA(cell.row.original.currentRole)}</span>
       )
     },
     {

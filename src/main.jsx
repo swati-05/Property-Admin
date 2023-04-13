@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import store from '@/Components/Redux/Store'
 import './index.css'
@@ -10,11 +10,13 @@ import App from './App'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <BrowserRouter basename='/property'>
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <BrowserRouter basename='/property'>
+        <Suspense fallback={<div className="font-bold text-lg italic h-screen w-screen flex items-center justify-center">Loading...</div>}>
           <App />
-        </BrowserRouter>
-      </Provider>
-    </QueryClientProvider>
+        </Suspense>
+      </BrowserRouter>
+    </Provider>
+  </QueryClientProvider>
 )

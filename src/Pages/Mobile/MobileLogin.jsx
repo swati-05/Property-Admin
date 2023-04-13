@@ -87,7 +87,7 @@ function MobileLogin(props) {
                     window.localStorage.setItem('token', response?.data?.data?.token)
                     // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
                     // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+                    window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
 
                     ///*** setting the data to global container to use everywhere ***\\\
                     // setmenuList(response?.data?.data?.userDetails?.menuPermission)

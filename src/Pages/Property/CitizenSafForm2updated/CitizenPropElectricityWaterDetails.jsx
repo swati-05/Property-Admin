@@ -120,26 +120,26 @@ function CitizenPropElectricityWaterDetails(props) {
                                 <label className="form-check-label text-gray-800 ml-2" > <span className='inline text-red-400 text-sm font-semibold'>Note : </span><small className="mt-1 text-sm text-red-300 inline ">In case, there is no Electric Connection. You have to upload Affidavit Form-I. (Please Tick)</small></label>
                             </div>
                             {!formHide && <div className={`col-span-12 grid grid-cols-12  `}>
-                                <div className="form-group col-span-3 mb-2 md:px-4">
+                                <div className="form-group col-span-12 sm:col-span-3 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Electricity K. No</label>
                                     <input {...formik.getFieldProps('electricityKNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter Electricity K. No" />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.electricityKNo && formik.errors.electricityKNo ? formik.errors.electricityKNo : null}</span>
                                 </div>
                                 <div className="col-span-12 text-red-400 font-semibold pl-28 font-mono text-lg mb-0 mt-0">or</div>
-                                <div className="form-group mb-6 col-span-3 md:px-4">
+                                <div className="form-group mb-6 col-span-12 sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">ACC No.</label>
                                     <input {...formik.getFieldProps('accNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter ACC No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.accNo && formik.errors.accNo ? formik.errors.accNo : null}</span>
                                 </div>
-                                <div className="form-group mb-6 col-span-3 md:px-4">
+                                <div className="form-group mb-6 col-span-12 sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">BIND/BOOK No.</label>
                                     <input {...formik.getFieldProps('bindBookNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter BIND/BOOK No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.bindBookNo && formik.errors.bindBookNo ? formik.errors.bindBookNo : null}</span>
                                 </div>
-                                <div className="form-group mb-6 col-span-3 md:px-4">
+                                <div className="form-group mb-6 col-span-12  sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Electricity Consumer Category</label>
                                     <select {...formik.getFieldProps('electrictyConsumerNo')} className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                     >
@@ -153,8 +153,8 @@ function CitizenPropElectricityWaterDetails(props) {
                                     <span className="text-red-600 absolute text-xs">{formik.touched.electrictyConsumerNo && formik.errors.electrictyConsumerNo ? formik.errors.electrictyConsumerNo : null}</span>
                                 </div>
                             </div>}
-                            <div className="col-span-4 mt-4 "><hr /></div>
-                            <div className="col-span-4 px-4 text-sm font-serif mt-4 mb-4 font-semibold"><GiWaterTank className="inline" />Buidling Details</div>
+                            <div className="col-span-12 sm:col-span-4 mt-4 "><hr /></div>
+                            <div className="col-span-12 sm:col-span-4 px-4 text-sm font-serif mt-4 mb-4 font-semibold"><GiWaterTank className="inline" />Buidling Details</div>
                             <div className='col-span-12 grid grid-cols-12'>
                                 <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Building Plan Approval No.</label>
@@ -172,13 +172,13 @@ function CitizenPropElectricityWaterDetails(props) {
                             <div className="col-span-4 mt-4"><hr /></div>
                             <div className="col-span-4 px-4 text-sm font-serif mt-4 font-semibold"><GiWaterTank className="inline" />Water Details</div>
                             <div className="col-span-12 grid grid-cols-12">
-                                <div className="form-group mb-6 col-span-4 md:col-span-3 md:px-4">
+                                <div className="form-group mb-6 col-span-12  sm:col-span-4 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Water Consumer No.</label>
                                     <input {...formik.getFieldProps('waterConsumerNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Water Consumer No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.waterConsumerNo && formik.errors.waterConsumerNo ? formik.errors.waterConsumerNo : null}</span>
                                 </div>
-                                <div className="form-group mb-6 col-span-4 md:col-span-3 md:px-4">
+                                <div className="form-group mb-6 col-span-12  sm:col-span-4 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Water Connection Date</label>
                                     <input {...formik.getFieldProps('waterConnectionDate')} type="date" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-300 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                     />

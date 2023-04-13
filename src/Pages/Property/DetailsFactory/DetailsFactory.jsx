@@ -11,12 +11,13 @@ import CommonModal from '@/Components/GlobalData/CommonModal'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import {MdTag} from 'react-icons/md'
+import ApiHeader from '@/Components/ApiList/ApiHeader'
 
 
 function DetailsFactory(props) {
 
     // DIRECT ACCESSING ID FROM PARAM
-    // const { id } = useParams()
+    const { id } = useParams()
     // console.log("param", id)
 
     const navigate = useNavigate()
@@ -32,22 +33,17 @@ function DetailsFactory(props) {
 
     ///////////{*** APPLICATION FULL DETAIL FOR RE-ASSESSMENT***}/////////
     const getApplicationDetail = () => {
+        console.log('calling details api for now conecession....')
         seterroState(false)
         setisLoading(true)
-        let token = window.localStorage.getItem('token')
-        // console.log('token at basic details is  get method...', token)
-        const header = {
-            headers:
-            {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            }
+
+        let requestBody = {
+            applicationId:id
         }
-        axios[props?.detailRules?.api?.api_getAppicationFullDetail?.method](props?.detailRules?.api?.api_getAppicationFullDetail?.url,
-            {
-                applicationId: props?.id
-            },
-            header)
+
+        console.log('before fetch...',requestBody)
+        
+        axios[props?.detailRules?.api?.api_getAppicationFullDetail?.method](props?.detailRules?.api?.api_getAppicationFullDetail?.url,requestBody,ApiHeader())
             .then(function (response) {
                 setisLoading(false)
                 console.log('view full details...', response?.data)
