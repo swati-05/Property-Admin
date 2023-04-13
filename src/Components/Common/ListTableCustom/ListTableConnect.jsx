@@ -61,6 +61,7 @@ const ListTableConnect = (props) => {
         .then((res) => {
             if(res?.data?.status == true){
                 console.log('search success => ', res)
+                props?.dataLength(res?.data?.data?.data?.length)
                 setdataList(res?.data?.data?.data)
                 settotalCount(res?.data?.data?.total)
                 setcurrentPage(res?.data?.data?.current_page)
