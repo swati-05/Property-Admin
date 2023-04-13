@@ -8,7 +8,7 @@ import CashVerificationDetailedModal from './CashVerificationDetailedModal';
 import PropertyApiList from '@/Components/ApiList/PropertyApiList';
 import BarLoader from '@/Components/Common/BarLoader';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
-import { nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions';
+import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions';
 import BottomErrorCard from '@/Components/Common/BottomErrorCard';
 
 const CashVerification = (props) => {
@@ -70,7 +70,7 @@ const CashVerification = (props) => {
         },
         {
             Header: "Property",
-            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.property)}</span>)
+            Cell: ({ cell }) => (<span> {indianAmount(cell.row.original?.property)}</span>)
         },
         // {
         //     Header: "GBSAF.",
@@ -78,15 +78,15 @@ const CashVerification = (props) => {
         // },
         {
             Header: "Water",
-            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.water)}</span>)
+            Cell: ({ cell }) => (<span> {indianAmount(cell.row.original?.water)}</span>)
         },
         {
             Header: "Trade",
-            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.trade)}</span>)
+            Cell: ({ cell }) => (<span> {indianAmount(cell.row.original?.trade)}</span>)
         },
         {
             Header: "Total Amount",
-            Cell: ({ cell }) => (<span> ₹ {nullToZero(cell.row.original?.total)}</span>)
+            Cell: ({ cell }) => (<span> {indianAmount(cell.row.original?.total)}</span>)
         },
         {
             Header: "Paid Date",

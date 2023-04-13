@@ -25,6 +25,7 @@ import BarLoader from "@/Components/Common/BarLoader";
 import { toast, ToastContainer } from "react-toastify";
 import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
+import { nullToZero } from "@/Components/PowerUps/PowerupFunctions";
 
 const customStyles = {
   content: {
@@ -88,10 +89,8 @@ function BankReconcile() {
       moduleId : formik?.values?.moduleId,
       paymentMode: formik?.values?.paymentMode,
       verificationType: formik?.values?.verificationType,
-      chequeDdNo: formik?.values?.cheque_dd_no,
+      chequeNo: formik?.values?.cheque_dd_no,
     };
-
-    setmdId(parameters?.moduleId)
 
     axios
       .post(getReconcillationDetails, payloadData, header)
@@ -105,11 +104,11 @@ function BankReconcile() {
     });
   };
 
-  const validationSchema = yup.object({
-    fromDate: yup.string().required("Select from date"),
-    toDate: yup.string().required("Select to date"),
-    // paymentMode: yup.string().required('Select pyement mode'),
-  });
+  // const validationSchema2 = yup.object({
+  //   fromDate: yup.string().required("Select from date"),
+  //   toDate: yup.string().required("Select to date"),
+  //   // paymentMode: yup.string().required('Select pyement mode'),
+  // });
 
   const formik = useFormik({
     initialValues: {
@@ -129,8 +128,12 @@ function BankReconcile() {
       // setSubmitButtonStatus(false)
       // fetchBankReconcilliation()
       fetchFilterData(values);
+      setmdId(values?.moduleId)
     },
-    validationSchema,
+    validationSchema : yup.object({
+        fromDate: yup.string().required("Select from date"),
+        toDate: yup.string().required("Select to date"),
+      })
   });
 
   // Form 2 - In Popup Story Start
@@ -145,8 +148,8 @@ function BankReconcile() {
           moduleId : mdId,
           status: data?.clearStatus,
           clearanceDate: data?.clearanceDate,
-          remarks: data?.reason,
-          cancellationCharge: data?.charge,
+          remarks: actionState == "bounce" ? data?.reason : '',
+          cancellationCharge:actionState == "bounce" ?  data?.charge : '',
         },
         header
       )
@@ -168,14 +171,23 @@ function BankReconcile() {
       );
   };
 
-  const validationSchema2 = yup.object({
-    clearStatus: yup.string().required("Select to Status"),
-    clearanceDate: yup.string().required("Select from Date"),
-  });
+  // const validationSchema = yup.object({
+  //   clearStatus: yup.string().required("Select to Status"),
+  //   clearanceDate: yup.mixed().required("Select from Date"),
+  //   clearStatus : yup.string().required("Select Status"),
+// reason : yup.string().when('clearStatus',{
+//   is: 'bounce',
+//   then : yup.string().required("Select reason")
+// }),
+// charge : yup.string().when('clearStatus',{
+//   is: 'bounce',
+//   then : yup.string().required("Enter cancellation charge")
+// })
+  // });
 
   const formik2 = useFormik({
     initialValues: {
-      transactionNo: transactionNo,
+      // transactionNo: transactionNo,
       clearanceDate: "",
       clearStatus: "",
       reason: "",
@@ -191,18 +203,29 @@ function BankReconcile() {
       // setSubmitButtonStatus(false)
       // fetchBankReconcilliation()
     },
-    validationSchema2,
+    validationSchema : yup.object({
+      clearanceDate: yup.mixed().required("Select from Date"),
+      clearStatus : yup.string().required("Select Status"),
+      // reason: yup.string().when('clearStatus', {
+      //   is: 'bounce',
+      //   then: yup.string().required("Select reason")
+      // }),
+      // charge: yup.string().when('clearStatus', {
+      //   is: 'bounce',
+      //   then: yup.string().required("Enter cancellation charge")
+      // })
+    }),
   });
 
-  const handleClearStatus = (e) => {
-    console.log("============sdfsdf---------", e.target.value);
-    formik2.values.clearStatus = e.target.value;
-    setactionState(e.target.value);
-  };
-  const handleClearanceDate = (e) =>
-    (formik2.values.clearanceDate = e.target.value);
-  const handleClearReason = (e) => (formik2.values.reason = e.target.value);
-  const HandleClearCharge = (e) => (formik2.values.charge = e.target.value);
+  // const handleClearStatus = (e) => {
+  //   console.log("============sdfsdf---------", e.target.value);
+  //   formik2.values.clearStatus = e.target.value;
+  //   setactionState(e.target.value);
+  // };
+  // const handleClearanceDate = (e) =>
+  //   (formik2.values.clearanceDate = e.target.value);
+  // const handleClearReason = (e) => (formik2.values.reason = e.target.value);
+  // const HandleClearCharge = (e) => (formik2.values.charge = e.target.value);
 
   // Form 2 - In Popup Story END!!
 
@@ -251,216 +274,85 @@ function BankReconcile() {
     {
       Header: "Tran. No.",
       accessor: "tran_no",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Tran. Date",
       accessor: "tran_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Payment Mode",
       accessor: "payment_mode",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Tran. Type",
       accessor: "tran_type",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Cheque Date",
       accessor: "cheque_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Cheque No.",
       accessor: "cheque_no",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Bank Name",
       accessor: "bank_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Branch Name",
       accessor: "branch_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
       Header: "Tran. Amount",
       accessor: "amount",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return <>{nullToZero(parseFloat(props?.value)).toLocaleString("en-IN", {style: "currency",currency: "INR"})}</>}
     },
 
     {
       Header: "Clearance Date",
       accessor: "clear_bounce_date",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
     {
       Header: "Remarks",
       accessor: "remarks",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
 
     {
-      Header: "TC Name.",
+      Header: "TC Name",
       accessor: "user_name",
-      Cell: (props) => {
-      if (props?.value == null || props?.value == '' || props?.value == undefined) {
-        return (
-          <div className="w-full flex flex-row justify-center items-center">
-            <i className="font-semibold ">N/A</i>
-          </div>
-        );
-      }
-
-      if (props?.value != null) {
-        return props?.value;
-      }
-    }
+      Cell: (props) => {return nullToNA(props?.value)}
     },
-    
     {
-      Header: "Action",
+      Header : 'Status',
+      Cell : ({cell}) => <>
+      {cell?.row?.original?.status == '1' && <span className="text-green-500 font-semibold">
+          Clear
+        </span>}
+        {cell?.row?.original?.status == '2' && <span className="text-blue-500 font-semibold">
+          Pending
+        </span>}
+        {cell?.row?.original?.status == '3' && <span className="text-red-500 font-semibold">
+          Bounce
+        </span>}
+      </>
+    },
+    {
+      Header: "_",
       Cell: ({ cell }) =>
         cell.row?.original?.status == "2" && (
           <span
@@ -470,7 +362,7 @@ function BankReconcile() {
             }}
             className={` px-2 py-1 rounded-lg shadow-lg border border-gray-300 bg-indigo-500 hover:bg-indigo-600 text-white cursor-pointer`}
           >
-            <span className="font-semibold">View</span>{" "}
+            <span className="font-semibold">Action</span>{" "}
             {/* <BsCheckCircleFill className="inline text-sky-500 font-semibold text-lg cursor-pointer hover:text-sky-700 mb-1 relative hover:scale-150" /> */}
           </span>
         ),
@@ -555,8 +447,8 @@ function BankReconcile() {
               className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
             >
               <option value="">All</option>
-              <option value="cheque">Cheque</option>
-              <option value="dd">DD</option>
+              <option value="CHEQUE">Cheque</option>
+              <option value="DD">DD</option>
             </select>
             {/* <span className="text-red-600 absolute text-xs">{formik.touched.paymentMode && formik.errors.paymentMode ? formik.errors.paymentMode : null}</span> */}
           </div>
@@ -605,7 +497,7 @@ function BankReconcile() {
         </div>
       </form>
 
-      <div className="form-group mb-1 md:mb-2 col-span-4 md:col-span-3 md:px-4">
+      {/* <div className="form-group mb-1 md:mb-2 col-span-4 md:col-span-3 md:px-4">
         {
           <button
             onClick={() => setFilteredData(false)}
@@ -614,7 +506,7 @@ function BankReconcile() {
             View All Record
           </button>
         }
-      </div>
+      </div> */}
 
       <div className="border-b mx-10 my-5"></div>
       <div className="p-5">
@@ -636,37 +528,39 @@ function BankReconcile() {
       >
         {/* FORM 2 ->In Popup For Reconcile */}
 
-        <form onSubmit={formik2.handleSubmit} className="bg-sky-200 rounded-lg shadow-xl border-2 border-gray-50 w-[50vw] p-4 text-sm">
+        <div className="bg-sky-200 rounded-lg shadow-xl border-2 border-gray-50 sm:w-[50vw] w-[100vw] p-4 text-sm">
           <div className="grid grid-cols-12">
 
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque No.</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_no)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Cheque Date</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.cheque_date)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Bank Name</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.bank_name)}</div>
             </div>
-            <div className="col-span-6 grid grid-cols-12 items-center mb-1">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center mb-1">
               <div className="col-span-6">Branch Name</div>
               <div className="col-span-6 font-semibold">{nullToNA(cdata?.branch_name)}</div>
             </div>
 
           </div>
 
-          <div className="grid-cols-12 grid gap-y-2 gap-x-10 mt-4">
-            <div className="col-span-6 grid grid-cols-12 items-center">
+          <form onSubmit={formik2.handleSubmit} onChange={formik2.handleChange} className="grid-cols-12 grid gap-y-2 sm:gap-x-10 mt-4">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
               <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                 Status
               </label>
               <span className="col-span-6">
               <select
                 name="clearStatus"
-                onChange={(e) => handleClearStatus(e)}
+                // onChange={(e) => handleClearStatus(e)}
+                onChange={formik2.handleChange}
+                value={formik2.values.clearStatus}
                 className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
               >
                 <option value="">--select--</option>
@@ -681,33 +575,39 @@ function BankReconcile() {
               </span>
             </div>
 
-            <div className="col-span-6 grid grid-cols-12 items-center">
+            <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
               <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                 Clearance Date
               </label>
               <span className="col-span-6">
               <input
-                onChange={(e) => handleClearanceDate(e)}
+                // onChange={(e) => handleClearanceDate(e)}
+                onChange={formik2.handleChange}
+                value={formik2.values.clearanceDate}
+                name="clearanceDate"
                 type="date"
                 className="w-full form-control block w-fullpx-1 py-1.5 px-2 text-sm md:text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
               />
 
               <span className="text-red-600 absolute text-xs">
-                {formik.touched.clearDate && formik.errors.clearDate
-                  ? formik.errors.clearDate
+                {formik2.touched.clearanceDate && formik2.errors.clearanceDate
+                  ? formik2.errors.clearanceDate
                   : null}
               </span>
               </span>
             </div>
 
-            {actionState == "bounce" && (
-              <div className="col-span-6 grid grid-cols-12 items-center">
+            {formik2.values.clearStatus == "bounce" && (
+              <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
                 <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                   Reason
                 </label>
                 <span className="col-span-6">
                 <select
-                  onChange={(e) => handleClearReason(e)}
+                  // onChange={(e) => handleClearReason(e)}
+                  onChange={formik2.handleChange}
+                  value={formik2.values.reason}
+                  name="reason"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
                 >
                   <option value="">--select--</option>
@@ -722,29 +622,32 @@ function BankReconcile() {
                   <option value="Frozen account">Frozen account</option>
                   <option value="other">Other</option>
                 </select>
-                <span className="text-red-600 absolute text-xs">
-                  {formik.touched.reason && formik.errors.reason
-                    ? formik.errors.reason
+                <span className="text-red-600  text-xs">
+                  {formik2.touched.reason && formik2.errors.reason
+                    ? formik2.errors.reason
                     : null}
                 </span>
                 </span>
               </div>
             )}
 
-            {actionState == "bounce" && (
-              <div className="col-span-6 grid grid-cols-12 items-center">
+            {formik2.values.clearStatus == "bounce" && (
+              <div className="col-span-12 sm:col-span-6 grid grid-cols-12 items-center">
                 <label className="col-span-6 inline-block mb-1  text-sm font-semibold">
                   Cancelation Charge
                 </label>
                 <span className="col-span-6">
                 <input
-                  onChange={(e) => HandleClearCharge(e)}
+                  // onChange={(e) => HandleClearCharge(e)}
+                  onChange={formik2.handleChange}
+                  value={formik2.values.charge}
+                  name="charge"
                   type="text"
                   className="form-control block w-full px-3 py-1.5 text-base font-normal  bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus: focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
                 />
-                <span className="text-red-600 absolute text-xs">
-                  {formik.touched.charge && formik.errors.charge
-                    ? formik.errors.charge
+                <span className="text-red-600  text-xs">
+                  {formik2.touched.charge && formik2.errors.charge
+                    ? formik2.errors.charge
                     : null}
                 </span>
                 </span>
@@ -766,11 +669,11 @@ function BankReconcile() {
                 >
                   Submit
                 </button>
-              
-            
+  
             </div>
-          </div>
-        </form>
+          </form>
+
+        </div>
       </Modal>
       <div className="h-[20vh]"></div>
     </>

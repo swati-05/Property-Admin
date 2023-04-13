@@ -19,11 +19,21 @@ function SafPaymentReceiptIndex() {
     console.log("param payment id ..", paymentId)
 
     let title
-    if (module == 'saf') {
-        title = 'SAF Payment Receipt'
-    } else {
-        title = 'Holding Payment Receipt'
-    }
+   
+        if (module == 'saf') {
+            title = 'SAF Payment Receipt'
+        } 
+        if(module == 'holding') {
+            title = 'Holding Payment Receipt'
+        }
+   
+        if(module == 'cluster-saf'){
+            title = 'Cluster SAF Payment Reciept'
+        }
+        if(module == 'cluster-holding'){
+            title = 'Cluster Holding Payment Reciept'
+        }
+    
     useSetTitle(title)
 
     const componentRef = useRef();
@@ -37,7 +47,7 @@ function SafPaymentReceiptIndex() {
 
     // const { licenseId, tranId } = useParams();
 
-    const { api_getPaymentData, api_getHoldingReceiptUrl } = CitizenApplyApiList()
+    const { api_getPaymentData, api_getHoldingReceiptUrl, api_getClusterReciept } = CitizenApplyApiList()
 
     useEffect(() => {
         fetchPaymentData();
@@ -57,18 +67,27 @@ function SafPaymentReceiptIndex() {
         }
         let url
         let requestBody
-        if (module == 'holding') {
-            url = api_getHoldingReceiptUrl
-            requestBody = {
-                // HERE paymentId is transaction no
-                tranNo: paymentId
+        
+            if (module == 'holding') {
+                url = api_getHoldingReceiptUrl
+                requestBody = {
+                    // HERE paymentId is transaction no
+                    tranNo: paymentId
+                }
+            } 
+            if(module == 'saf') {
+                url = api_getPaymentData
+                requestBody = {
+                    tranNo: paymentId
+                }
             }
-        } else {
-            url = api_getPaymentData
-            requestBody = {
-                tranNo: paymentId
-            }
+        
+
+        if(module == 'cluster-saf' || module == 'cluster-holding') {
+            url = api_getClusterReciept
+            requestBody={tranNo : paymentId}   
         }
+
         console.log('before fetch payment receipt....', requestBody)
         axios.post(url, requestBody, ApiHeader())
             .then((response) => {

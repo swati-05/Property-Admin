@@ -1,3 +1,4 @@
+import { indianAmount } from '@/Components/Common/PowerUps/PowerupFunctions'
 import React from 'react'
 
 const PaymentModeWiseSummaryTable = (props) => {
@@ -6,7 +7,7 @@ const PaymentModeWiseSummaryTable = (props) => {
 
 
             <div>
-                <h1 className='w-full border-b-2 border-gray-700 text-gray-700 text-center text-lg font-semibold uppercase tracking-[0.7rem] mb-2 mt-8'>
+                <h1 className='w-full border-b-2 border-gray-700 text-gray-700 text-center text-lg font-semibold uppercase tracking-[0.7rem] mt-10'>
                     {props?.type == 'collection' && 'Collection'}
                     {props?.type == 'doorToDoor' && 'Door To Door'}
                     {props?.type == 'jsk' && 'JSK'}
@@ -32,14 +33,12 @@ const PaymentModeWiseSummaryTable = (props) => {
     <td className="border-[1px] border-gray-700 pl-1">{(data?.transaction_mode == '' || data?.transaction_mode == null) ? 'N/A' : data?.transaction_mode}</td>
     <td className="border-[1px] border-gray-700 pl-1">{data?.holding_count}</td>
     <td className="border-[1px] border-gray-700 pl-1">{data?.tran_count}</td>
-    <td className="border-[1px] border-gray-700 pl-1">₹ {data?.amount}</td>
+    <td className="border-[1px] border-gray-700 pl-1">{indianAmount(data?.amount)}</td>
 </tr>
   )
 }
 
 </table>
-
-<div className='h-[20vh]'></div>
 
 </>
 )

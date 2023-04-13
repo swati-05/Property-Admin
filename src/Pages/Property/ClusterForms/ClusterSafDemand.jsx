@@ -301,7 +301,7 @@ function ClusterSafDemand(props) {
                                     <>
                                         <div className='text-left flex-1'>
                                             <div>
-                                                <span className='font-semibold text-gray-600 text-xl'>Total Payable Amount  </span><span className='text-3xl font-bold ml-20'>Rs {demandDetail?.demand?.payableAmount}</span>
+                                                <span className='font-semibold text-gray-600 text-xl'>Total Payable Amount  </span><span className='text-3xl font-bold ml-20'>{demandDetail?.demand?.payableAmount.toLocaleString("en-IN", {style: "currency",currency: "INR"})}</span>
                                             </div>
                                         </div>
                                         <div className='text-right flex-1'>

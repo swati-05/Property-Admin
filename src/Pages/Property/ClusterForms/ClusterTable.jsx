@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import BrandLoader from "@/Components/Common/BrandLoader";
 import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 import { nullToNA } from "@/Components/Common/PowerUps/PowerupFunctions";
+import useSetTitle from "@/Components/GlobalData/useSetTitle";
 
 const ClusterTable = (props) => {
   // ========= Constants==================
@@ -50,7 +51,7 @@ const ClusterTable = (props) => {
   const [erroState2, seterroState2] = useState(false);
   const [erroMessage, seterroMessage] = useState(null);
 
-
+  useSetTitle('Cluster Workflow')
 
   // ==============Destructing Api=======================
   const { getCluster, viewCluster, deleteCluster } = apiList();

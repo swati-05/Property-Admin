@@ -16,7 +16,9 @@ import {BsExclamationCircleFill} from 'react-icons/bs'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 
 
-function ListTable3(props) {
+function ListTableMargin(props) {
+
+    console.log("enter in margin table")
 
     const [bounce, setbounce] = useState('hidden')
     const columns = useMemo(() => props.columns, [])
@@ -70,6 +72,7 @@ function ListTable3(props) {
         state,
         rows,
         setGlobalFilter
+        
     } = useTable({
         columns,
         data,
@@ -77,34 +80,34 @@ function ListTable3(props) {
     }, useGlobalFilter, useSortBy, usePagination)
 
     const { globalFilter, pageIndex, pageSize } = state
-    
-    console.log('getting data => ', page)
+
+    // console.log('ttttttttttttttttt', props?.currentPage, props?.lastPage, canNext, canPrev)
 
     const nextPageFun = () => {
 
-        if(pageSize != pageInd && pageInd != pageSize){
-            setpageInd(pageInd + 1)
+        if(props?.lastPage != props?.currentPage){
+            // setpageInd(props?.currentPage + 1)
             setcanPrev(true)
-            console.log("clicked next true")
+            // console.log("clicked next true")
             props.nextPage()
         }
 
-        if(pageSize == pageInd) {
+        if(props?.lastPage == props?.currentPage) {
             setcanNext(false)
-            console.log("clicked next false")
+            // console.log("clicked next false")
         }
     }
 
     const prevPageFun = () => {
-        if(pageSize != pageInd && pageInd != 1){
-            console.log("clicked prev true")
+        if(props?.currentPage != 1){
+            // console.log("clicked prev true")
             setcanNext(true)
-            setpageInd(pageInd - 1)
+            // setpageInd(props?.currentPage - 1)
             props.prevPage()
         }
 
-        if(pageSize == pageInd || pageInd == 1) {
-            console.log("clicked prev false")
+        if(props?.currentPage == 1) {
+            // console.log("clicked prev false")
             setcanPrev(false)
         }
     }
@@ -122,7 +125,7 @@ function ListTable3(props) {
                 
             </div>
             <div className="flex w-full">
-                <div className='flex-1'><span className='opacity-50'>Total Result :</span><span className='font-semibold'>{props.count1}</span> </div>
+                <div className='flex-1'><span className='opacity-50'>Total Result :&nbsp;</span><span className='font-semibold'>{props?.totalCount}</span> </div>
                {/* {props.title2 !='' && <div className='flex-1 text-right pr-4'><span className='opacity-50'>{props.title2}</span><span className='font-semibold'>{props.count2}</span> </div>} */}
             </div>
             {props?.feedback !=null && <div ><span className='text-xs bg-gray-200 opacity-50 pr-2 pl-1 py-1 rounded-sm'><BsExclamationCircleFill className="inline text-xs text-gray-400 mr-2" />{props.feedback}</span></div>}
@@ -135,7 +138,7 @@ function ListTable3(props) {
                                     <tr {...headerGroup.getHeaderGroupProps()}>
                                         {
                                             headerGroup.headers.map((column) => (
-                                                <th {...column.getHeaderProps(column.getSortByToggleProps())} className="px-2 py-3 border-b border-gray-200 text-gray-800  text-left text-xs uppercase text-left">{column.render('Header')}
+                                                <th {...column.getHeaderProps(column.getSortByToggleProps())} className="px-2 py-3 border-[1px] text-center border-gray-200 text-gray-800 text-xs capitalize">{column.render('Header')}
                                                     <span>{column.isSorted ? (column.isSortedDesc ? '⬆️' : '⬇️') : ''}</span></th>
 
                                             ))
@@ -146,13 +149,14 @@ function ListTable3(props) {
 
                         </thead>
                         <tbody {...getTableBodyProps()} className="text-sm">
-                            {rows.map((row) => { {/**since used pagination */}
+                            {rows.map((row, index) => { {/**since used pagination */}
                             {/* {page?.map((row) => { */}
                                 prepareRow(row)
                                 return (
-                                    <tr {...row.getRowProps()} className="bg-white shadow-lg border-b border-gray-200">
+                                    <tr {...row.getRowProps()} className="bg-white shadow-lg border-[1px] border-gray-200">
+                                        {/* <td>{((pageInd-1)*props?.perPage)+index+1}</td> */}
                                         {row?.cells?.map((cell) => {
-                                            return <td {...cell.getCellProps()} className="px-2 py-2 text-sm text-left">{cell.render('Cell')}</td>
+                                            return <td {...cell.getCellProps()} className="px-2 py-2 text-sm text-left border-[1px] border-gray-200">{cell.render('Cell')}</td>
 
                                             // return <td {...cell.getCellProps()} className={`px-2 py-2 text-sm text-left ${cell.getCellProps().key == 'cell_9_consumerName' ? 'hidden' : ''}`}>{cell.render('Cell')}</td>
 
@@ -173,7 +177,7 @@ function ListTable3(props) {
                                 gotoPage(pageNumber)
                             }} />
                         </span> */}
-                        <div className='col-span-2'>  <select className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " value={perPageC} onChange={(e) => {
+                        <div className='col-span-2'>  <select className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={perPageC} onChange={(e) => {
                             setperPageC(Number(e.target.value))
                             props.perPageC(Number(e.target.value))
                             }}>
@@ -188,14 +192,16 @@ function ListTable3(props) {
                             page {''}
                             <strong>
                                 {/* {pageIndex + 1} of {pageOptions.length} */}
-                                {pageInd} of {pageSize}
+                                {props?.currentPage} of {props?.lastPage}
                             </strong>{''}
                         </span></div>
 
-                        <div className='col-span-4 text-right'><button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => gotoPage(0)} disabled={!canPreviousPage}><AiOutlineDoubleLeft /> </button>
-                            <button className={(!canPrev ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => prevPageFun()} disabled={!canPrev}>⬅️</button>
-                            <button className={(!canNext ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => nextPageFun()} disabled={!canNext}>➡️</button>
-                            <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => gotoPage(pageCount - 1)} >  <AiOutlineDoubleRight /></button></div>
+                        <div className='col-span-4 text-right'>
+                            <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => (props?.goFirst(), setcanPrev(false), setcanNext(true))} disabled={props?.currentPage == 1 && true} ><AiOutlineDoubleLeft /> </button>
+                            <button className={(props?.currentPage == 1 ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => prevPageFun()} disabled={props?.currentPage == 1 && true}>⬅️</button>
+                            <button className={(props?.currentPage == props?.lastPage ? 'opacity-50' : 'opacity-100') + ' text-xl hover:bg-sky-300 hover:text-white'} onClick={() => nextPageFun()} disabled={props?.currentPage == props?.lastPage && true}>➡️</button>
+                            <button className='cursor-pointer hover:bg-sky-300 p-2 hover:text-white' onClick={() => (props?.goLast(), setcanNext(false), setcanPrev(true))} disabled={props?.currentPage == props?.lastPage && true} >  <AiOutlineDoubleRight /></button>
+                        </div>
 
 
 
@@ -206,7 +212,7 @@ function ListTable3(props) {
     )
 }
 
-export default ListTable3
+export default ListTableMargin
 /**
  * Exported to :
  * 1. MailboxContent Component

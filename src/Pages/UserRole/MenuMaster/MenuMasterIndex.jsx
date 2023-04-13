@@ -92,7 +92,7 @@ function MenuMasterIndex(props) {
 
   const { data, isError, error, refetch } = useQuery("api/crud/menu/get-all-menues--", () => {
     try {
-      return axios.get(api_getAllMenu, header);
+      return axios.post(api_getAllMenu, {} ,header);
     } catch (err) {
       console.log("Error api not avalivale", err);
     }

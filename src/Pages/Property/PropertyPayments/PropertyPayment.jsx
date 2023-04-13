@@ -24,7 +24,7 @@ function PropertyPayment(props) {
 
     const { id, moduleType } = useParams()
 
-    const { api_getHoldingDemandById, api_getsafDemandById } = CitizenApplyApiList();
+    const { api_getHoldingDemandById, api_getsafDemandById, api_getClusterSafDemandById, api_getClusterHoldingDemandById } = CitizenApplyApiList();
 
     useSetTitle('Payment Screen')
 
@@ -53,9 +53,16 @@ function PropertyPayment(props) {
 
         // CLUSTER SAF PAYMENT
         if(moduleType == 'cluster-saf'){
-            url = api_getsafDemandById;
+            url = api_getClusterSafDemandById;
             requestBody = {
-                id : id
+                clusterId : id
+            }
+        }
+
+        if(moduleType == 'cluster-holding'){
+            url = api_getClusterHoldingDemandById;
+            requestBody = {
+                clusterId : id
             }
         }
 
@@ -81,7 +88,7 @@ function PropertyPayment(props) {
             {isLoading && <BarLoader />}
             {/* <div className=" font-bold text-2xl pb-4 md:py-4">Holding Deactivation</div> */}
 
-            <div className="p-10">
+            <div className="sm:p-10 p-2">
                 <div className='w-full bg-white shadow-xl mb-6'>
                     {(moduleType != 'cluster-saf' && moduleType != 'cluster-holding') && <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
                         <div className="flex flex-col md:flex-row space-y-2 md:space-x-5 pl-4 ">
@@ -182,7 +189,7 @@ function PropertyPayment(props) {
                 </div>
                 <div>
 
-                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={demandDetail?.amounts} paymentDetails={demandDetail?.duesList} />
+                    <PaymentCard selectedPaymentQtr={selectedPaymentQtr} selectedPaymentYear={setselectedPaymentYear} fetchDemandDetail={fetchDemandDetail} basicDetails={demandDetail?.basicDetails} safPaymentDetailsData={demandDetail?.amounts} paymentDetails={(moduleType == 'cluster-saf') ? demandDetail?.demand : demandDetail?.duesList} />
                 </div>
             </div>
 

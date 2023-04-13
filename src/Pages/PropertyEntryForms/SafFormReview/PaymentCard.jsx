@@ -41,6 +41,7 @@ function PaymentCard(props) {
   const [currentTransactionNo, setcurrentTransactionNo] = useState(null);
   const [erroState, seterroState] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [tranNo, settranNo] = useState(null)
 
   const navigate = useNavigate()
   console.log('saf submit response data at payment...', props.safSubmitResponse)
@@ -257,6 +258,22 @@ function PaymentCard(props) {
       }
     }
 
+    if (moduleType == 'cluster-saf') {
+      url = propertyGenerateOrderId
+      orderIdPayload = {
+        id: id,
+        amount: props?.safPaymentDetailsData?.payableAmount,
+      }
+    }
+
+    if (moduleType == 'cluster-holding') {
+      url = propertyGenerateHoldingOrderId
+      orderIdPayload = {
+        id: id,
+        amount: props?.paymentDetails?.payableAmount,
+      }
+    }
+
     // setLoader(true)
 
     console.log('before get order id...', orderIdPayload)
@@ -323,6 +340,33 @@ function PaymentCard(props) {
         chequeNo: data?.cheque_dd_no
       }
     }
+      if (moduleType == 'cluster-saf') {
+        url = api_postClusterSafPayment
+        requestBody = {
+          id: id,
+          amount: props?.paymentDetails?.totalDues,
+          paymentMode: data?.paymentMode,
+          ulbId: props?.basicDetails?.ulb_id,
+          chequeDate: data?.cheque_dd_date,
+          bankName: data?.bankName,
+          branchName: data?.branchName,
+          chequeNo: data?.cheque_dd_no
+        }
+    }
+
+    if (moduleType == 'cluster-holding') {
+      url = api_postClusterPropertyPayment
+      requestBody = {
+        id: id,
+        amount: props?.paymentDetails?.totalDues,
+        paymentMode: data?.paymentMode,
+        ulbId: props?.basicDetails?.ulb_id,
+        chequeDate: data?.cheque_dd_date,
+        bankName: data?.bankName,
+        branchName: data?.branchName,
+        chequeNo: data?.cheque_dd_no
+      }
+  }
 
 
     console.log('before make payment..', requestBody)
@@ -331,6 +375,7 @@ function PaymentCard(props) {
       .then(function (response) {
         console.log('property payment response...', response?.data)
         setcurrentTransactionNo(response?.data?.data?.TransactionNo)
+        settranNo(response?.data?.data?.tranNo)
         setResponseScreenStatus(response?.data?.status)
 
         setisLoading(false)
@@ -406,12 +451,11 @@ function PaymentCard(props) {
   if (responseScreenStatus == true) {
     return (
       <>
-        <div className="w-full h-full bg-white p-20">
+        <div className="w-full h-full bg-white sm:p-20 p-2">
           <div>
             <div className="text-center font-semibold text-3xl">Your payment has been successfully done ! Now the application is sent to back office.</div>
             <div className="text-center mt-6">
-              <button className={`mr-4 bg-indigo-500  text-white px-6 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/paymentReceipt/${currentTransactionNo}/${moduleType == "saf" ? "saf" : "holding"
-                }`)}>View Receipt</button>
+              <button className={`mr-4 bg-indigo-500  text-white px-6 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/paymentReceipt/${(moduleType == 'cluster-saf' || moduleType == 'cluster-holding') ? tranNo : currentTransactionNo}/${(moduleType == 'cluster-saf' || moduleType == 'cluster-holding') ? (moduleType == 'cluster-saf' ? 'cluster-saf' : "cluster-holding") : (moduleType == "saf" ? "saf" : "holding")}`)}>View Receipt</button>
               {moduleType != "direct" && <button className={`mr-4 bg-white border border-indigo-500 text-indigo-500 px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/propApplicationDetails/${id}`)}>View Application</button>}
             </div>
           </div>
@@ -428,7 +472,7 @@ function PaymentCard(props) {
       } */}
       <ToastContainer position="top-right"
         autoClose={2000} />
-      <div className={` block p-4 mt-4 w-full md:py-4 md:px-40 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto  overflow-x-auto mb-20 `}>
+      <div className={` block sm:p-4 mt-4 w-full md:py-4 md:px-40 md:pb-0 md:pt-0 rounded-lg shadow-lg bg-white md:w-full mx-auto  overflow-x-auto mb-20 `}>
         {/* <h1 className='px-2 font-semibold mt-0 bg-sky-100 text-center text-gray-700 font-serif py-2 text-lg shadow-lg border border-white'>SAF Payment</h1> */}
 
 
@@ -593,16 +637,18 @@ function PaymentCard(props) {
 
 
 
-              <div className="col-span-12 grid grid-cols-2 mt-10">
+              <div className="col-span-12 grid grid-cols-2 sm:mt-10 mt-6">
 
                 <div className=''>
 
                 </div>
                 <div className='md:pl-10 text-right'>
 
-                  <button type='submit' className="ml-4 font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />
-                    {moduleType == 'saf' && nullToNA(props?.safPaymentDetailsData?.payableAmount)}
-                    {moduleType == 'holding' && nullToNA(props?.paymentDetails?.payableAmount)}
+                  <button type='submit' className="sm:ml-4 font-bold sm:px-6 px-1.5 py-2 bg-indigo-500 text-white text-xs sm:text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white"><span className='sm:mr-2 mr-1'>Pay </span>
+                    {moduleType == 'saf' && nullToNA(props?.safPaymentDetailsData?.payableAmount).toLocaleString("en-IN", {style: "currency",currency: "INR"})}
+                    {moduleType == 'holding' && nullToNA(props?.paymentDetails?.payableAmount).toLocaleString("en-IN", {style: "currency",currency: "INR"})}
+                    {moduleType == 'cluster-saf' && nullToNA(props?.paymentDetails?.payableAmount).toLocaleString("en-IN", {style: "currency",currency: "INR"})}
+                    {moduleType == 'cluster-holding' && nullToNA(props?.paymentDetails?.payableAmount).toLocaleString("en-IN", {style: "currency",currency: "INR"})}
                   </button>
                 </div>
 

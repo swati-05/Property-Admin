@@ -4,6 +4,7 @@ import axios from 'axios'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import BarLoader from '@/Components/Loaders/BarLoader'
 import { CSVDownload } from 'react-csv'
+import ListTableMargin from './ListTableMargin'
 
 const ListTableConnect = (props) => {
     
@@ -51,7 +52,7 @@ const ListTableConnect = (props) => {
     const searchOldFun = () => {
         
         setloader(true)
-        console.log("entered in old method...")
+        // console.log("entered in old method...")
 
         console.log(`data before hitting api (${props?.api}) => `, {...props?.requestBody, perPage: perPageCount, page: pageCount})
 
@@ -166,7 +167,7 @@ const ListTableConnect = (props) => {
             setcsvStatus(true)
         }
     
-
+console.log('getting margin status', props?.margin)
   return (
     <>
      {
@@ -179,9 +180,18 @@ const ListTableConnect = (props) => {
     
     {
             (dataList != undefined && dataList?.length != 0) ? 
-            
-            <ListTable2 currentPage={currentPage} lastPage={lastPage} goFirst={firstPageFun} goLast={lastPageFun} count1={totalCount} columns={props?.columns} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
 
+            <>
+                {props?.margin ? 
+                
+            <ListTableMargin currentPage={currentPage} lastPage={lastPage} goFirst={firstPageFun} goLast={lastPageFun} count1={totalCount} columns={props?.columns} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+                
+            :
+            <ListTable2 currentPage={currentPage} lastPage={lastPage} goFirst={firstPageFun} goLast={lastPageFun} count1={totalCount} columns={props?.columns} dataList={dataList} exportStatus={true} perPage={perPageCount} perPageC={perPageFun} totalCount={totalCount} nextPage={nextPageFun} prevPage={prevPageFun} exportDataF={exportDataFun} exportData={exportData} />
+            
+            }
+            </>
+            
             :
 
             <>{!loader && <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>}</>

@@ -63,6 +63,15 @@ export default function CitizenApplyApiList() {
         //application holding property demand
         api_getsafDemandById: `${baseUrl}/api/property/saf/get-demand-by-id`, //POST
 
+        // cluster saf demand by id
+        api_getClusterSafDemandById : baseUrl + '/api/property/saf/get-cluster-saf-due', //POST
+
+        // cluster holding demand details
+        api_getClusterHoldingDemandById : baseUrl + '/api/property/prop/get-cluster-holding-due', //POST
+
+        // cluster holding and saf reciept
+        api_getClusterReciept : baseUrl + '/api/property/cluster/payment-receipt',
+
         //application list of property generated holding
         api_getPropertyApplicationList: `${baseUrl}/api/property/saf/get-prop-byholding`, //POST
         propertyGenerateHoldingOrderId: `${baseUrl}/api/property/generate-prop-orderid`, //POST

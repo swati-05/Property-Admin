@@ -18,6 +18,8 @@ import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 
 function ListTable2(props) {
 
+    console.log('enter in normal table')
+
     const [bounce, setbounce] = useState('hidden')
     const columns = useMemo(() => props.columns, [])
     const data = useMemo(() => props.dataList, [props.dataList, props?.totalCount])
