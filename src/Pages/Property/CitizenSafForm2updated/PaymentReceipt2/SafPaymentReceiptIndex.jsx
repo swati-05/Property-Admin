@@ -10,7 +10,8 @@ import ApiHeader from '../../../../Components/ApiList/ApiHeader';
 import CitizenApplyApiList from '../../../../Components/CitizenApplyApiList';
 import BarLoader from '../../../../Components/Common/BarLoader';
 import NonBlockingLoader from '../NonBlockingLoader';
-import ComponentToPrint from './SafPaymentReceipt';
+// import ComponentToPrint from './SafPaymentReceipt';
+import ComponentToPrint from './SafPaymentReceiptFunctional';
 
 
 function SafPaymentReceiptIndex() {

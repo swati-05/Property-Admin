@@ -137,6 +137,7 @@ function App(props) {
   const [activeMenuId, setactiveMenuId] = useState(null);
   const [confirmBoxOpenStatus, setconfirmBoxOpenStatus] = useState(false);
   const [menuFetchStatus, setmenuFetchStatus] = useState(false);
+  const [printButtonStatus, setprintButtonStatus] = useState(false);
 
   // USER DETAILS
   const [userUlbName, setuserUlbName] = useState('');
@@ -210,7 +211,9 @@ function App(props) {
     userEmail,
     setuserEmail,
     userImage,
-    setuserImage
+    setuserImage,
+    printButtonStatus,
+    setprintButtonStatus
   };
   // return(
   //   <Login/>
