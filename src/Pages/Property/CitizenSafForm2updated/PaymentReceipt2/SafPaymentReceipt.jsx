@@ -81,8 +81,8 @@ class ComponentToPrint extends React.Component {
                                                 <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.transactionDate)}</h1>
                                             </div>
                                             <div className='flex p-1 flex-col sm:flex-row print:flex-row '>
-                                                <h1 className='flex text-gray-900 font-sans '>Ward No. :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.newWardNo)}</h1>
+                                                <h1 className='flex text-gray-900 font-sans mr-1'>Old Ward No. : <span className='font-sans font-semibold pl-2'>{nullToNA(this.props?.paymentData?.oldWardNo)}</span> </h1>/
+                                                <h1 className='flex text-gray-900 font-sans ml-1'>New Ward No. : <span className='font-sans font-semibold pl-2'>{nullToNA(this.props?.paymentData?.newWardNo)}</span> </h1>
                                             </div>
                                             <div className='flex p-1 flex-col sm:flex-row print:flex-row '>
                                                 <h1 className='flex text-gray-900 font-sans '>{this?.props?.module=='holding'?'Holding No.':'Application No. '} </h1>

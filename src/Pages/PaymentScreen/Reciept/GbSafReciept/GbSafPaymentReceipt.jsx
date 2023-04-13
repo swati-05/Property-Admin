@@ -19,18 +19,18 @@ class ComponentToPrint extends React.Component {
             <>
 
                 {/* <div> */}
-                    {/* <div className='md:px-0 flex-1 '>
+                {/* <div className='md:px-0 flex-1 '>
                         <Link to='/propertyDashboard'>
                             <button type="button" className="pl-4 pr-6 py-1 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-gray-500 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">back</button>
                         </Link>
                     </div> */}
-                    {/* <div className='md:px-0 flex-1 '>
+                {/* <div className='md:px-0 flex-1 '>
                         <button onClick={() => window.print()} className="float-right pl-4 pr-6 py-1 bg-sky-400 text-white font-medium text-xs leading-tight uppercase rounded  hover:bg-amber-100 hover: focus: focus:outline-none focus:ring-0  active: transition duration-150 ease-in-out">
                             <AiFillPrinter className='inline text-lg' />
                             Print
                         </button>
                     </div> */}
-                    <PrintButton />
+                <PrintButton />
                 {/* </div> */}
                 <div id="" className='h-screen flex items-center justify-center mt-10 print:mt-0'>
 
@@ -86,21 +86,23 @@ class ComponentToPrint extends React.Component {
                                                 <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.transactionDate)}</h1>
                                             </div>
                                             <div className='flex p-1 '>
-                                                <h1 className='flex text-gray-900 font-sans '>Ward No. :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.newWardNo == '' ? this.props?.paymentData?.oldWardNo : this.props?.paymentData?.newWardNo}</h1>
+                                                <h1 className='flex text-gray-900 font-sans mr-1'>Old Ward No. : <span className='font-sans font-semibold pl-2'>{nullToNA(this.props?.paymentData?.oldWardNo)}</span> </h1>/
+                                                <h1 className='flex text-gray-900 font-sans ml-1'>New Ward No. : <span className='font-sans font-semibold pl-2'>{nullToNA(this.props?.paymentData?.newWardNo)}</span> </h1>
+                                                {/* <h1 className='flex text-gray-900 font-sans '>Ward No. :</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{this.props?.paymentData?.newWardNo == '' ? this.props?.paymentData?.oldWardNo : this.props?.paymentData?.newWardNo}</h1> */}
                                             </div>
                                             <div className='flex p-1 '>
-                                                <h1 className='flex text-gray-900 font-sans '>{this?.props?.module=='holding'?'Holding No.':'Application No. '} </h1>
+                                                <h1 className='flex text-gray-900 font-sans '>{this?.props?.module == 'holding' ? 'Holding No.' : 'Application No. '} </h1>
                                                 <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.applicationNo)}</h1>
                                             </div>
                                             {(this.props?.paymentData?.ptNo == '' || this.props?.paymentData?.ptNo == undefined) ? <div className='flex p-1 '>
                                                 <h1 className='flex text-gray-900 font-sans '>Holding No. :</h1>
                                                 <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.holdingNo)}</h1>
-                                            </div> : 
-                                            <div className='flex p-1 '>
-                                            <h1 className='flex text-gray-900 font-sans '>Property Tax No. :</h1>
-                                            <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.ptNo)}</h1>
-                                        </div>}
+                                            </div> :
+                                                <div className='flex p-1 '>
+                                                    <h1 className='flex text-gray-900 font-sans '>Property Tax No. :</h1>
+                                                    <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.ptNo)}</h1>
+                                                </div>}
                                         </td>
                                     </tr>
                                 </table>

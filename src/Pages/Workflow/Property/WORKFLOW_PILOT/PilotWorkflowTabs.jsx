@@ -268,7 +268,7 @@ export default function PilotWorkflowTabs(props) {
         {/* DetailTable to show basic details of holding application */}
         {/* <PilotWorkflowDataCard applicationData={data?.data} /> */}
         <CustomErrorBoundary errorMsg="Bug in PilotWorkflowDataCard" >
-          <PilotWorkflowDataCard permissions={props?.workflowInfo?.permissions} tabIndex={props?.tabIndex} workflow={props?.workflow} id={props?.id} applicationData={applicationData} index={funId} />
+          <PilotWorkflowDataCard boxType={props?.boxType} permissions={props?.workflowInfo?.permissions} tabIndex={props?.tabIndex} workflow={props?.workflow} id={props?.id} applicationData={applicationData} index={funId} />
         </CustomErrorBoundary>
         {/* {props?.workflowInfo?.permission?.tabsAllowed && <div className=" "> */}
         {5 > 4 && <div className=" ">
