@@ -19,7 +19,7 @@ import CitizenApplyApiList from '@/Components/ApiList/CitizenApplyApiList'
 import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 // import PieChart from '../PieChart'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
-// import PieChart from '@/Pages/Property/Reports/PieChart'
+const PieChart = React.lazy(() => import('@/Pages/Property/Reports/PieChart')) 
 
 const DcbReport = () => {
 
@@ -1019,7 +1019,7 @@ const DcbReport = () => {
                 {
                     pieChartData?.map((elem) => 
                         <div className='w-[20%] flex flex-col'><div className='bg-indigo-500 w-max px-2 text-white rounded-md text-xs sm:text-sm font-semibold shadow-md shadow-indigo-300'>{elem?.fyear}</div>
-                        {/* <PieChart label={['Total Demand', 'Total Collection', 'Total Balance']} data={[elem?.totaldemand, elem?.totalcollection, elem?.totalbalance]}/> */}
+                        <PieChart label={['Total Demand', 'Total Collection', 'Total Balance']} data={[elem?.totaldemand, elem?.totalcollection, elem?.totalbalance]}/>
                         </div>
                     )
                 }
