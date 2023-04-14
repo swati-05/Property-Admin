@@ -81,10 +81,10 @@ function SafFormDemand(props) {
 
               <div>SAF No. :<span className='text-black font-semibold font-mono ml-2 bg-amber-100 px-2 py-1 rounded-lg cursor-pointer hover:bg-amber-200'>{props?.safSubmitResponse?.data?.safNo} <span><MdContentCopy className='inline' /></span> </span></div>
               <div>Apply date :<span className='text-black font-semibold font-mono ml-2'>{moment(nullToNA(props?.safSubmitResponse?.data?.applyDate), 'YYYY-MM-DD').format('DD-MMM-yy')}</span></div>
-              <div>Rebate (Rs)<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmount)}</span></div>
+              <div>Rebate (Rs)<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.rebateAmt)}</span></div>
               <div>Late Assessment Penalty(Rs)<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.lateAssessmentPenalty)}</span></div>
 
-              <div>1% Penalty Rebate<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty)}</span></div>
+              <div>1% Penalty<span className='text-black font-semibold font-mono ml-2'>{nullToNA(props?.safSubmitResponse?.data?.demand?.amounts?.totalOnePercPenalty)}</span></div>
 
             </div>
             <div className='col-span-12 md:col-span-4 float-left md:text-left mt-6 md:mt-0'>
@@ -205,13 +205,13 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quater</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarter / Year</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Holding Tax (Rs)</th>
-                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Water Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Latrine/Conservancy Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Education Cess (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Health Cess (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarterly Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
 
 
                         </tr>
@@ -226,13 +226,13 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
-                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.waterTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrineTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.educationTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.healthTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                             </tr>
                           ))}
 
@@ -273,10 +273,11 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quater</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarter / Year</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Holding Tax (Rs) </th>
-                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Additional Tax(RWH Penalty) (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarterly Tax (Total) (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
+
                         </tr>
                       </thead>
                       <tbody className="text-sm">
@@ -289,10 +290,11 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
-                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
+
                             </tr>
                           ))}
 
@@ -334,10 +336,11 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quater</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarter / Year</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Holding Tax (Rs)</th>
-                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Additional Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Total Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
+
 
                         </tr>
                       </thead>
@@ -351,10 +354,11 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.quarterYear)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
-                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
+
                             </tr>
                           ))}
 

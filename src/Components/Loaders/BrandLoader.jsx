@@ -1,5 +1,4 @@
 import React from 'react'
-import '@/Components/barloader.css'
 import jlogo from '../../Components/Media/jlogo.svg'
 
 

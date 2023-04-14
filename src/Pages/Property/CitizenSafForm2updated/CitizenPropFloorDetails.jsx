@@ -284,7 +284,7 @@ function CitizenPropFloorDetails(props) {
                                 <button onClick={() => props.backFun(5)} type="button" className=" px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
                             </div>
                             <div className='md:px-4 text-center'>
-                                <button onClick={toggleForm} type="button" className=" px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Add Floor <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>
+                               {props?.safType !=='bo-edit' && <button onClick={toggleForm} type="button" className=" px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Add Floor <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>}
                             </div>
                             <div className='md:px-10 text-right'>
                                 <button onClick={checkMinimumFloor} type="button" className="cypress_next5_button px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save</button>
@@ -305,7 +305,7 @@ function CitizenPropFloorDetails(props) {
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Builtup Area (Sqt)</th>
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">From Date</th>
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Upto Date</th>
-                                <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Action</th>
+                               {props?.safType !=='bo-edit' && <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Action</th>}
                             </tr>
                         </thead>
                         <tbody className="text-sm">
@@ -321,11 +321,11 @@ function CitizenPropFloorDetails(props) {
                                             <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.buildupArea)}</td>
                                             <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.dateFrom)}</td>
                                             <td className="px-2 py-2 text-sm text-left"> { nullToNA(data?.dateUpto)}</td>
-                                            <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editFloor(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' />
+                                            {props?.safType !=='bo-edit' && <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editFloor(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' />
                                                 {/* HIDE REMOVE OPTION IF PREVIOUS FLOOR IN CASE OF RE-ASSESSMENT */}
                                                 {props?.safType == 're' && index >= props?.oldFloorDetailsCount && <RiDeleteBack2Line onClick={() => removeFloor(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' />}
                                                 {props?.safType != 're' && <RiDeleteBack2Line onClick={() => removeFloor(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' />}
-                                            </td>
+                                            </td>}
                                         </tr>
                                     </>
                                 ))

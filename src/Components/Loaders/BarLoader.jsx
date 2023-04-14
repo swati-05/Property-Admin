@@ -1,5 +1,5 @@
 import React from 'react'
-import '@/Components/Loaders/barLoader.css'
+import '../../../public/barloader.css'
 
 function BarLoader() {
     return (

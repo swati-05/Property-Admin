@@ -168,7 +168,7 @@ function ViewDemandDetails(props) {
 
                     {demandDetail?.paymentStatus != 1 &&
                         <>
-                            <div className='mt-10 w-[100vw] overflow-x-auto'>
+                            {/* <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
                                 <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
                                 <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
                                     <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
@@ -187,6 +187,7 @@ function ViewDemandDetails(props) {
                                 <table className='min-w-full leading-normal mt-2'>
                                     <thead className='font-bold text-left text-sm bg-white text-gray-600'>
                                         <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Ruleset</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Tax Amount (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Late Assessment Penalty (Rs)</th>
                                             <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% Penalty (Rs)</th>
@@ -197,7 +198,9 @@ function ViewDemandDetails(props) {
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm">
+                                     
                                         <tr className="bg-white shadow-lg border-b border-gray-200">
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.totalTax)}</td>
                                             <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.totalTax)}</td>
                                             <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.lateAssessmentPenalty)}</td>
                                             <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.totalOnePercPenalty)}</td>
@@ -205,6 +208,65 @@ function ViewDemandDetails(props) {
                                             <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.specialRebateAmt)}</td>
                                             <td className="px-2 py-2 text-sm text-left">{nullToZero(demandDetail?.amounts?.payableAmount)}</td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div> */}
+
+
+                            <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
+                                <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
+                                <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
+                                    <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
+                                    <div className='flex-initial px-2'>= </div>
+                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Tax Amount</div>
+                                    <div className='flex-initial px-2'>+</div>
+                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Late Assessment Penalty</div>
+                                    <div className='flex-initial px-2'>+</div>
+                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>1% Penalty )</div>
+                                    <div className='flex-initial px-2'>-</div>
+                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Rebate</div>
+                                    <div className='flex-initial px-2'>+</div>
+                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Special Rebate )</div>
+                                </div>
+
+                                <table className='min-w-full leading-normal mt-2'>
+                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                        <tr>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">ARV</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Effect From</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Conservancy/Latrine Tax</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">RWH Penalty</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax</th>
+                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Ruleset</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm">
+                                        {
+                                            demandDetail?.taxDetails?.map((data,index) => (
+                                                <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                    <td className="px-2 py-2 text-sm text-left">{index+1}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.arv)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.fyear)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.holding_tax)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.water_tax)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.latrine_tax)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.education_cess)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.health_cess)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.additional_tax)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.amount)}</td>
+                                                    <td className={`px-2 py-2 text-sm text-left  `}> <span className={`${data?.ruleSet==='RuleSet3'?'bg-green-100':'bg-red-100'} px-2 py-1 rounded-lg`}>{data?.ruleSet==='RuleSet3'?'Current':'Old'}</span> </td>
+                                                </tr>
+                                            )) 
+                                           
+                                        }
+                                       
                                     </tbody>
                                 </table>
                             </div>

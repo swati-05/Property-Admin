@@ -230,7 +230,7 @@ function DemandDetailsHoldingProperty(props) {
 
 
 
-                            <div className='mt-10 w-[100vw] overflow-x-auto'>
+                            <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
                                 <div className="grid grid-cols-12">
                                     <div className="col-span-4">Total Dues (Rs) : <span className='font-semibold text-lg'>{nullToNA(demandDetail?.duesList?.totalDues)}</span> </div>
                                     <div className="col-span-4">Dues From : <span className='font-semibold text-lg'>{nullToNA(demandDetail?.duesList?.duesFrom)}</span> </div>

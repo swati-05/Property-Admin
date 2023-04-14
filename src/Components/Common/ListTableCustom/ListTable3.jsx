@@ -16,7 +16,7 @@ import {BsExclamationCircleFill} from 'react-icons/bs'
 import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai'
 
 
-function ListTable2(props) {
+function ListTable3(props) {
 
     console.log('enter in normal table')
 
@@ -211,7 +211,7 @@ function ListTable2(props) {
     )
 }
 
-export default ListTable2
+export default ListTable3
 /**
  * Exported to :
  * 1. MailboxContent Component

@@ -12,6 +12,7 @@ import ChangePassword from './Pages/ChangePassword';
 import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundaryForRoutes';
 import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand';
 import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
+import BarLoader from './Components/Common/BarLoader';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -137,6 +138,7 @@ function App(props) {
   const [activeMenuId, setactiveMenuId] = useState(null);
   const [confirmBoxOpenStatus, setconfirmBoxOpenStatus] = useState(false);
   const [menuFetchStatus, setmenuFetchStatus] = useState(false);
+  const [printButtonStatus, setprintButtonStatus] = useState(false);
 
   // USER DETAILS
   const [userUlbName, setuserUlbName] = useState('');
@@ -210,7 +212,9 @@ function App(props) {
     userEmail,
     setuserEmail,
     userImage,
-    setuserImage
+    setuserImage,
+    printButtonStatus,
+    setprintButtonStatus
   };
   // return(
   //   <Login/>
@@ -251,6 +255,7 @@ function App(props) {
               <Routes>
                 {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
                 <Route path="/change-password/:type" element={<ChangePassword />} />
+                <Route path="/loader" element={<BarLoader />} />
                 <Route path="/home" element={<LandingHomeDashBoard />} />
                 <Route path="/user-permission" element={<UserPermission />} />
                 <Route path="/user-role" element={<UserRole />} />
