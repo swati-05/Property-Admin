@@ -17,8 +17,9 @@ import { indianAmount, nullToZero } from '@/Components/Common/PowerUps/PowerupFu
 import { useStepContext } from '@mui/material'
 import CitizenApplyApiList from '@/Components/ApiList/CitizenApplyApiList'
 import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
-import PieChart from '../PieChart'
+// import PieChart from '../PieChart'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
+// import PieChart from '@/Pages/Property/Reports/PieChart'
 
 const DcbReport = () => {
 
@@ -449,7 +450,9 @@ const DcbReport = () => {
             <div className='flex flex-row-reverse flex-wrap items-end justify-evenly gap-x-2 w-[100%] '>
                 {
                     pieChartData?.map((elem) => 
-                        <div className='w-[20%] flex flex-col'><div className='bg-indigo-500 w-max px-2 text-white rounded-md text-xs sm:text-sm font-semibold shadow-md shadow-indigo-300'>{elem?.fyear}</div><PieChart label={['Total Demand', 'Total Collection', 'Total Balance']} data={[elem?.totaldemand, elem?.totalcollection, elem?.totalbalance]}/></div>
+                        <div className='w-[20%] flex flex-col'><div className='bg-indigo-500 w-max px-2 text-white rounded-md text-xs sm:text-sm font-semibold shadow-md shadow-indigo-300'>{elem?.fyear}</div>
+                        {/* <PieChart label={['Total Demand', 'Total Collection', 'Total Balance']} data={[elem?.totaldemand, elem?.totalcollection, elem?.totalbalance]}/> */}
+                        </div>
                     )
                 }
             </div>

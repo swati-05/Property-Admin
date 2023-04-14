@@ -77,7 +77,8 @@ function MobileLogin(props) {
         seterrorMsg('')
         let requestBody = {
             email: formik.values.username,
-            password: formik.values.password
+            password: formik.values.password,
+            type:'mobile'
         }
         console.log('--1--before login send...', requestBody)
         axios.post(api_login, requestBody, header)
@@ -87,6 +88,7 @@ function MobileLogin(props) {
                     window.localStorage.setItem('token', response?.data?.data?.token)
                     // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
                     // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+                    window.localStorage.setItem('userType', JSON.stringify(response?.data?.data?.userDetails?.userType))
                     window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
 
                     ///*** setting the data to global container to use everywhere ***\\\

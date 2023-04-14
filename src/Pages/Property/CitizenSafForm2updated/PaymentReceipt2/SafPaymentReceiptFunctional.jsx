@@ -11,6 +11,8 @@ function SafPaymentReceiptFunctional(props) {
     const [printCount, setprintCount] = useState(0)
     const { setprintButtonStatus } = useContext(contextVar)
 
+    let device = window.localStorage.getItem('device')
+
     // CALLING RECEIPTDATA FUNCTION TO SET THE PRINT DATA TO CONTAINER
     useEffect(() => {
         getReceiptData()
@@ -31,160 +33,62 @@ function SafPaymentReceiptFunctional(props) {
     // FUNCTION TO SET THE DATA TO DUMMYTEXT VAR TO PRINT
     const getReceiptData = () => {
         let dummyText
-        // if (globalDataContainer?.propertyType == 'individual') {
-        //     if (extraReceiptData?.paymentMode == "Cash") {
-        //         dummyText = "<nc>" + ulbName + "</nc><br />" +
-        //             "<nc>Solid Waste User Charge</nc><br />" +
-        //             "<nc>(Netwind SoftLab Private Limited)</nc><br />" +
-        //             "<nc>+91-6513131001</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Payment Receipt</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Date           : " + moment(globalDataContainer.paymentReceiptCachedData.transactionDate, 'YYYY-MM-DD').format('DD-MMM-yy') + "  </n><br />" +
-        //             "<n>Time           : " + globalDataContainer.paymentReceiptCachedData.transactionTime + "  </n><br />" +
-        //             "<n>Ward No.       : " + receiptWard + "  </n><br />" +
-        //             "<n>Transaction No.: " + globalDataContainer.paymentReceiptCachedData.transactionNo + "  </n><br />" +
-        //             "<n>Holding No.    : " + globalDataContainer.paymentReceiptCachedData.holdingNo + "  </n><br />" +
-        //             "<n>Citizen Name    : " + globalDataContainer.paymentReceiptCachedData.consumerName + "  </n><br />" +
-        //             "<n>Consumer No.    : " + globalDataContainer.paymentReceiptCachedData.consumerNo + "  </n><br />" +
-        //             "<n>Address  : " + globalDataContainer.paymentReceiptCachedData?.address + "  </n><br />" +
-        //             "<n>Monthly Charge   : " + globalDataContainer.paymentReceiptCachedData.monthlyRate + "  </n><br />" +
-        //             "<n>Paid  From    : " + moment(globalDataContainer.paymentFrom, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<n>Paid  Upto    : " + moment(globalDataContainer?.paymentReceiptCachedData?.paidUpto, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Amount Paid   : " + globalDataContainer.paymentReceiptCachedData.receivedAmount + "  </n><br />" +
-        //             "<n>Payment Mode  : " + extraReceiptData?.paymentMode + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             // "<n>TC Name        : " + "" + "   </n><br />" +
-        //             // "<n>Mobile No.     : " + "" + "   </n><br />" +
-        //             "<n>TC Name        : " + globalDataContainer?.paymentReceiptCachedData?.tcName + "   </n><br />" +
-        //             "<n>Mobile No.     : " + globalDataContainer?.paymentReceiptCachedData?.tcMobile + "   </n><br />" +
-        //             "<n></n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Please keep this Bill For Future Reference</n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Thanking you</nc><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />`"
-        //     } else {
-        //         dummyText = "<nc>" + ulbName + "</nc><br />" +
-        //             "<nc>Solid Waste User Charge</nc><br />" +
-        //             "<nc>(Netwind SoftLab Private Limited)</nc><br />" +
-        //             "<nc>+91-6513131001</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Payment Receipt</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Date           : " + moment(globalDataContainer.paymentReceiptCachedData.transactionDate, 'YYYY-MM-DD').format('DD-MMM-yy') + "  </n><br />" +
-        //             "<n>Time           : " + globalDataContainer.paymentReceiptCachedData.transactionTime + "  </n><br />" +
-        //             "<n>Ward No.       : " + receiptWard + "  </n><br />" +
-        //             "<n>Transaction No.: " + globalDataContainer.paymentReceiptCachedData.transactionNo + "  </n><br />" +
-        //             "<n>Holding No.    : " + globalDataContainer.paymentReceiptCachedData.holdingNo + "  </n><br />" +
-        //             "<n>Citizen Name    : " + globalDataContainer.paymentReceiptCachedData.consumerName + "  </n><br />" +
-        //             "<n>Consumer No.    : " + globalDataContainer.paymentReceiptCachedData.consumerNo + "  </n><br />" +
-        //             "<n>Address  : " + globalDataContainer.paymentReceiptCachedData?.address + "  </n><br />" +
+        let holdingType
+        let cheque_dd_data
 
-        //             "<n>Monthly Charge   : " + globalDataContainer.paymentReceiptCachedData.monthlyRate + "  </n><br />" +
-        //             "<n>Paid  From    : " + moment(globalDataContainer.paymentFrom, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<n>Paid  Upto    : " + moment(globalDataContainer?.paymentReceiptCachedData?.paidUpto, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
+        // IF HOLDING THEN SHOW HOLDING NO. OTHERWISE APPLICATION NO
+        if (module === 'holding') {
+            holdingType = "<n>Holding No.    :  " + props?.paymentData?.applicationNo + "</n><br />" +
+                "<n>New Holding No.:   " + props?.paymentData?.applicationNo + "</n><br />"
+        } else {
+            holdingType = "<n>Application No.    :  " + props?.paymentData?.applicationNo + "</n><br />"
+        }
 
-        //             "<n>Amount Paid   : " + globalDataContainer.paymentReceiptCachedData.receivedAmount + "  </n><br />" +
-        //             "<n>Payment Mode  : " + extraReceiptData?.paymentMode + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Bank Name  : " + globalDataContainer?.bankName + "  </n><br />" +
-        //             "<n>Cheuqe No. : " + globalDataContainer?.chequeNo + "  </n><br />" +
-
-        //             "<n>TC Name        : " + globalDataContainer?.paymentReceiptCachedData?.tcName + "   </n><br />" +
-        //             "<n>Mobile No.     : " + globalDataContainer?.paymentReceiptCachedData?.tcMobile + "   </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>" + "Payment is subject to realisation of cheque" + "  </n><br />" +
-        //             "<n>Please keep this Bill For Future Reference</n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Thanking you</nc><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />`"
-        //     }
-        // } else {
-        //     if (extraReceiptData?.paymentMode == "Cash") {
-        //         dummyText = "<nc>" + ulbName + "</nc><br />" +
-        //             "<nc>Solid Waste User Charge</nc><br />" +
-        //             "<nc>(Netwind SoftLab Private Limited)</nc><br />" +
-        //             "<nc>+91-6513131001</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Payment Receipt</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Date           : " + moment(globalDataContainer.paymentReceiptCachedData.transactionDate, 'YYYY-MM-DD').format('DD-MMM-yy') + "  </n><br />" +
-        //             "<n>Time           : " + globalDataContainer.paymentReceiptCachedData.transactionTime + "  </n><br />" +
-        //             "<n>Ward No.       : " + receiptWard + "  </n><br />" +
-        //             "<n>Transaction No.: " + globalDataContainer.paymentReceiptCachedData.transactionNo + "  </n><br />" +
-        //             "<n>Apartment Name    : " + globalDataContainer.paymentReceiptCachedData.apartmentName + "  </n><br />" +
-        //             "<n>Address  : " + receiptAddress + "  </n><br />" +
-        //             "<n>No of flats  : " + flatCount + "  </n><br />" +
-
-        //             "<n>Monthly Charge   : " + globalDataContainer.paymentReceiptCachedData.monthlyRate + "  </n><br />" +
-        //             "<n>Paid  From    : " + moment(globalDataContainer.paymentFrom, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<n>Paid  Upto    : " + moment(globalDataContainer?.paymentReceiptCachedData?.paidUpto, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Amount Paid   : " + globalDataContainer.paymentReceiptCachedData.receivedAmount + "  </n><br />" +
-        //             "<n>Payment Mode  : " + extraReceiptData?.paymentMode + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
+        // CHEUQE AND DD DETAILS TOGLE IF CHEQUE/DD
+        if (props?.paymentData?.paymentMode === 'CHEQUE' || props?.paymentData?.paymentMode == 'DD') {
+            cheque_dd_data = "<n>Cheque No.     :  " + props?.paymentData?.chequeNo + "</n><br />" +
+                "<n>Bank Name		      :  " + props?.paymentData?.bankName + "</n><br />" +
+                "<n>Branch Name    :  " + props?.paymentData?.branchName + "</n><br />" +
+                "<n>Cheque Date  	  :  " + props?.paymentData?.chequeDate + "</n><br />"
+        } else {
+            cheque_dd_data = ""
+        }
 
 
-        //             "<n>TC Name        : " + globalDataContainer?.paymentReceiptCachedData?.tcName + "   </n><br />" +
-        //             "<n>Mobile No.     : " + globalDataContainer?.paymentReceiptCachedData?.tcMobile + "   </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Please keep this Bill For Future Reference</n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Thanking you</nc><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />`"
-        //     } else {
-        //         dummyText = "<nc>" + ulbName + "</nc><br />" +
-        //             "<nc>Solid Waste User Charge</nc><br />" +
-        //             "<nc>(Netwind SoftLab Private Limited)</nc><br />" +
-        //             "<nc>+91-6513131001</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Payment Receipt</nc><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Date           : " + moment(globalDataContainer.paymentReceiptCachedData.transactionDate, 'YYYY-MM-DD').format('DD-MMM-yy') + "  </n><br />" +
-        //             "<n>Time           : " + globalDataContainer.paymentReceiptCachedData.transactionTime + "  </n><br />" +
-        //             "<n>Ward No.       : " + receiptWard + "  </n><br />" +
-        //             "<n>Transaction No.: " + globalDataContainer.paymentReceiptCachedData.transactionNo + "  </n><br />" +
-        //             "<n>Apartment Name    : " + globalDataContainer.paymentReceiptCachedData.apartmentName + "  </n><br />" +
-        //             "<n>Address  : " + receiptAddress + "  </n><br />" +
-        //             "<n>No of flats  : " + flatCount + "  </n><br />" +
+        let printDataProperty = "<nc>" + "Payment Receipt" + "</nc><br />" +
+            "<nc>.........................................</nc><br /><br />" +
+            "<n>Date           :  " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>POS ID         :  XXXXXXXXXXX</n><br />" +
+            "<n>Transaction No.:  " + props?.paymentData?.transactionNo + "</n><br />" +
 
-        //             "<n>Monthly Charge   : " + globalDataContainer.paymentReceiptCachedData.monthlyRate + "  </n><br />" +
-        //             "<n>Paid  From    : " + moment(globalDataContainer.paymentFrom, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<n>Paid  Upto    : " + moment(globalDataContainer?.paymentReceiptCachedData?.paidUpto, 'YYYY-MM-DD').format('MMM-yy') + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
+            holdingType +
 
-        //             "<n>Amount Paid   : " + globalDataContainer.paymentReceiptCachedData.receivedAmount + "  </n><br />" +
-        //             "<n>Payment Mode  : " + extraReceiptData?.paymentMode + "  </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>Bank Name  : " + globalDataContainer?.bankName + "  </n><br />" +
-        //             "<n>Cheuqe No. : " + globalDataContainer?.chequeNo + "  </n><br />" +
+            "<n>Ward No.       :   " + props?.paymentData?.oldWardNo + "</n><br />" +
+            "<n>Citizen Name   :  " + props?.paymentData?.customerName + "</n><br />" +
+            "<n>Address        :  " + props?.paymentData?.address + "</n><br />" +
+            "<nc>.........................................</nc><br /><br />" +
 
-        //             "<n>TC Name        : " + globalDataContainer?.paymentReceiptCachedData?.tcName + "   </n><br />" +
-        //             "<n>Mobile No.     : " + globalDataContainer?.paymentReceiptCachedData?.tcMobile + "   </n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<n>" + "Payment is subject to realisation of cheque" + "  </n><br />" +
-        //             "<n>Please keep this Bill For Future Reference</n><br />" +
-        //             "<nc>-----------------------------------------</nc><br />" +
-        //             "<nc>Thanking you</nc><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />" +
-        //             "<n></n><br />`"
-        //     }
+            "<n>Paid  From     :  " + props?.paymentData?.paidFromQtr + "/" + props?.paymentData?.paidFrom + "</n><br />" +
+            "<n>Paid  Upto     :  " + props?.paymentData?.paidUptoQtr + "/" + props?.paymentData?.paidUptoQtr + "</n><br />" +
+            "<n>Demand Amount  :  " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>Penalty Amount :  " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>Rebate Amount  :  " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>Amount Paid    :  " + props?.paymentData?.totalPaidAmount + "</n><br />" +
+            "<n>Payment Mode   :  " + props?.paymentData?.paymentMode + "</n><br />" +
 
-        // }
+            cheque_dd_data +
+
+            "<nc>.........................................</nc><br /><br />" +
+            "<n>TC Name        :   " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>Mobile No.     :   " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>For Details Please visit : udhd.jharkhand.gov.in OR Call us at 1800 8904115 or 0651-3500700</n><br />" +
+            "<n>Please keep this Bill For Future Reference</n><br />" +
+
+            "<n></n><br />" +
+            "<n></n><br />" +
+            "<n></n><br />" +
+            "<n></n><br />" +
+            "<n></n><br />"
 
         dummyText = "<nc>" + "Dummy Property Receipt" + "</nc><br />" +
             "<nc>Solid Waste User Charge</nc><br />" +
@@ -193,16 +97,151 @@ function SafPaymentReceiptFunctional(props) {
             "<nc>-----------------------------------------</nc><br />" +
             "<nc>Payment Receipt</nc><br />" +
             "<nc>-----------------------------------------</nc><br />" +
-          
 
 
-        console.log(dummyText)
 
-        document.getElementById('printClick').value = dummyText
+            // console.log(dummyText)
+            console.table('=======PPPPPPPP START=======')
+        console.table('The print', printDataProperty)
+        console.table('=======PPPPPPPP END=======')
+
+
+        document.getElementById('printClick').value = printDataProperty
         document.getElementById('printClick').click()
     }
 
 
+
+    if (device === 'mobile') {
+        return (
+            <>
+                <div className='px-2'>
+                    <div className='py-2 bg-white rounded-lg shadow-xl p-4 pb-6'>
+                        <div className="flex  flex-col gap-y-2 md:space-x-5 pl-4  ">
+                            <div className='text-center w-full mt-0 mb-4 font-semibold'>
+                                Payment Receipt
+                            </div>
+                            <div className='md:flex-1 flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Date</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-semibold text-sm'>XXXXXXXXXXX</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>POS ID</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-semibold text-md'>{nullToNA(props?.paymentData?.transactionNo)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Transaction No.</div>
+                            </div>
+                            {
+                                module === 'holding' &&
+                                <>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.applicationNo)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Holding No.</div>
+                                    </div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.applicationNo)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>New Holding No</div>
+                                    </div>
+                                </>
+                            }
+                            {module === 'saf' && <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.applicationNo)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Application No.</div>
+                            </div>}
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.oldWardNo)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Ward No.</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.customerName)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Citizen Name</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.address)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Address</div>
+                            </div>
+                            <div className='text-center w-full my-2'>
+                                ------------------------------------------
+                            </div>
+
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.paidFromQtr)}/{nullToNA(props?.paymentData?.paidFrom)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Paid  From</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.paidUptoQtr)}/{nullToNA(props?.paymentData?.paidUpto)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Paid  Upto</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.demandAmount)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Demand Amount</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.penaltyAmount)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Penalty Amount</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.rebateAmount)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Rebate Amount</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.totalPaidAmount)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Amount Paid</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.paymentMode)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Payment Mode</div>
+                            </div>
+                            {
+                                props?.paymentData?.paymentMode === 'CHEQUE' || props?.paymentData?.paymentMode === 'DD' &&
+                                <>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Cheque No.</div>
+                                    </div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Bank Name</div>
+                                    </div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Branch Name</div>
+                                    </div>
+                                    <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Cheque Date</div>
+                                    </div>
+                                </>
+                            }
+                            <div className='text-center w-full my-2'>
+                                ------------------------------------------
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>TC Name</div>
+                            </div>
+                            <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Mobile No.</div>
+                            </div>
+
+                            <div className='text-center w-full mt-6 mb-2 text-gray-800 font-semibold'>
+                                For Details Please visit : udhd.jharkhand.gov.in Or call us at 0000000000 or 000000000
+                            </div>
+                            <div className='text-center w-full mt-2 mb-2 italic text-gray-600'>
+                            Please keep this Bill For Future Reference
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>

@@ -12,6 +12,7 @@ import ChangePassword from './Pages/ChangePassword';
 import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundaryForRoutes';
 import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand';
 import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
+import BarLoader from './Components/Common/BarLoader';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -254,6 +255,7 @@ function App(props) {
               <Routes>
                 {/* <Route path="/change-password/:type" element={<ChangePassword />} /> */}
                 <Route path="/change-password/:type" element={<ChangePassword />} />
+                <Route path="/loader" element={<BarLoader />} />
                 <Route path="/home" element={<LandingHomeDashBoard />} />
                 <Route path="/user-permission" element={<UserPermission />} />
                 <Route path="/user-role" element={<UserRole />} />
