@@ -20,6 +20,7 @@ import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 // import PieChart from '../PieChart'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
 const PieChart = React.lazy(() => import('@/Pages/Property/Reports/PieChart')) 
+import * as yup from 'yup'
 
 const DcbReport = () => {
 
@@ -79,7 +80,10 @@ const DcbReport = () => {
                 setisCe(true)
             }
             searchFun(values)
-        }
+        },
+        validationSchema : yup.object({
+            ulbId : yup.string().required("Select ULB")
+        })
 
     })
 
@@ -1044,13 +1048,14 @@ const DcbReport = () => {
                         </div>
                         <div className="col-span-6">
                             <select name="ulbId" id="" className={commonInputStyle} disabled={loader}>
-                            <option value="">All</option>
+                            <option value="">Select</option>
                                 {ulbList?.map((option) => (
                                   <option value={option.id}>{option.ulb_name}</option>
                                 ))}
                             </select>
                         </div>
-                        <div className="col-span-12 text-end">
+                        <div className="col-span-12 text-start">
+                        {formik.touched.ulbId && formik.errors.ulbId && <><span className="text-red-600 text-xs">{formik.errors.ulbId}</span></>}
                     </div>
                     </div>}                    
                     
