@@ -27,6 +27,8 @@ const DcbReport = () => {
 
     useSetTitle('DCB Report')
 
+    const ulbId = window.localStorage.getItem('ulbId')
+
     const [wardList, setwardList] = useState()
     const [ulbList, setulbList] = useState()
     const [yearData, setyearData] = useState()
@@ -37,38 +39,68 @@ const DcbReport = () => {
     const [totalData, settotalData] = useState(null)
     const [showPiechart, setshowPiechart] = useState(true)
     const [pieChartData, setpieChartData] = useState(null)
+    const [isCe, setisCe] = useState(false)
+    const [byUlb, setbyUlb] = useState(false)
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
     const formik = useFormik({
         initialValues: {
+            ulbId: nullToNA(ulbId) == 'NA' ? '' : ulbId,
             wardId: '',
-            fiYear: '',
-            reportType : 'wardWise',
-            withHh : '0'
+            fiYear: "2023-2024",
+            // reportType : 'wardWise',
+            withHh : '0',
+            withCe : '0'
         },
+
+        enableReinitialize: true,
+
         onSubmit: (values) => {
+            setloader2(false)
             setshowPiechart(false)
             console.log("submitting report search values => ", values)
-            // if(values?.withHh == '0' || values?.withHh[0] == null){
-            //     setisHH(false)
-            // }
-            // if(values?.withHh[0] == 'on'){
-            //     setisHH(true)
-            // }
+            if(values?.ulbId == ''){
+                setbyUlb(true)
+            } else {
+                setbyUlb(false)
+            }
+            if(values?.withHh == '0' || values?.withHh[0] == null){
+                setisHH(false)
+            }
+            if(values?.withHh[0] == 'on'){
+                setisHH(true)
+            }
+            if(values?.withCe == '0' || values?.withCe[0] == null){
+                setisCe(false)
+            }
+            if(values?.withCe[0] == 'on'){
+                setisCe(true)
+            }
             searchFun(values)
         }
 
     })
 
+    // console.log('withHH => ', formik.values.withHh , isHH, '\n withCe => ', formik.values.withCe, isCe)
+
     const searchFun = (values) => {
 
         setloader(true)
 
-        let body = {
-            ulbId : '2',
-            wardId: formik.values.wardId,
-            fiYear: formik.values.fiYear,
+        let body;
+        
+        if(nullToNA(ulbId) != 'NA') {
+            body = {
+                ulbId : formik.values.ulbId,
+                wardId: formik.values.wardId,
+                fiYear: formik.values.fiYear,
+            }
+        } else {
+            body = {
+                ulbId : "",
+                fiYear: formik.values.fiYear,
+            }
         }
 
         console.log('data before hitting api => ', body)
@@ -94,7 +126,7 @@ const DcbReport = () => {
 
         setloader2(true)
 
-        axios.post(getPieChartData,{ulbId : '2'}, ApiHeader())
+        axios.post(getPieChartData,{ulbId : (nullToNA(ulbId) == 'NA' ? '' : ulbId)}, ApiHeader())
         .then((res) => {
 
             if (res?.data?.status == true) {
@@ -150,22 +182,20 @@ const DcbReport = () => {
     }, [])
 
     const handleHHChange = (e) => {
+        const name = e.target.name
         const checkValue = e.target.checked;
 
         console.log("checkValue", checkValue)
 
-        checkValue ? formik.setFieldValue('withHh', '1') : formik.setFieldValue('withHh', '0')
+        // {name == 'withHh' && checkValue ? formik.setFieldValue('withHh', '1') : formik.setFieldValue('withHh', '0')}
+        // {name == 'withCe' && checkValue ? formik.setFieldValue('withCe', '1') : formik.setFieldValue('withCe', '0')}
     }
 
-    const byWardWithHhColumn = [
+    const byWardahscColumn = [
 
         {
             Header : '_',
             columns : [
-                {
-                    Header: "S.No.",
-                    Cell: ({ row }) => <div>{row?.index + 1}</div>
-                },
                 {
                     Header: "Ward No",
                     accessor: "ward_no",
@@ -173,19 +203,112 @@ const DcbReport = () => {
                 }
             ]
             },
-            {
-                Header: 'HOUSEHOLD',
-                columns: [
+
+        {
+            Header : 'DEMAND',
+            columns : [
                 {
-                    Header: "Arrear HH",
-                    accessor: "arrear_hh",
-                    Cell: (props) => {return nullToZero(props?.value)}
+                    Header: "HH",
+                    accessor: "arrear_demand_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#22C55E]'
                 },
                 {
-                    Header: "Current HH",
-                    accessor: "current_hh",
-                    Cell: (props) => {return nullToZero(props?.value)}
+            Header: "Arrear",
+            accessor: "arrear_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_demand_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+            ],
+            className: 'text-white bg-[#22C55E]'
+        },
+
+        {
+            Header : "COLLECTION",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_collection_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#6366F1]'
                 },
+               {
+            Header: "Arrear",
+            accessor: "arrear_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_collection_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+            ],
+            className: 'text-white bg-[#6366F1]'
+        },
+
+        {
+            Header : "BALANCE",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_balance_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#EC4899]'
+                },
+                {
+            Header: "Arrear",
+            accessor: "old_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_balance_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+            ],
+            className: 'text-white bg-[#EC4899]'
+        },
+
+    ]
+
+    const byWardahacColumn = [
+
+        {
+            Header : '_',
+            columns : [
+                {
+                    Header: "Ward No",
+                    accessor: "ward_no",
+                    Cell: (props) => {return nullToNA(props?.value)}
+                }
             ]
         },
 
@@ -193,78 +316,128 @@ const DcbReport = () => {
             Header : 'DEMAND',
             columns : [
                 {
+                    Header: "HH",
+                    accessor: "arrear_demand_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#22C55E]'
+                },
+                {
             Header: "Arrear",
             accessor: "arrear_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_demand_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#22C55E]'
         },
         {
             Header: "Current",
             accessor: "current_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
         },
-        // {
-        //     Header: "Total Demand",
-        //     Cell: ({cell}) => {
-        //         return indianAmount(parseFloat(cell?.row?.original?.arrear_demand) + parseFloat(cell?.row?.original?.current_demand))
-        //     }
-        // },
-            ]
+            ],
+            className: 'text-white bg-[#22C55E]'
         },
 
         {
             Header : "COLLECTION",
             columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_collection_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#6366F1]'
+                },
                {
             Header: "Arrear",
             accessor: "arrear_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_collection_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#6366F1]'
         },
         {
             Header: "Current",
             accessor: "current_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
         },
-        // {
-        //     Header: "Total Collection",
-        //     Cell: ({cell}) => {
-        //         return indianAmount(parseFloat(cell?.row?.original?.arrear_collection) + parseFloat(cell?.row?.original?.current_collection))
-        //     }
-        // },
-            ]
+            ],
+            className: 'text-white bg-[#6366F1]'
         },
 
         {
             Header : "BALANCE",
             columns : [
                 {
+                    Header: "HH",
+                    accessor: "arrear_balance_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#EC4899]'
+                },
+                {
             Header: "Arrear",
             accessor: "old_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_balance_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#EC4899]'
         },
         {
             Header: "Current",
             accessor: "current_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
         },
-        // {
-        //     Header: "Total Balance",
-        //     accessor: 'outstanding',
-        //     Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-        // },
-            ]
+            ],
+            className: 'text-white bg-[#EC4899]'
+        },
+
+        {
+            Header : "Collection Efficiency",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_hh_eff",
+                    Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+                },
+                {
+            Header: "Arrear",
+            accessor: "arrear_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "HH",
+            accessor: "current_hh_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "Current",
+            accessor: "current_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+            ],
         },
 
     ]
 
-    const byWardColumn = [
+    const byWardshacColumn = [
 
         {
             Header : '_',
             columns : [
-                {
-                    Header: "S.No.",
-                    Cell: ({ row }) => <div>{row?.index + 1}</div>
-                },
                 {
                     Header: "Ward No",
                     accessor: "ward_no",
@@ -279,20 +452,17 @@ const DcbReport = () => {
                 {
             Header: "Arrear",
             accessor: "arrear_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
         },
         {
             Header: "Current",
             accessor: "current_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
         },
-        // {
-        //     Header: "Total Demand",
-        //     Cell: ({cell}) => {
-        //         return indianAmount(parseFloat(cell?.row?.original?.arrear_demand) + parseFloat(cell?.row?.original?.current_demand))
-        //     }
-        // },
-            ]
+            ],
+                        className: 'text-white bg-[#22C55E]'
         },
 
         {
@@ -301,20 +471,17 @@ const DcbReport = () => {
                {
             Header: "Arrear",
             accessor: "arrear_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
         },
         {
             Header: "Current",
             accessor: "current_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
         },
-        // {
-        //     Header: "Total Collection",
-        //     Cell: ({cell}) => {
-        //         return indianAmount(parseFloat(cell?.row?.original?.arrear_collection) + parseFloat(cell?.row?.original?.current_collection))
-        //     }
-        // },
-            ]
+            ],
+                        className: 'text-white bg-[#6366F1]'
         },
 
         {
@@ -323,37 +490,46 @@ const DcbReport = () => {
                 {
             Header: "Arrear",
             accessor: "old_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
         },
         {
             Header: "Current",
             accessor: "current_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
         },
-        // {
-        //     Header: "Total Balance",
-        //     accessor: 'outstanding',
-        //     Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-        // },
-            ]
+            ],
+                        className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header : "Collection Efficiency",
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "arrear_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "Current",
+            accessor: "current_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+            ],
         },
 
     ]
 
-    const byUlbColumn = [
+    const byWardshscColumn = [
 
         {
-            Header : "_",
-            columns: [
+            Header : '_',
+            columns : [
                 {
-                    Header: "S.No.",
-                    Cell: ({ row }) => <div>{row?.index + 1}</div>
+                    Header: "Ward No",
+                    accessor: "ward_no",
+                    Cell: (props) => {return nullToNA(props?.value)}
                 },
-                {
-                    Header : "ULB Name",
-                    accessor : 'ulb_name',
-                    Cell : (props) => {return nullToNA(props?.value)}
-                }
             ]
         },
 
@@ -363,20 +539,17 @@ const DcbReport = () => {
                 {
             Header: "Arrear",
             accessor: "arrear_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
         },
         {
             Header: "Current",
             accessor: "current_demand",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
         },
-        {
-            Header: "Total Demand",
-            Cell: ({cell}) => {
-                return indianAmount(parseFloat(cell?.row?.original?.arrear_demand) + parseFloat(cell?.row?.original?.current_demand))
-            }
-        },
-            ]
+            ],
+                        className: 'text-white bg-[#22C55E]'
         },
 
         {
@@ -385,20 +558,17 @@ const DcbReport = () => {
                {
             Header: "Arrear",
             accessor: "arrear_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
         },
         {
             Header: "Current",
             accessor: "current_collection",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
         },
-        {
-            Header: "Total Collection",
-            Cell: ({cell}) => {
-                return indianAmount(parseFloat(cell?.row?.original?.arrear_collection) + parseFloat(cell?.row?.original?.current_collection))
-            }
-        },
-            ]
+            ],
+                        className: 'text-white bg-[#6366F1]'
         },
 
         {
@@ -407,22 +577,422 @@ const DcbReport = () => {
                 {
             Header: "Arrear",
             accessor: "old_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
         },
         {
             Header: "Current",
             accessor: "current_due",
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
         },
+            ],
+                        className: 'text-white bg-[#EC4899]'
+        },
+
+    ]
+
+    const byUlbahscColumn = [
+        
         {
-            Header: "Total Balance",
-            accessor: 'outstanding',
-            Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-        },
+            Header : '_',
+            columns : [
+                {
+                    Header: "ULB Name",
+                    accessor: "ulb_name",
+                    Cell: (props) => {return nullToNA(props?.value)}
+                },
             ]
         },
-                
+
+        {
+            Header : 'DEMAND',
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_demand_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#22C55E]'
+                },
+                {
+            Header: "Arrear",
+            accessor: "arrear_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_demand_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+            ],
+            className: 'text-white bg-[#22C55E]'
+        },
+
+        {
+            Header : "COLLECTION",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_collection_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#6366F1]'
+                },
+               {
+            Header: "Arrear",
+            accessor: "arrear_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_collection_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+            ],
+            className: 'text-white bg-[#6366F1]'
+        },
+
+        {
+            Header : "BALANCE",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_balance_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#EC4899]'
+                },
+                {
+            Header: "Arrear",
+            accessor: "old_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_balance_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+            ],
+            className: 'text-white bg-[#EC4899]'
+        },
+
     ]
+
+    const byUlbahacColumn = [
+
+        {
+            Header : '_',
+            columns : [
+                {
+                    Header: "ULB Name",
+                    accessor: "ulb_name",
+                    Cell: (props) => {return nullToNA(props?.value)}
+                },
+            ]
+        },
+
+        {
+            Header : 'DEMAND',
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_demand_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#22C55E]'
+                },
+                {
+            Header: "Arrear",
+            accessor: "arrear_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_demand_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#22C55E]'
+        },
+            ],
+            className: 'text-white bg-[#22C55E]'
+        },
+
+        {
+            Header : "COLLECTION",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_collection_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#6366F1]'
+                },
+               {
+            Header: "Arrear",
+            accessor: "arrear_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_collection_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#6366F1]'
+        },
+            ],
+            className: 'text-white bg-[#6366F1]'
+        },
+
+        {
+            Header : "BALANCE",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_balance_hh",
+                    Cell: (props) => {return nullToZero(props?.value)},
+                    className: 'text-white bg-[#EC4899]'
+                },
+                {
+            Header: "Arrear",
+            accessor: "old_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "HH",
+            accessor: "current_balance_hh",
+            Cell: (props) => {return nullToZero(props?.value)},
+            className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+            className: 'text-white bg-[#EC4899]'
+        },
+            ],
+            className: 'text-white bg-[#EC4899]'
+        },
+
+        {
+            Header : "Collection Efficiency",
+            columns : [
+                {
+                    Header: "HH",
+                    accessor: "arrear_hh_eff",
+                    Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+                },
+                {
+            Header: "Arrear",
+            accessor: "arrear_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "HH",
+            accessor: "current_hh_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "Current",
+            accessor: "current_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+            ],
+        },
+
+    ]
+
+    const byUlbshacColumn = [
+
+        {
+            Header : '_',
+            columns : [
+                {
+                    Header: "ULB Name",
+                    accessor: "ulb_name",
+                    Cell: (props) => {return nullToNA(props?.value)}
+                },
+            ]
+        },
+
+        {
+            Header : 'DEMAND',
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "arrear_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
+        },
+            ],
+                        className: 'text-white bg-[#22C55E]'
+        },
+
+        {
+            Header : "COLLECTION",
+            columns : [
+               {
+            Header: "Arrear",
+            accessor: "arrear_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
+        },
+            ],
+                        className: 'text-white bg-[#6366F1]'
+        },
+
+        {
+            Header : "BALANCE",
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "old_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
+        },
+            ],
+                        className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header : "Collection Efficiency",
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "arrear_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+        {
+            Header: "Current",
+            accessor: "current_eff",
+            Cell: (props) => {return <>{nullToZero(props?.value)}%</>},
+        },
+            ],
+        },
+
+    ]
+
+    const byUlbshscColumn = [
+
+        {
+            Header : '_',
+            columns : [
+                {
+                    Header: "ULB Name",
+                    accessor: "ulb_name",
+                    Cell: (props) => {return nullToNA(props?.value)}
+                },
+            ]
+        },
+
+        {
+            Header : 'DEMAND',
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "arrear_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_demand",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#22C55E]'
+        },
+            ],
+                        className: 'text-white bg-[#22C55E]'
+        },
+
+        {
+            Header : "COLLECTION",
+            columns : [
+               {
+            Header: "Arrear",
+            accessor: "arrear_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_collection",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#6366F1]'
+        },
+            ],
+                        className: 'text-white bg-[#6366F1]'
+        },
+
+        {
+            Header : "BALANCE",
+            columns : [
+                {
+            Header: "Arrear",
+            accessor: "old_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
+        },
+        {
+            Header: "Current",
+            accessor: "current_due",
+            Cell: (props) => {return <>{indianAmount(props?.value)}</>},
+                        className: 'text-white bg-[#EC4899]'
+        },
+            ],
+                        className: 'text-white bg-[#EC4899]'
+        },
+
+    ]
+
 
     return (
         <>
@@ -434,17 +1004,15 @@ const DcbReport = () => {
         {
             loader2 ? <div className='my-4 w-screen flex-col items-center justify-center'>
                 <ThreeDots 
-                    // height="80" 
-                    // width="80" 
                     radius="9"
                     color="#4338ca" 
                     ariaLabel="three-dots-loading"
                     wrapperStyle={{}}
                     wrapperClassName=""
                     visible={true}
-                /><span className='italic'>Pie Chart Loading</span> </div>: 
+                /><span className='italic'>Pie Chart Loading...</span> </div>: 
 <>
-        {(showPiechart && pieChartData?.length > 0) && 
+        {(pieChartData != null && (showPiechart && pieChartData?.length > 0) && dataList == null) && 
         <div className='my-4 bg-white rounded-md py-2 shadow-md'>
             <div className='flex flex-row-reverse flex-wrap items-end justify-evenly gap-x-2 w-[100%] '>
                 {
@@ -467,13 +1035,13 @@ const DcbReport = () => {
                 <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
 
                 {/* =========ULB============== */}
-                {/* <div className="flex flex-col w-full md:w-[20%]">
+                {(ulbId == '' || ulbId == undefined) && <div className="flex flex-col w-full md:w-[20%]">
                         <div className="col-span-6 font-semibold">
                             Select ULB :
                         </div>
                         <div className="col-span-6">
-                            <select name="reportType" id="" className={commonInputStyle} disabled={loader}>
-                            <option value="">Select</option>
+                            <select name="ulbId" id="" className={commonInputStyle} disabled={loader}>
+                            <option value="">All</option>
                                 {ulbList?.map((option) => (
                                   <option value={option.id}>{option.ulb_name}</option>
                                 ))}
@@ -481,9 +1049,9 @@ const DcbReport = () => {
                         </div>
                         <div className="col-span-12 text-end">
                     </div>
-                    </div>                     */}
+                    </div>}                    
                     
-                    <div className="flex flex-col w-full md:w-[20%]">
+                    {formik.values.ulbId != '' && <div className="flex flex-col w-full md:w-[20%]">
                         <div className="col-span-6 font-semibold">
                             Ward No. :
                         </div>
@@ -497,7 +1065,7 @@ const DcbReport = () => {
                                 }
                             </select>
                         </div>
-                    </div>
+                    </div>}
 
                             {/* ==========FY============= */}
                     <div className="flex flex-col w-full md:w-[20%]">
@@ -516,13 +1084,27 @@ const DcbReport = () => {
                     </div> 
 
                     <div className="flex flex-col justify-center w-full md:w-[20%]">
-                        <div className="col-span-6 font-semibold flex items-center mt-4">
+                        <div className="col-span-12 font-semibold flex items-center justify-center mt-4">
                             <label htmlFor="withHh" className='mr-2'>With HH : </label>
-                            <input type="checkbox" name="withHh" id="withHh" className='w-4 h-4 rounded' onChange={handleHHChange} onClick={() => setisHH(!isHH)} />
+                            <input type="checkbox" name="withHh" id="withHh" className='w-4 h-4 rounded' onChange={handleHHChange} 
+                            // onClick={() => setisHH(!isHH)} 
+                            />
                         </div>
-                        <div className="col-span-6">
+                        {/* <div className="col-span-6"> */}
                             {/* <input type="checkbox" name="withHh" value={1} id="yes" /> */}
+                        {/* </div> */}
+                    </div>
+
+                    <div className="flex flex-col justify-center w-full md:w-[20%]">
+                        <div className="col-span-12 font-semibold flex items-center justify-center mt-4">
+                            <label htmlFor="withCe" className='mr-2'>With Collection Efficiency : </label>
+                            <input type="checkbox" name="withCe" id="withCe" className='w-4 h-4 rounded' onChange={handleHHChange} 
+                            // onClick={() => setisHH(!isHH)} 
+                            />
                         </div>
+                        {/* <div className="col-span-6"> */}
+                            {/* <input type="checkbox" name="withHh" value={1} id="yes" /> */}
+                        {/* </div> */}
                     </div>
 
                     <div className="w-full md:w-[20%] flex justify-start items-end">
@@ -535,49 +1117,81 @@ const DcbReport = () => {
 {
                 (!loader && dataList != undefined && dataList?.length > 0) ? <>
 
-                <div className='bg-white p-2 rounded-md shadow-md mb-4 flex sm:justify-evenly flex-wrap gap-x-4 gap-y-2'>
-                    <div className='flex flex-col gap-1'>
-                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_hh)}</span></div>
-                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_hh)}</span></div>
-                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total HH :</span><span className='font-semibold col-span-6'>{nullToZero(parseInt(totalData?.total_arrear_hh) + parseInt(totalData?.total_current_hh))}</span></div>
-                    </div>
+                <div className='bg-white p-2 rounded-md shadow-md mb-4 grid grid-cols-12 flex-wrap gap-4'>
 
-                    <div className='flex flex-col gap-1'>
+                    <div className='col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-1'>
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Demand :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_arrear_demand)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Demand HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_demand_hh)}</span></div>}
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Demand :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_current_demand)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Demand HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_demand_hh)}</span></div>}
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Demand :</span><span className='font-semibold col-span-6'>{indianAmount(parseFloat(totalData?.total_arrear_demand) + parseFloat(totalData?.total_current_demand))}</span></div>
                     </div>
 
-                    <div className='flex flex-col gap-1'>
+                    <div className='col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-1'>
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Collection :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_arrear_collection)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Collection HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_collection_hh)}</span></div>}
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Collection :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_current_collection)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Collection HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_collection_hh)}</span></div>}
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Collection :</span><span className='font-semibold col-span-6'>{indianAmount(parseFloat(totalData?.total_arrear_collection) + parseFloat(totalData?.total_current_collection))}</span></div>
                     </div>
 
-                    <div className='flex flex-col gap-1'>
-                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Balance :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_current_due)}</span></div>
-                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Balance :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_old_due)}</span></div>
+                    <div className='col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-1'>
+                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Balance :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_old_due)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Balance HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_balance_hh)}</span></div>}
+                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Balance :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_current_due)}</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Balance HH :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_balance_hh)}</span></div>}
                         <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Balance :</span><span className='font-semibold col-span-6'>{indianAmount(parseFloat(totalData?.total_current_due) + parseFloat(totalData?.total_old_due))}</span></div>
                     </div>
 
+                    {isCe && <div className='col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-1'>
+                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear Efficiency :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_eff)}%</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Arrear HH Efficiency :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_arrear_hh_eff)}%</span></div>}
+                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current Efficiency :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_eff)}%</span></div>
+                                                {isHH && <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Current HH Efficiency :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_current_hh_eff)}%</span></div>}
+                        <div className='grid grid-cols-12 items-center gap-2'><span className='text-sm col-span-6'>Total Collection Efficiency :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_eff)}%</span></div>
+                    </div>}
+
                 </div>
 
-                    <div className={isHH ? 'visible' : 'hidden'}>
-                    <ListTable
-                        columns={byWardWithHhColumn}            // sending columns 
+                    {(!byUlb && isHH && !isCe) && <ListTable
+                        columns={byWardahscColumn}            // sending columns 
                         dataList={dataList}          // sending data List
-                    /> 
-                    </div>
-                    <div className={!isHH ? 'visible' : 'hidden'}>
-                    <ListTable
-                        columns={byWardColumn}            // sending columns 
+                    />} 
+                    {(!byUlb && !isHH && !isCe) && <ListTable
+                        columns={byWardshscColumn}            // sending columns 
                         dataList={dataList}          // sending data List
-                    /> 
-                    </div>
+                    /> }
+                    {(!byUlb && !isHH && isCe) && <ListTable
+                        columns={byWardshacColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    /> }
+                    {(!byUlb && isHH && isCe) && <ListTable
+                        columns={byWardahacColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    />}
+                    
+                     {/*=====================================  */}
+
+                     {(byUlb && isHH && !isCe) && <ListTable
+                        columns={byUlbahscColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    />} 
+                    {(byUlb && !isHH && !isCe) && <ListTable
+                        columns={byUlbshscColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    /> }
+                    {(byUlb && !isHH && isCe) && <ListTable
+                        columns={byUlbshacColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    /> }
+                    {(byUlb && isHH && isCe) && <ListTable
+                        columns={byUlbahacColumn}            // sending columns 
+                        dataList={dataList}          // sending data List
+                    />}
 
                 </> :
                     <>
-                        <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
+                        {(!showPiechart && !loader) && <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>}
                     </>
             }
 

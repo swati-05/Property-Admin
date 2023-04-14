@@ -247,7 +247,7 @@ function PropApplicationFullDetail_Property() {
                             </div>
                             <div className="flex md:flex-row flex-col gap-y-2 md:space-x-5 pl-4 ">
                                 <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(applicationFullData?.corr_address)} , {nullToNA(applicationFullData?.corr_state)}</div>
+                                    <div className='md:w-auto w-[50%] font-bold text-sm'>{(nullToNA(applicationFullData?.corr_address) == "NA" && nullToNA(applicationFullData?.prop_address != 'NA')) ? 'Same as property address' : <>{(nullToNA(applicationFullData?.corr_address) == 'NA' && nullToNA(applicationFullData?.corr_address) == 'NA') ? 'NA' : <>{nullToNA(applicationFullData?.corr_address)}, {nullToNA(applicationFullData?.corr_state)}</>} </>}</div>
                                     <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Corresponding Address</div>
                                 </div>
                             </div>
