@@ -9,8 +9,9 @@ import './Reciept.css'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import CommonModal from '@/Components/GlobalData/CommonModal'
-import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { indianAmount, nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import PrintButton from '@/Components/Common/PrintButton'
+import { nullToZero } from '@/Components/PowerUps/PowerupFunctions'
 
 const ComparativeDemandReciept = () => {
 
@@ -195,17 +196,17 @@ const ComparativeDemandReciept = () => {
                     <tr>
                       {index + 1 == 1 && <td className="border-[1px] border-gray-700 pl-1" rowSpan={arvData?.length}>ARV</td>}
                       <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.floor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.buildupArea)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.usageFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.occupancyFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.carpetArea)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.rentalRate)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.taxPerc)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.calculationFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.arvPsf)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.circleRate)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.arvTotalPropTax)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.cvArvPropTax)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.buildupArea)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.usageFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.occupancyFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.carpetArea)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.rentalRate)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.taxPerc)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.calculationFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.arvPsf)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.circleRate)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{indianAmount(data?.arvTotalPropTax)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{indianAmount(data?.cvArvPropTax)}</td>
                     </tr>
                   )
                 }
@@ -215,25 +216,25 @@ const ComparativeDemandReciept = () => {
                     <tr>
                       {index + 1 == 1 && <td className="border-[1px] border-gray-700 pl-1" rowSpan={cvData?.length}>CV</td>}
                       <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.floor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.buildupArea)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.usageFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.occupancyFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.carpetArea)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.rentalRate)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.taxPerc)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.calculationFactor)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.arvPsf)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.circleRate)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.arvTotalPropTax)}</td>
-                      <td className="border-[1px] border-gray-700 pl-1">{nullToNA(data?.cvArvPropTax)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.buildupArea)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.usageFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.occupancyFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.carpetArea)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.rentalRate)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.taxPerc)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.calculationFactor)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.arvPsf)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{nullToZero(data?.circleRate)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{indianAmount(data?.arvTotalPropTax)}</td>
+                      <td className="border-[1px] border-gray-700 pl-1">{indianAmount(data?.cvArvPropTax)}</td>
                     </tr>
                   )
                 }
 
                 <tr>
                   <td className="border-[1px] border-gray-700 pr-1 text-end" colSpan={11}>Total</td>
-                  <td className="border-[1px] border-gray-700 pl-1">{nullToNA(dataList?.total?.arvTotalPropTax)}</td>
-                  <td className="border-[1px] border-gray-700 pl-1">{nullToNA(dataList?.total?.cvTotalPropTax)}</td>
+                  <td className="border-[1px] border-gray-700 pl-1">{indianAmount(dataList?.total?.arvTotalPropTax)}</td>
+                  <td className="border-[1px] border-gray-700 pl-1">{indianAmount(dataList?.total?.cvTotalPropTax)}</td>
                 </tr>
 
               </table>

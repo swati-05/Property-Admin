@@ -49,8 +49,8 @@ const PaymentModeWiseSummary = () => {
 
     const formik = useFormik({
         initialValues: {
-            fromDate : todayDate,
-            uptoDate : todayDate,
+            fromDate : moment(new Date()).format("yy-MM-DD"),
+            uptoDate : moment(new Date()).format("yy-MM-DD"),
             wardId : '',
             userId : '',
             paymentMode: ''
@@ -104,6 +104,7 @@ const PaymentModeWiseSummary = () => {
         gettingMasterList()
         location.pathname == '/property-report' && setisProperty(true)
         location.pathname == '/saf-report' && setisProperty(false)
+        searchFun()
     },[])
 
     const gettingMasterList = () => {
@@ -152,7 +153,7 @@ const PaymentModeWiseSummary = () => {
                         From Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="fromDate" id="" className={commonInputStyle} defaultValue={todayDate} />
+                        <input type="date" name="fromDate" value={formik.values.fromDate} id="" className={commonInputStyle} defaultValue={todayDate} />
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.fromDate && formik.errors.fromDate && <><span className="text-red-600 text-xs">{formik.errors.fromDate}</span></>}
@@ -164,7 +165,7 @@ const PaymentModeWiseSummary = () => {
                         Upto Date :
                     </div>
                     <div className="col-span-6">
-                        <input type="date" name="uptoDate" id="" className={commonInputStyle} defaultValue={todayDate} />
+                        <input type="date" name="uptoDate" value={formik.values.uptoDate} id="" className={commonInputStyle} defaultValue={todayDate} />
                     </div>
                     <div className="col-span-12 text-end">
                         {formik.touched.uptoDate && formik.errors.uptoDate && <><span className="text-red-600 text-xs">{formik.errors.uptoDate}</span></>}
@@ -248,7 +249,7 @@ const PaymentModeWiseSummary = () => {
         </form>
 
         {
-            (dataList != undefined && dataList?.length != 0) ? <>
+            (!loader && dataList != undefined && dataList?.length != 0) ? <>
 
             <PaymentModeWiseSummaryTable data={dataList?.collection} type='collection' />
             <PaymentModeWiseSummaryTable data={dataList?.doorToDoor} type='doorToDoor' />
@@ -258,7 +259,7 @@ const PaymentModeWiseSummary = () => {
 
             </> : 
             <>
-                <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>
+                {!loader && <div className='w-full my-4 text-center text-red-500 text-lg font-bold'>No Data Found</div>}
             </>
         }           
 

@@ -1,4 +1,4 @@
-import { nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions';
+import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions';
 import React, { useContext, useEffect, useState } from 'react'
 import { AiFillPrinter } from 'react-icons/ai'
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -277,7 +277,7 @@ function SafPaymentReceiptFunctional(props) {
                         {/* holding tax */}
                         <div className='grid grid-col-1 md:grid-col-12 lg:grid-col-12 pt-4 '>
                             <div className='mx-auto'>
-                                <h1 className='font-bold text-xl text-center text-gray-800 border-2 border-gray-700 px-10 py-2 '>HOLDING TAX RECEIPT</h1>
+                                <h1 className='font-bold text-xl text-center text-gray-800 border-2 border-gray-700 px-10 py-2 '>PAYMENT RECEIPT</h1>
                             </div>
                         </div>
 
@@ -315,7 +315,7 @@ function SafPaymentReceiptFunctional(props) {
                                             <h1 className='flex text-gray-900 font-sans ml-1'>New Ward No. : <span className='font-sans font-semibold pl-2'>{nullToNA(props?.paymentData?.newWardNo)}</span> </h1>
                                         </div>
                                         <div className='flex p-1 flex-col sm:flex-row print:flex-row '>
-                                            <h1 className='flex text-gray-900 font-sans '>{this?.props?.module == 'holding' ? 'Holding No.' : 'Application No. '} </h1>
+                                            <h1 className='flex text-gray-900 font-sans '>{module == 'holding' ? 'Holding No.' : 'Application No. '} </h1>
                                             <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(props?.paymentData?.applicationNo)}</h1>
                                         </div>
 
@@ -344,7 +344,7 @@ function SafPaymentReceiptFunctional(props) {
                                         </div>
                                         <div className='flex p-1 flex-col sm:flex-row print:flex-row'>
                                             <h1 className='flex text-gray-900 font-sans '>A Sum of :</h1>
-                                            <h1 className='flex font-sans font-semibold pl-2 '>{nullToZero(parseFloat(props?.paymentData?.totalPaidAmount)).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</h1>
+                                            <h1 className='flex font-sans font-semibold pl-2 '>{indianAmount(props?.paymentData?.totalPaidAmount)}</h1>
                                         </div>
                                         <div className='flex p-1 flex-col sm:flex-row print:flex-row'>
                                             <h1 className='flex text-gray-900 font-sans '>(in words ):</h1>
@@ -369,7 +369,7 @@ function SafPaymentReceiptFunctional(props) {
                         {/* holding tax details */}
                         <div className='grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-2 -mt-1' >
                             <div className=''>
-                                <h1 className='font-bold text-base text-left '>HOLDING TAX DETAILS</h1>
+                                <h1 className='font-bold text-base text-left '>PAYMENT DETAILS</h1>
                             </div>
                         </div>
 
@@ -470,7 +470,7 @@ function SafPaymentReceiptFunctional(props) {
                                             </tr>
                                         </td>
                                         <td className='text-center border-l w-48'>
-                                            <h1 className=' font-sans font-semibold '>{nullToZero(parseFloat(props?.paymentData?.demandAmount)).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</h1>
+                                            <h1 className=' font-sans font-semibold '>{indianAmount(props?.paymentData?.demandAmount)}</h1>
                                         </td>
                                     </tr>
 
@@ -501,7 +501,7 @@ function SafPaymentReceiptFunctional(props) {
                                                 </tr>
                                             </td>
                                             <td className=' text-center border-l border-gray-500 w-48'>
-                                                <h1 className=' font-sans font-semibold '>{nullToZero(parseFloat(items?.value)).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</h1>
+                                                <h1 className=' font-sans font-semibold '>{indianAmount(items?.value)}</h1>
                                             </td>
                                         </tr>
 

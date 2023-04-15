@@ -5,6 +5,8 @@ import './Reciept.css'
 import swachhBharat from '../images/swachhBharat.png'
 import PrintButton from '@/Components/Common/PrintButton'
 import QrCode from '@/Components/Common/QrCode'
+import { indianAmount } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 
 class RmcReciept extends React.Component {
 
@@ -27,31 +29,31 @@ class RmcReciept extends React.Component {
             <div className='w-full text-center flex flex-col mb-2'>
                 <div className='uppercase font-bold text-4xl mb-8'>Ranchi Municipal Corporation</div>
                 <div className='w-full flex justify-center'>
-                    <div className='uppercase border-2 font-bold border-black px-10 py-2 text-xl w-max'>Holding Tax Reciept</div>
+                    <div className='uppercase border-2 font-bold border-black px-10 py-2 text-xl w-max'>Payment Reciept</div>
                 </div>
             </div>
 
             {/* reciept no. & date */}
             <div className='flex justify-between'>
                 <div>
-                    <div>Reciept No. : <span className="font-bold">{data?.transactionNo}</span></div>
-                    <div className='mt-2'>Department / Section : {data?.departmentSection}</div>
-                    <div>Account Description : {data?.accountDescription}</div>
+                    <div>Reciept No. : <span className="font-bold">{nullToNA(data?.transactionNo)}</span></div>
+                    <div className='mt-2'>Department / Section : {nullToNA(data?.departmentSection)}</div>
+                    <div>Account Description : {nullToNA(data?.accountDescription)}</div>
                 </div>
                 <div>
-                    <div>Date : <span className="font-bold">{data?.transactionDate}</span></div>
-                    <div>Ward No :<span className="font-bold">{data?.oldWardNo}</span></div>
-                    <div>New Ward No :<span className="font-bold">{data?.newWardNo}</span></div>
-                    {(data?.pt_no == '' || data?.pt_no == undefined) ? <div>Holding No :<span className="font-bold">{data?.applicationNo}</span></div> : <div>Property Tax No :<span className="font-bold">{data?.ptNo}</span></div>}
+                    <div>Date : <span className="font-bold">{nullToNA(data?.transactionDate)}</span></div>
+                    <div>Ward No : <span className="font-bold">{nullToNA(data?.oldWardNo)}</span></div>
+                    <div>New Ward No : <span className="font-bold">{nullToNA(data?.newWardNo)}</span></div>
+                    {(data?.pt_no == '' || data?.pt_no == undefined) ? <div>Holding No : <span className="font-bold">{nullToNA(data?.applicationNo)}</span></div> : <div>Property Tax No :<span className="font-bold">{nullToNA(data?.ptNo)}</span></div>}
                 </div>
             </div>
 
             {/* about */}
             <div className="mt-4">
-                <div>Received From Mr / Mrs / Miss . :&nbsp;<span className="font-bold uppercase">{data?.custormerName}</span></div>
-                <div>Mobile No. :&nbsp;<span className="font-bold">{data?.mobileNo}</span></div>
-                <div>Address :&nbsp;<span className="font-bold uppercase">{data?.address}</span></div>
-                <div>A Sum of Rs. :&nbsp;<span className="font-bold">{data?.totalPaidAmount}</span></div>
+                <div>Received From Mr / Mrs / Miss . :&nbsp;<span className="font-bold uppercase">{nullToNA(data?.custormerName)}</span></div>
+                <div>Mobile No. :&nbsp;<span className="font-bold">{nullToNA(data?.mobileNo)}</span></div>
+                <div>Address :&nbsp;<span className="font-bold uppercase">{nullToNA(data?.address)}</span></div>
+                <div>A Sum of :&nbsp;<span className="font-bold">{indianAmount(data?.totalPaidAmount)}</span></div>
                 <div className=' w-full mb-1'>(in words) :&nbsp;<span className="w-[80%] inline-block font-bold border-black border-b-2 border-dotted">{data?.paidAmtInWords}Only</span></div>
                 <div>towards :&nbsp;<span className="font-bold">{data?.towards}</span>&nbsp;&nbsp; Vide :&nbsp;<span className="font-bold">{data?.paymentMode}</span></div>
                 <div className='font-bold my-2'>N.B.Online Payment/Cheque/Draft/ Bankers Cheque are Subject to Realisation</div>
@@ -75,7 +77,7 @@ class RmcReciept extends React.Component {
                                 <td className='py-1.5'>{elem?.codeOfAmount}</td>
                                 <td className='text-start py-1.5'>{elem?.description}</td>
                                 <td className='text-center py-1.5'>{elem?.period}</td>
-                                <td className='text-end py-1.5'>{elem?.amount}</td>
+                                <td className='text-end py-1.5'>{indianAmount(elem?.amount)}</td>
                             </tr>
                         </>)
                     }
@@ -88,7 +90,7 @@ class RmcReciept extends React.Component {
                             </div>
                         </td>
                         <td className="py-1 5 font-bold text-end">Total <br />Amount Recieved</td>
-                        <td className="py-1 5 font-bold text-end">{data?.demandAmount}<br /> {data?.totalPaidAmount}</td>
+                        <td className="py-1 5 font-bold text-end">{indianAmount(data?.demandAmount)}<br /> {indianAmount(data?.totalPaidAmount)}</td>
                     </tr>
 
                 </table>

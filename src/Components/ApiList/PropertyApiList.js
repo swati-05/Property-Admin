@@ -237,6 +237,10 @@ export default function PropertyApiList() {
 
     yearList: baseUrl + '/api/property/reports/list-fy',
 
+    getCollectionData : baseUrl + '',
+
+    // ==================Report API End========================
+
     // ===============Cash Verification======================
     api_listofEmployees: `${baseUrl}/api/list-employees`, //=> List of employees
     api_listUnverifiedCashVerification: `${baseUrl}/api/payment/list-cash-verification`, //=> Show List of Unverified User and Amount

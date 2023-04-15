@@ -259,7 +259,7 @@ function PropertyAddOwnerObjection(props) {
             fd.append(`owners[${index}][isSpeciallyAbled]`, obj?.isSpeciallyAbled);
           });
 
-        console.log("before fetch data => ", requestBody)
+        // console.log("before fetch data => ", requestBody)
 
         axios.post(clerical_add_member, fd, ApiHeader2())
         .then((res) => {

@@ -1,4 +1,4 @@
-import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
+import { indianAmount, nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions';
 import React from 'react'
 import { AiFillPrinter } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
@@ -123,8 +123,8 @@ class ComponentToPrint extends React.Component {
                                                 <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.buildingAddress)}</h1>
                                             </div>
                                             <div className='flex p-1'>
-                                                <h1 className='flex text-gray-900 font-sans '>A Sum of Rs.  :</h1>
-                                                <h1 className='flex font-sans font-semibold pl-2 '>{nullToNA(this.props?.paymentData?.totalPaidAmount)}</h1>
+                                                <h1 className='flex text-gray-900 font-sans '>A Sum of :</h1>
+                                                <h1 className='flex font-sans font-semibold pl-2 '>{indianAmount(this.props?.paymentData?.totalPaidAmount)}</h1>
                                             </div>
                                             <div className='flex p-1'>
                                                 <h1 className='flex text-gray-900 font-sans '>(in words ):</h1>
