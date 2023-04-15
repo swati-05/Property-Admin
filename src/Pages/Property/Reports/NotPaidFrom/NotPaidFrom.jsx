@@ -21,24 +21,25 @@ const NotPaidFrom = () => {
 
     const [wardList, setwardList] = useState()
     const [dataList, setdataList] = useState()
+    const [year, setyear] = useState('')
     const [loader, setloader] = useState(false)
     const [requestBody, setrequestBody] = useState(null)// create this for list table connect
     const [changeData, setchangeData] = useState(0)// create this for list table connect
 
-    const {year} = useParams()
-
     const navigate = useNavigate()
 
-    useSetTitle(year == 'current' ? 'Previous Year Paid But Not paid Current Year' : 'Not paid From 2016-2017')
+    useSetTitle('Payment Not Done Report')
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
 
     const formik = useFormik({
         initialValues: {
-          wardId : '',
+            year: 'current',
+            wardId : '',
         },
         onSubmit: (values) => {
+            setyear(values?.year)
             setrequestBody({
                 wardMstrId : formik.values.wardId,                   
             })
@@ -309,6 +310,21 @@ const NotPaidFrom = () => {
                                     <option value={elem?.id}>{elem?.ward_name}</option>
                                 </>)
                             }
+                        </select>
+                    </div>
+                    {/* <div className="col-span-12 text-end">
+                        {formik.touched.wardId && formik.errors.wardId && <><span className="text-red-600 text-xs">{formik.errors.wardId}</span></>}
+                    </div> */}
+                </div>
+
+                <div className="flex flex-col w-full md:w-[20%]">
+                    <div className="col-span-6 font-semibold">
+                        Not Paid From : 
+                    </div>
+                    <div className="col-span-6">
+                        <select name="year" id="" className={commonInputStyle}>
+                            <option value='current'>Current Year</option>
+                            <option value='2016'>2016-2017</option>
                         </select>
                     </div>
                     {/* <div className="col-span-12 text-end">

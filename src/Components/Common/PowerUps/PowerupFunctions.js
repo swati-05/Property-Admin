@@ -225,7 +225,7 @@ export const nullToZero = (value) => {
     if (value === undefined || value === null || typeof value === "undefined" || value === "") {
         return "0";
     } else {
-        return value
+        return parseFloat(value).toLocaleString("en-IN")
     }
 
 }

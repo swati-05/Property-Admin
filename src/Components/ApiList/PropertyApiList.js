@@ -209,7 +209,7 @@ export default function PropertyApiList() {
     wardWiseHolding: baseUrl + '/api/property/reports/ward-wise-holding',
     propPaymentModeWiseSummary: baseUrl + '/api/property/reports/property/payment-mode-wise-summery',
     safPaymentModeWiseSummary: baseUrl + '/api/property/reports/saf/payment-mode-wise-summery',
-    searchWardWiseDcb: baseUrlT + '/api/property/reports/property/ward-wise-dcb',
+    searchWardWiseDcb: baseUrl + '/api/property/reports/property/ward-wise-dcb',
     searchHoldingDcb: baseUrl + '/api/property/reports/property/dcb',
     searchWardWiseCollectionSummary: baseUrl + '/',
     searchGbSafCollection: baseUrl + '/api/property/reports/property/gbsaf-collection',
@@ -233,9 +233,13 @@ export default function PropertyApiList() {
     searchDeactivatedHolding: baseUrl + '/api/property/reports/property/deactivated-list',
 
     // pie chart api in dcb report
-    getPieChartData : baseUrlT + '/api/property/reports/dcb-piechart',
+    getPieChartData : baseUrl + '/api/property/reports/dcb-piechart',
 
     yearList: baseUrl + '/api/property/reports/list-fy',
+
+    getCollectionData : baseUrl + '',
+
+    // ==================Report API End========================
 
     // ===============Cash Verification======================
     api_listofEmployees: `${baseUrl}/api/list-employees`, //=> List of employees

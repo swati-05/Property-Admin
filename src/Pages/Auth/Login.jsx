@@ -83,6 +83,7 @@ function Login(props) {
                 if (response.data.status == true) {
                     console.log('--2--login response...', response)
                     window.localStorage.setItem('token', response?.data?.data?.token)
+                    window.localStorage.setItem('ulbId', response?.data?.data?.userDetails?.ulbId)
                     // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
                     // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
                     window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))

@@ -329,7 +329,7 @@ function App(props) {
                 <Route path="/gb-saf-reciept/:paymentId/:module" element={<GbSafPaymentReceiptIndex />} />
 
                 {/* ===========Reports============= */}
-                <Route path='/report/:type' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
+                <Route path='/collection-report' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
                 <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
                 {/* here ('/collection-demand-report') is the detailing of the ListTable2 which is used while backend pagination*/}
                 <Route path='/collection-demand-report' element={<PropSafIndDemCollection />} />{/*property/saf individual demand and collection */}
@@ -339,7 +339,6 @@ function App(props) {
                 <Route path="/employee-wise-details/:id" element={<EmployeeWiseDetails />} />{/* Inside Level Wise Pending */}
                 <Route path="/ward-wise-holding-report" element={<WardWiseHolding />} />{/*Ward Wise Holding */}
                 <Route path='/dcb' element={<DcbReport />} />
-                <Route path='/ward-wise-dcb' element={<WardWiseDcb />} /> {/* Ward Wise Dcb */}
                 <Route path='/holding-dcb' element={<HoldingDcb />} /> {/* Holding Dcb */}
                 <Route path="/ward-wise-collection-summary" element={<WardWiseCollectionSummary />} /> {/* Ward Wise Collection Summary */}
                 <Route path="/tax-reciept-bulk-print" element={<TaxRecieptBulkPrint />} /> {/* Tax Receipt Bulk Print */}
@@ -347,7 +346,7 @@ function App(props) {
                 <Route path="/collection-with-rebate-penalty/:type" element={<PropSafCollectionReportwithRebatePenalty />} /> {/*type= property/saf,  Property, SAF Collection Report With Rebate, Penalty */}
                 <Route path="/arrear-current-collection-summary" element={<ArrearCurrentCollectionSummary />} /> {/* Arrear and Current Collection Summary */}
                 <Route path="/saf-sam-geo-tagging" element={<SafSamGeoTagging />} /> {/* SAF, SAM, Geo Tagging */}
-                <Route path="/not-paid-from/:year" element={<NotPaidFrom />} /> {/* year=current/2016,  Previous Year Paid But Not paid current year, Not paid from 2016-2017 */}
+                <Route path="/not-paid-from" element={<NotPaidFrom />} /> {/* year=current/2016,  Previous Year Paid But Not paid current year, Not paid from 2016-2017 */}
                 <Route path="/dmr" element={<DecisionMakingReport />} /> {/* DMR */}
                 <Route path='/decision-making-report' element={<DecisionMakingReportTable />} /> {/* Decision Making Report */}
                 <Route path="/holding-with-electricity-detail-report" element={<HoldingWithElectricityDetailReport />} /> {/* Holding with electricity detail report */}

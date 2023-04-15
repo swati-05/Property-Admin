@@ -8,44 +8,53 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
-import {RiFilter2Line} from 'react-icons/ri'
+import { RiFilter2Line } from 'react-icons/ri'
 // import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 import moment from 'moment'
+import BarLoader from '@/Components/Common/BarLoader'
+import Modal from "react-modal";
 const ListTableConnect = React.lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
 
 const PropSafSearchCollection = () => {
 
-    const {get_MasterData, get_collectorList, searchPropertyCollection, searchSafCollection, searchGbSafCollection} = PropertyApiList()
+    const { get_MasterData, get_collectorList, searchCollection, getCollectionData, get_taxCollectorList, searchPropertyCollection, searchSafCollection, searchGbSafCollection } = PropertyApiList()
 
     // const {type} = useParams()
 
     const navigate = useNavigate()
 
+    const [modalIsOpen, setIsOpen] = useState(false);
     const [wardList, setwardList] = useState()
     const [collectorList, setcollectorList] = useState()
+    const [collectionData, setcollectionData] = useState(null)
     const [loader, setloader] = useState(false)
     const [collection, setcollection] = useState('')
     const [requestBody, setrequestBody] = useState(null)// create this for list table connect
     const [changeData, setchangeData] = useState(0)// create this for list table connect
-    
+
+    const openModal = () => setIsOpen(true)
+    const closeModal = () => setIsOpen(false)
+    const afterOpenModal = () => { }
+
     let testDate = new Date().toLocaleDateString('in-IN');
-    let todayDate = moment(testDate).format('YYYY-DD-MM');
+    let todayDate = moment(testDate).format('DD-MM-YYYY');
 
     let title;
     // type == 'property' && (title = 'Property Collection Report')
     // type == 'saf' && (title = 'SAF Collection Report')
     // type == 'gbSaf' && (title = 'GB SAF Collection Report')
-    
+
 
     useSetTitle('Collection Report')
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
     const validationSchema = yup.object({
-        fromDate : yup.string().required('Field Required'),
-        uptoDate : yup.string().required('Field Required'),
-        collType : yup.string().required('Field Required'),
+        fromDate: yup.string().required('Field Required'),
+        uptoDate: yup.string().required('Field Required'),
+        collType: yup.array().min(1, 'Check atleast one')
+        .of(yup.string().required('Array items must be non-empty strings')),
         // wardId : yup.string().required('Field Required'),
         // userId : yup.string().required('Field Required'),
         // paymentMode : yup.string().required('Field Required'),
@@ -74,461 +83,577 @@ const PropSafSearchCollection = () => {
 
     const formik = useFormik({
         initialValues: {
-            fromDate : todayDate,
-            uptoDate : todayDate,
-            collType : 'property',
-            wardId : '',
-            userId : '',
+            fromDate: moment(new Date()).format("yy-MM-DD"),
+            uptoDate: moment(new Date()).format("yy-MM-DD"),
+            collType: ['property'],
+            wardId: '',
+            userId: '',
             paymentMode: ''
         },
         onSubmit: (values) => {
             setcollection(values?.collType)
-            if(values?.collType == 'gbSaf'){
-              setrequestBody({
-                fromDate : formik.values.fromDate,
-                uptoDate : formik.values.uptoDate,
-                wardId : formik.values.wardId,                          
-                paymentMode : formik.values.paymentMode,
-            })  
+            if (values?.collType == 'gbSaf') {
+                setrequestBody({
+                    fromDate: formik.values.fromDate,
+                    uptoDate: formik.values.uptoDate,
+                    wardId: formik.values.wardId,
+                    paymentMode: formik.values.paymentMode,
+                })
             } else {
                 setrequestBody({
-                    fromDate : formik.values.fromDate,
-                    uptoDate : formik.values.uptoDate,
-                    wardId : formik.values.wardId, 
-                    userId : formik.values.userId,                              
-                    paymentMode : formik.values.paymentMode
+                    fromDate: formik.values.fromDate,
+                    uptoDate: formik.values.uptoDate,
+                    wardId: formik.values.wardId,
+                    userId: formik.values.userId,
+                    paymentMode: formik.values.paymentMode
                 })
             }
-            
+
             setchangeData(prev => prev + 1)
         }
         , validationSchema
     })
 
     useEffect(() => {
+        gettingCollectorList()
         gettingMasterList()
-    },[])
+        setcollection(formik.values?.collType)
+        setrequestBody({
+            fromDate: formik.values.fromDate,
+            uptoDate: formik.values.uptoDate,
+            wardId: formik.values.wardId,
+            userId: formik.values.userId,
+            paymentMode: formik.values.paymentMode
+        })
+        setchangeData(prev => prev + 1)
+    }, [])
 
     const gettingMasterList = () => {
         axios.get(get_MasterData, ApiHeader())
-        .then((res) => {
+            .then((res) => {
 
-            if(res?.data?.status == true){
-                // console.log("getting master list data => ", res)
-                setwardList(res?.data?.data?.ward_master)
-            } else {
-                // console.log("error getting master list", res)
-            }
-            
-        })
-        .catch(err => console.log("error getting master list", err))
+                if (res?.data?.status == true) {
+                    // console.log("getting master list data => ", res)
+                    setwardList(res?.data?.data?.ward_master)
+                } else {
+                    // console.log("error getting master list", res)
+                }
+
+            })
+            .catch(err => console.log("error getting master list", err))
     }
 
-    const gettingCollectorList = (e) => {
+    const gettingCollectorList = () => {
 
         setloader(true)
 
-        axios.post(get_collectorList, {wardId : e.target.value}, ApiHeader())
-        .then((res) => {
+        axios.post(get_taxCollectorList, {}, ApiHeader())
+            .then((res) => {
 
-            if(res?.data?.status == true){
-                console.log("getting collector list => ", res)
-                setcollectorList(res?.data?.data)
-            } else {
-                // console.log('error getting collector list => ', res)
-            }
-            setloader(false)
-        })
-        .catch(err => (console.log('error getting collector list => ', err), setloader(false)))
+                if (res?.data?.status == true) {
+                    console.log("getting collector list => ", res)
+                    setcollectorList(res?.data?.data)
+                } else {
+                    console.log('error getting collector list => ', res)
+                }
+                setloader(false)
+            })
+            .catch(err => (console.log('error getting collector list => ', err), setloader(false)))
     }
 
-    const propColumn = [
-            {
-                Header: "S.No.",
-                Cell: ({ row }) => <div>{row?.index + 1}</div>
-            },
-            {
-                Header: "Ward No",
-                accessor: "ward_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Property Tax No",
-                accessor: "pt_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Holding No",
-                accessor: "holding_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Unique House No",
-                accessor: "new_holding_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Owner Name",
-                accessor: "owner_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Mobile No",
-                accessor: "mobile_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Payment(From/Upto)",
-                accessor: "from_upto_fy_qtr",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            
-            {
-                Header: "Tran. Date",
-                accessor: "tran_date",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. Mode",
-                accessor: "transaction_mode",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Amount",
-                accessor: "amount",
-                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-            },
-            {
-                Header: "Tax Collector",
-                accessor: "emp_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. No",
-                accessor: "tran_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Check/DD No",
-                accessor: "cheque_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Bank",
-                accessor: "bank_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Branch",
-                accessor: "branch_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            }
-        ]
+    const viewDetailFun = (id) => {
+        setloader(true)
+        axios.post(getCollectionData, {id : id}, ApiHeader())
+        .then((res) => {
+            res?.data?.status ?
+            (console.log('getting full data => ', res), setcollectionData(res?.data?.data), openModal())
+            :
+            console.log('getting false full data => ', res)
+        })
+        .catch((err) => console.log('getting error full data => ', err))
+        .finally(() => setloader(false))
+    }
 
-        const safColumn = [
-            {
-                Header: "S.No.",
-                Cell: ({ row }) => <div>{row?.index + 1}</div>
-            },
-            {
-                Header: "Ward No",
-                accessor: "ward_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Property Tax No",
-                accessor: "pt_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Holding No",
-                accessor: "holding_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Saf No",
-                accessor: "saf_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Owner Name",
-                accessor: "owner_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Mobile No",
-                accessor: "mobile_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Payment(From/Upto)",
-                accessor: "from_upto_fy_qtr",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            
-            {
-                Header: "Tran. Date",
-                accessor: "tran_date",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. Mode",
-                accessor: "transaction_mode",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Amount",
-                accessor: "amount",
-                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-            },
-            {
-                Header: "Tax Collector",
-                accessor: "emp_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. No",
-                accessor: "tran_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Check/DD No",
-                accessor: "cheque_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Bank",
-                accessor: "bank_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Branch",
-                accessor: "branch_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            }
-        ]
-
-        const gbSafColumn = [
-            {
-                Header: "S.No.",
-                Cell: ({ row }) => <div>{row?.index + 1}</div>
-            },
-            {
-                Header: "Ward No",
-                accessor: "ward_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Application No.",
-                accessor: "application_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Address",
-                accessor: 'prop_address',
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Payment(From/Upto)",
-                accessor: "from_upto_fy_qtr",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            
-            {
-                Header: "Tran. Date",
-                accessor: "tran_date",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. Mode",
-                accessor: "transaction_mode",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Amount",
-                accessor: "amount",
-                Cell: (props) => {return <>{indianAmount(props?.value)}</>}
-            },
-            {
-                Header: "Tax Collector",
-                accessor: "emp_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Tran. No",
-                accessor: "tran_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Check/DD No",
-                accessor: "cheque_no",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Bank",
-                accessor: "bank_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            },
-            {
-                Header: "Branch",
-                accessor: "branch_name",
-                Cell: (props) => {return nullToNA(props?.value)}
-            }
-        ]
-
-        const navigateFun = () => {
-            collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
-        }
-
-  return (
-    <>
-    
-        <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
-            <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Collection Report</h1>
-
-            <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
-                
-                <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        From Date :
-                    </div>
-                    <div className="col-span-6">
-                        <input type="date" name="fromDate" id="" className={commonInputStyle} defaultValue={todayDate}/>
-                    </div>
-                    <div className="col-span-12 text-end">
-                        {formik.touched.fromDate && formik.errors.fromDate && <><span className="text-red-600 text-xs">{formik.errors.fromDate}</span></>}
-                    </div>
-                </div>
-
-                <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        Upto Date :
-                    </div>
-                    <div className="col-span-6">
-                        <input type="date" name="uptoDate" id="" className={commonInputStyle} defaultValue={todayDate}/>
-                    </div>
-                    <div className="col-span-12 text-end">
-                        {formik.touched.uptoDate && formik.errors.uptoDate && <><span className="text-red-600 text-xs">{formik.errors.uptoDate}</span></>}
-                    </div>
-                </div>
-
-                <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        Collection Type : 
-                    </div>
-                    <div className="col-span-6">
-                        <select name="collType" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
-                            <option value='property'>Property</option>
-                            <option value='saf'>SAF</option>
-                            <option value='gbSaf'>GB SAF</option>
-                        </select>
-                    </div>
-                    <div className="col-span-12 text-end">
-                        {formik.touched.collType && formik.errors.collType && <><span className="text-red-600 text-xs">{formik.errors.collType}</span></>}
-                    </div>
-                </div>
-
-                <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        Ward No. : 
-                    </div>
-                    <div className="col-span-6">
-                        <select name="wardId" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
-                            <option value=''>All</option>
-                            {
-                                wardList?.map((elem) => <>
-                                    <option value={elem?.id}>{elem?.ward_name}</option>
-                                </>)
-                            }
-                        </select>
-                    </div>
-                    {/* <div className="col-span-12 text-end">
-                        {formik.touched.wardId && formik.errors.wardId && <><span className="text-red-600 text-xs">{formik.errors.wardId}</span></>}
-                    </div> */}
-                </div>
-
-                {formik.values.collType != 'gbSaf' && <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        Collector Name :
-                    </div>
-                    <div className="col-span-6">
-                        <select name="userId" id="" className={commonInputStyle}>
-                            <option value=''>All</option>
-                            {
-                                collectorList?.map((elem) => <>
-                                    <option value={elem?.id}><span className="capitalize">{elem?.user_name}</span>&nbsp;<span className="uppercase">({elem?.user_type})</span></option>
-                                </>)
-                            }
-                        </select>
-                    </div>
-                    <div className="col-span-12 text-end text-xs text-red-500">
-                        select ward no to get collector name list
-                    </div>
-                </div>}
-
-                <div className="flex flex-col w-full md:w-[20%]">
-                    <div className="col-span-6 font-semibold">
-                        Payment Mode :
-                    </div>
-                    <div className="col-span-6">
-                        <select name="paymentMode" id="" className={commonInputStyle}>
-                            <option value=''>All</option>
-                            <option value="CASH" >Cash</option>
-                            <option value="CHEQUE" >Cheque</option>
-                            <option value="DD" >DD</option>
-                            <option value="ONLINE" >Online</option>
-                        </select>
-                    </div>
-                    {/* <div className="col-span-12 text-end">
-                        {formik.touched.paymentMode && formik.errors.paymentMode && <><span className="text-red-600 text-xs">{formik.errors.paymentMode}</span></>}
-                    </div> */}
-                </div>
-
-                <div className="w-full md:w-[20%] flex justify-start items-center">
-                    <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
-                </div>
-
-            </div>
-        </form>
-
-        {(collection != '' && collection != 'gbSaf') && <div className='w-full text-end'>
-            <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
-            </div>}
+    const column = [
+        {
+            Header: "S.No.",
+            Cell: ({ row }) => <div>{row?.index + 1}</div>
+        },
+        {
+            Header: "Ward No.",
+            accessor: "ward_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        // {
+        //     Header: "Property Tax No",
+        //     accessor: "pt_no",
+        //     Cell: (props) => { return nullToNA(props?.value) }
+        // },
+        {
+            Header: "Holding No.",
+            Cell: ({cell}) => {return <>{nullToNA(cell?.row?.original?.new_holding_no) == 'NA' ? nullToNA(cell?.row?.original?.holding_no) : nullToNA(cell?.row?.original?.new_holding_no)}</>}
+        },
+        {
+            Header: 'SAF No.',
+            accessor: 'saf_no',
+            Cell : (props) => {return nullToNA(props?.value)}
+        },
+        {
+            Header: "Owner Name",
+            accessor: "owner_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Payment(From/Upto)",
+            accessor: "from_upto_fy_qtr",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
 
         {
-                (requestBody != null && collection == 'gbSaf') && 
-                <ListTableConnect 
-                type='old' // if pagination is from laravel
-                api={searchGbSafCollection} // sending api
-                columns={gbSafColumn} // sending column
-                requestBody={requestBody} // sending body
-                changeData={changeData} // send action for new payload
+            Header: "Tran. Date",
+            accessor: "tran_date",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Amount",
+            accessor: "amount",
+            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
+        },
+        {
+            Header : 'Action',
+            Cell : ({cell}) => (
+                <>
+                    <div className='flex items-center justify-center w-full'>
+                        <button onClick={viewDetailFun(cell?.row?.original?.id)} className='px-2 py-1 bg-indigo-500 text-white text-sm hover:bg-indigo-600'>View</button>
+                    </div>
+                </>
+            )
+        }
+    ]
+
+    const propColumn = [
+        {
+            Header: "S.No.",
+            Cell: ({ row }) => <div>{row?.index + 1}</div>
+        },
+        {
+            Header: "Ward No",
+            accessor: "ward_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Property Tax No",
+            accessor: "pt_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Holding No",
+            accessor: "holding_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Unique House No",
+            accessor: "new_holding_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Owner Name",
+            accessor: "owner_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Mobile No",
+            accessor: "mobile_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Payment(From/Upto)",
+            accessor: "from_upto_fy_qtr",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+
+        {
+            Header: "Tran. Date",
+            accessor: "tran_date",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. Mode",
+            accessor: "transaction_mode",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Amount",
+            accessor: "amount",
+            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
+        },
+        {
+            Header: "Tax Collector",
+            accessor: "emp_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. No",
+            accessor: "tran_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Check/DD No",
+            accessor: "cheque_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Bank",
+            accessor: "bank_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Branch",
+            accessor: "branch_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        }
+    ]
+
+    const safColumn = [
+        {
+            Header: "S.No.",
+            Cell: ({ row }) => <div>{row?.index + 1}</div>
+        },
+        {
+            Header: "Ward No",
+            accessor: "ward_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Property Tax No",
+            accessor: "pt_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Holding No",
+            accessor: "holding_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Saf No",
+            accessor: "saf_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Owner Name",
+            accessor: "owner_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Mobile No",
+            accessor: "mobile_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Payment(From/Upto)",
+            accessor: "from_upto_fy_qtr",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+
+        {
+            Header: "Tran. Date",
+            accessor: "tran_date",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. Mode",
+            accessor: "transaction_mode",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Amount",
+            accessor: "amount",
+            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
+        },
+        {
+            Header: "Tax Collector",
+            accessor: "emp_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. No",
+            accessor: "tran_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Check/DD No",
+            accessor: "cheque_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Bank",
+            accessor: "bank_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Branch",
+            accessor: "branch_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        }
+    ]
+
+    const gbSafColumn = [
+        {
+            Header: "S.No.",
+            Cell: ({ row }) => <div>{row?.index + 1}</div>
+        },
+        {
+            Header: "Ward No",
+            accessor: "ward_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Application No.",
+            accessor: "application_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Address",
+            accessor: 'prop_address',
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Payment(From/Upto)",
+            accessor: "from_upto_fy_qtr",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+
+        {
+            Header: "Tran. Date",
+            accessor: "tran_date",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. Mode",
+            accessor: "transaction_mode",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Amount",
+            accessor: "amount",
+            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
+        },
+        {
+            Header: "Tax Collector",
+            accessor: "emp_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Tran. No",
+            accessor: "tran_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Check/DD No",
+            accessor: "cheque_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Bank",
+            accessor: "bank_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Branch",
+            accessor: "branch_name",
+            Cell: (props) => { return nullToNA(props?.value) }
+        }
+    ]
+
+    const navigateFun = () => {
+        collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
+    }
+
+    console.log("collType ", formik.values.collType)
+
+    return (
+        <>
+
+        {loader && <BarLoader />}
+
+            <form onChange={formik.handleChange} onSubmit={formik.handleSubmit} className="mb-4 bg-white shadow-lg rounded-md ">
+                <h1 className='text-xl w-full font-bold px-8 pt-4 text-gray-700'>Search Collection Report</h1>
+
+                <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
+
+                <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            Collection Type :
+                        </div>
+                        <div className={"col-span-6 flex items-center justify-between bg-green-100 shadow-md px-2 py-1.5 rounded-md border border-green-300 shadow-green-100"}>
+                            {/* <select name="collType" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
+                                <option value='property'>Property</option>
+                                <option value='saf'>SAF</option>
+                                <option value='gbSaf'>GB SAF</option>
+                            </select> */}
+                            
+
+                            <div className='flex items-center gap-1'>
+                                <label htmlFor="1">Property</label>
+                            <input className='mt-1' type="checkbox" name="collType" id="1" value={'property'} defaultChecked/>
+                            </div>
+
+                            <div className='flex items-center gap-1'>
+                                <label htmlFor="2">SAF</label>
+                            <input className='mt-1' type="checkbox" name="collType" id="2" value={'saf'} />
+                            </div>
+
+                            <div className='flex items-center gap-1'>
+                                <label htmlFor="3">Gov. SAF</label>
+                            <input className='mt-1' type="checkbox" name="collType" id="3" value={'gbSaf'}/>
+                            </div>
+                        </div>
+                        <div className="col-span-12 text-start">
+                            {formik.touched.collType && formik.errors.collType && <><span className="text-red-600 text-xs">{formik.errors.collType}</span></>}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            From Date :
+                        </div>
+                        <div className="col-span-6">
+                            <input type="date" name="fromDate" value={formik.values.fromDate} id="" className={commonInputStyle} defaultValue={todayDate} />
+                        </div>
+                        <div className="col-span-12 text-end">
+                            {formik.touched.fromDate && formik.errors.fromDate && <><span className="text-red-600 text-xs">{formik.errors.fromDate}</span></>}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            Upto Date :
+                        </div>
+                        <div className="col-span-6">
+                            <input type="date" name="uptoDate" value={formik.values.uptoDate} id="" className={commonInputStyle} defaultValue={todayDate} />
+                        </div>
+                        <div className="col-span-12 text-end">
+                            {formik.touched.uptoDate && formik.errors.uptoDate && <><span className="text-red-600 text-xs">{formik.errors.uptoDate}</span></>}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            Ward No. :
+                        </div>
+                        <div className="col-span-6">
+                            <select name="wardId" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' }>
+                                <option value=''>All</option>
+                                {
+                                    wardList?.map((elem) => <>
+                                        <option value={elem?.id}>{elem?.ward_name}</option>
+                                    </>)
+                                }
+                            </select>
+                        </div>
+                        {/* <div className="col-span-12 text-end">
+                        {formik.touched.wardId && formik.errors.wardId && <><span className="text-red-600 text-xs">{formik.errors.wardId}</span></>}
+                    </div> */}
+                    </div>
+
+                    {formik.values.collType != 'gbSaf' && <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            Collector Name :
+                        </div>
+                        <div className="col-span-6">
+                            <select name="userId" id="" className={commonInputStyle}>
+                                <option value=''>All</option>
+                                {
+                                    collectorList?.map((elem) => <>
+                                        <option value={elem?.id}><span className="capitalize">{elem?.user_name}</span>&nbsp;<span className="uppercase">({elem?.user_type})</span></option>
+                                    </>)
+                                }
+                            </select>
+                        </div>
+                        {/* <div className="col-span-12 text-end text-xs text-red-500">
+                            select ward no to get collector name list
+                        </div> */}
+                    </div>}
+
+                    <div className="flex flex-col w-full md:w-[20%]">
+                        <div className="col-span-6 font-semibold">
+                            Payment Mode :
+                        </div>
+                        <div className="col-span-6">
+                            <select name="paymentMode" id="" className={commonInputStyle}>
+                                <option value=''>All</option>
+                                <option value="CASH" >Cash</option>
+                                <option value="CHEQUE" >Cheque</option>
+                                <option value="DD" >DD</option>
+                                <option value="ONLINE" >Online</option>
+                            </select>
+                        </div>
+                        {/* <div className="col-span-12 text-end">
+                        {formik.touched.paymentMode && formik.errors.paymentMode && <><span className="text-red-600 text-xs">{formik.errors.paymentMode}</span></>}
+                    </div> */}
+                    </div>
+
+                    <div className="w-full md:w-[20%] flex justify-start items-center">
+                        <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
+                    </div>
+
+                </div>
+            </form>
+
+            {(collection != '' && collection != 'gbSaf') && <div className='w-full text-end'>
+                <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
+            </div>}
+
+            {
+                (requestBody != null && collection == 'gbSaf') &&
+                <div className='relative'>
+                    <div className='absolute top-0 right-0'>
+                        Total Amount : {nullToZero()}
+                    </div>
+                <ListTableConnect
+                    type='old' // if pagination is from laravel
+                    api={searchCollection} // sending api
+                    columns={column} // sending column
+                    requestBody={requestBody} // sending body
+                    changeData={changeData} // send action for new payload
+                />
+                </div>
+            }
+
+            {
+                (requestBody != null && collection == 'gbSaf') &&
+                <ListTableConnect
+                    type='old' // if pagination is from laravel
+                    api={searchGbSafCollection} // sending api
+                    columns={gbSafColumn} // sending column
+                    requestBody={requestBody} // sending body
+                    changeData={changeData} // send action for new payload
                 />
             }
 
-{
-                (requestBody != null && collection == 'saf') && 
-                <ListTableConnect 
-                type='old' // if pagination is from laravel
-                api={searchSafCollection} // sending api
-                columns={safColumn} // sending column
-                requestBody={requestBody} // sending body
-                changeData={changeData} // send action for new payload
+            {
+                (requestBody != null && collection == 'saf') &&
+                <ListTableConnect
+                    type='old' // if pagination is from laravel
+                    api={searchSafCollection} // sending api
+                    columns={safColumn} // sending column
+                    requestBody={requestBody} // sending body
+                    changeData={changeData} // send action for new payload
                 />
             }
 
-{
-                (requestBody != null && collection == 'property') && 
-                <ListTableConnect 
-                type='old' // if pagination is from laravel
-                api={searchPropertyCollection} // sending api
-                columns={propColumn} // sending column
-                requestBody={requestBody} // sending body
-                changeData={changeData} // send action for new payload
+            {
+                (requestBody != null && collection == 'property') &&
+                <ListTableConnect
+                    type='old' // if pagination is from laravel
+                    api={searchPropertyCollection} // sending api
+                    columns={propColumn} // sending column
+                    requestBody={requestBody} // sending body
+                    changeData={changeData} // send action for new payload
                 />
             }
 
-{/* {
+            {/* {
                 (requestBody != null && collection != 'gbSaf') && 
                 <ListTableConnect 
                 type='old' // if pagination is from laravel
@@ -539,9 +664,28 @@ const PropSafSearchCollection = () => {
                 />
             } */}
 
-<div className='h-[20vh]'></div>
-    </>
-  )
+            <div className='h-[20vh]'></div>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center sm:ml-10 overflow-auto"
+                contentLabel="Example Modal"
+            >
+
+                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] mt-16 sm:h-[85vh] w-full relative border-2 border-indigo-500 bg-gray-50 px-6 py-4 h-[88vh] border-t-2 border-l-2 overflow-auto" >
+                
+                <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-full p-2 cursor-pointer" onClick={closeModal}>
+                    &times;
+                </div>
+
+
+                </div>
+
+            </Modal>
+
+        </>
+    )
 }
 
 export default PropSafSearchCollection

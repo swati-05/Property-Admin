@@ -12,7 +12,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import BrandLoader from '@/Components/Common/BrandLoader'
 import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import CommonModal from '@/Components/GlobalData/CommonModal'
-import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { indianAmount, nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import PrintButton from '@/Components/Common/PrintButton'
 import QrCode from '@/Components/Common/QrCode'
 
@@ -59,7 +59,7 @@ const SamReciept = () => {
         "In the light of manual 11.4, additional house tax will be levied which will be 50% of the property tax due to lack of arrangement of rainwater harvesting.",
         "It is advised to inform the corporation by installing rainwater conservation structure and get relief from additional house tax.",
 
-        "Property tax will be paid quartely in each financial year.",
+        "Property tax will be paid quarterly in each financial year.",
 
         "If the entire hourly tax for a year is paid before 30 June of the financial year, a rebate of 5% will be given to the taxpayer.",
 
@@ -126,11 +126,13 @@ const SamReciept = () => {
                     </div>
 
                     {/* left content */}
-                    <div className="text-right text-xs mb-1 mt-2">
+                    <div className='flex justify-end'>
+                    <div className="text-left text-xs mb-1 mt-2">
                         Memo No.: <span className="font-semibold">{nullToNA(samDetails?.memo_no)}</span> <br />
                         Date: <span className="font-semibold">{nullToNA(samDetails?.created_at)}</span> <br />
                         Effective: <span className="font-semibold">
                             {samDetails?.from_qtr == 1 && <>First</>}{samDetails?.from_qtr == 2 && <>Second</>}{samDetails?.from_qtr == 3 && <>Third</>}{samDetails?.from_qtr == 4 && <>Fourth</>} Quarter {nullToNA(samDetails?.from_fyear)}</span> <br />
+                    </div>
                     </div>
 
                     {/* Name and Address */}
@@ -142,7 +144,7 @@ const SamReciept = () => {
                     {/* declaration */}
                     <div>
                         <p className="text-xs my-2">
-                            &nbsp; You are hereby informed that your New {(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} Number - <span className="font-semibold">{(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? samDetails?.holding_no : samDetails?.pt_no}</span> in Ward No - <span className="font-semibold">{nullToNA(samDetails?.old_ward_no)}</span> , New Ward No - <span className="font-semibold">{nullToNA(samDetails?.new_ward_no)}</span> has been done, on the basis of your self-assessment declaration form, the annual rental price has been fixed at Rs <span className="font-semibold">{nullToNA(samDetails?.arv)}</span>/- based on your self assessment declaration.
+                            &nbsp; You are hereby informed that your New {(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} Number - <span className="font-semibold">{(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? samDetails?.holding_no : samDetails?.pt_no}</span> in Ward No - <span className="font-semibold">{nullToNA(samDetails?.old_ward_no)}</span> , New Ward No - <span className="font-semibold">{nullToNA(samDetails?.new_ward_no)}</span> has been generated, on the basis of your self-assessment declaration form, the annual rental value has been fixed at <span className="font-semibold">{indianAmount(samDetails?.arv)}</span>/- based on your self assessment declaration.
                         </p>
                     </div>
 
@@ -163,48 +165,48 @@ const SamReciept = () => {
                             <tr className="font-semibold">
                                 <td className="border-2 border-black w-[25%] px-2">SL.No.</td>
                                 <td className="border-2 border-black w-[50%] px-2">Particulars</td>
-                                <td className="border-2 border-black w-[25%] px-2">Amount (in Rs.)</td>
+                                <td className="border-2 border-black w-[25%] px-2">Amount</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">1.</td>
                                 <td className="px-2 border-2 border-black">House Tax</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.holding_tax == '' ? 0.00 : samDetails?.holding_tax}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.holding_tax)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">2.</td>
                                 <td className="px-2 border-2 border-black">Water Tax</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.water_tax == '' ? 0.00 : samDetails?.water_tax}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.water_tax)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">3.</td>
                                 <td className="px-2 border-2 border-black">Latrine Tax</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.latrine_tax == '' ? 0.00 : samDetails?.latrine_tax}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.latrine_tax)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">4.</td>
                                 <td className="px-2 border-2 border-black">RWH Penalty</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.rwh_penalty == '' ? 0.00 : samDetails?.rwh_penalty}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.rwh_penalty)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">5.</td>
                                 <td className="px-2 border-2 border-black">Education Cess</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.education_cess == '' ? 0.00 : samDetails?.education_cess}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.education_cess)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black">6.</td>
                                 <td className="px-2 border-2 border-black">Health Cess</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.health_cess == '' ? 0.00 : samDetails?.health_cess}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.health_cess)}</td>
                             </tr>
 
                             <tr>
                                 <td className="px-2 border-2 border-black font-semibold" colSpan={2}>Total Amount (per quarter)</td>
-                                <td className="px-2 border-2 border-black">{samDetails?.quarterly_tax == '' ? 0.00 : samDetails?.quarterly_tax}</td>
+                                <td className="px-2 border-2 border-black">{indianAmount(samDetails?.quarterly_tax)} </td>
                             </tr>
 
                         </table>
@@ -215,7 +217,7 @@ const SamReciept = () => {
 
                         {/* qr */}
                         <div>
-                            <img src="" alt="QR" className="h-20 w-20 border" />
+                            <QrCode size='64' />
                         </div>
 
                         {/* signature */}
