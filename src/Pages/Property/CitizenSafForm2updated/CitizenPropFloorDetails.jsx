@@ -244,7 +244,7 @@ function CitizenPropFloorDetails(props) {
     }
     const checkMinimumFloor = () => {
         if (floorList.length === 0) {
-            notify('Add minimum one floor', 'warn')
+            props?.activateBottomErrorCard(true,`Add minimum one floor`)
         } else {
             console.log('inside checkmin floor')
             // props.collectFormDataFun('floorDetails', floorList, floorPreviewList)

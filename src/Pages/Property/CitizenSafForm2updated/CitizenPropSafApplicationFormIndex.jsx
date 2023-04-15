@@ -103,7 +103,7 @@ import BottomErrorCard from '@/Components/Common/BottomErrorCard'
 
 function CitizenPropSafApplicationFormIndex() {
 
-    const { api_getMasterData, api_postNewAssessment, api_getAllUlb, api_getHoldingDetails, api_getLocationByUlbAdmin, api_reviewCalculation, api_getStaticSafDetails, api_boEdit, api_newWardByOldWard, api_zoneByUlb, api_getApartmentListByWard } = CitizenApplyApiList()
+    const { api_getMasterData, api_postNewAssessment, api_getAllUlb, api_getHoldingDetails, api_getLocationByUlbAdmin, api_reviewCalculation, api_getStaticSafDetails, api_boEdit, api_newWardByOldWard, api_zoneByUlb, api_getApartmentListByWard, api_wardByUlb } = CitizenApplyApiList()
 
     const { notify } = useContext(contextVar)     //////global toast function/////
     const navigate = useNavigate()
@@ -140,10 +140,14 @@ function CitizenPropSafApplicationFormIndex() {
     const [selectedUlbId, setselectedUlbId] = useState()
     const [apartmentList, setapartmentList] = useState([])
     const [erroState, seterroState] = useState(false);
-  const [erroMessage, seterroMessage] = useState(null);
+    const [erroMessage, seterroMessage] = useState(null);
+    const [wardList, setwardList] = useState(null);
+    const [devData, setdevData] = useState(false);
+    const [devMode, setdevMode] = useState(false);
+    const [devModeVisibility, setdevModeVisibility] = useState(false);
 
 
-   
+
 
 
 
@@ -216,11 +220,15 @@ function CitizenPropSafApplicationFormIndex() {
     //     viewRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     // };
 
+    useEffect(() => {
+        setdevData({ ...devData, basicDetails, propAddressDetails, elecWaterDetails, ownerDetails, floorDetails, additionalDetails })
+    }, [basicDetails, propAddressDetails, elecWaterDetails, ownerDetails, floorDetails, additionalDetails]);
 
     useEffect(() => {
         // if (formIndex < 7) {
         //     moveToTop()
         // }
+
         if (formIndex == 7) {
             submitRuelsetData()
         }
@@ -379,6 +387,7 @@ function CitizenPropSafApplicationFormIndex() {
             ownershipType: basicDetails?.ownerShiptype,
             propertyType: basicDetails?.propertyType,
             zone: additionalDetails.zone,
+            trustType: additionalDetails.trustType,
             isMobileTower: additionalDetails.mobileTowerStatus,
             mobileTower: {
                 area: additionalDetails.mobileTowerArea,
@@ -429,6 +438,7 @@ function CitizenPropSafApplicationFormIndex() {
             newWard: payloadData.newWard,
             ownershipType: payloadData.ownershipType,
             propertyType: payloadData.propertyType,
+            trustType: payloadData.trustType,
             zone: payloadData.zone,
             isMobileTower: payloadData.isMobileTower,
             mobileTower: {
@@ -555,6 +565,14 @@ function CitizenPropSafApplicationFormIndex() {
             url = api_postNewAssessment
         }
 
+        setdevData(requestBody)
+        // CONVERTING HERE FROM EMPTY TO NA FOR OWNERS
+        // requestBody.owner = requestBody?.owner?.map((data)=>{
+        //     if(data?.dob==""){
+        //         return (dob:'Na')
+        //     }
+        // })
+
         console.log('before saf form submit at updated....', requestBody)
 
         // return
@@ -577,14 +595,14 @@ function CitizenPropSafApplicationFormIndex() {
 
                 } else {
                     setLoaderStatus(false)
-                    activateBottomErrorCard(true,'Error occured in submitting form. Please try again later.')
+                    activateBottomErrorCard(true, 'Error occured in submitting form. Please try again later.')
                 }
 
 
             })
             .catch(function (error) {
                 console.log('error in submitting saf form ', 'error');
-                activateBottomErrorCard(true,'Error occured in submitting form. Please try again later.')
+                activateBottomErrorCard(true, 'Error occured in submitting form. Please try again later.')
                 setLoaderStatus(false)
             })
     }
@@ -599,6 +617,7 @@ function CitizenPropSafApplicationFormIndex() {
         setsafTypeCame(safType)
         fetchMasterData()
         fetchULBList()
+        fetchWardList()
         if (safType == 're' || 'bo-edit') {
             fetchPropertyDetails()
         }
@@ -625,6 +644,17 @@ function CitizenPropSafApplicationFormIndex() {
             })
             .catch(function (error) {
                 console.log('ulb list error.... ', error);
+            })
+    }
+    const fetchWardList = () => {
+
+        axios.post(api_wardByUlb, {}, ApiHeader())
+            .then(function (response) {
+                console.log('wardlist data re....', response)
+                setwardList(response?.data?.data)
+            })
+            .catch(function (error) {
+                console.log('wardlist error.. error.... ', error);
             })
     }
 
@@ -658,6 +688,7 @@ function CitizenPropSafApplicationFormIndex() {
             .then(function (response) {
                 console.log('getting property detail for edit case......', response)
                 setexistingPropertyDetails(response)
+                // setdevData(response?.data)
                 //set date in state to show
                 feedExistingDetails(response)
                 setLoaderStatus(false)
@@ -850,7 +881,7 @@ function CitizenPropSafApplicationFormIndex() {
                     // IN CASE OF CITIZEN EDIT SEND ID ALSO
 
                     return {
-                        id: owner?.id,
+                        propOwnerDetailId: owner?.id,
                         ownerName: owner?.owner_name,
                         gender: owner?.gender,
                         dob: owner?.dob,
@@ -908,7 +939,7 @@ function CitizenPropSafApplicationFormIndex() {
             let floorsMake = existingDetails?.data?.data?.floors.map((owner) => {
 
                 return {
-                    id: owner?.id,
+                    propFloorDetailId: owner?.id,
                     floorNo: owner?.floor_mstr_id,
                     useType: owner?.usage_type_mstr_id,
                     occupancyType: owner?.occupancy_type_mstr_id,
@@ -973,7 +1004,6 @@ function CitizenPropSafApplicationFormIndex() {
         setholdingNoList(holdingList)
         setholdingCardStatus(false)
     }
-    console.log('got holding no....', holdingNoList)
 
     if (responseScreenStatus == 'success') {
         return (
@@ -1002,7 +1032,7 @@ function CitizenPropSafApplicationFormIndex() {
     }
 
     const submitRuelsetData = () => {
-       
+        setdevData(payloadDataMake())
         setLoaderStatus(true);
         let payloadData = payloadDataMake()
 
@@ -1012,25 +1042,24 @@ function CitizenPropSafApplicationFormIndex() {
             .post(api_reviewCalculation, payloadData, ApiHeader())
             .then(function (response) {
                 console.log("==3 cacluator tax response===", response);
-               if(response?.data?.status){
-                settotalAmountData(response?.data?.data?.demand)
-                 setrulesetData(response?.data)
-               }else{
-                activateBottomErrorCard(true,'Error occured in fetching tax details. Please try again later.')
-               }
-               
+                if (response?.data?.status) {
+                    settotalAmountData(response?.data?.data?.demand)
+                    setrulesetData(response?.data)
+                } else {
+                    activateBottomErrorCard(true, 'Error occured in fetching tax details. Please try again later.')
+                }
+
                 setLoaderStatus(false)
             })
             .catch(function (error) {
                 console.log("== 3 calcualte tax error== ", error);
-              
-                activateBottomErrorCard(true,'Error occured in fetching tax details. Please try again later.')
+
+                activateBottomErrorCard(true, 'Error occured in fetching tax details. Please try again later.')
                 setLoaderStatus(false)
             });
     };
 
 
-    console.log('choosed ulb id...', choosedUlbId)
 
 
     // IF DIRECT CLOSE HOLDING CARD THEN SHOW ULB WELCOME SCREEN AGAIN
@@ -1040,8 +1069,8 @@ function CitizenPropSafApplicationFormIndex() {
     const activateBottomErrorCard = (state, msg) => {
         seterroMessage(msg)
         seterroState(state)
-    
-      }
+
+    }
 
     //SHOW WELCOME SCREEN FIRST
     if ((safType == 'bi' || safType == 'am') && holdingCardStatus) {
@@ -1052,13 +1081,25 @@ function CitizenPropSafApplicationFormIndex() {
         )
     }
 
-   
+
 
 
     else {
         return (
             <>
                 <ToastContainer autoClose={2000} position="top-right" />
+                {devModeVisibility && devMode && <CommonModal>
+                    <div className='overflow-y-scroll h-[800px] '>
+                        <div onClick={() => setdevMode(!devMode)} className='w-10 h-10 bg-black text-white flex justify-center items-center rounded-full cursor-pointer'>X</div>
+                        <div className='grid grid-cols-12 overflow-auto h-[800px]'>
+                            <div className='col-span-2 bg-white overflow-auto'></div>
+                            <div className='col-span-8 bg-gray-800 overflow-y-scroll p-8 text-white'><pre className=''>{JSON.stringify(devData, null, 2)}</pre></div>
+                            <div className='col-span-2 bg-white overflow-auto'></div>
+
+                        </div>
+                    </div>
+                </CommonModal>}
+                {devModeVisibility && <div onClick={() => setdevMode(!devMode)} className='shadow-xl border-white w-14 h-14 bg-red-500 text-white flex justify-center items-center absolute right-40 bottom-40 rounded-full cursor-pointer'>D</div>}
                 {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
                 {loaderStatus && <BarLoader />}
                 {/* take a parent div ...style it as displayed below    ,....make it a grid with col-12 */}
@@ -1216,6 +1257,9 @@ function CitizenPropSafApplicationFormIndex() {
                                     {formIndex < 8 && <>
                                         {formIndex == 1 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropBasicDetail3
+                                                wardList={wardList}
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 setselectedUlbId={setselectedUlbId}
                                                 wardByUlb={wardByUlb}
                                                 newWardList={newWardList}
@@ -1245,6 +1289,8 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 2 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropPropertyAddressDetails
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 propAddressDetails={propAddressDetails}
                                                 setpropAddressDetails={setpropAddressDetails}
                                                 apartmentStatus={apartmentStatus}
@@ -1259,6 +1305,8 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 3 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropElectricityWaterDetails
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 elecWaterDetails={elecWaterDetails}
                                                 setelecWaterDetails={setelecWaterDetails}
                                                 safType={safType}
@@ -1270,6 +1318,9 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 4 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropOwnerDetails
+                                                activateBottomErrorCard={activateBottomErrorCard}
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 ownerDetails={ownerDetails}
                                                 setownerDetails={setownerDetails}
                                                 ownerDetailsPreview={ownerDetailsPreview}
@@ -1287,6 +1338,9 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 5 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropFloorDetails
+                                                activateBottomErrorCard={activateBottomErrorCard}
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 oldFloorDetailsCount={oldFloorDetailsCount}
                                                 floorDetails={floorDetails}
                                                 setfloorDetails={setfloorDetails}
@@ -1302,6 +1356,9 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 6 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropAdditionalDetails
+                                                floorDetails={floorDetails}
+                                                devData={devData}
+                                                setdevData={setdevData}
                                                 additionalDetails={additionalDetails}
                                                 setadditionalDetails={setadditionalDetails}
                                                 additionalDetailsPreview={additionalDetailsPreview}

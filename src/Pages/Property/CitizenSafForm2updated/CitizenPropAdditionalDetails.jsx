@@ -35,12 +35,17 @@ function CitizenPropAdditionalDetails(props) {
 
     const [mobileTowerStatusToggle, setMobileTowerStatusToggle] = useState(false)
     const [hoardingStatusToggle, setHoardingStatusToggle] = useState(false)
+    const [isTrust, setisTrust] = useState(false)
     const [petrolPumpStatusToggle, setPetrolPumpStatusToggle] = useState(false)
+    // const [dynamicValidationSchema, setdynamicValidationSchema] = useState(false)
     const [basicViewForm, setbasicViewForm] = useState({ mobileTowerStatus: '0', hoardingStatus: '0', petrolPumpStatus: '0', waterHarvestingStatus: '0' })
 
     console.log("passing master data to basic detail form", props.preFormData)
-    const validationSchema = yup.object({
+
+    let validationSchema
+     validationSchema = yup.object({
         zone: yup.string().required('Select Zone'),
+        trustType: yup.string(),
         mobileTowerStatus: yup.string().required('Select mobile tower status'),
         hoardingStatus: yup.string().required('Select hoarding status'),
         petrolPumpStatus: yup.string().required('Select petrol pump status'),
@@ -72,7 +77,10 @@ function CitizenPropAdditionalDetails(props) {
 
     })
 
+    
+
     const initialValues = {
+        trustType:'',
         zone: '',
         mobileTowerStatus: '0',
         hoardingStatus: '0',
@@ -161,6 +169,20 @@ function CitizenPropAdditionalDetails(props) {
     useEffect(() => {
         checkForZone()
     }, [props?.allFormData?.floorDetails])
+
+    useEffect(() => {
+        // CHECKIng WEATHER ANY OF FLOOR HAS TRUST SELECTED, THEN SHOW TRUST TYPE
+        const trustIndex = props?.floorDetails?.map((floor, index) => {
+            if (floor.useType === "42") {
+                return index;
+            }
+            return null;
+        })
+            .filter(index => index !== null);
+        if (trustIndex?.length !== 0) {
+            setisTrust(true)
+        }
+    }, [])
 
 
     useEffect(() => {
@@ -253,6 +275,17 @@ function CitizenPropAdditionalDetails(props) {
 
                                 </select>
                                 <span className="text-red-600 absolute text-xs">{formik.touched.zone && formik.errors.zone ? formik.errors.zone : null}</span>
+
+                            </div>}
+                            {isTrust && <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
+                                <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Trust Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                <select disabled={inputConditionState?.trustType?.readOnly} {...formik.getFieldProps('trustType')} className={`${commonInputStyleUpdated} cursor-pointer cypress_trustType ${inputConditionState?.trustType?.style}`}
+                                >
+                                    <option value="" >Select</option>
+                                    <option value="1">Educational Institution Run By Trust</option>
+                                    <option value="2">Other Organisational Trust</option>
+                                </select>
+                                <span className="text-red-600 absolute text-xs">{formik.touched.trustType && formik.errors.trustType ? formik.errors.trustType : null}</span>
 
                             </div>}
                             <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>

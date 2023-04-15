@@ -60,8 +60,8 @@ function CitizenPropOwnerDetails(props) {
     if (props?.safType == 're') {
         validationSchema = yup.object({
             ownerName: yup.string().max(50, 'Enter maximum 50 characters'),
-            gender: yup.string(),
-            dob: yup.date(),
+            gender: yup.string().required('Select gender'),
+            dob: yup.date().required('Select DOB'),
             guardianName: yup.string(),
             relation: yup.string().required('Select relation'),
             mobileNo: yup.string().required('Enter mobile no.').min(10, 'Enter 10 digit mobilen no'),
@@ -170,15 +170,15 @@ function CitizenPropOwnerDetails(props) {
         if (props?.safType == 're') {
             setinputConditionState({
                 ...inputConditionState,
-                gender: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 ownerName: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 guardianName: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 aadhar: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 pan: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
-                dob: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 isArmedForce: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
                 isSpeciallyAbled: { readOnly: readOnly, style: readOnly ? trueStyle : falseStyle },
 
+                gender: { readOnly: false, style: falseStyle },
+                dob: { readOnly: false, style: falseStyle },
                 relation: { readOnly: false, style: falseStyle },
                 mobileNo: { readOnly: false, style: falseStyle },
                 email: { readOnly: false, style: falseStyle },
@@ -346,9 +346,71 @@ function CitizenPropOwnerDetails(props) {
     }
 
     const checkMinimumOwner = () => {
-        console.log('inside minimum check....')
+
+        // IF SAF TYPE IS RE-ASSESSMENT THEN CHECK THAT EVERY DOB AND GENDER IS FILLED
+        if (props?.safType == 're') {
+            let emptyOwnerIndex = false
+
+            const emptyDobIndices = ownerList?.map((person, index) => {
+                    if (person.dob === "") {
+                        return index;
+                    }
+                    return null;
+                })
+                .filter(index => index !== null);
+
+            const emptyGenderIndices = ownerList.map((person, index) => {
+                    if (person.dob === "") {
+                        return index;
+                    }
+                    return null;
+                })
+                .filter(index => index !== null);
+
+            if (emptyDobIndices?.length !== 0) {
+                let strigifyArray = emptyDobIndices.map((item, index) => {
+                    let ordinal;
+                    if (item === 0) {
+                      ordinal = "st";
+                    } else if (item === 1) {
+                      ordinal = "nd";
+                    } else if (item === 2) {
+                      ordinal = "rd";
+                    } else {
+                      ordinal = "th";
+                    }
+                    return `${item + 1}${ordinal}`;
+                  }).join(", ");
+
+                props?.activateBottomErrorCard(true,`Enter dob for ${JSON.stringify(strigifyArray)} owner`)
+                return
+            }
+            if (emptyGenderIndices?.length !== 0) {
+                let strigifyArray = emptyGenderIndices.map((item, index) => {
+                    let ordinal;
+                    if (item === 0) {
+                      ordinal = "st";
+                    } else if (item === 1) {
+                      ordinal = "nd";
+                    } else if (item === 2) {
+                      ordinal = "rd";
+                    } else {
+                      ordinal = "th";
+                    }
+                    return `${item + 1}${ordinal}`;
+                  }).join(", ");
+
+                  props?.activateBottomErrorCard(true,`Enter gender for ${JSON.stringify(strigifyArray)} owner`)
+                
+                return
+            }
+
+        }
+
+
+
         if (ownerList.length === 0) {
-            notify('Add minimum one owner', 'error')
+            props?.activateBottomErrorCard(true,`Add minimum one owner`)
         }
         //  else {
         //     if (ownerList.length > props?.oldownerDetailsPreview?.length) {
@@ -615,7 +677,7 @@ function CitizenPropOwnerDetails(props) {
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Mobile No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.mobileNo?.readOnly} {...formik.getFieldProps('mobileNo')} type="text" className={`cypress_mobile form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.mobileNo?.style}`} placeholder='Enter mobileNo no' />
+                                    <input disabled={inputConditionState?.mobileNo?.readOnly} {...formik.getFieldProps('mobileNo')} type="text" className={`cypress_mobile form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.mobileNo?.style}`} placeholder='Enter mobile no' />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.mobileNo && formik.errors.mobileNo ? formik.errors.mobileNo : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">

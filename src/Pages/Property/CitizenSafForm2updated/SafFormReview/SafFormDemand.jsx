@@ -66,9 +66,7 @@ function SafFormDemand(props) {
             <div className='text-center'>
               <BsFillCheckCircleFill className='text-white inline text-3xl mr-2' /> Your form has been submitted successfully, Please pay the tax to send the application for verification.
             </div>
-            <div className='mt-6 md:mt-0 md:text-right flex-1'>
-              <button onClick={() => navigate(`/viewDemand/${props?.safSubmitResponse?.data?.safId}`)} type="button" className="font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay Tax <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
-            </div>
+            
 
           </div>
         </div>
@@ -92,7 +90,12 @@ function SafFormDemand(props) {
             </div>
             <div className='col-span-12 md:col-span-4 md:pl-10 md:float-right mt-6 md:mt-0'>
               <div>
-                <span className='font-bold'> {nullToNA(props?.safSubmitResponse?.data?.safNo)}</span> is your assessment application no, for any issue please go to your near jan seva kendra with this application no.
+                <div className='font-bold'><span className='font-normal'>Application No. :</span>  {nullToNA(props?.safSubmitResponse?.data?.safNo)}</div>
+
+                <div className='mt-2  flex-1'>
+                  Now pay the tax to send the application for verification.
+                  <button onClick={() => navigate(`/viewDemand/${props?.safSubmitResponse?.data?.safId}`)} type="button" className="ml-2 font-bold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay Tax <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
+                </div>
               </div>
             </div>
           </div>

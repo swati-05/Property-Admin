@@ -292,7 +292,7 @@ function App(props) {
                 <Route path='/safform/:safType/:safId' element={<CitizenPropSafApplicationFormIndex />} />
                 <Route path='/basic-property-edit/:propId' element={<BasicEditFormIndex />} />
                 <Route path="/search/:type/:filterParam/:searchValueParam" element={<SearchIndex />} />
-                <Route path="/searchAppliedProperty/:filterParam/:searchValueParam" element={<AppliedApplicationSearch />} />
+                <Route path="/searchAppliedProperty/:filterParam/:searchByParam/:searchValueParam" element={<AppliedApplicationSearch />} />
                 <Route path='/propApplicationDetails/:id' element={<SafDetailsEntry />} />
                 <Route path='/concession-details/:id' element={<ConcessionDetailsEntry />} />
                 <Route path='/objection-details/:id' element={<ObjectionDetailsEntry />} />

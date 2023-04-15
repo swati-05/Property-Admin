@@ -100,7 +100,7 @@ function PropertyOptions(props) {
                                             alt="Electronics" />
                                         <div className="font-bold mt-4 text-center">Search Application</div>
                                     </div>
-                                    <div onClick={() => navigate('')}
+                                    {/* <div onClick={() => navigate('')}
                                         className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
                                         href="">
                                         <img
@@ -108,7 +108,7 @@ function PropertyOptions(props) {
                                             src={objection}
                                             alt="Electronics" />
                                         <div className="font-bold mt-4 text-center">Form Distribution</div>
-                                    </div>
+                                    </div> */}
 
 
 
@@ -127,14 +127,14 @@ function PropertyOptions(props) {
 
                             }
                             {/* 5 AMALGAMATION */}
-                            <div onClick={() => navigate('')}
+                            <div onClick={() => navigate('/collection-report-mobile')}
                                 className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
                                 href="">
                                 <img
                                     className="h-12 w-12"
                                     src={report}
                                     alt="Electronics" />
-                                <div className="font-bold mt-4 text-center">Reports</div>
+                                <div className="font-bold mt-4 text-center">Collection Reports</div>
                             </div>
 
 
