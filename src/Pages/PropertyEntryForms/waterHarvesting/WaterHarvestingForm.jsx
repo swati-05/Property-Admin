@@ -129,12 +129,22 @@ function WaterHarvestingForm(props) {
             })
     }, [])
 
+
+    // if(harvestingDetails?.is_water_harvesting == false){
+    //     return <><div className="animate__animated animate__fadeInUp w-full flex justify-center mt-2 items-center">
+
+    //     <div className="bg-indigo-500 text-white rounded-md shadow-lg px-4 py-2">
+    //       You have already applied Rain Water Harvesting form.
+    //     </div>
+
+    //   </div></>
+
     ///////////{***WATER HARVESTING  SUBMIT FUNCTION***}/////////
     const submitSafForm = (values) => {
         setisLoading2(true)
         let fd = new FormData()
 
-        fd.append("isWaterHarvestingBefore", values.isWaterHarvestingBefore)
+        // fd.append("isWaterHarvestingBefore", values.isWaterHarvestingBefore)
         fd.append("dateOfCompletion", values.dateOfCompletion)
         { docStatus == 1 && fd.append("document", rwhDoc) }
         { docStatus == 1 && fd.append("docCode", docCode) }
@@ -224,7 +234,17 @@ function WaterHarvestingForm(props) {
                 Rain Water Harvesting can be applied by this form.
             </div>
 
+            {harvestingDetails?.is_water_harvesting ? 
+            <div className="animate__animated animate__fadeInUp w-full flex justify-center mt-2 items-center">
 
+                <div className="bg-indigo-500 text-white rounded-md shadow-lg px-4 py-2">
+                  You have already applied Rain Water Harvesting form.
+                </div>
+        
+              </div>
+            :
+            
+            <>
             {/* ===========Details View================ */}
             <div className="p-4 w-full md:py-6 rounded-lg shadow-lg bg-white mx-auto flex flex-wrap gap-x-20 top-14 mb-6">
 
@@ -300,7 +320,7 @@ function WaterHarvestingForm(props) {
                         </div>
                     </div> */}
 
-                    <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 pb-4'>
+                    {/* <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 pb-4'>
 
                         <div className='col-span-1'>
                             <div className='flex flex-row space-x-3'>
@@ -331,7 +351,7 @@ function WaterHarvestingForm(props) {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
                     <div className='grid grid-cols-12 gap-2'>
 
@@ -367,6 +387,8 @@ function WaterHarvestingForm(props) {
                     </div>
                 </form>
             </div>
+
+            </>}
 
             <ApplicationSubmitScreen heading={'Rain Water Harvesting Form'} appNo={appId} openSubmit={openSubmit} navigation={closeModal} />
 
