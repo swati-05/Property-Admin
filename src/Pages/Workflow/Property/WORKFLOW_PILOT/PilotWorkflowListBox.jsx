@@ -94,7 +94,7 @@ export default function PilotWorkflowListBox(props) {
     <>
 
       {/* Tab view which contains two tabs, which are List and Details */}
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: '100%',paddingLeft:'20px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="List" {...a11yProps(0)} />

@@ -273,7 +273,7 @@ export default function PilotWorkflowTabs(props) {
         {/* {props?.workflowInfo?.permission?.tabsAllowed && <div className=" "> */}
         {5 > 4 && <div className=" ">
 
-          <div className="flex space-x-4 uppercase text-gray-600 text-sm pl-4 border-b border-gray-200 mb-6">
+          <div className="flex space-x-4 uppercase text-gray-600 text-sm pl-4 border-b border-gray-200 mb-6 w-full overflow-x-auto whitespace-nowrap">
             <div onClick={() => changeTabFun(0)} className={`pb-3 flex-initial cursor-pointer ${activeTab == 0 ? 'border-b-2 border-blue-500 text-blue-500' : 'no-underline border-none'}`}>
               <span>View Details</span>
             </div>
