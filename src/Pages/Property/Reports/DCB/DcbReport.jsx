@@ -19,8 +19,9 @@ import CitizenApplyApiList from '@/Components/ApiList/CitizenApplyApiList'
 import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
 // import PieChart from '../PieChart'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
-const PieChart = React.lazy(() => import('@/Pages/Property/Reports/PieChart')) 
 import * as yup from 'yup'
+
+const PieChart = React.lazy(() => import('@/Pages/Property/Reports/PieChart')) 
 
 const DcbReport = () => {
 
