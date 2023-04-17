@@ -22,6 +22,8 @@ import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import NotificationComponent from './NotificationComponent'
 import { TiArrowRightThick } from 'react-icons/ti'
+import { BsQuestionCircle } from 'react-icons/bs'
+import PermittedModuleCard from './PermittedModuleCard'
 
 const customStyles = {
   content: {
@@ -68,7 +70,9 @@ function Header(props) {
   const [navClose, setnavClose] = useState(false)
   const [tootlTipId, settootlTipId] = useState(null)
   const [notificationState, setnotificationState] = useState(false)
+  const [showModuleCard, setshowModuleCard] = useState(false)
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen2, setIsOpen2] = useState(false);
   const navigate = useNavigate()
 
   const navToggle = () => {
@@ -94,7 +98,7 @@ function Header(props) {
     props.LOGOUT()
 
     // SEND TO MOBILE LOGIN PAGE AS PER CONDITION
-      navigate('/')
+    navigate('/')
 
 
     // navigate('/')
@@ -111,6 +115,13 @@ function Header(props) {
 
   function closeModal() {
     setIsOpen(false);
+  }
+  function openModal2() {
+    setIsOpen2(true);
+  }
+
+  function closeModal2() {
+    setIsOpen2(false);
   }
 
   const removeNotification = (id) => {
@@ -171,6 +182,7 @@ function Header(props) {
               </a>
             </div>
 
+
             {/* <form className="hidden sm:inline-block md:inline-block mx-5 ml-20">
               <div className="flex flex-wrap items-stretch w-full relative">
                 <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600 cursor-pointer" placeholder="Search…" aria-label="Search" >
@@ -202,9 +214,10 @@ function Header(props) {
               </svg>
               {/* <i class="text-2xl fas fa-bars"></i> */}
             </button>
-
+            
+            <div className='ml-20'><span onClick={()=> openModal2() } className='bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md'>Modules</span> </div>
           </div>
-
+         
 
           {/* Search */}
           <form className="hidden sm:inline-block md:hidden lg:inline-block mx-5">
@@ -452,6 +465,16 @@ function Header(props) {
 
           </div>
         </div>
+
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpen2}
+        onRequestClose={closeModal2}
+        className="z-20 h-screen w-screen backdrop-blur-sm flex flex-row justify-center items-center overflow-auto"
+        contentLabel="Example Modal"
+      >
+        <PermittedModuleCard />
 
       </Modal>
       {

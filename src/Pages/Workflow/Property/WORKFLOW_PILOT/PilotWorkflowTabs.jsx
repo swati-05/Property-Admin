@@ -397,7 +397,7 @@ export default function PilotWorkflowTabs(props) {
             }
             {activeTab == 3 && props?.workflowInfo?.permissions?.can_upload_document == true && props?.boxType == 'inbox' &&
               <CustomErrorBoundary errorMsg="Bug in PilotWorkflowDocumentUpload" >
-                <PilotWorkflowDocumentUpload allDocumentUploadStatus={allDocumentUploadStatus} setallDocumentUploadStatus={setallDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} applicationData={applicationData} applicationData2={applicationData2} refresh={() => setrefresh(refresh + 1)} activateBottomErrorCard={activateBottomErrorCard} />
+                <PilotWorkflowDocumentUpload  allDocumentUploadStatus={allDocumentUploadStatus} setallDocumentUploadStatus={setallDocumentUploadStatus} allDocumentVerifyStatus={allDocumentVerifyStatus} handleChangeTabs={handleChangeTabs} api={props?.api} id={applicationId} applicationData={applicationData} applicationData2={applicationData2} refresh={() => setrefresh(refresh + 1)} activateBottomErrorCard={activateBottomErrorCard} />
               </CustomErrorBoundary>
 
             }

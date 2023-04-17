@@ -104,6 +104,12 @@ function ViewDemandDetails(props) {
                 <div className='pt-10 block sm:hidden'>
                     <TopTabs payButton={demandDetail?.paymentStatus !== 1} payableAmount={demandDetail?.amounts?.payableAmount} title={``} type="application" id={id} safNo={safNo} active="demand" />
                 </div>
+                {
+                    demandDetail?.paymentStatus ===1 &&
+                    <div className=''>
+                        <span className='bg-red-400 text px-4 py-1 justify-center items-center font-semibold text-white shadow-xl'>All Demand Paid</span>
+                    </div>
+                }
 
                 <div className='w-full bg-white shadow-xl mb-6'>
                     <div className='py-6 mt-2 rounded-lg shadow-lg p-4'>
@@ -159,16 +165,16 @@ function ViewDemandDetails(props) {
                 </div>
 
                 <div className=''>
-                    {
+                    {/* {
                         demandDetail?.paymentStatus == 1 &&
                         <div className='w-full mt-20 text-center'>
                             <span className='text-3xl text-red-500 border border-red-500 font-semibold px-4 py-2'>No Dues Found !</span>
                         </div>
-                    }
+                    } */}
 
-                    {demandDetail?.paymentStatus != 1 &&
-                        <>
-                            {/* <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
+                    {/* {demandDetail?.paymentStatus != 1 && */}
+                    <>
+                        {/* <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
                                 <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
                                 <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
                                     <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
@@ -213,185 +219,185 @@ function ViewDemandDetails(props) {
                             </div> */}
 
 
-                            <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
-                                <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
-                                <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
-                                    <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
-                                    <div className='flex-initial px-2'>= </div>
-                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Tax Amount</div>
-                                    <div className='flex-initial px-2'>+</div>
-                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Late Assessment Penalty</div>
-                                    <div className='flex-initial px-2'>+</div>
-                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>1% Penalty )</div>
-                                    <div className='flex-initial px-2'>-</div>
-                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Rebate</div>
-                                    <div className='flex-initial px-2'>+</div>
-                                    <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Special Rebate )</div>
-                                </div>
-
-                                <table className='min-w-full leading-normal mt-2'>
-                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
-                                        <tr>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">ARV</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Effect From</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Conservancy/Latrine Tax</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">RWH Penalty</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Ruleset</th>
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-sm">
-                                        {
-                                            demandDetail?.taxDetails?.map((data,index) => (
-                                                <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                    <td className="px-2 py-2 text-sm text-left">{index+1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.arv)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.fyear)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.holding_tax)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.water_tax)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.latrine_tax)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.education_cess)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.health_cess)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.additional_tax)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.amount)}</td>
-                                                    <td className={`px-2 py-2 text-sm text-left  `}> <span className={`${data?.ruleSet==='RuleSet3'?'bg-green-100':'bg-red-100'} px-2 py-1 rounded-lg`}>{data?.ruleSet==='RuleSet3'?'Current':'Old'}</span> </td>
-                                                </tr>
-                                            )) 
-                                           
-                                        }
-                                       
-                                    </tbody>
-                                </table>
+                        <div className='mt-10 w-[100vw] md:w-full overflow-x-auto'>
+                            <h1 className='px-1 font-semibold font-serif text-xs'><img src={rupee} alt="pin" className='w-5 inline' /> Tax Details</h1>
+                            <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
+                                <div className='flex-initial px-2 font-bold'>Total Payable Amount</div>
+                                <div className='flex-initial px-2'>= </div>
+                                <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Tax Amount</div>
+                                <div className='flex-initial px-2'>+</div>
+                                <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Late Assessment Penalty</div>
+                                <div className='flex-initial px-2'>+</div>
+                                <div className='flex-initial px-2 bg-gray-100 rounded-lg'>1% Penalty )</div>
+                                <div className='flex-initial px-2'>-</div>
+                                <div className='flex-initial px-2 bg-gray-100 rounded-lg'> ( Rebate</div>
+                                <div className='flex-initial px-2'>+</div>
+                                <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Special Rebate )</div>
                             </div>
 
-                            {/* // REABATE DESCRIPTION */}
-                            {demandDetail?.amounts?.rebates?.length !== 0 && <>
-                                <div className='mt-10 text-md font-semibold'>Rebate Description</div>
-                                <table className='min-w-full leading-normal mt-2'>
-                                    <thead className='font-bold text-left text-sm bg-white text-gray-600'>
-                                        <tr>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
-                                            <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amounts</th>
+                            <table className='min-w-full leading-normal mt-2'>
+                                <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                    <tr>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">ARV</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Effect From</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Conservancy/Latrine Tax</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">RWH Penalty</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Ruleset</th>
 
 
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-sm">
-
-                                        {demandDetail?.amounts?.rebates?.map((data, index) => (
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm">
+                                    {
+                                        demandDetail?.taxDetails?.map((data, index) => (
                                             <tr className="bg-white shadow-lg border-b border-gray-200">
                                                 <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.keyString)}</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
-                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.arv)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.fyear)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.holding_tax)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.water_tax)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.latrine_tax)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.education_cess)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.health_cess)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.additional_tax)}</td>
+                                                <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.amount)}</td>
+                                                <td className={`px-2 py-2 text-sm text-left  `}> <span className={`${data?.ruleSet === 'RuleSet3' ? 'bg-green-100' : 'bg-red-100'} px-2 py-1 rounded-lg`}>{data?.ruleSet === 'RuleSet3' ? 'Current' : 'Old'}</span> </td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </>
+                                        ))
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* // REABATE DESCRIPTION */}
+                        {demandDetail?.amounts?.rebates?.length !== 0 && <>
+                            <div className='mt-10 text-md font-semibold'>Rebate Description</div>
+                            <table className='min-w-full leading-normal mt-2'>
+                                <thead className='font-bold text-left text-sm bg-white text-gray-600'>
+                                    <tr>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">#</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Rebate Type</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">percent(%)</th>
+                                        <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Amounts</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm">
+
+                                    {demandDetail?.amounts?.rebates?.map((data, index) => (
+                                        <tr className="bg-white shadow-lg border-b border-gray-200">
+                                            <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.keyString)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebatePerc)}%</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToZero(data?.rebateAmount)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>
+                        }
+
+
+                        {/* due detail list */}
+                        <div className='mt-10'>
+
+                            {
+                                demandDetail?.details &&
+                                <div className='w-[100vw] overflow-x-auto'>
+                                    <h1 className='px-1 font-semibold font-serif text-md mt-10'><img src={brief} alt="pin" className='w-5 inline' /> Tax Description of Annual Rental Value - As Per Old Rule (Effect Upto 31-03-2016)</h1>
+                                    <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
+                                        <div className='flex-initial px-2 font-bold'>Annual Rental Value (ARV)</div>
+                                        <div className='flex-initial px-2'>=</div>
+                                        <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Builtup Area</div>
+                                        <div className='flex-initial px-2'>x</div>
+                                        <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Rental Rate</div>
+                                    </div>
+                                    <table className=' leading-normal mt-2'>
+                                        <thead className={`font-bold text-left text-sm ${demandDetail?.paymentStatus===1?'bg-red-100':'bg-white'} text-gray-600`}>
+
+                                            <tr>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">ARV</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quater</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarter / Year</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Latrine/Conservancy Tax (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Additional Tax (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax (Rs)</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjuted Amount</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Due Date</th>
+                                                <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% penalty (Rs)</th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-sm">
+
+                                            <>
+                                                {demandDetail.details?.map((items, index) => (
+                                                    <tr className={`${demandDetail?.paymentStatus===1?'bg-red-100':'bg-white'} shadow-lg border-b border-gray-200`}>
+                                                        <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.fyear)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holding_tax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.water_tax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrine_tax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.education_cess)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.health_cess)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.additional_tax)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.amount)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjust_amount)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.due_date)}</td>
+                                                        <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
+                                                    </tr>
+                                                ))}
+
+                                            </>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             }
 
 
-                            {/* due detail list */}
-                            <div className='mt-10'>
 
-                                {
-                                    demandDetail?.details &&
-                                    <div className='w-[100vw] overflow-x-auto'>
-                                        <h1 className='px-1 font-semibold font-serif text-md mt-10'><img src={brief} alt="pin" className='w-5 inline' /> Tax Description of Annual Rental Value - As Per Old Rule (Effect Upto 31-03-2016)</h1>
-                                        <div className='flex font-mono text-xs py-2 px-1 text-gray-900'>
-                                            <div className='flex-initial px-2 font-bold'>Annual Rental Value (ARV)</div>
-                                            <div className='flex-initial px-2'>=</div>
-                                            <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Builtup Area</div>
-                                            <div className='flex-initial px-2'>x</div>
-                                            <div className='flex-initial px-2 bg-gray-100 rounded-lg'>Rental Rate</div>
+
+                            {demandDetail?.paymentStatus !== 1 && <div className='mt-10 flex'>{!loader &&
+                                <>
+                                    <div className='text-left flex-1'>
+                                        <div>
+                                            <span className='font-semibold text-gray-600 text-xl'>Total Payable Amount  </span><span className='text-3xl font-bold ml-20'>Rs {nullToNA(demandDetail?.amounts?.payableAmount)}</span>
                                         </div>
-                                        <table className=' leading-normal mt-2'>
-                                            <thead className='font-bold text-left text-sm bg-white text-gray-600'>
-
-                                                <tr>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">#</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">ARV</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quater</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarter / Year</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Holding Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Water Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Latrine/Conservancy Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Education Cess (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Health Cess (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Additional Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Quarterly Tax (Rs)</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjuted Amount</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">Due Date</th>
-                                                    <th className="px-2 py-3 border-b border-gray-200  text-xs capitalize text-left">1% penalty (Rs)</th>
-
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody className="text-sm">
-
-                                                <>
-                                                    {demandDetail.details?.map((items, index) => (
-                                                        <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                            <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.arv)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.qtr)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.fyear)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holding_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.water_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.latrine_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.education_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.health_cess)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.additional_tax)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjust_amount)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.due_date)}</td>
-                                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
-                                                        </tr>
-                                                    ))}
-
-                                                </>
-
-                                            </tbody>
-                                        </table>
                                     </div>
-                                }
+                                    <div className='text-right flex-1'>
+                                    
+                                        <button onClick={() => navigate(`/property-payment/${id}/${props?.type == 'holding' ? 'holding' : 'saf'}`)} type="button" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(demandDetail?.amounts?.payableAmount)} <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
+                                    </div>
+                                </>
+                            }</div>}
+                            <div className='h-20 w-full'></div>
+
+                        </div>
 
 
-
-
-                                <div className='mt-10 flex'>{!loader &&
-                                    <>
-                                        <div className='text-left flex-1'>
-                                            <div>
-                                                <span className='font-semibold text-gray-600 text-xl'>Total Payable Amount  </span><span className='text-3xl font-bold ml-20'>Rs {nullToNA(demandDetail?.amounts?.payableAmount)}</span>
-                                            </div>
-                                        </div>
-                                        <div className='text-right flex-1'>
-                                            {/* <button onClick={() => navigate(`/property-payment/${id}/saf`)} type="submit" className=" px-6 py-1 bg-indigo-500 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Pay Now <img src={pay2} alt="pay image" className='inline w-5' /></button> */}
-                                            <button onClick={() => navigate(`/property-payment/${id}/${props?.type == 'holding' ? 'holding' : 'saf'}`)} type="button" className="ml-4 font-bold px-6 py-1 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white">Pay <BsCurrencyRupee className="inline mr-0 ml-2" />{nullToNA(demandDetail?.amounts?.payableAmount)} <span><BiRightArrowAlt className="inline font-bold text-xl" /></span> </button>
-                                        </div>
-                                    </>
-                                }</div>
-                                <div className='h-20 w-full'></div>
-
-                            </div>
-
-
-                        </>
-                    }
+                    </>
+                    {/* } */}
 
 
 

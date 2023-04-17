@@ -200,6 +200,7 @@ function Sidebar(props) {
                 <CollapseMenu key={`sidebar_menu${index}`} title={data.name} path={data?.path} subMenu={data?.children} subMenuStatus={data?.children?.length != 0 ? true : false} icon={<FcFlowChart size={14} />} />
               ))
             }
+            <div className='mt-10 h-20'></div>
 
 
 

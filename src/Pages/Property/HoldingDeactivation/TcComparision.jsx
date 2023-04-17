@@ -41,7 +41,7 @@ function TcComparision(props) {
 
   const fetchTcComparisonData = () => {
     setisLoading(true)
-    seterroState(true)
+    seterroState(false)
     let requestBody = {
       applicationId: id
     }

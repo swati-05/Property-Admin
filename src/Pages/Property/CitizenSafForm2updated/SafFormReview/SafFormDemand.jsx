@@ -213,6 +213,8 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Education Cess (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Health Cess (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarterly Tax (Rs)</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjusted Amount</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
 
@@ -234,6 +236,8 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.educationTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.healthTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
                             </tr>
@@ -278,6 +282,8 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Holding Tax (Rs) </th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Additional Tax(RWH Penalty) (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Quarterly Tax (Total) (Rs)</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjusted Amount</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
 
@@ -295,6 +301,8 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
 
@@ -341,6 +349,8 @@ function SafFormDemand(props) {
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Holding Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Additional Tax (Rs)</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Total Tax (Rs)</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Adjusted Amount</th>
+                          <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Balance</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">Due Date</th>
                           <th className="px-2 py-3 border-b border-gray-200  text-xs uppercase text-left">1% penalty (Rs)</th>
 
@@ -359,6 +369,8 @@ function SafFormDemand(props) {
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.holdingTax)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.rwhPenalty)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.totalTax)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.adjustAmount)}</td>
+                              <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.balance)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.dueDate)}</td>
                               <td className="px-2 py-2 text-sm text-left">{nullToNA(items?.onePercPenaltyTax)}({nullToNA(items?.onePercPenalty)}%)</td>
 

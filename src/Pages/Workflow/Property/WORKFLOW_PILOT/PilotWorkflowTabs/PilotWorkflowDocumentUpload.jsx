@@ -252,7 +252,7 @@ function PilotWorkflowDocumentUpload(props) {
   const submitData = (docRefName) => {
 
     if (currentDocumentCode == null) {
-      toast.error("Select Document Type");
+      props?.activateBottomErrorCard(true, 'Select document type')
       setcurrentOwnerId(null)
       setcurrentDocumentCode(null)
       return
@@ -500,7 +500,7 @@ function PilotWorkflowDocumentUpload(props) {
                         Document Name
                       </th>
                       <th className="py-3 px-6 text-left">Type</th>
-                      <th className="py-3 px-6 text-center">Document Option</th>
+                      <th className="py-3 px-6 text-center">Document type</th>
                       <th className="py-3 px-6 text-center">Document</th>
                       <th className="py-3 px-6 text-center">Remarks</th>
                       <th className="py-3 px-6 text-center">Status</th>
