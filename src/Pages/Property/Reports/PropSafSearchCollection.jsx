@@ -128,16 +128,16 @@ const PropSafSearchCollection = () => {
     useEffect(() => {
         gettingCollectorList()
         gettingMasterList()
-        // setcollection(formik.values?.collType)
-        // setrequestBody({
-        //     collectionType : formik.values.collType,
-        //     fromDate: formik.values.fromDate,
-        //     uptoDate: formik.values.uptoDate,
-        //     wardId: formik.values.wardId,
-        //     userId: formik.values.userId,
-        //     paymentMode: formik.values.paymentMode
-        // })
-        // setchangeData(prev => prev + 1)
+        setcollection(formik.values?.collType)
+        setrequestBody({
+            collectionType : formik.values.collType,
+            fromDate: formik.values.fromDate,
+            uptoDate: formik.values.uptoDate,
+            wardId: formik.values.wardId,
+            userId: formik.values.userId,
+            paymentMode: formik.values.paymentMode
+        })
+        setchangeData(prev => prev + 1)
     }, [])
 
     const gettingMasterList = () => {
@@ -488,7 +488,7 @@ const PropSafSearchCollection = () => {
         collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
     }
 
-    console.log("collType ", formik.values.collType)
+    console.log("collType ", dataList)
 
     return (
         <>
@@ -505,13 +505,6 @@ const PropSafSearchCollection = () => {
                             Collection Type :
                         </div>
                         <div className={"col-span-6 flex items-center justify-between bg-green-100 shadow-md px-2 py-1.5 rounded-md border border-green-300 shadow-green-100"}>
-                            {/* <select name="collType" id="" className={commonInputStyle} onChange={formik.values.collType != 'gbSaf' && gettingCollectorList}>
-                                <option value='property'>Property</option>
-                                <option value='saf'>SAF</option>
-                                <option value='gbSaf'>GB SAF</option>
-                            </select> */}
-
-
                             <div className='flex items-center gap-1'>
                                 <label htmlFor="1">Property</label>
                                 <input className='mt-1' type="checkbox" name="collType" id="1" value={'property'} defaultChecked />
@@ -619,16 +612,16 @@ const PropSafSearchCollection = () => {
                 </div>
             </form>
 
-            {(collection != '' && collection != 'gbSaf') && <div className='w-full text-end'>
+            {(collection != '' && collection != 'gbSaf' && dataList?.data?.length > 1) && <div className='w-full text-end'>
                 <button className="font-semibold px-6 py-2 bg-indigo-400 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-140 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
             </div>}
 
             {
                 (requestBody != null) &&
                 <div className='relative'>
-                    <div className='absolute top-11 right-0'>
+                    {dataList?.data?.length > 1 && <div className='absolute top-11 right-0'>
                         Total Amount : <span className="font-semibold">{indianAmount(totalAmount)}</span>
-                    </div>
+                    </div>}
                     <ListTableConnect
                         getData={true}
                         allData={(data) => setdataList(data)}
