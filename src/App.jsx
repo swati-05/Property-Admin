@@ -13,6 +13,7 @@ import CustomErrorBoundaryForRoutes from './Components/Common/CustomErrorBoundar
 import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand';
 import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
 import BarLoader from './Components/Common/BarLoader';
+import { getLocalStorageItem } from './Components/Common/localstorage';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -126,7 +127,7 @@ const VerificationOptions = React.lazy(() => import('@/Pages/Mobile/Verification
 
 
 function App(props) {
-  
+
   const [boxWidth, setBoxWidth] = useState({ width: "md:w-5/6", margin: "md:ml-60" });
   ////***** global data containers *****\\\\
   const [menuList, setmenuList] = useState("");
@@ -148,8 +149,10 @@ function App(props) {
 
 
   const navigate = useNavigate()
-  let device = window.localStorage.getItem('device')
-  let token = window.localStorage.getItem('token')
+  // let device = window.localStorage.getItem('device')
+  // let token = window.localStorage.getItem('token')
+  let device = getLocalStorageItem('device')
+  let token = getLocalStorageItem('token')
   // IF TOKEN IS PRESENT THEN CHANGE STATUS TO LOGIN
   if (token != null) {
     props.LOGIN();
@@ -248,11 +251,11 @@ function App(props) {
               <Route path='/mobile-modules' element={<ModuleOption />} />
               <Route path='/mobile-property-options' element={<PropertyOptions />} />
               <Route path='/mobile-property-verification-options' element={<VerificationOptions />} />
-            
+
             </Routes>
           </Suspense>
           <div onClick={navClose}
-            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${device=='web'? boxWidth.width:'w-full'}  ${device=='web'? boxWidth.margin:'mr-0'} ${device=='web'? 'mt-24':'mt-0'} h-screen overflow-y-scroll pb-[40vh]`}
+            className={`sm:w-full transition-all md:pl-4 md:pr-4 ${device == 'web' ? boxWidth.width : 'w-full'}  ${device == 'web' ? boxWidth.margin : 'mr-0'} ${device == 'web' ? 'mt-24' : 'mt-0'} h-screen overflow-y-scroll pb-[40vh]`}
           >
             {device == 'web' && <TitleBar titleBarVisibility={titleBarVisibility} titleText={titleText} />}
 

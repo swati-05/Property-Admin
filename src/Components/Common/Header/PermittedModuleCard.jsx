@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsQuestionCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import home from '@/Components/Media/home.png'
@@ -10,8 +10,15 @@ import piechart from '@/Components/Media/piechart.png'
 function PermittedModuleCard(props) {
     const navigate = useNavigate()
 
-    const swithModule = () => {
-        
+    const [permittedModuleList, setpermittedModuleList] = useState([
+        { moduleName: 'Property', route: '/property', icon: home },
+        { moduleName: 'Water', route: '/water', icon: water },
+        { moduleName: 'Trade', route: '/trade', icon: team },
+        { moduleName: 'Advertisement', route: '/advertisement', icon: team },
+        { moduleName: 'Dashboard', route: '/dashboard', icon: piechart },
+    ])
+    const swithModule = (route) => {
+        window.location.replace(route)
     }
     return (
         <div className='w-full md:w-1/2 mx-auto mt-10'>
@@ -31,57 +38,20 @@ function PermittedModuleCard(props) {
                     <div className="my-10 relative">
                         <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
                             {/* 1 NEW ASSESSMENT */}
-                            <div onClick={swithModule}
-                                className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
-                                href="">
-                                <img
-                                    className="h-16 w-16"
-                                    src={home}
-                                    alt="Mobiles" />
-                                <div className="font-bold mt-4 text-center">Property</div>
-                            </div>
+                            {permittedModuleList?.map((data, index) => (
+                                <div onClick={() => swithModule(data?.route)}
+                                    className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
+                                    href="">
+                                    <img
+                                        className="h-16 w-16"
+                                        src={data?.icon}
+                                        alt="Mobiles" />
+                                    <div className="font-bold mt-4 text-center">{data?.moduleName}</div>
+                                </div>
+                            ))}
 
 
-                            {/* 4 BIFURCATION */}
-                            <div onClick={swithModule}
-                                className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
-                                href="">
-                                <img
-                                    className="h-20 w-20"
-                                    src={water}
-                                    alt="Electronics" />
-                                <div className="font-bold mt-4 text-center">Water</div>
 
-                            </div>
-
-                            {/* 5 AMALGAMATION */}
-                            <div onClick={swithModule}
-                                className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
-                                href="">
-                                <img
-                                    className="h-20 w-20"
-                                    src={team}
-                                    alt="Electronics" />
-                                <div className="font-bold mt-4 text-center">Trade</div>
-                            </div>
-                            <div onClick={swithModule}
-                                className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
-                                href="">
-                                <img
-                                    className="h-20 w-20"
-                                    src={team}
-                                    alt="Electronics" />
-                                <div className="font-bold mt-4 text-center">Advertisement</div>
-                            </div>
-                            <div onClick={swithModule}
-                                className="bg-gray-100  rounded-xl flex flex-col justify-center items-center p-4 md:p-6 relative cursor-pointer"
-                                href="">
-                                <img
-                                    className="h-20 w-20"
-                                    src={piechart}
-                                    alt="Electronics" />
-                                <div className="font-bold mt-4 text-center">Dashboard</div>
-                            </div>
 
                         </div>
                     </div>
