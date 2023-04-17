@@ -89,9 +89,9 @@ Jharkhand Municipal Act, 2011.
             <div className='flex flex-row'>
               {holdingBox}
             </div>
-            <p className='my-1'>The annual rental value ofthis holding is <span className="font-semibold">{indianAmount(famDetails?.arv)}</span>/- after local check made by Ranchi Municipal Corporation in the light of the self assessment declaration letter
-made by you for assessment of tax for <span className="font-semibold">Ward No. <span className='font-normal'>{nullToNA(famDetails?.new_ward_no)}</span></span> (<span className="font-semibold">Old Ward No.</span> {nullToNA(famDetails?.old_ward_no)}) , {nullToNA(famDetails?.arv)}/- is fixed at the place.</p>
-          <p>Based on the annual rental value determined by the corporation, the First quarter will be tax in writing with effect from the year 2016-2017.</p>
+            <p className='my-1'>The annual rent value of this holding is Rs. <span className="font-semibold">{nullToNA(famDetails?.arv)}</span>/- after local check made by Ranchi Municipal Corporation in the ight of the self assessment deciaration letter
+made by you for assessment of tax for <span className="font-semibold">Ward No. <span className='font-normal'>{nullToNA(famDetails?.new_ward_no)}</span></span> (<span className="font-semibold">Old Ward No.</span> {nullToNA(famDetails?.ward_no)}) , {nullToNA(famDetails?.arv)}/- is fixed at the place.</p>
+          <p>Based on the annual rent value determined by the corporation, the Fifst quarter will be taxed in writing with effect from the year 2016-2017.</p>
           </div>
 
           {/* table */}

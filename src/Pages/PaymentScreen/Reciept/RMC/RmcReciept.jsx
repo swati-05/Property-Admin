@@ -50,11 +50,11 @@ class RmcReciept extends React.Component {
 
             {/* about */}
             <div className="mt-4">
-                <div>Received From Mr / Mrs / Miss . :&nbsp;<span className="font-bold uppercase">{nullToNA(data?.custormerName)}</span></div>
+                <div>Received From Mr / Mrs / Miss . :&nbsp;<span className="font-bold uppercase">{nullToNA(data?.customerName)}</span></div>
                 <div>Mobile No. :&nbsp;<span className="font-bold">{nullToNA(data?.mobileNo)}</span></div>
                 <div>Address :&nbsp;<span className="font-bold uppercase">{nullToNA(data?.address)}</span></div>
                 <div>A Sum of :&nbsp;<span className="font-bold">{indianAmount(data?.totalPaidAmount)}</span></div>
-                <div className=' w-full mb-1'>(in words) :&nbsp;<span className="w-[80%] inline-block font-bold border-black border-b-2 border-dotted">{data?.paidAmtInWords}Only</span></div>
+                <div className=' w-full mb-1'>(in words) :&nbsp;<span className="w-[80%] inline-block font-bold border-black border-b-2 border-dotted">{data?.paidAmtInWords} Only</span></div>
                 <div>towards :&nbsp;<span className="font-bold">{data?.towards}</span>&nbsp;&nbsp; Vide :&nbsp;<span className="font-bold">{data?.paymentMode}</span></div>
                 <div className='font-bold my-2'>N.B.Online Payment/Cheque/Draft/ Bankers Cheque are Subject to Realisation</div>
             </div>
@@ -66,15 +66,15 @@ class RmcReciept extends React.Component {
                 </div>
                 <table className='w-full'>
                     <tr>
-                        <th className='py-1.5 w-[25%] text-start'>Code of Amount</th>
-                        <th className='py-1.5 w-[25%] text-start'>Account Description</th>
-                        <th className='py-1.5 w-[25%] text-center'>Period</th>
-                        <th className='py-1.5 w-[25%] text-end'>Amount</th>
+                        {/* <th className='py-1.5 w-[25%] text-start'>Code of Amount</th> */}
+                        <th className='py-1.5 w-1/3 text-start'>Account Description</th>
+                        <th className='py-1.5 w-1/3 text-center'>Period</th>
+                        <th className='py-1.5 w-1/3 text-end'>Amount</th>
                     </tr>
                     {
                         data?.holdingTaxDetails?.map((elem) => <>
                             <tr>
-                                <td className='py-1.5'>{elem?.codeOfAmount}</td>
+                                {/* <td className='py-1.5'>{elem?.codeOfAmount}</td> */}
                                 <td className='text-start py-1.5'>{elem?.description}</td>
                                 <td className='text-center py-1.5'>{elem?.period}</td>
                                 <td className='text-end py-1.5'>{indianAmount(elem?.amount)}</td>
@@ -83,16 +83,25 @@ class RmcReciept extends React.Component {
                     }
 
                     <tr>
-                        <td colSpan={2}>
+                        <td rowSpan={1+data?.taxDetails?.length}>
                             <div>
-                                {/* <img src="" alt="QR" className="h-24 w-24 border"/> */}
                                 <QrCode size='64' />
                             </div>
                         </td>
-                        <td className="py-1 5 font-bold text-end">Total <br />Amount Recieved</td>
-                        <td className="py-1 5 font-bold text-end">{indianAmount(data?.demandAmount)}<br /> {indianAmount(data?.totalPaidAmount)}</td>
-                    </tr>
-
+                        {/* <td className="py-1 5 font-bold text-end">Total <br />Amount Recieved</td>
+                        <td className="py-1 5 font-bold text-end">{indianAmount(data?.demandAmount)}<br /> {indianAmount(data?.totalPaidAmount)}</td> */}
+                        <td className="py-1.5 font-bold text-end">Total</td>
+                        <td className="py-1.5 font-bold text-end">{indianAmount(data?.demandAmount)}</td>
+                        </tr>
+                        {
+                            data?.taxDetails?.map((elem) => <>
+                            <tr>
+                                <td className="py-1.5 font-bold text-end w-1/2">{nullToNA(elem?.keyString)}</td>
+                                <td className="py-1.5 font-bold text-end w-1/3">{indianAmount(elem?.value)}</td>
+                            </tr>
+                            </>)
+                        }
+                    
                 </table>
             </div>
 
