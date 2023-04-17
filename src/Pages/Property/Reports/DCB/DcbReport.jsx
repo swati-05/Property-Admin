@@ -33,7 +33,7 @@ const DcbReport = () => {
 
     const [wardList, setwardList] = useState()
     const [ulbList, setulbList] = useState()
-    const [yearData, setyearData] = useState()
+    const [yearData, setyearData] = useState(null)
     const [loader, setloader] = useState(false)
     const [loader2, setloader2] = useState(false)
     const [isHH, setisHH] = useState(false)
@@ -50,7 +50,7 @@ const DcbReport = () => {
         initialValues: {
             ulbId: nullToNA(ulbId) == 'NA' ? '' : ulbId,
             wardId: '',
-            fiYear: "2023-2024",
+            fiYear: yearData != null && yearData[0],
             // reportType : 'wardWise',
             withHh : '0',
             withCe : '0'
@@ -1083,7 +1083,7 @@ const DcbReport = () => {
                         <div className="col-span-6">
                         <select name="fiYear" id="" className={commonInputStyle} disabled={loader}>
                             {
-                                yearData?.map((elem) => <>
+                                yearData?.map((elem, index) => <>
                                     <option value={elem}>{elem}</option>
                                 </>)
                             }

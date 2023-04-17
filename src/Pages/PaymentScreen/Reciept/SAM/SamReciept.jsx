@@ -59,17 +59,17 @@ const SamReciept = () => {
         "In the light of manual 11.4, additional house tax will be levied which will be 50% of the property tax due to lack of arrangement of rainwater harvesting.",
         "It is advised to inform the corporation by installing rainwater conservation structure and get relief from additional house tax.",
 
-        "Property tax will be paid quarterly in each financial year.",
+"Property tax will be paid quartely in each financial year.",
 
-        "If the entire hourly tax for a year is paid before 30 June of the financial year, a rebate of 5% will be given to the taxpayer.",
+"If the entire hourly tax for a year is paid before 30 June of the financial year, a rebate of 5% will be given to the taxpayer.",
 
-        "Simple Interest will be payable at the rate of 1% per month if any payable are not not paid within or before the specified time period (every quarter).",
+"Simple Interest will be payable at the rate of 1% per month if any payable are not not paid within or before the specified time period (every quarter).",
 
-        "This tax assessment is being done on the basis of your self-determination and declaration made, this self-assessment-cum-deciaration can be conducted by the local corporation in due course of time and if the facts are found to be incorrect, the penalty prescribed in accordance with manual Condica 13.2 (Fine) and difference amount will be payable.",
+"This tax assessment is being done on the basis of your self-determination and declaration made, this self-assessment-cum-deciaration can be conducted by the local corporation in due course of time and if the facts are found to be incorrect, the penalty prescribed in accordance with manual Condica 13.2 (Fine) and difference amount will be payable.",
 
-        "The property is collected by Ranchi Municipal Corporation does not confer any legal status on these buildings and / or its owners / occupiers Confers any legal right to.",
+"The property is collected by Ranchi Municipal Corporation does not confer any legal status on these buildings and / or its owners / occupiers Confers any legal right to.",
 
-        "If the last digit of your new holding number is 5/6/7/8, then it will be considered under the category of specific structures."
+"If the last digit of your new holding number is 5/6/7/8, then it will be considered under the category of specific structures."
     ]
 
     const noteList = notes.map((content, index) => {
@@ -143,9 +143,9 @@ const SamReciept = () => {
 
                     {/* declaration */}
                     <div>
-                        <p className="text-xs my-2">
-                            &nbsp; You are hereby informed that your New {(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} Number - <span className="font-semibold">{(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? samDetails?.holding_no : samDetails?.pt_no}</span> in Ward No - <span className="font-semibold">{nullToNA(samDetails?.old_ward_no)}</span> , New Ward No - <span className="font-semibold">{nullToNA(samDetails?.new_ward_no)}</span> has been generated, on the basis of your self-assessment declaration form, the annual rental value has been fixed at <span className="font-semibold">{indianAmount(samDetails?.arv)}</span>/- based on your self assessment declaration.
-                        </p>
+                    <p className="text-xs my-2">
+              &nbsp; You are hereby informed that your New {(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? 'Holding' : 'Property Tax'} Number - <span className="font-semibold">{(samDetails?.pt_no == '' || samDetails?.pt_no == undefined) ? samDetails?.holding_no : samDetails?.pt_no}</span> in Ward No - <span className="font-semibold">{samDetails?.old_ward_no}</span> , New Ward No - <span className="font-semibold">{nullToNA(samDetails?.new_ward_no)}</span> has been done, on the basis of your self-assessment declaration form, the annual rental price has been fixed at Rs <span className="font-semibold">{nullToNA(samDetails?.arv)}</span>/- based on your self assessment declaration.
+              </p>
                     </div>
 
                     {/* table */}

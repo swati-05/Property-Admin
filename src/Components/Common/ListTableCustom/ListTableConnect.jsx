@@ -52,7 +52,7 @@ const ListTableConnect = (props) => {
     const searchOldFun = () => {
         
         setloader(true)
-        // console.log("entered in old method...")
+        console.log("entered in old method... data before hitting", props?.requestBody)
 
         console.log(`data before hitting api (${props?.api}) => `, {...props?.requestBody, perPage: perPageCount, page: pageCount})
 
@@ -61,6 +61,7 @@ const ListTableConnect = (props) => {
         .then((res) => {
             if(res?.data?.status == true){
                 console.log('search success => ', res)
+                props?.getData && props?.allData(res?.data?.data)
                 setdataList(res?.data?.data?.data)
                 settotalCount(res?.data?.data?.total)
                 setcurrentPage(res?.data?.data?.current_page)
