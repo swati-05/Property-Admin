@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from 'react'
 import role from '@/Components/Media/role.png'
 import { MdTag } from 'react-icons/md'
 import { GiMoneyStack } from 'react-icons/gi'
+import { TbReport } from 'react-icons/tb'
 import { Tooltip } from 'react-tooltip'
 import { allowNumberInput } from '@/Components/PowerUps/PowerupFunctions'
 import ProjectApiList from '@/Components/ApiList/ProjectApiList'
@@ -125,10 +126,10 @@ function PropertyHome() {
             <div className='grid grid-cols-12 mt-10'>
                 {
                     <>
-                        {landingDashboardCardData?.totalAppliedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalAppliedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
-                                <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
+                                <div className='flex-initial flex justify-center items-center pl-4 pr-2'><TbReport className="block text-2xl" /></div>
                                 <div className="px-6 py-2 md:py-7 flex-1">
                                     <div className="font-bold text-lg md:text-xl">{nullToNA(landingDashboardCardData?.totalAppliedApplication)}</div>
                                     <p className="text-gray-700 text-sm w-full">
@@ -137,7 +138,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalCollection != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalCollection != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -149,7 +150,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalCash != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalCash != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -163,9 +164,9 @@ function PropertyHome() {
                         </div>}
 
                         {/* // SPACER */}
-                        <div className='col-span-12 my-2'></div>
+                        <div className='col-span-12 my-0 md:my-2'></div>
 
-                        {landingDashboardCardData?.totalCheque != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalCheque != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -179,7 +180,7 @@ function PropertyHome() {
                         </div>}
 
 
-                        {landingDashboardCardData?.totalDD != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalDD != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -191,7 +192,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalOnline != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalOnline != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -203,7 +204,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalReceivedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalReceivedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -215,7 +216,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalForwardedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalForwardedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -227,7 +228,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalApprovedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalApprovedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -239,7 +240,7 @@ function PropertyHome() {
                                 </div>
                             </div>
                         </div>}
-                        {landingDashboardCardData?.totalRejectedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-6 md:col-span-4 pr-20 `} >
+                        {landingDashboardCardData?.totalRejectedApplication != undefined && <div className={` relative cursor-pointer transition-all duration-500 col-span-12 px-4 md:px-0 mt-4 md:mt-0 md:col-span-4 md:pr-20 `} >
                             <Tooltip anchorId={`card${1}`} />
                             <div id={`card${1}`} data-tooltip-content={1} className='w-full h-full bg-white shadow-xl flex rounded-lg'>
                                 <div className='flex-initial flex justify-center items-center pl-4 pr-2'><GiMoneyStack className="block text-2xl" /></div>
@@ -265,9 +266,9 @@ function PropertyHome() {
                     </div>
 
                 </div>
-                <div className="mt-4 px-4">
-                    <div className="w-full flex">
-                        <button className={`mr-4 ${activeApplicationType == 'saf' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}   px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('saf')}>SAF</button>
+                <div className="mt-2 px-4">
+                    <div className="w-full flex-3 space-y-2">
+                        <button className={`mr-4 ${activeApplicationType == 'saf' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}   px-4 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('saf')}>SAF</button>
 
                         <button className={`mr-4 ${activeApplicationType == 'Concession' ? 'bg-indigo-500 text-white' : 'border border-indigo-500 text-indigo-500 bg-white'}  px-2 py-0.5 shadow-lg hover:scale-105 rounded-sm hover:bg-indigo-500 hover:text-white`} onClick={() => fetchLandingDashboardData('Concession')}>Concession</button>
 

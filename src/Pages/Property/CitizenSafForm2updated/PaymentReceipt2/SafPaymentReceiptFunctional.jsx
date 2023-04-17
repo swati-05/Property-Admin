@@ -70,17 +70,17 @@ function SafPaymentReceiptFunctional(props) {
 
             "<n>Paid  From     :  " + props?.paymentData?.paidFromQtr + "/" + props?.paymentData?.paidFrom + "</n><br />" +
             "<n>Paid  Upto     :  " + props?.paymentData?.paidUptoQtr + "/" + props?.paymentData?.paidUptoQtr + "</n><br />" +
-            "<n>Demand Amount  :  " + props?.paymentData?.transactionDate + "</n><br />" +
-            "<n>Penalty Amount :  " + props?.paymentData?.transactionDate + "</n><br />" +
-            "<n>Rebate Amount  :  " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>Demand Amount  :  " + props?.paymentData?.demandAmount + "</n><br />" +
+            "<n>Penalty Amount :  " + props?.paymentData?.totalPenalty + "</n><br />" +
+            "<n>Rebate Amount  :  " + props?.paymentData?.totalRebate + "</n><br />" +
             "<n>Amount Paid    :  " + props?.paymentData?.totalPaidAmount + "</n><br />" +
             "<n>Payment Mode   :  " + props?.paymentData?.paymentMode + "</n><br />" +
 
             cheque_dd_data +
 
             "<nc>.........................................</nc><br /><br />" +
-            "<n>TC Name        :   " + props?.paymentData?.transactionDate + "</n><br />" +
-            "<n>Mobile No.     :   " + props?.paymentData?.transactionDate + "</n><br />" +
+            "<n>TC Name        :   " + props?.paymentData?.tcName + "</n><br />" +
+            "<n>Mobile No.     :   " + props?.paymentData?.tcMobile + "</n><br />" +
             "<n>For Details Please visit : udhd.jharkhand.gov.in OR Call us at 1800 8904115 or 0651-3500700</n><br />" +
             "<n>Please keep this Bill For Future Reference</n><br />" +
 
@@ -179,11 +179,11 @@ function SafPaymentReceiptFunctional(props) {
                                 <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Demand Amount</div>
                             </div>
                             <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.penaltyAmount)}</div>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.totalPenalty)}</div>
                                 <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Penalty Amount</div>
                             </div>
                             <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.rebateAmount)}</div>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToZero(props?.paymentData?.totalRebate)}</div>
                                 <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Rebate Amount</div>
                             </div>
                             <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
@@ -198,19 +198,19 @@ function SafPaymentReceiptFunctional(props) {
                                 props?.paymentData?.paymentMode === 'CHEQUE' || props?.paymentData?.paymentMode === 'DD' &&
                                 <>
                                     <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.chequeNo)}</div>
                                         <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Cheque No.</div>
                                     </div>
                                     <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.bankName)}</div>
                                         <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Bank Name</div>
                                     </div>
                                     <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.branchName)}</div>
                                         <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Branch Name</div>
                                     </div>
                                     <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                        <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.chequeDate)}</div>
                                         <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Cheque Date</div>
                                     </div>
                                 </>
@@ -219,11 +219,11 @@ function SafPaymentReceiptFunctional(props) {
                                 ------------------------------------------
                             </div>
                             <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.tcName)}</div>
                                 <div className='md:w-auto w-[50%] text-gray-500 text-xs'>TC Name</div>
                             </div>
                             <div className='md:flex-1 md:block flex flex-row-reverse justify-between'>
-                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.transactionDate)}</div>
+                                <div className='md:w-auto w-[50%] font-bold text-sm'>{nullToNA(props?.paymentData?.tcMobile)}</div>
                                 <div className='md:w-auto w-[50%] text-gray-500 text-xs'>Mobile No.</div>
                             </div>
 

@@ -76,7 +76,7 @@ function CitizenPropBasicDetail3(props) {
             // }),
             landOccupationDate: yup.string()
         })
-    } else {
+    }else {
         validationSchema = yup.object({
             dateOfPurchase: yup.string(),
             transferMode: yup.string(),
@@ -213,6 +213,7 @@ function CitizenPropBasicDetail3(props) {
         props?.setselectedUlbId(props?.basicDetails?.ulbId)
         props?.fetchNewWardByOldWard(props?.basicDetails?.wardNo)
         formik.setFieldValue('wardNo', props?.basicDetails?.wardNo)
+        formik.setFieldValue('newWardNo', props?.basicDetails?.newWardNo)
 
         formik.setFieldValue('ownerShiptype', props?.basicDetails?.ownerShiptype)
         formik.setFieldValue('propertyType', props?.basicDetails?.propertyType)
@@ -312,7 +313,7 @@ function CitizenPropBasicDetail3(props) {
                                 <select disabled={inputConditionState?.wardNo?.readOnly} {...formik.getFieldProps('wardNo')} className={`${commonInputStyle} cursor-pointer cypress_ward ${inputConditionState?.wardNo?.style}`}>
                                     <option value="" >Select</option>
                                     {
-                                        props?.preFormData?.ward_master?.map((data) => (
+                                        props?.wardList?.map((data) => (
                                             <option value={data.id}>{data.ward_name}</option>
                                         ))
                                     }

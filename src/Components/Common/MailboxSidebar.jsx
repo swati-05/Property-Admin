@@ -36,7 +36,7 @@ function MailboxSidebar(props) {
     return (
         <>
 
-            <aside className="" >
+            <aside className="w-full overflow-auto" >
                 <div className=" rounded flex flex-row sm:flex-row space-x-4 py-2 pl-10 px-2 items-center">
                     {
                         props.tabs.map((data) => (

@@ -2,7 +2,7 @@ import axios from "axios";
 import ApiHeader from "@/Components/ApiList/ApiHeader";
 import BarLoader from "@/Components/Common/BarLoader";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import useSetTitle from "@/Components/GlobalData/useSetTitle";
 import PaymentCard from "@/Pages/PropertyEntryForms/SafFormReview/PaymentCard";
@@ -21,6 +21,7 @@ function PropertyPayment(props) {
     const [changeQtr, setchangeQtr] = useState(null)
     const [selectedPaymentYear, setselectedPaymentYear] = useState(null)
     const [selectedPaymentQtr, setselectedPaymentQtr] = useState(null)
+    const navigate = useNavigate()
 
     const { id, moduleType } = useParams()
 
@@ -72,6 +73,16 @@ function PropertyPayment(props) {
                 setdemandDetail(response?.data?.data)
                 setfullData(response?.data)
                 setisLoading(false)
+                // SENDING TO DEMAND PAGE IF FULLY PAID
+                // FOR SAF
+                if(response?.data?.data?.paymentStatus===1 && moduleType=='saf'){
+                    navigate(`/viewDemand/${id}`)
+                }
+
+                // FOR HOLDING
+                if(response?.data?.data?.paymentStatus===1 && moduleType=='holding'){
+                    navigate(`/viewDemandHoldingProperty/${id}`)
+                }
             })
             .catch(function (error) {
                 console.log('payment details error...', error)

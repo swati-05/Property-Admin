@@ -216,11 +216,16 @@ function App(props) {
     printButtonStatus,
     setprintButtonStatus
   };
-  // return(
-  //   <Login/>
-  // )
 
-  console.log('hell mr app.js')
+  // CLOSING THE MOBILE NAV IF ANY PART OF THE BODY IS CLICKED
+  const navClose = () => {
+    if (window.innerWidth < 600) {
+      if (!props.navCloseStatus) {
+        props.NAV_CLOSE()
+        props.NAV_CLOSE_ORIGINAL_STATUS()
+      }
+    }
+  }
   return (
     <>
       {/* passing context data to all component enclosed */}
@@ -246,7 +251,7 @@ function App(props) {
             
             </Routes>
           </Suspense>
-          <div
+          <div onClick={navClose}
             className={`sm:w-full transition-all md:pl-4 md:pr-4 ${device=='web'? boxWidth.width:'w-full'}  ${device=='web'? boxWidth.margin:'mr-0'} ${device=='web'? 'mt-24':'mt-0'} h-screen overflow-y-scroll pb-[40vh]`}
           >
             {device == 'web' && <TitleBar titleBarVisibility={titleBarVisibility} titleText={titleText} />}
@@ -292,7 +297,7 @@ function App(props) {
                 <Route path='/safform/:safType/:safId' element={<CitizenPropSafApplicationFormIndex />} />
                 <Route path='/basic-property-edit/:propId' element={<BasicEditFormIndex />} />
                 <Route path="/search/:type/:filterParam/:searchValueParam" element={<SearchIndex />} />
-                <Route path="/searchAppliedProperty/:filterParam/:searchValueParam" element={<AppliedApplicationSearch />} />
+                <Route path="/searchAppliedProperty/:filterParam/:searchByParam/:searchValueParam" element={<AppliedApplicationSearch />} />
                 <Route path='/propApplicationDetails/:id' element={<SafDetailsEntry />} />
                 <Route path='/concession-details/:id' element={<ConcessionDetailsEntry />} />
                 <Route path='/objection-details/:id' element={<ObjectionDetailsEntry />} />
@@ -389,6 +394,7 @@ const mapDispatchToProps = (dispatch) => {
     NAV_OPEN: (data2) => dispatch({ type: "NAV_OPEN" }),
     NAV_CLOSE: (data3) => dispatch({ type: "NAV_CLOSE" }),
     LOGIN: (data2) => dispatch({ type: "LOGIN" }),
+    NAV_CLOSE_ORIGINAL_STATUS: (data3) => dispatch({ type: "NAV_CLOSE_ORIGINAL_STATUS" }),
   };
 };
 // export default Home // EXPORTING HOME COMPONENT

@@ -8,13 +8,14 @@
 //    DESCRIPTION - RawLink Component
 //////////////////////////////////////////////////////////////////////////////////////
 
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate  } from 'react-router-dom'
 import { connect } from "react-redux";
 import { useSetActiveMenuId } from '@/Components/GlobalData/useSetGlobalData';
 
 
 function RawLink(props) {
   const navigate = useNavigate()
+  const location = useLocation()
   const checqueActive = () => {
     console.log(props.title, ' is active')
   }
@@ -27,6 +28,13 @@ function RawLink(props) {
         props.NAV_CLOSE()
         props.NAV_CLOSE_ORIGINAL_STATUS()
       }
+      
+    }
+    console.log('current path..',location.pathname)
+    console.log('target path..',props?.path)
+    if(location.pathname===props.path){
+      window.location.reload()
+      return
     }
     navigate(props.path)
   }

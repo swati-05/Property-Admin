@@ -29,7 +29,7 @@ function AppliedApplicationSearch() {
   const [erroState, seterroState] = useState(false);
 
 
-  const { filterParam, searchValueParam } = useParams()
+  const { filterParam,searchByParam, searchValueParam } = useParams()
 
 
   // SETTING GLOBAL TITLE AT ONCE USING CUSTOM HOOK
@@ -44,13 +44,15 @@ function AppliedApplicationSearch() {
   const header = ApiHeader()
 
   const validationSchema = yup.object({
-    filterBy: yup.string().required("This is a required field !"),
-    // wardNo: yup.string().required("This is a required field !"),
-    entry: yup.string().required("This is a required field !"),
+    filterBy: yup.string().required("Select filter by !"),
+    searchBy: yup.string().required("Select search by !"),
+    entry: yup.string().required("select value !"),
   });
   const formik = useFormik({
     initialValues: {
+      
       filterBy: "",
+      searchBy:"",
       entry: "",
     },
     onSubmit: (values) => {
@@ -71,7 +73,8 @@ function AppliedApplicationSearch() {
     setreadymadeListStatus(false)
     const requestBody = {
       filteredBy: data.filterBy,
-      applicationNo: data.entry,
+      searchBy: data?.searchBy,
+      value: data.entry,
     };
 
 
@@ -88,7 +91,7 @@ function AppliedApplicationSearch() {
         } else {
           setreadymadeListColumns(COLUMNS_OTHER)
         }
-        changeUrl(`/property/searchAppliedProperty/${encodeURIComponent(data?.filterBy)}/${encodeURIComponent(data?.entry)}`)
+        changeUrl(`/property/searchAppliedProperty/${encodeURIComponent(data?.filterBy)}/${encodeURIComponent(data?.searchBy)}/${encodeURIComponent(data?.entry)}`)
         setreadymadeListData(res?.data?.data)
         setreadymadeListStatus(true)
         setisLoading(false)
@@ -187,7 +190,7 @@ function AppliedApplicationSearch() {
           >
             View
           </button>
-         
+
 
           {cell.row.original.payment_status == 0 && <button
             onClick={() =>
@@ -264,7 +267,7 @@ function AppliedApplicationSearch() {
           >
             View
           </button>
-         
+
 
           {cell.row.original.payment_status == 0 && <button
             onClick={() =>
@@ -346,8 +349,9 @@ function AppliedApplicationSearch() {
     if (searchValueParam != 'direct') {
       console.log('filter param ', decodeURIComponent(filterParam))
       formik.setFieldValue('filterBy', decodeURIComponent(filterParam));
+      formik.setFieldValue('searchBy', decodeURIComponent(searchByParam));
       formik.setFieldValue('entry', decodeURIComponent(searchValueParam));
-      fetchData({ filterBy: decodeURIComponent(filterParam), entry: decodeURIComponent(searchValueParam) })
+      fetchData({ filterBy: decodeURIComponent(filterParam),searchBy: decodeURIComponent(searchByParam), entry: decodeURIComponent(searchValueParam) })
     }
   }, []);
 
@@ -405,11 +409,32 @@ function AppliedApplicationSearch() {
                   : null}
               </p>
             </div>
+            <div>
+              <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
+                Search By<span className="text-red-500">*</span>
+              </label>
+              <select
+                {...formik.getFieldProps('searchBy')}
+                className="cursor-pointer w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+              >
+                <option value="">Select</option>
+                <option value="applicationNo">Application No.</option>
+                <option value="name">Name</option>
+                <option value="mobileNo">Mobile No.</option>
+                <option value="ptn">Holding No.</option>
+                <option value="holding">PTN</option>
+              </select>
+              <p className="text-red-500 text-xs">
+                {formik.touched.searchBy && formik.errors.searchBy
+                  ? formik.errors.searchBy
+                  : null}
+              </p>
+            </div>
 
             <div className="mt-5 sm:mt-0">
               <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                 {" "}
-                Application / SAF No. {searchBy}{" "}
+               value {searchBy}{" "}
                 <span className="text-red-500">*</span>
               </label>
               <input

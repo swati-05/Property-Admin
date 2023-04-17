@@ -81,24 +81,24 @@ function PilotWorkflowFullDetailsTab(props) {
                     }} className='bg-indigo-500 text-white  shadow-lg text-sm font-semibold rounded-lg  focus:outline-none focus:shadow-outline  hover:shadow-xs p-3 py-2 px-6 hover:bg-indigo-600 hover:text-white my-4 text-center ml-4'>Submit Changes</button>}
                 </span>
             </div> */}
-            <div class="rounded-lg pt-4 z-50" style={{ 'width': '70vw', 'height': '70vh' }}>
+            <div class="rounded-lg pt-4 z-50 w-full md:w-[70vw] md:h-[70vh]" >
 
                 <div className=''>
 
                     {/* basic details */}
                     {props?.applicationData?.data?.fullDetailsData?.dataArray?.map((data) => (
-                        <div className="" style={{ 'width': '69vw' }}>
-                            <div className="container mx-auto mb-0 mt-1 p-5 py-1 ">
+                        <div className="w-full md:w-[69vw] " >
+                            <div className="container mx-auto mb-0 mt-1 p-2 md:p-5 py-1 ">
                                 <div className="md:flex no-wrap md:-mx-2 ">
-                                    <div className="w-full mx-2 ">
-                                        <div className="p-3  rounded-sm">
+                                    <div className="w-full md:mx-2 ">
+                                        <div className="md:p-3  rounded-sm">
                                             <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
                                                 <div className="tracking-wide flex-1"><MdTag className="inline font-semibold" /> {nullToNA(data?.headerTitle)}</div>
                                             </div>
                                             <div className=' rounded-lg  py-6 bg-sky-50 shadow-xl'>
                                                 <div className="grid grid-cols-10 space-y-2  pl-4 ">
                                                     {data?.data?.map((data) => (
-                                                        <div className='col-span-2 text-xs'>
+                                                        <div className='col-span-5 md:col-span-2 text-xs'>
                                                             <div className='font-bold text-sm'>{nullToNA(data?.value)}</div>
                                                             <div className='text-gray-500 flex'>{nullToNA(data?.displayString)}
                                                                 {/* {btcStatus && <input onClick={(e) => selectAction(e.target.value, data?.key, data?.displayString)} id={`check${data?.key}`} type="checkbox" className="ml-2 cursor-pointer w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -125,11 +125,11 @@ function PilotWorkflowFullDetailsTab(props) {
 
                     {
                         props?.applicationData?.data?.fullDetailsData?.tableArray?.map((data) => (
-                            <div className="" style={{ 'width': '69vw' }}>
-                                <div className="container mx-auto mb-0 mt-1 p-5 py-1 ">
+                            <div className="w-full md:w-[69vw] overflow-x-auto" >
+                                <div className="container mx-auto mb-0 mt-1 md:p-5 py-1 ">
                                     <div className="md:flex no-wrap md:-mx-2 ">
-                                        <div className="w-full mx-2 ">
-                                            <div className="0 p-3 rounded-sm">
+                                        <div className="w-full md:mx-2 ">
+                                            <div className="px-1 md:p-3 rounded-sm">
                                                 <div className="flex items-center pl-0 space-x-2 font-semibold text-gray-900 leading-8 mb-2">
                                                     <span className="tracking-wide"><MdTag className="inline font-semibold" /> {nullToNA(data?.headerTitle)}</span>
                                                 </div>
