@@ -65,7 +65,7 @@ const SamReciept = () => {
 
         "Simple Interest will be payable at the rate of 1% per month if any payable are not not paid within or before the specified time period (every quarter).",
 
-        "This tax assessment is being done on the basis of your self-determination and declaration made, this self-assessment-cum-deciaration can be conducted by the local corporation in due course of time and if the facts are found to be incorrect, the penalty prescribed in accordance with manual Condica 13.2 (Fine) and difference amount will be payable.",
+        "This tax assessment is being done on the basis of your self-determination and declaration made, this self-assessment-cum-declaration can be conducted by the local corporation in due course of time and if the facts are found to be incorrect, the penalty prescribed in accordance with manual Condica 13.2 (Fine) and difference amount will be payable.",
 
         "The property is collected by Ranchi Municipal Corporation does not confer any legal status on these buildings and / or its owners / occupiers Confers any legal right to.",
 

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, {lazy} from 'react'
 import * as yup from 'yup'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import { useEffect } from 'react'
@@ -14,7 +14,7 @@ import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps
 import moment from 'moment'
 import BarLoader from '@/Components/Common/BarLoader'
 import Modal from "react-modal";
-const ListTableConnect = React.lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
+const ListTableConnect = lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
 
 const PropSafSearchCollection = () => {
 
@@ -28,8 +28,11 @@ const PropSafSearchCollection = () => {
     const [wardList, setwardList] = useState()
     const [collectorList, setcollectorList] = useState()
     const [collectionData, setcollectionData] = useState(null)
+    const [dataList, setdataList] = useState(null)
+    const [totalAmount, settotalAmount] = useState(0)
     const [loader, setloader] = useState(false)
     const [collection, setcollection] = useState('')
+    const [index, setindex] = useState(null)
     const [requestBody, setrequestBody] = useState(null)// create this for list table connect
     const [changeData, setchangeData] = useState(0)// create this for list table connect
 
@@ -91,41 +94,50 @@ const PropSafSearchCollection = () => {
             paymentMode: ''
         },
         onSubmit: (values) => {
-            setcollection(values?.collType)
-            if (values?.collType == 'gbSaf') {
+        console.log('values =>  ', values)
+        setindex(null)
+            // setcollection(values?.collType)
+            // if (values?.collType == 'gbSaf') {
+            //     setrequestBody({
+            //         fromDate: formik.values.fromDate,
+            //         uptoDate: formik.values.uptoDate,
+            //         wardId: formik.values.wardId,
+            //         paymentMode: formik.values.paymentMode,
+            //     })
+            // } else {
                 setrequestBody({
-                    fromDate: formik.values.fromDate,
-                    uptoDate: formik.values.uptoDate,
-                    wardId: formik.values.wardId,
-                    paymentMode: formik.values.paymentMode,
-                })
-            } else {
-                setrequestBody({
+                    collectionType : formik.values.collType,
                     fromDate: formik.values.fromDate,
                     uptoDate: formik.values.uptoDate,
                     wardId: formik.values.wardId,
                     userId: formik.values.userId,
                     paymentMode: formik.values.paymentMode
                 })
-            }
-
+            // }
             setchangeData(prev => prev + 1)
         }
         , validationSchema
     })
 
+    console.log('getting data => ', dataList)
+
+    useEffect(() => {
+        settotalAmount(dataList?.totalAmt)
+    },[dataList, changeData])
+
     useEffect(() => {
         gettingCollectorList()
         gettingMasterList()
-        setcollection(formik.values?.collType)
-        setrequestBody({
-            fromDate: formik.values.fromDate,
-            uptoDate: formik.values.uptoDate,
-            wardId: formik.values.wardId,
-            userId: formik.values.userId,
-            paymentMode: formik.values.paymentMode
-        })
-        setchangeData(prev => prev + 1)
+        // setcollection(formik.values?.collType)
+        // setrequestBody({
+        //     collectionType : formik.values.collType,
+        //     fromDate: formik.values.fromDate,
+        //     uptoDate: formik.values.uptoDate,
+        //     wardId: formik.values.wardId,
+        //     userId: formik.values.userId,
+        //     paymentMode: formik.values.paymentMode
+        // })
+        // setchangeData(prev => prev + 1)
     }, [])
 
     const gettingMasterList = () => {
@@ -145,7 +157,7 @@ const PropSafSearchCollection = () => {
 
     const gettingCollectorList = () => {
 
-        setloader(true)
+        // setloader(true)
 
         axios.post(get_taxCollectorList, {}, ApiHeader())
             .then((res) => {
@@ -159,19 +171,23 @@ const PropSafSearchCollection = () => {
                 setloader(false)
             })
             .catch(err => (console.log('error getting collector list => ', err), setloader(false)))
+            .finally(() => setloader(false))
     }
 
-    const viewDetailFun = (id) => {
-        setloader(true)
-        axios.post(getCollectionData, {id : id}, ApiHeader())
-        .then((res) => {
-            res?.data?.status ?
-            (console.log('getting full data => ', res), setcollectionData(res?.data?.data), openModal())
-            :
-            console.log('getting false full data => ', res)
-        })
-        .catch((err) => console.log('getting error full data => ', err))
-        .finally(() => setloader(false))
+    const viewDetailFun = (ind) => {
+        // setloader(true)
+        // axios.post(getCollectionData, {id : id}, ApiHeader())
+        // .then((res) => {
+        //     res?.data?.status ?
+        //     (console.log('getting full data => ', res), setcollectionData(res?.data?.data), openModal())
+        //     :
+        //     console.log('getting false full data => ', res)
+        // })
+        // .catch((err) => console.log('getting error full data => ', err))
+        // .finally(() => setloader(false))
+        setindex(ind)
+        console.log('view data => ', dataList?.data[ind])
+        openModal()
     }
 
     const column = [
@@ -221,10 +237,10 @@ const PropSafSearchCollection = () => {
         },
         {
             Header : 'Action',
-            Cell : ({cell}) => (
+            Cell : ({row}) => (
                 <>
                     <div className='flex items-center justify-center w-full'>
-                        <button onClick={viewDetailFun(cell?.row?.original?.id)} className='px-2 py-1 bg-indigo-500 text-white text-sm hover:bg-indigo-600'>View</button>
+                        <button onClick={() => viewDetailFun(row?.index)} className='px-2 py-1 rounded-md bg-indigo-400 text-white text-sm hover:bg-indigo-600'>View</button>
                     </div>
                 </>
             )
@@ -505,7 +521,7 @@ const PropSafSearchCollection = () => {
 
                             <div className='flex items-center gap-1'>
                                 <label htmlFor="3">Gov. SAF</label>
-                            <input className='mt-1' type="checkbox" name="collType" id="3" value={'gbSaf'}/>
+                            <input className='mt-1' type="checkbox" name="collType" id="3" value={'gbsaf'}/>
                             </div>
                         </div>
                         <div className="col-span-12 text-start">
@@ -570,7 +586,7 @@ const PropSafSearchCollection = () => {
                                 }
                             </select>
                         </div>
-                        {/* <div className="col-span-12 text-end text-xs text-red-500">
+                        {/* <div className="col-span-12 text-end text-xs text-red-400">
                             select ward no to get collector name list
                         </div> */}
                     </div>}
@@ -594,23 +610,25 @@ const PropSafSearchCollection = () => {
                     </div>
 
                     <div className="w-full md:w-[20%] flex justify-start items-center">
-                        <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-500 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
+                        <button type="submit" className="flex flex-row items-center border border-green-600 bg-green-600 hover:bg-green-400 text-white hover:text-black shadow-lg rounded-sm text-sm font-semibold px-5 py-1 w-max"> <span className='mr-2'><RiFilter2Line /></span>Search</button>
                     </div>
 
                 </div>
             </form>
 
             {(collection != '' && collection != 'gbSaf') && <div className='w-full text-end'>
-                <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
+                <button className="font-semibold px-6 py-2 bg-indigo-400 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-140 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
             </div>}
 
             {
-                (requestBody != null && collection == 'gbSaf') &&
+                (requestBody != null) &&
                 <div className='relative'>
-                    <div className='absolute top-0 right-0'>
-                        Total Amount : {nullToZero()}
+                    <div className='absolute top-11 right-0'>
+                        Total Amount : <span className="font-semibold">{indianAmount(totalAmount)}</span>
                     </div>
                 <ListTableConnect
+                    getData={true}
+                    allData={(data) => setdataList(data)}
                     type='old' // if pagination is from laravel
                     api={searchCollection} // sending api
                     columns={column} // sending column
@@ -620,7 +638,7 @@ const PropSafSearchCollection = () => {
                 </div>
             }
 
-            {
+            {/* {
                 (requestBody != null && collection == 'gbSaf') &&
                 <ListTableConnect
                     type='old' // if pagination is from laravel
@@ -651,7 +669,7 @@ const PropSafSearchCollection = () => {
                     requestBody={requestBody} // sending body
                     changeData={changeData} // send action for new payload
                 />
-            }
+            } */}
 
             {/* {
                 (requestBody != null && collection != 'gbSaf') && 
@@ -673,12 +691,64 @@ const PropSafSearchCollection = () => {
                 contentLabel="Example Modal"
             >
 
-                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] mt-16 sm:h-[85vh] w-full relative border-2 border-indigo-500 bg-gray-50 px-6 py-4 h-[88vh] border-t-2 border-l-2 overflow-auto" >
+                <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[73%] mt-16 sm:h-max w-full relative border-2 border-indigo-400 bg-gray-40 px-6 py-4 h-[88vh] border-t-2 border-l-2 overflow-auto" >
                 
-                <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-full p-2 cursor-pointer" onClick={closeModal}>
+                <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-md px-2 text-xl cursor-pointer" onClick={closeModal}>
                     &times;
                 </div>
 
+                <div className="2xl:mt-6 mt-3 bg-indigo-400 text-white flex flex-row md:justify-evenly items-center justify-center uppercase text-base poppins mb-4 shadow-md py-2 rounded-md">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold poppins 2xl:text-xl text-base sm:text-lg">
+                View Details
+              </span>
+            </div>
+          </div>
+
+                    <div className='flex flex-col sm:flex-row gap-2 flex-wrap items-center justify-evenly w-full'>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Ward No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.ward_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Holding No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.holding_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">New Holding No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.new_holding_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">SAF No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.saf_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Owner Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.owner_name)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Mobile No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.mobile_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Payment (From-Upto) : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.from_upto_fy_qtr)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Transaction Date : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.tran_date)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Transaction Mode : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.transaction_mode)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Transaction Amount : </span><span className="col-span-6 items-center font-semibold">{indianAmount(dataList?.data[index]?.amount)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Cheque No. : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.cheque_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Bank Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.bank_name)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Branch Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.branch_name)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Collector Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.emp_name)}</span>
+                        </div>
+                    </div>
 
                 </div>
 
