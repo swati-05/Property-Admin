@@ -10,7 +10,7 @@ import { useState , useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ImUpload2 } from "react-icons/im";
-import ConcessionForm from "./ConcessionFormCheckbox";
+import ConcessionForm from "./ConcessionForm";
 import { TbWebhook } from "react-icons/tb";
 import 'animate.css'
 import { useFormik } from "formik";

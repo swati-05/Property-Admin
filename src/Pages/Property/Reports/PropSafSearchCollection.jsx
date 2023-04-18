@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React, { lazy } from 'react'
+import React, { lazy, useMemo } from 'react'
 import * as yup from 'yup'
 import PropertyApiList from '@/Components/ApiList/PropertyApiList'
 import { useEffect } from 'react'
@@ -27,7 +27,7 @@ const PropSafSearchCollection = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [wardList, setwardList] = useState()
     const [collectorList, setcollectorList] = useState()
-    const [collectionData, setcollectionData] = useState(null)
+    const [collectionData, setcollectionData] = useState([])
     const [dataList, setdataList] = useState(null)
     const [totalAmount, settotalAmount] = useState(0)
     const [loader, setloader] = useState(false)
@@ -105,6 +105,7 @@ const PropSafSearchCollection = () => {
             //         paymentMode: formik.values.paymentMode,
             //     })
             // } else {
+                setcollectionData(values?.collType)
             setrequestBody({
                 collectionType: formik.values.collType,
                 fromDate: formik.values.fromDate,
@@ -190,6 +191,20 @@ const PropSafSearchCollection = () => {
         openModal()
     }
 
+    // console.log('collection data =>', collectionData )
+
+    const matchProperty = ['property']
+    const matchSaf = ['saf']
+    const isProperty = useMemo(() => Array.isArray(collectionData) && collectionData.some(role => matchProperty.includes(role)), [matchProperty]);
+    const isSaf = useMemo(() => Array.isArray(collectionData) && collectionData.some(role => matchSaf.includes(role)), [matchSaf]);
+
+    const navigateFun2 = (val, type) => {
+        type == 'property' && navigate('/paymentReceipt/'+'holding')
+        type == 'saf' && navigate('/paymentReceipt/'+'saf')
+        type == 'gbsaf-holding' && navigate('/gb-saf-reciept/'+'holding')
+        type == 'gbsaf-saf' && navigate('/gb-saf-reciept/'+'saf')
+    }
+
     const column = [
         {
             Header: "S.No.",
@@ -240,249 +255,17 @@ const PropSafSearchCollection = () => {
         },
         {
             Header: 'Action',
-            Cell: ({ row }) => (
+            Cell: ({ cell }) => (
                 <>
-                    <div className='flex items-center justify-center w-full'>
-                        <button onClick={() => viewDetailFun(row?.index)} className='px-2 py-1 rounded-md bg-indigo-400 text-white text-sm hover:bg-indigo-600'>View</button>
+                    <div className='flex items-center justify-center gap-2 w-full'>
+                        <button onClick={() => viewDetailFun(cell?.row?.index)} className='px-2 py-1 rounded-md bg-indigo-500 text-white text-sm hover:bg-indigo-600'>View</button>
+                        {/* <button onClick={() => navigateFun2(cell?.row?.original?.tran_no, cell?.row?.original?.type)} className='px-2 py-1 rounded-md bg-indigo-400 text-white text-sm hover:bg-indigo-600'>Print</button> */}
                     </div>
                 </>
             )
         }
     ]
 
-    const propColumn = [
-        {
-            Header: "S.No.",
-            Cell: ({ row }) => <div>{row?.index + 1}</div>
-        },
-        {
-            Header: "Ward No",
-            accessor: "ward_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Property Tax No",
-            accessor: "pt_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Holding No",
-            accessor: "holding_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Unique House No",
-            accessor: "new_holding_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Owner Name",
-            accessor: "owner_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Mobile No",
-            accessor: "mobile_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Payment(From/Upto)",
-            accessor: "from_upto_fy_qtr",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-
-        {
-            Header: "Tran. Date",
-            accessor: "tran_date",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. Mode",
-            accessor: "transaction_mode",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Amount",
-            accessor: "amount",
-            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
-        },
-        {
-            Header: "Tax Collector",
-            accessor: "emp_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. No",
-            accessor: "tran_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Check/DD No",
-            accessor: "cheque_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Bank",
-            accessor: "bank_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Branch",
-            accessor: "branch_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        }
-    ]
-
-    const safColumn = [
-        {
-            Header: "S.No.",
-            Cell: ({ row }) => <div>{row?.index + 1}</div>
-        },
-        {
-            Header: "Ward No",
-            accessor: "ward_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Property Tax No",
-            accessor: "pt_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Holding No",
-            accessor: "holding_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Saf No",
-            accessor: "saf_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Owner Name",
-            accessor: "owner_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Mobile No",
-            accessor: "mobile_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Payment(From/Upto)",
-            accessor: "from_upto_fy_qtr",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-
-        {
-            Header: "Tran. Date",
-            accessor: "tran_date",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. Mode",
-            accessor: "transaction_mode",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Amount",
-            accessor: "amount",
-            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
-        },
-        {
-            Header: "Tax Collector",
-            accessor: "emp_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. No",
-            accessor: "tran_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Check/DD No",
-            accessor: "cheque_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Bank",
-            accessor: "bank_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Branch",
-            accessor: "branch_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        }
-    ]
-
-    const gbSafColumn = [
-        {
-            Header: "S.No.",
-            Cell: ({ row }) => <div>{row?.index + 1}</div>
-        },
-        {
-            Header: "Ward No",
-            accessor: "ward_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Application No.",
-            accessor: "application_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Address",
-            accessor: 'prop_address',
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Payment(From/Upto)",
-            accessor: "from_upto_fy_qtr",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-
-        {
-            Header: "Tran. Date",
-            accessor: "tran_date",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. Mode",
-            accessor: "transaction_mode",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Amount",
-            accessor: "amount",
-            Cell: (props) => { return <>{indianAmount(props?.value)}</> }
-        },
-        {
-            Header: "Tax Collector",
-            accessor: "emp_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Tran. No",
-            accessor: "tran_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Check/DD No",
-            accessor: "cheque_no",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Bank",
-            accessor: "bank_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        },
-        {
-            Header: "Branch",
-            accessor: "branch_name",
-            Cell: (props) => { return nullToNA(props?.value) }
-        }
-    ]
 
     const navigateFun = () => {
         collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
@@ -613,7 +396,8 @@ const PropSafSearchCollection = () => {
             </form>
 
             {(collection != '' && collection != 'gbSaf' && dataList?.data?.length > 1) && <div className='w-full text-end'>
-                <button className="font-semibold px-6 py-2 bg-indigo-400 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-140 ease-in-out shadow-xl border border-white" onClick={() => navigateFun()}>Payment Mode Wise Summary</button>
+            {isProperty && <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-140 ease-in-out shadow-xl border border-white mr-2" onClick={() => navigate('/payment-mode-wise-summary/property')}>Payment Mode Wise Property Summary</button>}
+                {isSaf && <button className="font-semibold px-6 py-2 bg-indigo-500 text-white  text-sm leading-tight uppercase rounded  hover:bg-indigo-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-140 ease-in-out shadow-xl border border-white" onClick={() => navigate('/payment-mode-wise-summary/saf')}>Payment Mode Wise SAF Summary</button>}
             </div>}
 
             {
@@ -669,7 +453,7 @@ const PropSafSearchCollection = () => {
                             <span className="col-span-6 items-center">Collector Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.emp_name)}</span>
                         </div>
 
-                        {dataList?.data[index]?.type == 'saf' && <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                        {dataList?.data[index]?.type != 'property' && <div className='w-full sm:w-[40%] grid grid-cols-12'>
                             <span className="col-span-6 items-center">Assesment Type : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.assessment_type)}</span>
                         </div>}
 
@@ -721,7 +505,7 @@ const PropSafSearchCollection = () => {
                             <span className="col-span-6 items-center">Branch Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.branch_name)}</span>
                         </div>
 
-                        {dataList?.data[index]?.type != 'saf' && <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                        {dataList?.data[index]?.type == 'property' && <div className='w-full sm:w-[40%] grid grid-cols-12'>
                         </div>}
 
                     </div>
