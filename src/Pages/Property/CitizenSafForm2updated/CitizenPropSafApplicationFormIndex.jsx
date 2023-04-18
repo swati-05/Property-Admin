@@ -100,8 +100,6 @@ import ServerErrorCard from '@/Components/Common/ServerErrorCard'
 import { nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import BottomErrorCard from '@/Components/Common/BottomErrorCard'
-import CitizenPropBasicDetail4 from './CitizenPropBasicDetail4'
-import { commonRule } from './AssesmentRules'
 
 function CitizenPropSafApplicationFormIndex() {
 
@@ -148,40 +146,9 @@ function CitizenPropSafApplicationFormIndex() {
     const [devMode, setdevMode] = useState(false);
     const [devModeVisibility, setdevModeVisibility] = useState(false);
 
-    const { safType, safId } = useParams()
-
-    // FOR DYNAMIC RULE IMPLEMENT 
-    const [rulesetStatus, setrulesetStatus] = useState({
-        landOccupationDate: false,
-        apartment: false
-    })
 
 
-    // CHECKING OR TOGGLING INPUT FIELDS AS PER PARENT INPUT CHANGE
-    const checkRuleSet = (parentInput, value) => {
 
-        // 1 PROPERTY TYPE DEPENDENTS(landOccupationDate,apartment)
-        if (parentInput === 'propertyType' && value === '4') {
-            setrulesetStatus({ ...rulesetStatus, landOccupationDate: true, apartment: false })
-        }
-        if (parentInput === 'propertyType' && value === '3') {
-            setrulesetStatus({ ...rulesetStatus, landOccupationDate: false, apartment: true })
-        }
-    }
-
-    const routeRuleSet = () => {
-        // 1 ASSESSMENT TYPE IS NEW ASSESSMENT
-        if (safType==='new') {
-           console.log('new Ass rule')
-        }
-        if (safType==='re') {
-           console.log('new Ass rule')
-        }
-    }
-
-    useEffect(() => {
-        routeRuleSet()
-    }, [])
 
 
 
@@ -321,6 +288,7 @@ function CitizenPropSafApplicationFormIndex() {
     let assTypeText = "NEW ASSESSMENT"
 
     //*receiving saf type 
+    const { safType, safId } = useParams()
     let title
     if (safType == 'new') { title = 'New-Assessment' }
     if (safType == 're') { title = 'Re-Assessment' }
@@ -1288,9 +1256,7 @@ function CitizenPropSafApplicationFormIndex() {
                                     {/* <LoaderComponent show={show} /> */}
                                     {formIndex < 8 && <>
                                         {formIndex == 1 && <div className={`animate__animated  animate__fadeInLeft`}>
-                                            <CitizenPropBasicDetail4
-                                                checkRuleSet={checkRuleSet}
-                                                rulesetStatus={rulesetStatus}
+                                            <CitizenPropBasicDetail3
                                                 wardList={wardList}
                                                 devData={devData}
                                                 setdevData={setdevData}
