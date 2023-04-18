@@ -11,11 +11,11 @@ function PermittedModuleCard(props) {
     const navigate = useNavigate()
 
     const [permittedModuleList, setpermittedModuleList] = useState([
-        { moduleName: 'Property', route: '/property', icon: home },
-        { moduleName: 'Water', route: '/water', icon: water },
-        { moduleName: 'Trade', route: '/trade', icon: team },
-        { moduleName: 'Advertisement', route: '/advertisement', icon: team },
-        { moduleName: 'Dashboard', route: '/dashboard', icon: piechart },
+        { moduleName: 'Property', route: '/property/transfer', icon: home },
+        { moduleName: 'Water', route: '/water/transfer', icon: water },
+        { moduleName: 'Trade', route: '/trade/transfer', icon: team },
+        { moduleName: 'Advertisement', route: '/advertisement/transfer', icon: team },
+        { moduleName: 'Dashboard', route: '/dashboard/transfer', icon: piechart },
     ])
     const swithModule = (route) => {
         window.location.replace(route)

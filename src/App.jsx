@@ -14,6 +14,7 @@ import ComparativeDemand from './Pages/Property/DetailsFactory/ComparativeDemand
 import WorkflowRoutes from './Pages/Workflow/WorkflowMaster/WorkflowRoutes';
 import BarLoader from './Components/Common/BarLoader';
 import { getLocalStorageItem } from './Components/Common/localstorage';
+import TransferPage from './Pages/Auth/TransferPage';
 
 // import CustomErrorBoundaryForRoutes from '@/Components/Errors/CustomErrorBoundaryForRoutes';
 // const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -247,6 +248,7 @@ function App(props) {
             <Routes>
               <Route index element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
               <Route path='/login' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
+              <Route path='/transfer' element={<TransferPage/>} />
               <Route path='/mobile-login' element={<MobileLogin />} />
               <Route path='/mobile-modules' element={<ModuleOption />} />
               <Route path='/mobile-property-options' element={<PropertyOptions />} />
