@@ -13,18 +13,19 @@ import ListTable2 from '@/Components/Common/ListTableMargin/ListTable2'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
 import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
-import { indianAmount, nullToNA } from '@/Components/Common/PowerUps/PowerupFunctions'
+import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 import moment from 'moment'
 
-const HoldingWiseRebate = () => {
+const HoldingWiseRebate = (props) => {
 
     const { get_MasterData, searchHoldingWiseRebate, yearList } = PropertyApiList()
 
-    useSetTitle('Holding Wise Rebate Report')
+    useSetTitle('Rebate and Interest')
 
     const [wardList, setwardList] = useState()
-    const [dataList, setdataList] = useState()
+    const [dataList, setdataList] = useState(null)
     const [yearData, setyearData] = useState()
+    const [totalData, settotalData] = useState(null)
     const [loader, setloader] = useState(false)
     const [propertyList, setpropertyList] = useState(null)
     const [requestBody, setrequestBody] = useState(null)// create this for list table connect
@@ -102,12 +103,12 @@ const HoldingWiseRebate = () => {
         },
         {
             Header: "Demand",
-            accessor: "total_demand",
+            accessor: "demand_amt",
             Cell: (props) => { return indianAmount(props?.value) }
         },
         {
             Header: "Amount Paid",
-            accessor: "paid_amt",
+            accessor: "paid_amount",
             Cell: (props) => { return indianAmount(props?.value) }
         },
         {
@@ -116,13 +117,18 @@ const HoldingWiseRebate = () => {
             Cell: (props) => { return indianAmount(props?.value) }
         },
         {
-            Header: "JSK (2.5%)",
-            accessor: "jsk_rebate",
+            Header: "JSK Rebate (2.5%)",
+            accessor: "jsk_rebate_amt",
             Cell: (props) => { return indianAmount(props?.value) }
         },
         {
-            Header: "Online (5%)",
-            accessor: "online_rebate",
+            Header: "Special Rebate (5%)",
+            accessor: "special_rebate_amt",
+            Cell: (props) => { return indianAmount(props?.value) }
+        },
+        {
+            Header: "Online Rebate (5%)",
+            accessor: "online_rebate_amt",
             Cell: (props) => { return indianAmount(props?.value) }
         },
         {
@@ -132,7 +138,7 @@ const HoldingWiseRebate = () => {
         },
         {
             Header: "1% Monthly Intrest",
-            accessor: "monthly_intrest",
+            accessor: "penalty_amt",
             Cell: (props) => { return indianAmount(props?.value) }
         },
     ]
@@ -145,7 +151,7 @@ const HoldingWiseRebate = () => {
 
                 <div className="flex flex-wrap flex-row justify-start w-full gap-x-6 gap-y-2 text-sm 3xl:text-base p-4 px-8">
 
-                <div className="flex flex-col w-full md:w-[20%]">
+                    <div className="flex flex-col w-full md:w-[20%]">
                         <div className="col-span-6 font-semibold">
                             Report Type :
                         </div>
@@ -267,9 +273,26 @@ const HoldingWiseRebate = () => {
                 </div>
             </form>
 
+            { dataList != null && 
+                <div className='bg-white p-2 rounded-md shadow-md mb-4 flex flex-wrap justify-evenly gap-y-2 gap-x-4'>
+
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Holding :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_holding_no)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Demand :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_demand_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Amount Paid :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_paid_amount)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total First Quarter Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_first_qtr_rebate)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total JSK Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_jsk_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Special Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_special_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Online Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_online_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_total_rebate)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total 1% Monthly Interest :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_penalty_amt)}</span></div>
+                </div>
+            }
+
             {
                 (requestBody != null) &&
                 <ListTableConnect
+                    getData={true}
+                    allData={(data) => setdataList(data)}
                     type='old' // if pagination is from laravel
                     api={searchHoldingWiseRebate} // sending api
                     columns={COLUMNS} // sending column
