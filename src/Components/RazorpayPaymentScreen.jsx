@@ -1,10 +1,12 @@
 import axios from "axios";
 import CitizenApplyApiList from "./CitizenApplyApiList";
+import { getLocalStorageItem } from "./Common/localstorage";
 
 const { verifyPaymentStatus } = CitizenApplyApiList();
 
 
-let token = window.localStorage.getItem('token')
+// let token = window.localStorage.getItem('token')
+let token = getLocalStorageItem('token')
 console.log('token at basic details is post method...', token)
 const header = {
     headers: {

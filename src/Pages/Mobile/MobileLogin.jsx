@@ -27,6 +27,7 @@ import ServerErrorCard from '@/Components/Errors/ServerErrorCard';
 import useSetToast from '@/Components/GlobalData/useSetToast';
 import ApiHeader from '@/Components/ApiList/ApiHeader';
 import useSetTitle from '@/Components/GlobalData/useSetTitle';
+import { setLocalStorageItem, setLocalStorageItemStrigified } from '@/Components/Common/localstorage';
 
 const { api_login } = ProjectApiList()
 
@@ -85,11 +86,15 @@ function MobileLogin(props) {
             .then(function (response) {
                 if (response.data.status == true) {
                     console.log('--2--login response...', response)
-                    window.localStorage.setItem('token', response?.data?.data?.token)
+                    // window.localStorage.setItem('token', response?.data?.data?.token)
+                    setLocalStorageItem('token', response?.data?.data?.token)
+                    setLocalStorageItem('ulbId', response?.data?.data?.userDetails?.ulbId)
                     // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.userDetails?.menuPermission))
                     // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    window.localStorage.setItem('userType', JSON.stringify(response?.data?.data?.userDetails?.userType))
-                    window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+                    // window.localStorage.setItem('userType', JSON.stringify(response?.data?.data?.userDetails?.userType))
+                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
+                    // setLocalStorageItemStrigified('userType', JSON.stringify(response?.data?.data?.userDetails?.userType))
+                    setLocalStorageItemStrigified('roles', response?.data?.data?.userDetails?.role)
 
                     ///*** setting the data to global container to use everywhere ***\\\
                     // setmenuList(response?.data?.data?.userDetails?.menuPermission)
@@ -98,6 +103,8 @@ function MobileLogin(props) {
 
                     // DEVICE TYPE TO AUTO LOGIN AND SEND TO MOBILE HOME PAGE
                     window.localStorage.setItem('device', 'mobile')
+                    setLocalStorageItem('device', 'mobile')
+
 
                     props.LOGIN() //set global login state to true
                     // fetchMenuList()
@@ -141,14 +148,22 @@ function MobileLogin(props) {
                 console.log('fetched menu list success.....', response?.data?.data)
                 // return
                 if (response.data.status == true) {
-                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
-                    window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.roles))
+                    // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
+                    // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.roles))
 
-                    window.localStorage.setItem('userUlbName', JSON.stringify(response?.data?.data?.userDetails?.ulb))
-                    window.localStorage.setItem('userMobile', JSON.stringify(response?.data?.data?.userDetails?.mobileNo))
-                    window.localStorage.setItem('userEmail', JSON.stringify(response?.data?.data?.userDetails?.email))
-                    window.localStorage.setItem('userImage', JSON.stringify(response?.data?.data?.userDetails?.imageUrl))
+                    // window.localStorage.setItem('userUlbName', JSON.stringify(response?.data?.data?.userDetails?.ulb))
+                    // window.localStorage.setItem('userMobile', JSON.stringify(response?.data?.data?.userDetails?.mobileNo))
+                    // window.localStorage.setItem('userEmail', JSON.stringify(response?.data?.data?.userDetails?.email))
+                    // window.localStorage.setItem('userImage', JSON.stringify(response?.data?.data?.userDetails?.imageUrl))
+
+                    setLocalStorageItemStrigified('menuList', response?.data?.data?.permission)
+                    setLocalStorageItemStrigified('userName', response?.data?.data?.userDetails?.userName)
+                    setLocalStorageItemStrigified('roles', response?.data?.data?.userDetails?.roles)
+                    setLocalStorageItemStrigified('userUlbName', response?.data?.data?.userDetails?.ulb)
+                    setLocalStorageItemStrigified('userMobile', response?.data?.data?.userDetails?.mobileNo)
+                    setLocalStorageItemStrigified('userEmail', response?.data?.data?.userDetails?.email)
+                    setLocalStorageItemStrigified('userImage', response?.data?.data?.userDetails?.imageUrl)
 
 
                     setmenuList(response?.data?.data?.permission)

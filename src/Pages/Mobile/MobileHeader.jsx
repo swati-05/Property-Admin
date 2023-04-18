@@ -18,6 +18,7 @@ import Modal from 'react-modal';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import NotificationComponent from './NotificationComponent'
+import { removeLocalstorageItem } from '@/Components/Common/localstorage';
 
 const customStyles = {
   content: {
@@ -81,11 +82,22 @@ function MobileHeader(props) {
 
   const logOutUser = () => {
     closeModal()
-    window.localStorage.removeItem('menuList')
-    window.localStorage.removeItem('userName')
-    window.localStorage.removeItem('roles')
-    window.localStorage.removeItem('token')
-    window.localStorage.removeItem('device')
+    // window.localStorage.removeItem('menuList')
+    // window.localStorage.removeItem('userName')
+    // window.localStorage.removeItem('roles')
+    // window.localStorage.removeItem('token')
+    // window.localStorage.removeItem('device')
+
+    removeLocalstorageItem('menuList')
+    removeLocalstorageItem('userName')
+    removeLocalstorageItem('roles')
+    removeLocalstorageItem('token')
+    removeLocalstorageItem('device')
+    removeLocalstorageItem('userMobile')
+    removeLocalstorageItem('userEmail')
+    removeLocalstorageItem('userImage')
+    removeLocalstorageItem('ulbId')
+    removeLocalstorageItem('userUlbName')
 
     props.LOGOUT()
 

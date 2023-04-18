@@ -24,6 +24,7 @@ import NotificationComponent from './NotificationComponent'
 import { TiArrowRightThick } from 'react-icons/ti'
 import { BsQuestionCircle } from 'react-icons/bs'
 import PermittedModuleCard from './PermittedModuleCard'
+import { removeLocalstorageItem } from '../localstorage'
 
 const customStyles = {
   content: {
@@ -89,11 +90,21 @@ function Header(props) {
 
   const logOutUser = () => {
     closeModal()
-    window.localStorage.removeItem('menuList')
-    window.localStorage.removeItem('userName')
-    window.localStorage.removeItem('roles')
-    window.localStorage.removeItem('token')
-    window.localStorage.removeItem('device')
+    removeLocalstorageItem('menuList')
+    removeLocalstorageItem('userName')
+    removeLocalstorageItem('roles')
+    removeLocalstorageItem('token')
+    removeLocalstorageItem('device')
+    removeLocalstorageItem('userMobile')
+    removeLocalstorageItem('userEmail')
+    removeLocalstorageItem('userImage')
+    removeLocalstorageItem('ulbId')
+    removeLocalstorageItem('userUlbName')
+    // window.localStorage.removeItem('menuList')
+    // window.localStorage.removeItem('userName')
+    // window.localStorage.removeItem('roles')
+    // window.localStorage.removeItem('token')
+    // window.localStorage.removeItem('device')
 
     props.LOGOUT()
 
