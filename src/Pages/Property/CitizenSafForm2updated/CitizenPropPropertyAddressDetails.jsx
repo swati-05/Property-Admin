@@ -189,7 +189,7 @@ function CitizenPropPropertyAddressDetails(props) {
         console.log('apartment...', typeof (values.apartment))
 
         // IF NOT APARTMENT THEN NEED TO GIVE BUILDING NAME
-        if (!props?.apartmentStatus && (values.buildingName == '' || values.buildingName == null) ) {
+        if (props?.safType == 'new' && !props?.apartmentStatus && (values.buildingName == '' || values.buildingName == null) ) {
             props?.activateBottomErrorCard(true, 'Please enter building name')
             return false
         }

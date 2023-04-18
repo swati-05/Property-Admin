@@ -393,6 +393,7 @@ function CitizenPropSafApplicationFormIndex() {
             zone: additionalDetails.zone,
             trustType: additionalDetails.trustType,
             isMobileTower: additionalDetails.mobileTowerStatus,
+            apartmentId:basicDetails?.apartment,
             mobileTower: {
                 area: additionalDetails.mobileTowerArea,
                 dateFrom: additionalDetails.mobileTowerDate
@@ -470,7 +471,7 @@ function CitizenPropSafApplicationFormIndex() {
 
 
             dateOfPurchase: '',
-            apartmentDetail: basicDetails.apartment,
+            apartmentId: payloadData.apartmentId,
             appartmentName: basicDetails.appartmentName,
             buildingName: propAddressDetails.buildingName,
             streetName: propAddressDetails.streetName,
