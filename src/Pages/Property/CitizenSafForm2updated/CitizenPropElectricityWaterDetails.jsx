@@ -122,26 +122,26 @@ function CitizenPropElectricityWaterDetails(props) {
                             {!formHide && <div className={`col-span-12 grid grid-cols-12  `}>
                                 <div className="form-group col-span-12 sm:col-span-3 mb-2 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Electricity K. No</label>
-                                    <input {...formik.getFieldProps('electricityKNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('electricityKNo')} type="text" className="cypress_electricityKNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter Electricity K. No" />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.electricityKNo && formik.errors.electricityKNo ? formik.errors.electricityKNo : null}</span>
                                 </div>
                                 <div className="col-span-12 text-red-400 font-semibold pl-28 font-mono text-lg mb-0 mt-0">or</div>
                                 <div className="form-group mb-6 col-span-12 sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">ACC No.</label>
-                                    <input {...formik.getFieldProps('accNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('accNo')} type="text" className="cypress_accNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter ACC No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.accNo && formik.errors.accNo ? formik.errors.accNo : null}</span>
                                 </div>
                                 <div className="form-group mb-6 col-span-12 sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">BIND/BOOK No.</label>
-                                    <input {...formik.getFieldProps('bindBookNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('bindBookNo')} type="text" className="cypress_bindBookNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter BIND/BOOK No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.bindBookNo && formik.errors.bindBookNo ? formik.errors.bindBookNo : null}</span>
                                 </div>
                                 <div className="form-group mb-6 col-span-12  sm:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Electricity Consumer Category</label>
-                                    <select {...formik.getFieldProps('electrictyConsumerNo')} className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <select {...formik.getFieldProps('electrictyConsumerNo')} className="cypress_electrictyConsumerNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                     >
                                         <option value="" >Select</option>
                                         <option value="DS I/II/III">DS I/II/III</option>
@@ -158,13 +158,13 @@ function CitizenPropElectricityWaterDetails(props) {
                             <div className='col-span-12 grid grid-cols-12'>
                                 <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Building Plan Approval No.</label>
-                                    <input {...formik.getFieldProps('bpApprovalNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('bpApprovalNo')} type="text" className="cypress_bpApprovalNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Enter Building Plan Approval No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.bpApprovalNo && formik.errors.bpApprovalNo ? formik.errors.bpApprovalNo : null}</span>
                                 </div>
                                 <div className="form-group mb-6 col-span-12 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Building Plan Approval Date</label>
-                                    <input {...formik.getFieldProps('bpApprovalDate')} type="date" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-300 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('bpApprovalDate')} type="date" className="cypress_bpApprovalDate form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-300 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                     />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.bpApprovalDate && formik.errors.bpApprovalDate ? formik.errors.bpApprovalDate : null}</span>
                                 </div>
@@ -174,20 +174,20 @@ function CitizenPropElectricityWaterDetails(props) {
                             <div className="col-span-12 grid grid-cols-12">
                                 <div className="form-group mb-6 col-span-12  sm:col-span-4 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Water Consumer No.</label>
-                                    <input {...formik.getFieldProps('waterConsumerNo')} type="text" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('waterConsumerNo')} type="text" className="cypress_waterConsumerNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                         placeholder="Water Consumer No." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.waterConsumerNo && formik.errors.waterConsumerNo ? formik.errors.waterConsumerNo : null}</span>
                                 </div>
                                 <div className="form-group mb-6 col-span-12  sm:col-span-4 md:col-span-3 md:px-4">
                                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Water Connection Date</label>
-                                    <input {...formik.getFieldProps('waterConnectionDate')} type="date" className="form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-300 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                                    <input {...formik.getFieldProps('waterConnectionDate')} type="date" className="cypress_waterConnectionDate form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-300 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                     />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.waterConnectionDate && formik.errors.waterConnectionDate ? formik.errors.waterConnectionDate : null}</span>
                                 </div>
                             </div>
                             <div className="col-span-4 grid grid-cols-2">
                                 <div className='md:px-10'>
-                                    <button onClick={() => props.backFun(3)} type="button" className=" px-6 py-2.5 bg-zinc-600 hover:bg-zinc-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
+                                    <button onClick={() => props.backFun(3)} type="button" className="cypress_back3_button px-6 py-2.5 bg-zinc-600 hover:bg-zinc-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
                                 </div>
                                 <div className='md:px-10 text-right'>
                                     <button type='submit' className="cypress_next3_button px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save & Next</button>

@@ -196,6 +196,7 @@ function CitizenPropSafApplicationFormIndex() {
         hoardingStatus: 0,
         petrolPumpStatus: 0,
         waterHarvestingStatus: 0,
+        waterHarvestingDate: '',
         mobileTowerArea: '',
         mobileTowerDate: '',
         hoardingArea: '',
@@ -266,11 +267,14 @@ function CitizenPropSafApplicationFormIndex() {
 
     // APT-4 FETCHING APARTMENTLIST IN CASE OF FLATS BY WARD NO
     const fetchApartmentByOldWard = (oldWardId) => {
+
+
         let requestBody = {
             wardMstrId: oldWardId,
         }
         console.log('before fetch apartment by old ward...', requestBody)
 
+        // return
         axios.post(api_getApartmentListByWard, requestBody, ApiHeader())
             .then(function (response) {
                 console.log('apartment list .... after fetch', response)
@@ -404,6 +408,7 @@ function CitizenPropSafApplicationFormIndex() {
                 dateFrom: additionalDetails.petrolPumpDate
             },
             isWaterHarvesting: additionalDetails.waterHarvestingStatus,
+            rwhDateFrom: additionalDetails.waterHarvestingDate,
             roadType: propAddressDetails.roadWidth,
             areaOfPlot: propAddressDetails.plotArea,
             owner: ownerDetails,
@@ -456,6 +461,7 @@ function CitizenPropSafApplicationFormIndex() {
                 dateFrom: payloadData.isPetrolPump == 1 ? payloadData?.petrolPump.dateFrom : ''
             },
             isWaterHarvesting: payloadData.isWaterHarvesting,
+            rwhDateFrom: payloadData.rwhDateFrom,
             roadType: payloadData.roadType,
             areaOfPlot: payloadData.areaOfPlot,
             owner: payloadData?.owner,
@@ -1257,6 +1263,7 @@ function CitizenPropSafApplicationFormIndex() {
                                     {formIndex < 8 && <>
                                         {formIndex == 1 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropBasicDetail3
+                                            activateBottomErrorCard={activateBottomErrorCard}
                                                 wardList={wardList}
                                                 devData={devData}
                                                 setdevData={setdevData}
@@ -1289,6 +1296,7 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 2 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropPropertyAddressDetails
+                                            activateBottomErrorCard={activateBottomErrorCard}
                                                 devData={devData}
                                                 setdevData={setdevData}
                                                 propAddressDetails={propAddressDetails}
@@ -1356,6 +1364,7 @@ function CitizenPropSafApplicationFormIndex() {
 
                                         {formIndex == 6 && <div className={`animate__animated  animate__fadeInLeft`}>
                                             <CitizenPropAdditionalDetails
+                                              activateBottomErrorCard={activateBottomErrorCard}
                                                 floorDetails={floorDetails}
                                                 devData={devData}
                                                 setdevData={setdevData}

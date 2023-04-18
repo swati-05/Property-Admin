@@ -244,7 +244,7 @@ function CitizenPropFloorDetails(props) {
     }
     const checkMinimumFloor = () => {
         if (floorList.length === 0) {
-            props?.activateBottomErrorCard(true,`Add minimum one floor`)
+            props?.activateBottomErrorCard(true, `Add minimum one floor`)
         } else {
             console.log('inside checkmin floor')
             // props.collectFormDataFun('floorDetails', floorList, floorPreviewList)
@@ -281,10 +281,10 @@ function CitizenPropFloorDetails(props) {
                     <div className="grid grid-cols-1 md:grid-cols-5 ">
                         <div className="col-span-5 grid grid-cols-3">
                             <div className='md:px-10'>
-                                <button onClick={() => props.backFun(5)} type="button" className=" px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
+                                <button onClick={() => props.backFun(5)} type="button" className="cypress_back5_button px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
                             </div>
                             <div className='md:px-4 text-center'>
-                               {props?.safType !=='bo-edit' && <button onClick={toggleForm} type="button" className=" px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Add Floor <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>}
+                                {props?.safType !== 'bo-edit' && <button onClick={toggleForm} type="button" className="cypress_addFloorForm px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight capitalize rounded shadow-md hover:text-white hover:bg-gray-700 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">Add Floor <BiAddToQueue className=' hidden md:inline font-semibold text-sm md:text-lg' /></button>}
                             </div>
                             <div className='md:px-10 text-right'>
                                 <button onClick={checkMinimumFloor} type="button" className="cypress_next5_button px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save</button>
@@ -305,7 +305,7 @@ function CitizenPropFloorDetails(props) {
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Builtup Area (Sqt)</th>
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">From Date</th>
                                 <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Upto Date</th>
-                               {props?.safType !=='bo-edit' && <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Action</th>}
+                                {props?.safType !== 'bo-edit' && <th className="px-2 py-3 w-28 border-b border-gray-200 text-gray-800  text-xs capitalize text-left">Action</th>}
                             </tr>
                         </thead>
                         <tbody className="text-sm">
@@ -320,8 +320,10 @@ function CitizenPropFloorDetails(props) {
                                             <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.constructionType)}</td>
                                             <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.buildupArea)}</td>
                                             <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.dateFrom)}</td>
-                                            <td className="px-2 py-2 text-sm text-left"> { nullToNA(data?.dateUpto)}</td>
-                                            {props?.safType !=='bo-edit' && <td className="px-2 py-2 text-sm text-left"><TbEdit onClick={() => editFloor(index)} className='inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150' />
+                                            <td className="px-2 py-2 text-sm text-left"> {nullToNA(data?.dateUpto)}</td>
+                                            {props?.safType !== 'bo-edit' && <td className="px-2 py-2 text-sm text-left"><button className={`cypress_editButton_${index}`} onClick={() => editFloor(index)}>
+                                                <TbEdit  className={` inline text-green-500 font-semibold text-lg cursor-pointer hover:text-green-700 relative hover:scale-150`} />
+                                            </button>
                                                 {/* HIDE REMOVE OPTION IF PREVIOUS FLOOR IN CASE OF RE-ASSESSMENT */}
                                                 {props?.safType == 're' && index >= props?.oldFloorDetailsCount && <RiDeleteBack2Line onClick={() => removeFloor(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' />}
                                                 {props?.safType != 're' && <RiDeleteBack2Line onClick={() => removeFloor(index)} className='inline ml-2 text-red-400 font-semibold text-lg cursor-pointer hover:text-red-700 relative hover:scale-150' />}
@@ -355,7 +357,7 @@ function CitizenPropFloorDetails(props) {
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold ">
                                             Floor No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <select disabled={inputConditionState?.floorNo?.readOnly} ref={floorNoRef} {...formik.getFieldProps('floorNo')} className={`cypress_floor_no form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.floorNo?.style}`}
+                                        <select disabled={inputConditionState?.floorNo?.readOnly} ref={floorNoRef} {...formik.getFieldProps('floorNo')} className={`cypress_floorNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.floorNo?.style}`}
                                             aria-describedby="emailHelp" >
                                             <option value="" >Select</option>
                                             {
@@ -369,7 +371,7 @@ function CitizenPropFloorDetails(props) {
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Usage Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <select disabled={inputConditionState?.useType?.readOnly} ref={useTypeRef} {...formik.getFieldProps('useType')} className={`cypress_usage_type form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.useType?.style}`} >
+                                        <select disabled={inputConditionState?.useType?.readOnly} ref={useTypeRef} {...formik.getFieldProps('useType')} className={`cypress_useType form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.useType?.style}`} >
                                             <option value="" >Select</option>
                                             {
                                                 props?.preFormData?.usage_type.map((data) => (
@@ -381,7 +383,7 @@ function CitizenPropFloorDetails(props) {
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Occupancy Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <select disabled={inputConditionState?.occupancyType?.readOnly} ref={occupancyTypeRef} {...formik.getFieldProps('occupancyType')} className={`cypress_occupancy_type form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.occupancyType?.style}`}>
+                                        <select disabled={inputConditionState?.occupancyType?.readOnly} ref={occupancyTypeRef} {...formik.getFieldProps('occupancyType')} className={`cypress_occupancyType form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.occupancyType?.style}`}>
                                             <option value="" >Select</option>
                                             {
                                                 props?.preFormData?.occupancy_type.map((data) => (
@@ -393,7 +395,7 @@ function CitizenPropFloorDetails(props) {
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Construction Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <select disabled={inputConditionState?.constructionType?.readOnly} ref={constructionTypeRef} {...formik.getFieldProps('constructionType')} className={`cypress_construction_type form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.constructionType?.style}`}
+                                        <select disabled={inputConditionState?.constructionType?.readOnly} ref={constructionTypeRef} {...formik.getFieldProps('constructionType')} className={`cypress_constructionType form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.constructionType?.style}`}
                                             placeholder="Enter guardian name" >
                                             <option value="" >Select</option>
                                             {
@@ -406,17 +408,17 @@ function CitizenPropFloorDetails(props) {
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Built Up Area (in Sq. Ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <input disabled={inputConditionState?.buildupArea?.readOnly} {...formik.getFieldProps('buildupArea')} type="text" className={`cypress_builtup_area form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.buildupArea?.style}`} />
+                                        <input disabled={inputConditionState?.buildupArea?.readOnly} {...formik.getFieldProps('buildupArea')} type="text" className={`cypress_buildupArea form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md ${inputConditionState?.buildupArea?.style}`} />
                                         <span className="text-red-600 absolute text-xs">{formik.touched.buildupArea && formik.errors.buildupArea ? formik.errors.buildupArea : null}</span>
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">From Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                        <input disabled={inputConditionState?.dateFrom?.readOnly} {...formik.getFieldProps('dateFrom')} type="date" className={`cypress_construction_date_from form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.dateFrom?.style}`} placeholder='Enter dateFrom no' />
+                                        <input disabled={inputConditionState?.dateFrom?.readOnly} {...formik.getFieldProps('dateFrom')} type="date" className={`cypress_dateFrom form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.dateFrom?.style}`} placeholder='Enter dateFrom no' />
                                         <span className="text-red-600 absolute text-xs">{formik.touched.dateFrom && formik.errors.dateFrom ? formik.errors.dateFrom : null}</span>
                                     </div>
                                     <div className="form-group col-span-12 mb-3 md:px-4">
                                         <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Upto Date (Leave blank for current date)</label>
-                                        <input disabled={inputConditionState?.uptoDate?.readOnly}  {...formik.getFieldProps('dateUpto')} type="date" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.uptoDate?.style}`}
+                                        <input disabled={inputConditionState?.uptoDate?.readOnly}  {...formik.getFieldProps('dateUpto')} type="date" className={`cypress_dateUpto form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm  font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md ${inputConditionState?.uptoDate?.style}`}
                                             placeholder="Enter dateUpto no." />
                                         <span className="text-red-600 absolute text-xs">{formik.touched.dateUpto && formik.errors.dateUpto ? formik.errors.dateUpto : null}</span>
                                     </div>

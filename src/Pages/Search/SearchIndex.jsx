@@ -234,7 +234,7 @@ function SearchIndex() {
                 {...formik.getFieldProps('filterBy')}
                 // onChange={formik.handleChange}
                 // onClick={(e) => setSearchBy(e.target.values)}
-                className="cursor-pointer w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                className="cypress_filterBy cursor-pointer w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
               >
                 <option value="">Select</option>
                 <option value="ptn">Property Tax No</option>
@@ -278,7 +278,7 @@ function SearchIndex() {
               <input
                 type="text"
                 {...formik.getFieldProps('parameter')}
-                className=" w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
+                className="cypress_parameter w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
               />
               <p className="text-red-500 text-xs">
                 {formik.touched.parameter && formik.errors.parameter
@@ -289,7 +289,7 @@ function SearchIndex() {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full border rounded-md border-indigo-700 bg-indigo-600 hover:bg-indigo-700 text-white  shadow-lg text-base font-semibold px-5 sm:m-3 py-1"
+                className="cypress_submit_holding_search w-full border rounded-md border-indigo-700 bg-indigo-600 hover:bg-indigo-700 text-white  shadow-lg text-base font-semibold px-5 sm:m-3 py-1"
               >
                 {" "}
                 <p className="flex">

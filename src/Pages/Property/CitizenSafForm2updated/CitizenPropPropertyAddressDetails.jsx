@@ -171,6 +171,10 @@ function CitizenPropPropertyAddressDetails(props) {
         },
 
         onSubmit: (values, resetForm) => {
+            let ruleOk = checkRuleSet(values)
+            if (!ruleOk) {
+                return
+            }
             console.log('propertyaddressdetails ', values)
             props?.setpropAddressDetails(values)
             // props.collectFormDataFun('propertyAddressDetails', values) //sending PropertyAddressDetails data to parent to store all form data at one container
@@ -178,6 +182,20 @@ function CitizenPropPropertyAddressDetails(props) {
         }
         , validationSchema
     })
+
+    const checkRuleSet = (values) => {
+        console.log('inside rulecheck...')
+        console.log('property type...', values.propertyType)
+        console.log('apartment...', typeof (values.apartment))
+
+        // IF NOT APARTMENT THEN NEED TO GIVE BUILDING NAME
+        if (!props?.apartmentStatus && (values.buildingName == '' || values.buildingName == null) ) {
+            props?.activateBottomErrorCard(true, 'Please enter building name')
+            return false
+        }
+       
+        return true
+    }
     const handleChange = (e) => {
         let name = e.target.name
         let value = e.target.value
@@ -311,32 +329,32 @@ function CitizenPropPropertyAddressDetails(props) {
                         <div className="col-span-4 grid grid-cols-1 md:grid-cols-5">
                             <div className="form-group col-span-4 md:col-span-1 mb-6 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Khata No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.khataNo?.readOnly}  {...formik.getFieldProps('khataNo')} type="text" className={`cypress_khata_no form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.khataNo?.style}`}
+                                <input disabled={inputConditionState?.khataNo?.readOnly}  {...formik.getFieldProps('khataNo')} type="text" className={`cypress_khataNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.khataNo?.style}`}
                                     placeholder="Enter Khata No." />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.khataNo && formik.errors.khataNo ? formik.errors.khataNo : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Plot No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.plotNo?.readOnly} {...formik.getFieldProps('plotNo')} type="text" className={`cypress_plot_no form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.plotNo?.style}`}
+                                <input disabled={inputConditionState?.plotNo?.readOnly} {...formik.getFieldProps('plotNo')} type="text" className={`cypress_plotNo form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.plotNo?.style}`}
                                     placeholder="Enter Plot No." />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.plotNo && formik.errors.plotNo ? formik.errors.plotNo : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Village/Mauja Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.village_mauja?.readOnly} {...formik.getFieldProps('village_mauja')} type="text" className={`cypress_village form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.village_mauja?.style}`}
+                                <input disabled={inputConditionState?.village_mauja?.readOnly} {...formik.getFieldProps('village_mauja')} type="text" className={`cypress_village_mauja form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.village_mauja?.style}`}
                                     placeholder="Enter Village/Mauja Name" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.village_mauja && formik.errors.village_mauja ? formik.errors.village_mauja : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Area of Plot (in Decimal)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.plotArea?.readOnly} {...formik.getFieldProps('plotArea')} type="text" className={`cypress_plot_area form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.plotArea?.style}`}
+                                <input disabled={inputConditionState?.plotArea?.readOnly} {...formik.getFieldProps('plotArea')} type="text" className={`cypress_plotArea form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.plotArea?.style}`}
                                     placeholder="EnterArea of Plot." />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.plotArea && formik.errors.plotArea ? formik.errors.plotArea : null}</span>
                             </div>
 
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Road Width (in ft)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small> </label>
-                                <input disabled={inputConditionState?.roadWidth?.readOnly} {...formik.getFieldProps('roadWidth')} type="text" className={`cypress_road_width form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.roadWidth?.style}`}
+                                <input disabled={inputConditionState?.roadWidth?.readOnly} {...formik.getFieldProps('roadWidth')} type="text" className={`cypress_roadWidth form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.roadWidth?.style}`}
                                     placeholder="Enter Road Width" />
                                 <label className='hidden'><small className=" mt-1 text-xs inline text-red-400 leading-tight">In Case of No Road Enter "0" (For Vacant Land Only)</small></label>
                                 <span className="text-red-600 absolute text-xs">{formik.touched.roadWidth && formik.errors.roadWidth ? formik.errors.roadWidth : null}</span>
@@ -377,26 +395,26 @@ function CitizenPropPropertyAddressDetails(props) {
                             {/* EXTRA DETAILS ADDED */}
                             {!props?.apartmentStatus && <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Building Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.buildingName?.readOnly} {...formik.getFieldProps('buildingName')} type="text" className={`cypress_pin form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.buildingName?.style}`}
-                                    placeholder="Enter Pin no." />
+                                <input disabled={inputConditionState?.buildingName?.readOnly} {...formik.getFieldProps('buildingName')} type="text" className={`cypress_buildingName form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.buildingName?.style}`}
+                                    placeholder="Enter building name." />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.buildingName && formik.errors.buildingName ? formik.errors.buildingName : null}</span>
                             </div>}
 
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Street Name<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.streetName?.readOnly} {...formik.getFieldProps('streetName')} type="text" className={`cypress_pin form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.streetName?.style}`}
+                                <input disabled={inputConditionState?.streetName?.readOnly} {...formik.getFieldProps('streetName')} type="text" className={`cypress_streetName form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.streetName?.style}`}
                                     placeholder="Enter street name" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.streetName && formik.errors.streetName ? formik.errors.streetName : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Location<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.location2?.readOnly} {...formik.getFieldProps('location2')} type="text" className={`cypress_pin form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.location2?.style}`}
+                                <input disabled={inputConditionState?.location2?.readOnly} {...formik.getFieldProps('location2')} type="text" className={`cypress_location2 form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.location2?.style}`}
                                     placeholder="Enter location." />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.location2 && formik.errors.location2 ? formik.errors.location2 : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Landmark<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.landmark?.readOnly} {...formik.getFieldProps('landmark')} type="text" className={`cypress_pin form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.landmark?.style}`}
+                                <input disabled={inputConditionState?.landmark?.readOnly} {...formik.getFieldProps('landmark')} type="text" className={`cypress_landmark form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.landmark?.style}`}
                                     placeholder="Enter landmark" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.landmark && formik.errors.landmark ? formik.errors.landmark : null}</span>
                             </div>
@@ -404,13 +422,13 @@ function CitizenPropPropertyAddressDetails(props) {
 
                             <div className="form-group mb-6 col-span-4 md:col-span-4 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Property Address (enter full postal address)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.locality?.readOnly} {...formik.getFieldProps('locality')} type="text" className={`cypress_address form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.locality?.style}`}
+                                <input disabled={inputConditionState?.locality?.readOnly} {...formik.getFieldProps('locality')} type="text" className={`cypress_locality form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.locality?.style}`}
                                     placeholder="Enter Property Address" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.locality && formik.errors.locality ? formik.errors.locality : null}</span>
                             </div>
                             <div className="form-group col-span-4 form-check mb-2 md:px-4 flex items-center">
                                 <input {...formik.getFieldProps('addressCheckbox')} type="checkbox"
-                                    className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
+                                    className="cypress_addressCheckbox w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
                                 />
                                 <label className="form-check-label text-gray-800 ml-2"> <span className='inline text-red-400 text-sm font-semibold'>Note : </span><small className="mt-1 text-sm text-red-300 inline">If Corresponding Address is same as Property Address (Please Tick)</small></label>
                             </div>
@@ -425,31 +443,31 @@ function CitizenPropPropertyAddressDetails(props) {
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">City<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.c_city?.readOnly} {...formik.getFieldProps('c_city')} type="text" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_city?.style}`}
+                                <input disabled={inputConditionState?.c_city?.readOnly} {...formik.getFieldProps('c_city')} type="text" className={`cypress_c_city form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_city?.style}`}
                                     placeholder="Enter City" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.c_city && formik.errors.c_city ? formik.errors.c_city : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">District<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.c_district?.readOnly} {...formik.getFieldProps('c_district')} type="text" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_district?.style}`}
+                                <input disabled={inputConditionState?.c_district?.readOnly} {...formik.getFieldProps('c_district')} type="text" className={`cypress_c_district form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_district?.style}`}
                                     placeholder="Enter District" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.c_district && formik.errors.c_district ? formik.errors.c_district : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">State<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.c_state?.readOnly} {...formik.getFieldProps('c_state')} type="text" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_state?.style}`}
+                                <input disabled={inputConditionState?.c_state?.readOnly} {...formik.getFieldProps('c_state')} type="text" className={`cypress_c_state form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_state?.style}`}
                                     placeholder="Enter State" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.c_state && formik.errors.c_state ? formik.errors.c_state : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-1 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Pin<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.c_pin?.readOnly} {...formik.getFieldProps('c_pin')} type="text" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_pin?.style}`}
+                                <input disabled={inputConditionState?.c_pin?.readOnly} {...formik.getFieldProps('c_pin')} type="text" className={`cypress_c_pin form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.c_pin?.style}`}
                                     placeholder="Enter Pin" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.c_pin && formik.errors.c_pin ? formik.errors.c_pin : null}</span>
                             </div>
                             <div className="form-group mb-6 col-span-4 md:col-span-4 md:px-4">
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Address <span className='font-normal'>(enter full postal address)<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></span></label>
-                                <input disabled={inputConditionState?.c_locality?.readOnly} {...formik.getFieldProps('c_locality')} type="text" className={`form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.locality?.style}`}
+                                <input disabled={inputConditionState?.c_locality?.readOnly} {...formik.getFieldProps('c_locality')} type="text" className={`cypress_c_locality form-control block w-full px-3 2xl:py-1.5 py-1 2xl:text-base text-sm font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md ${inputConditionState?.locality?.style}`}
                                     placeholder="Enter Address" />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.c_locality && formik.errors.c_locality ? formik.errors.c_locality : null}</span>
                             </div>
@@ -458,7 +476,7 @@ function CitizenPropPropertyAddressDetails(props) {
 
                         <div className="col-span-4 grid grid-cols-2">
                             <div className='md:px-4'>
-                                <button onClick={() => props.backFun(2)} type="button" className=" px-6 py-2.5 bg-zinc-600 hover:bg-zinc-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
+                                <button onClick={() => props.backFun(2)} type="button" className="cypress_back2_button px-6 py-2.5 bg-zinc-600 hover:bg-zinc-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
                             </div>
                             <div className='md:px-10 text-right'>
                                 <button type="submit" className="cypress_next2_button px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save & Next</button>

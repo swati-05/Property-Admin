@@ -35,6 +35,7 @@ function CitizenPropAdditionalDetails(props) {
 
     const [mobileTowerStatusToggle, setMobileTowerStatusToggle] = useState(false)
     const [hoardingStatusToggle, setHoardingStatusToggle] = useState(false)
+    const [waterHarvestingDateStatus, setwaterHarvestingDateStatus] = useState(false)
     const [isTrust, setisTrust] = useState(false)
     const [petrolPumpStatusToggle, setPetrolPumpStatusToggle] = useState(false)
     // const [dynamicValidationSchema, setdynamicValidationSchema] = useState(false)
@@ -50,7 +51,8 @@ function CitizenPropAdditionalDetails(props) {
         hoardingStatus: yup.string().required('Select hoarding status'),
         petrolPumpStatus: yup.string().required('Select petrol pump status'),
         waterHarvestingStatus: yup.string().required('Select water harvesting status'),
-        mobileTowerArea: yup.string('enter numbers only').when('mobileTowerStatus', {
+        waterHarvestingDate: yup.string(),
+        mobileTowerArea: yup.string().when('mobileTowerStatus', {
             is: '1',
             then: yup.string().required('Field is required')
         }),
@@ -86,6 +88,7 @@ function CitizenPropAdditionalDetails(props) {
         hoardingStatus: '0',
         petrolPumpStatus: '0',
         waterHarvestingStatus: '0',
+        waterHarvestingDate: '',
         mobileTowerArea: '',
         hoardingArea: '',
         petrolPumpArea: '',
@@ -97,6 +100,10 @@ function CitizenPropAdditionalDetails(props) {
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values, resetForm) => {
+            let ruleOk = checkRuleSet(values)
+            if (!ruleOk) {
+                return
+            }
             console.log('additionalDetails deatils at submit ', values)
             props?.setadditionalDetails(values)
             props?.setadditionalDetailsPreview(basicViewForm)
@@ -106,6 +113,19 @@ function CitizenPropAdditionalDetails(props) {
         , validationSchema
     })
 
+    const checkRuleSet = (values) => {
+        console.log('inside rulecheck...')
+        console.log('property type...', values.propertyType)
+        console.log('apartment...', typeof (values.apartment))
+
+        // IF NOT APARTMENT THEN NEED TO GIVE BUILDING NAME
+        if (isTrust && (values.trustType == '' || values.trustType == null) ) {
+            props?.activateBottomErrorCard(true, 'Please select trust type')
+            return false
+        }
+       
+        return true
+    }
 
     const seleOptions = [
         { option: 'one', value: 1 },
@@ -123,6 +143,7 @@ function CitizenPropAdditionalDetails(props) {
         { name == 'mobileTowerStatus' && ((value == '1') ? setMobileTowerStatusToggle(true) : setMobileTowerStatusToggle(false)) }
         { name == 'hoardingStatus' && ((value == '1') ? setHoardingStatusToggle(true) : setHoardingStatusToggle(false)) }
         { name == 'petrolPumpStatus' && ((value == '1') ? setPetrolPumpStatusToggle(true) : setPetrolPumpStatusToggle(false)) }
+        { name == 'waterHarvestingStatus' && ((value == '1') ? setwaterHarvestingDateStatus(true) : setwaterHarvestingDateStatus(false)) }
 
         //* Collecting basic details to preview
         if (event.target.type == 'select-one') {
@@ -291,7 +312,7 @@ function CitizenPropAdditionalDetails(props) {
                             <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                 <label className={`form-label inline-block mb-2 text-gray-600 text-sm font-semibold`}>Property has Mobile Tower(s) ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
 
-                                <select disabled={inputConditionState?.mobileTowerStatus?.readOnly} name='mobileTowerStatus' value={formik.values.mobileTowerStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_mobile_tower_status ${inputConditionState?.mobileTowerStatus?.style}`} onChange={formik.handleChange}
+                                <select disabled={inputConditionState?.mobileTowerStatus?.readOnly} name='mobileTowerStatus' value={formik.values.mobileTowerStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_mobileTowerStatus ${inputConditionState?.mobileTowerStatus?.style}`} onChange={formik.handleChange}
                                 >
                                     <option value="" >Select</option>
 
@@ -305,14 +326,14 @@ function CitizenPropAdditionalDetails(props) {
                             {mobileTowerStatusToggle && <>
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                     <label className="form-label inline-block mb-2 text-gray-600 text-xs font-normal">Total Tower Area<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.mobileTowerArea?.readOnly} {...formik.getFieldProps('mobileTowerArea')} type="text" className={`${commonInputStyleUpdated} ${inputConditionState?.mobileTowerArea?.style}`} />
+                                    <input disabled={inputConditionState?.mobileTowerArea?.readOnly} {...formik.getFieldProps('mobileTowerArea')} type="text" className={`cypress_mobileTowerArea ${commonInputStyleUpdated} ${inputConditionState?.mobileTowerArea?.style}`} />
 
                                     <span className="text-red-600 absolute text-xs">{formik.touched.mobileTowerArea && formik.errors.mobileTowerArea ? formik.errors.mobileTowerArea : null}</span>
                                 </div>
 
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                     <label className="form-label inline-block mb-2 text-gray-600 text-xs font-normal">Tower Installation Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.mobileTowerDate?.readOnly} {...formik.getFieldProps('mobileTowerDate')} type="date" className={`${commonInputStyleUpdated} ${inputConditionState?.mobileTowerDate?.style}`} placeholder='dd-mm-yyyy' min={'2021-05-20'} max={'2024-05-25'}
+                                    <input disabled={inputConditionState?.mobileTowerDate?.readOnly} {...formik.getFieldProps('mobileTowerDate')} type="date" className={`cypress_mobileTowerDate ${commonInputStyleUpdated} ${inputConditionState?.mobileTowerDate?.style}`} placeholder='dd-mm-yyyy' min={'2021-05-20'} max={'2024-05-25'}
                                     />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.mobileTowerDate && formik.errors.mobileTowerDate ? formik.errors.mobileTowerDate : null}</span>
 
@@ -320,7 +341,7 @@ function CitizenPropAdditionalDetails(props) {
                             </>}
                             <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                 <label className={`form-label inline-block mb-2 text-gray-600 text-sm font-semibold`}>Property has Hoarding Board(s) ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.hoardingStatus?.readOnly} {...formik.getFieldProps('hoardingStatus')} value={formik.values.hoardingStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_hoarding_status ${inputConditionState?.hoardingStatus?.style}`}
+                                <select disabled={inputConditionState?.hoardingStatus?.readOnly} {...formik.getFieldProps('hoardingStatus')} value={formik.values.hoardingStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_hoardingStatus ${inputConditionState?.hoardingStatus?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     <option value="0" >No</option>
@@ -334,13 +355,13 @@ function CitizenPropAdditionalDetails(props) {
                             {hoardingStatusToggle && <>
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                     <label className="form-label inline-block mb-2 text-gray-600 text-xs font-normal">Hoarding Area<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.hoardingArea?.readOnly} {...formik.getFieldProps('hoardingArea')} type="text" className={`${commonInputStyleUpdated} ${inputConditionState?.hoardingArea?.style}`} />
+                                    <input disabled={inputConditionState?.hoardingArea?.readOnly} {...formik.getFieldProps('hoardingArea')} type="text" className={`cypress_hoardingArea ${commonInputStyleUpdated} ${inputConditionState?.hoardingArea?.style}`} />
 
                                     <span className="text-red-600 absolute text-xs">{formik.touched.hoardingArea && formik.errors.hoardingArea ? formik.errors.hoardingArea : null}</span>
                                 </div>
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                     <label className="form-check-label text-gray-800"><small className="mt-1 text-xs text-gray-600 inline ">Hoarding Installation Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></small></label>
-                                    <input disabled={inputConditionState?.hoardingDate?.readOnly} {...formik.getFieldProps('hoardingDate')} type="date" className={`${commonInputStyleUpdated} ${inputConditionState?.hoardingDate?.style}`}
+                                    <input disabled={inputConditionState?.hoardingDate?.readOnly} {...formik.getFieldProps('hoardingDate')} type="date" className={`cypress_hoardingDate ${commonInputStyleUpdated} ${inputConditionState?.hoardingDate?.style}`}
                                     />
 
                                     <span className="text-red-600 absolute text-xs">{formik.touched.hoardingDate && formik.errors.hoardingDate ? formik.errors.hoardingDate : null}</span>
@@ -348,7 +369,7 @@ function CitizenPropAdditionalDetails(props) {
                             </>}
                             <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                 <label className={`form-label inline-block mb-2 text-gray-600 text-sm font-semibold`}>Property a Petrol Pump ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.petrolPumpStatus?.readOnly} {...formik.getFieldProps('petrolPumpStatus')} value={formik.values.petrolPumpStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_petrol_pump_status ${inputConditionState?.petrolPumpStatus?.style}`}
+                                <select disabled={inputConditionState?.petrolPumpStatus?.readOnly} {...formik.getFieldProps('petrolPumpStatus')} value={formik.values.petrolPumpStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_petrolPumpStatus ${inputConditionState?.petrolPumpStatus?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     <option value="0" >No</option>
@@ -363,14 +384,14 @@ function CitizenPropAdditionalDetails(props) {
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
 
                                     <label className="form-label inline-block mb-2 text-gray-600 text-xs font-normal">Petrol Pump Area<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                    <input disabled={inputConditionState?.petrolPumpArea?.readOnly} {...formik.getFieldProps('petrolPumpArea')} type="text" className={`${commonInputStyleUpdated} ${inputConditionState?.petrolPumpArea?.style}`} />
+                                    <input disabled={inputConditionState?.petrolPumpArea?.readOnly} {...formik.getFieldProps('petrolPumpArea')} type="text" className={`cypress_petrolPumpArea ${commonInputStyleUpdated} ${inputConditionState?.petrolPumpArea?.style}`} />
 
                                     <span className="text-red-600 absolute text-xs">{formik.touched.petrolPumpArea && formik.errors.petrolPumpArea ? formik.errors.petrolPumpArea : null}</span>
 
                                 </div>
                                 <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                     <label className="form-check-label text-gray-800"><small className="mt-1 text-xs text-gray-600 inline ">Petrol Pump Completion Date</small></label>
-                                    <input disabled={inputConditionState?.petrolPumpDate?.readOnly} {...formik.getFieldProps('petrolPumpDate')} type="date" className={`${commonInputStyleUpdated} ${inputConditionState?.petrolPumpDate?.style}`}
+                                    <input disabled={inputConditionState?.petrolPumpDate?.readOnly} {...formik.getFieldProps('petrolPumpDate')} type="date" className={`cypress_petrolPumpDate ${commonInputStyleUpdated} ${inputConditionState?.petrolPumpDate?.style}`}
                                     />
 
                                     <span className="text-red-600 absolute text-xs">{formik.touched.petrolPumpDate && formik.errors.petrolPumpDate ? formik.errors.petrolPumpDate : null}</span>
@@ -379,7 +400,7 @@ function CitizenPropAdditionalDetails(props) {
                             </>}
                             <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
                                 <label className={`form-label inline-block mb-2 text-gray-600 text-sm font-semibold`}>Rainwater harvesting provision ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.waterHarvestingStatus?.readOnly} {...formik.getFieldProps('waterHarvestingStatus')} value={formik.values.waterHarvestingStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_harvesting_status ${inputConditionState?.waterHarvestingStatus?.style}`}
+                                <select disabled={inputConditionState?.waterHarvestingStatus?.readOnly} {...formik.getFieldProps('waterHarvestingStatus')} value={formik.values.waterHarvestingStatus} className={`${commonInputStyleUpdated} cursor-pointer cypress_waterHarvestingStatus ${inputConditionState?.waterHarvestingStatus?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     <option value="0" >No</option>
@@ -389,9 +410,20 @@ function CitizenPropAdditionalDetails(props) {
                                 <span className="text-red-600 absolute text-xs">{formik.touched.waterHarvestingStatus && formik.errors.waterHarvestingStatus ? formik.errors.waterHarvestingStatus : null}</span>
 
                             </div>
+                            {waterHarvestingDateStatus && <>
+                               
+                                <div className={`form-group col-span-12 md:col-span-3 mb-2 md:px-4`}>
+                                    <label className="form-check-label text-gray-800"><small className="mt-1 text-xs text-gray-600 inline ">Water Harvesting Construction Date</small></label>
+                                    <input  {...formik.getFieldProps('waterHarvestingDate')} type="date" className={`cypress_waterHarvestingDate ${commonInputStyleUpdated} ${inputConditionState?.waterHarvestingDate?.style}`}
+                                    />
+
+                                    <span className="text-red-600 absolute text-xs">{formik.touched.waterHarvestingDate && formik.errors.waterHarvestingDate ? formik.errors.waterHarvestingDate : null}</span>
+
+                                </div>
+                            </>}
                             <div className="col-span-12 grid grid-cols-12 mt-10">
                                 <div className=' col-span-6'>
-                                    <button onClick={() => props.backFun(6)} type="button" className=" px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
+                                    <button onClick={() => props.backFun(6)} type="button" className="cypress_back6_button px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight capitalize rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">Back</button>
                                 </div>
                                 <div className=' text-right col-span-6'>
                                     <button type="submit" className="cypress_next6_button px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save & Next</button>

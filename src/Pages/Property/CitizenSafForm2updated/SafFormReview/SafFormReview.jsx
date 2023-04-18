@@ -811,7 +811,7 @@ function SafFormReview(props) {
 
                     <div className="w-full flex mb-10 mt-4">
                         <div className=' flex-1'>
-                            <button onClick={() => props.backFun(7)} type="button" className="pl-4 pr-6 py-2 bg-gray-200 text-gray-800 font-medium text-xs leading-tight capitalize rounded shadow-lg hover:bg-sky-100 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"><TbEdit className='inline text-lg' /> Edit</button>
+                            <button onClick={() => props.backFun(7)} type="button" className="cypress_safReviewBack pl-4 pr-6 py-2 bg-gray-200 text-gray-800 font-medium text-xs leading-tight capitalize rounded shadow-lg hover:bg-sky-100 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"><TbEdit className='inline text-lg' /> Edit</button>
                         </div>
                         <div className='md:px-4 text-center'>
                             {/* <button onClick={toggleTaxDescription} type="button" className="cypress_review_tax_desciption_toggle w-full px-6 py-1 bg-gray-200 text-gray-800 font-medium text-xs leading-tight capitalize rounded shadow-lg hover:bg-amber-100 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"><MdViewInAr className='inline text-lg' />{!taxDescriptionState ? 'View tax description' : 'Hide tax description'}</button> */}

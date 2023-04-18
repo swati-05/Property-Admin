@@ -248,7 +248,9 @@ function Header(props) {
               <a href="javascript:;" className="py-3 px-4 flex text-sm rounded-full focus:outline-none" aria-controls="mobile-canvas" aria-expanded="false" >
                 <span className="sr-only">Customizer</span>
                 <Tooltip anchorId='logout_button' />
-                <BiLogOutCircle id='logout_button' data-tooltip-content="Click to Logout User." onClick={openModal} className="inline text-2xl font-semibold" />
+                {/* ONLY FOR CYPRESS TESTING */}
+                <span  onClick={openModal} className="cypress_logout inline text-2xl font-semibold" >lOGOUT</span>
+                <BiLogOutCircle id='logout_button' data-tooltip-content=" Click to Logout User." onClick={openModal} className="inline text-2xl font-semibold" />
                 {/* <i class="text-2xl fas fa-cog"></i> */}
               </a>
               {/* Right Offcanvas */}
@@ -470,7 +472,7 @@ function Header(props) {
           <div class="p-6 text-center">
             <div className='w-full flex h-10'> <span className='mx-auto'><FiAlertCircle size={30} /></span></div>
             <h3 class="mb-5 text-lg font-normal text-gray-500 darks:text-gray-400">Are you sure you want to logout ?</h3>
-            <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 darks:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={logOutUser}>
+            <button type="button" className="cypress_button_logout text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 darks:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={logOutUser}>
               Yes, I'm sure
             </button>
 

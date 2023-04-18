@@ -60,6 +60,8 @@ function CitizenPropBasicDetail3(props) {
 
     const { api_verifyHolding } = CitizenApplyApiList()
 
+
+
     let validationSchema
     if (props?.safType == 'mu') {
         validationSchema = yup.object({
@@ -76,7 +78,7 @@ function CitizenPropBasicDetail3(props) {
             // }),
             landOccupationDate: yup.string()
         })
-    }else {
+    } else {
         validationSchema = yup.object({
             dateOfPurchase: yup.string(),
             transferMode: yup.string(),
@@ -109,6 +111,11 @@ function CitizenPropBasicDetail3(props) {
         enableReinitialize: true,
         onSubmit: (values, resetForm) => {
 
+            let ruleOk = checkRuleSet(values)
+            if (!ruleOk) {
+                return
+            }
+
             // APT-5 INJECTING APARTMENT NAME IN CASE OF FLATS 
             if (props?.apartmentStatus == true) {
                 values.appartmentName = apartmentName //NOT NEED TO SET APARTMENT ID AS IT IS ALREADY IN APARTMENT KEY
@@ -127,7 +134,41 @@ function CitizenPropBasicDetail3(props) {
         }
         , validationSchema
     })
+    const checkRuleSet = (values) => {
+        console.log('inside rulecheck...')
+        console.log('property type...', values.propertyType)
+        console.log('apartment...', typeof (values.apartment))
 
+        if (values.wardNo == '' || values.wardNo == null ) {
+            props?.activateBottomErrorCard(true, 'Please select old ward')
+            return false
+        }
+        if (values.newWardNo == '' || values.newWardNo == null ) {
+            props?.activateBottomErrorCard(true, 'Please select new ward')
+            return false
+        }
+        // IF PROPERTY TYPE IS FLAT THEN NEED TO SELECT APARTMENT
+        if (values.propertyType === '3' && (values.apartment == '' || values.apartment == null )) {
+            props?.activateBottomErrorCard(true, 'Please select apartment')
+            return false
+        }
+        // IF PROPERTY TYPE IS VACCANT THEN NEED TO SELECT LAND OCCUPATION DATE
+        if (values.propertyType === '4' && (values.landOccupationDate == '' || values.landOccupationDate == null )) {
+            props?.activateBottomErrorCard(true, 'Please select land occupation date')
+            return false
+        }
+
+        if(props?.safType=='mu' && (values.dateOfPurchase == '' || values.dateOfPurchase == null) ){
+            props?.activateBottomErrorCard(true, 'Please select date of purchase')
+            return false
+        }
+        if(props?.safType=='mu' && (values.transferMode == '' || values.transferMode == null) ){
+            props?.activateBottomErrorCard(true, 'Please select mode of transfer')
+            return false
+        }
+
+        return true
+    }
 
     const seleOptions = [
         { option: 'one', value: 1 },
@@ -214,6 +255,8 @@ function CitizenPropBasicDetail3(props) {
         props?.fetchNewWardByOldWard(props?.basicDetails?.wardNo)
         formik.setFieldValue('wardNo', props?.basicDetails?.wardNo)
         formik.setFieldValue('newWardNo', props?.basicDetails?.newWardNo)
+        // FETCHING APARTMENT LIST DETAILS BY OLD WARD
+        props?.fetchApartmentByOldWard(props?.basicDetails?.wardNo)
 
         formik.setFieldValue('ownerShiptype', props?.basicDetails?.ownerShiptype)
         formik.setFieldValue('propertyType', props?.basicDetails?.propertyType)
@@ -287,7 +330,7 @@ function CitizenPropBasicDetail3(props) {
                             {props?.safType == 'mu' && <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}>&nbsp;</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Transafer Mode<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.transferMode?.readOnly} id='basic_details_1' {...formik.getFieldProps('transferMode')} className={`${commonInputStyle} cursor-pointer ${inputConditionState?.transferMode?.style}`}>
+                                <select disabled={inputConditionState?.transferMode?.readOnly} id='basic_details_1' {...formik.getFieldProps('transferMode')} className={`cypress_transferMode ${commonInputStyle} cursor-pointer ${inputConditionState?.transferMode?.style}`}>
                                     <option value="" >Select</option>
                                     {
                                         props?.preFormData?.transfer_mode.map((data) => (
@@ -302,7 +345,7 @@ function CitizenPropBasicDetail3(props) {
                             {props?.safType == 'mu' && <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}>&nbsp;</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Date of Purchase<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.dateOfPurchase?.readOnly} type='date' {...formik.getFieldProps('dateOfPurchase')} className={`${commonInputStyle} cursor-pointer ${inputConditionState?.dateOfPurchase?.style}`} />
+                                <input disabled={inputConditionState?.dateOfPurchase?.readOnly} type='date' {...formik.getFieldProps('dateOfPurchase')} className={`cypress_dateOfPurchase ${commonInputStyle} cursor-pointer ${inputConditionState?.dateOfPurchase?.style}`} />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.dateOfPurchase && formik.errors.dateOfPurchase ? formik.errors.dateOfPurchase : null}</span>
                             </div>
                             }
@@ -310,7 +353,7 @@ function CitizenPropBasicDetail3(props) {
                             <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}><AiFillInfoCircle className="inline" />Select ulb to get ward list</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Old Ward No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.wardNo?.readOnly} {...formik.getFieldProps('wardNo')} className={`${commonInputStyle} cursor-pointer cypress_ward ${inputConditionState?.wardNo?.style}`}>
+                                <select disabled={inputConditionState?.wardNo?.readOnly} {...formik.getFieldProps('wardNo')} className={`${commonInputStyle} cursor-pointer cypress_wardNo ${inputConditionState?.wardNo?.style}`}>
                                     <option value="" >Select</option>
                                     {
                                         props?.wardList?.map((data) => (
@@ -324,7 +367,7 @@ function CitizenPropBasicDetail3(props) {
                             <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}><AiFillInfoCircle className="inline" />Select old ward to get new ward list</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>New Ward No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.newWardNo?.readOnly} {...formik.getFieldProps('newWardNo')} className={`${commonInputStyle} cursor-pointer cypress_new_ward ${inputConditionState?.newWardNo?.style}`} >
+                                <select disabled={inputConditionState?.newWardNo?.readOnly} {...formik.getFieldProps('newWardNo')} className={`${commonInputStyle} cursor-pointer cypress_newWardNo ${inputConditionState?.newWardNo?.style}`} >
                                     <option value="" >Select</option>
 
                                     {
@@ -339,7 +382,7 @@ function CitizenPropBasicDetail3(props) {
                             <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}>&nbsp;</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Ownership Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.ownerShiptype?.readOnly} {...formik.getFieldProps('ownerShiptype')} className={`${commonInputStyle} cursor-pointer cypress_ownership_type ${inputConditionState?.ownerShiptype?.style}`}
+                                <select disabled={inputConditionState?.ownerShiptype?.readOnly} {...formik.getFieldProps('ownerShiptype')} className={`${commonInputStyle} cursor-pointer cypress_ownerShiptype ${inputConditionState?.ownerShiptype?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     {
@@ -353,7 +396,7 @@ function CitizenPropBasicDetail3(props) {
                             <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <div> <label className={`form-label text-xs mb-1 text-gray-400  font-semibold flex items-center`}>&nbsp;</label></div>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Property Type<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.propertyType?.readOnly} {...formik.getFieldProps('propertyType')} className={`${commonInputStyle} cursor-pointer cypress_property_type ${inputConditionState?.propertyType?.style}`}
+                                <select disabled={inputConditionState?.propertyType?.readOnly} {...formik.getFieldProps('propertyType')} className={`${commonInputStyle} cursor-pointer cypress_propertyType ${inputConditionState?.propertyType?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     {
@@ -368,10 +411,10 @@ function CitizenPropBasicDetail3(props) {
                             {/* // APT-1 IN CASE OF FLAT/MULTI STORED BUILDING */}
                             {props?.apartmentStatus && <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Apartment<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.apartment?.readOnly} {...formik.getFieldProps('apartment')} className={`${commonInputStyle} cursor-pointer cypress_property_type ${inputConditionState?.apartment?.style}`}
+                                <select disabled={inputConditionState?.apartment?.readOnly} {...formik.getFieldProps('apartment')} className={`${commonInputStyle} cursor-pointer cypress_apartment ${inputConditionState?.apartment?.style}`}
                                 >
                                     <option value="" >Select</option>
-                                    {
+                                    {props?.apartmentList?.length !== 0 &&
                                         props?.apartmentList?.map((data) => (
                                             <option value={data.id}>{data.apartment_name}</option>
                                         ))
@@ -381,7 +424,7 @@ function CitizenPropBasicDetail3(props) {
                             </div>}
                             {props?.propertyTypeState == 4 && <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Land Purchase Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <input disabled={inputConditionState?.landOccupationDate?.readOnly} {...formik.getFieldProps('landOccupationDate')} type='date' className={`${commonInputStyle} cursor-pointer cypress_property_type ${inputConditionState?.landOccupationDate?.style}`}
+                                <input disabled={inputConditionState?.landOccupationDate?.readOnly} {...formik.getFieldProps('landOccupationDate')} type='date' className={`${commonInputStyle} cursor-pointer cypress_landOccupationDate ${inputConditionState?.landOccupationDate?.style}`}
                                 />
                                 <span className="text-red-600 absolute text-xs">{formik.touched.landOccupationDate && formik.errors.landOccupationDate ? formik.errors.landOccupationDate : null}</span>
                             </div>}
