@@ -37,7 +37,7 @@ const PropertyDemandDetails = React.lazy(() => import('@/Pages/Property/PropAppl
 const ActiveSafPaymentDetail = React.lazy(() => import('@/Pages/Property/PropApplicationView/ActiveSafPaymentDetail'));
 const PropertyPaymentDetails = React.lazy(() => import('@/Pages/Property/PropApplicationView/PropertyPaymentDetails'));
 
-const ConcessionForm = React.lazy(() => import('@/Pages/Property/PropertyEntryForms/ConcessionForm/ConcessionForm'));
+const ConcessionForm = React.lazy(() => import('@/Pages/Property/PropertyEntryForms/ConcessionForm/ConcessionFormCheckbox'));
 const CitizenPropSafUpdateFormIndex = React.lazy(() => import('@/Pages/Workflow/Property/PropertySafWorkflow/SafApplicationForm/CitizenPropSafUpdateFormIndex'));
 const PaymentDashboard = React.lazy(() => import('@/Pages/PaymentMaster/PaymentDashboard'));
 const ConcessionWorkflowEntry = React.lazy(() => import('@/Pages/Workflow/Property/WORKFLOW_PILOT/Workflow/Concession-Workflow/ConcessionWorkflowEntry'));
