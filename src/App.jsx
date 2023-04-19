@@ -66,7 +66,8 @@ const PropertyPayment = React.lazy(() => import('@/Pages/Property/PropertyPaymen
 const SamReciept = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/SAM/SamReciept'));
 const PrintPage = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/FAM/PrintPage'));
 const ComparativeDemandReciept = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/ComparativeDemand/ComparativeDemandReciept'));
-const PropSafSearchCollection = React.lazy(() => import('@/Pages/Property/Reports/PropSafSearchCollection'));
+const CollectionReport = React.lazy(() => import('@/Pages/Property/Reports/CollectionReport'));
+const TcCollectionReport = React.lazy(() => import('@/Pages/Property/Reports/TcCollectionReport'));
 const PropSafIndDemCollection = React.lazy(() => import('@/Pages/Property/Reports/PropSafIndDemCollection'));
 const LevelWisePendingReport = React.lazy(() => import('@/Pages/Property/Reports/LevelWiseCollection/LevelWisePendingReport'));
 const WardWiseDetails = React.lazy(() => import('@/Pages/Property/Reports/LevelWiseCollection/WardWiseDetails'));
@@ -88,7 +89,7 @@ const HoldingDcb = React.lazy(() => import('@/Pages/Property/Reports/HoldingDcb'
 const DcbReport = React.lazy(() => import('@/Pages/Property/Reports/DCB/DcbReport'));
 const WardWiseCollectionSummary = React.lazy(() => import('@/Pages/Property/Reports/WardWiseCollectionSummary/WardWiseCollectionSummary'));
 const TaxRecieptBulkPrint = React.lazy(() => import('@/Pages/Property/Reports/TaxRecieptBulkPrint/TaxRecieptBulkPrint'));
-const HoldingWiseRebate = React.lazy(() => import('@/Pages/Property/Reports/HoldingWiseRebate/HoldingWiseRebate'));
+const RebateInterest = React.lazy(() => import('@/Pages/Property/Reports/HoldingWiseRebate/RebateInterest'));
 const ArrearCurrentCollectionSummary = React.lazy(() => import('@/Pages/Property/Reports/ArrearCurrentCollectionSummary/ArrearCurrentCollectionSummary'));
 const SafSamGeoTagging = React.lazy(() => import('@/Pages/Property/Reports/SafSamGeoTagging/SafSamGeoTagging'));
 const DecisionMakingReport = React.lazy(() => import('@/Pages/Property/Reports/DMR/DecisionMakingReport'));
@@ -339,8 +340,12 @@ function App(props) {
                 <Route path="/gb-saf-reciept/:paymentId/:module" element={<GbSafPaymentReceiptIndex />} />
 
                 {/* ===========Reports============= */}
-                <Route path='/collection-report' element={<PropSafSearchCollection />} /> {/*type = property/saf/gbSaf, property collection , saf collection,  GB SAF Collection */}
+                <Route path='/collection-report' element={<CollectionReport />} />
+                <Route path='/tc-collection-report' element={<TcCollectionReport />} />
                 <Route path='/payment-mode-wise-summary/:type' element={<PaymentModeWiseSummary />} />{/* type= property/saf, Payment Mode Wise Collection Summary inside property and saf collection */}
+                <Route path='/dcb-report' element={<DcbReport />} />
+                <Route path="/rebate-interest-report" element={<RebateInterest />} />
+                
                 {/* here ('/collection-demand-report') is the detailing of the ListTable2 which is used while backend pagination*/}
                 <Route path='/collection-demand-report' element={<PropSafIndDemCollection />} />{/*property/saf individual demand and collection */}
                 <Route path='/level-wise-pending-report' element={<LevelWisePendingReport />} />{/*Level Wise Pending */}
@@ -348,11 +353,9 @@ function App(props) {
                 <Route path="/saf-wise-details/:id" element={<SafWiseDetails />} />{/* Inside Level Wise Pending */}
                 <Route path="/employee-wise-details/:id" element={<EmployeeWiseDetails />} />{/* Inside Level Wise Pending */}
                 <Route path="/ward-wise-holding-report" element={<WardWiseHolding />} />{/*Ward Wise Holding */}
-                <Route path='/dcb' element={<DcbReport />} />
                 <Route path='/holding-dcb' element={<HoldingDcb />} /> {/* Holding Dcb */}
                 <Route path="/ward-wise-collection-summary" element={<WardWiseCollectionSummary />} /> {/* Ward Wise Collection Summary */}
                 <Route path="/tax-reciept-bulk-print" element={<TaxRecieptBulkPrint />} /> {/* Tax Receipt Bulk Print */}
-                <Route path="/holding-wise-rebate" element={<HoldingWiseRebate />} /> {/* Holding Wise Rebate */}
                 <Route path="/collection-with-rebate-penalty/:type" element={<PropSafCollectionReportwithRebatePenalty />} /> {/*type= property/saf,  Property, SAF Collection Report With Rebate, Penalty */}
                 <Route path="/arrear-current-collection-summary" element={<ArrearCurrentCollectionSummary />} /> {/* Arrear and Current Collection Summary */}
                 <Route path="/saf-sam-geo-tagging" element={<SafSamGeoTagging />} /> {/* SAF, SAM, Geo Tagging */}

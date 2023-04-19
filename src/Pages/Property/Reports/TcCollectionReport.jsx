@@ -16,7 +16,7 @@ import BarLoader from '@/Components/Common/BarLoader'
 import Modal from "react-modal";
 const ListTableConnect = lazy(() => import('@/Components/Common/ListTableCustom/ListTableConnect'))
 
-const PropSafSearchCollection = () => {
+const TcCollectionReport = () => {
 
     const { get_MasterData, get_collectorList, searchCollection, getCollectionData, get_taxCollectorList, searchPropertyCollection, searchSafCollection, searchGbSafCollection } = PropertyApiList()
 
@@ -49,7 +49,7 @@ const PropSafSearchCollection = () => {
     // type == 'gbSaf' && (title = 'GB SAF Collection Report')
 
 
-    useSetTitle('Collection Report')
+    useSetTitle('TC Collection Report')
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
@@ -135,7 +135,7 @@ const PropSafSearchCollection = () => {
             fromDate: formik.values.fromDate,
             uptoDate: formik.values.uptoDate,
             wardId: formik.values.wardId,
-            userId: formik.values.userId,
+            userId: 'select',
             paymentMode: formik.values.paymentMode
         })
         setchangeData(prev => prev + 1)
@@ -198,11 +198,10 @@ const PropSafSearchCollection = () => {
     const isProperty = useMemo(() => Array.isArray(collectionData) && collectionData.some(role => matchProperty.includes(role)), [matchProperty]);
     const isSaf = useMemo(() => Array.isArray(collectionData) && collectionData.some(role => matchSaf.includes(role)), [matchSaf]);
 
-    const navigateFun2 = (val, type) => {
-        type == 'property' && navigate('/paymentReceipt/'+'holding')
-        type == 'saf' && navigate('/paymentReceipt/'+'saf')
-        type == 'gbsaf-holding' && navigate('/gb-saf-reciept/'+'holding')
-        type == 'gbsaf-saf' && navigate('/gb-saf-reciept/'+'saf')
+    const navigateFun2 = (number, type) => {
+        type == 'property' && navigate('/paymentReceipt/' + number + '/holding')
+        type == 'saf' && navigate('/paymentReceipt/' + number + '/saf')
+        type == 'gbsaf' && navigate('/gb-saf-reciept/' + number + '/saf')
     }
 
     const column = [
@@ -242,10 +241,19 @@ const PropSafSearchCollection = () => {
             accessor: "from_upto_fy_qtr",
             Cell: (props) => { return nullToNA(props?.value) }
         },
-
+        {
+            Header: "Tran. No.",
+            accessor: "tran_no",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
         {
             Header: "Tran. Date",
             accessor: "tran_date",
+            Cell: (props) => { return nullToNA(props?.value) }
+        },
+        {
+            Header: "Mode",
+            accessor: "transaction_mode",
             Cell: (props) => { return nullToNA(props?.value) }
         },
         {
@@ -259,17 +267,13 @@ const PropSafSearchCollection = () => {
                 <>
                     <div className='flex items-center justify-center gap-2 w-full'>
                         <button onClick={() => viewDetailFun(cell?.row?.index)} className='px-2 py-1 rounded-md bg-indigo-500 text-white text-sm hover:bg-indigo-600'>View</button>
-                        {/* <button onClick={() => navigateFun2(cell?.row?.original?.tran_no, cell?.row?.original?.type)} className='px-2 py-1 rounded-md bg-indigo-400 text-white text-sm hover:bg-indigo-600'>Print</button> */}
+                        <button onClick={() => navigateFun2(cell?.row?.original?.tran_no, cell?.row?.original?.type)} className='px-2 py-1 rounded-md bg-indigo-500 text-white text-sm hover:bg-indigo-600'>Print</button>
                     </div>
                 </>
             )
         }
     ]
 
-
-    const navigateFun = () => {
-        collection == 'property' ? navigate('/payment-mode-wise-summary/property') : navigate('/payment-mode-wise-summary/saf')
-    }
 
     console.log("collType ", dataList)
 
@@ -287,7 +291,7 @@ const PropSafSearchCollection = () => {
                         <div className="col-span-6 font-semibold">
                             Collection Type :
                         </div>
-                        <div className={"col-span-6 flex items-center justify-between bg-green-100 shadow-md px-2 py-1.5 rounded-md border border-green-300 shadow-green-100"}>
+                        <div className={"col-span-6 flex items-center justify-evenly bg-green-100 shadow-md px-2 py-1.5 rounded-md border border-green-300 shadow-green-100"}>
                             <div className='flex items-center gap-1'>
                                 <label htmlFor="1">Property</label>
                                 <input className='mt-1' type="checkbox" name="collType" id="1" value={'property'} defaultChecked />
@@ -350,25 +354,6 @@ const PropSafSearchCollection = () => {
                         {formik.touched.wardId && formik.errors.wardId && <><span className="text-red-600 text-xs">{formik.errors.wardId}</span></>}
                     </div> */}
                     </div>
-
-                    {formik.values.collType != 'gbSaf' && <div className="flex flex-col w-full md:w-[20%]">
-                        <div className="col-span-6 font-semibold">
-                            Collector Name :
-                        </div>
-                        <div className="col-span-6">
-                            <select name="userId" id="" className={commonInputStyle}>
-                                <option value=''>All</option>
-                                {
-                                    collectorList?.map((elem) => <>
-                                        <option value={elem?.id}><span className="capitalize">{elem?.user_name}</span>&nbsp;<span className="uppercase">({elem?.user_type})</span></option>
-                                    </>)
-                                }
-                            </select>
-                        </div>
-                        {/* <div className="col-span-12 text-end text-xs text-red-400">
-                            select ward no to get collector name list
-                        </div> */}
-                    </div>}
 
                     <div className="flex flex-col w-full md:w-[20%]">
                         <div className="col-span-6 font-semibold">
@@ -493,6 +478,9 @@ const PropSafSearchCollection = () => {
                             <span className="col-span-6 items-center">Transaction Mode : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.transaction_mode)}</span>
                         </div>
                         <div className='w-full sm:w-[40%] grid grid-cols-12'>
+                            <span className="col-span-6 items-center">Transaction Number : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.tran_no)}</span>
+                        </div>
+                        <div className='w-full sm:w-[40%] grid grid-cols-12'>
                             <span className="col-span-6 items-center">Transaction Amount : </span><span className="col-span-6 items-center font-semibold">{indianAmount(dataList?.data[index]?.amount)}</span>
                         </div>
                         <div className='w-full sm:w-[40%] grid grid-cols-12'>
@@ -505,9 +493,6 @@ const PropSafSearchCollection = () => {
                             <span className="col-span-6 items-center">Branch Name : </span><span className="col-span-6 items-center font-semibold">{nullToNA(dataList?.data[index]?.branch_name)}</span>
                         </div>
 
-                        {dataList?.data[index]?.type == 'property' && <div className='w-full sm:w-[40%] grid grid-cols-12'>
-                        </div>}
-
                     </div>
 
                 </div>
@@ -518,4 +503,4 @@ const PropSafSearchCollection = () => {
     )
 }
 
-export default PropSafSearchCollection
+export default TcCollectionReport

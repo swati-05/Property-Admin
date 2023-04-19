@@ -63,7 +63,7 @@ const PropertyPayment = React.lazy(() => import('@/Pages/Property/PropertyPaymen
 const SamReciept = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/SAM/SamReciept'));
 const PrintPage = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/FAM/PrintPage'));
 const ComparativeDemandReciept = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/ComparativeDemand/ComparativeDemandReciept'));
-const PropSafSearchCollection = React.lazy(() => import('@/Pages/Property/Reports/PropSafSearchCollection'));
+const PropSafSearchCollection = React.lazy(() => import('@/Pages/Property/Reports/CollectionReport'));
 const PropSafIndDemCollection = React.lazy(() => import('@/Pages/Property/Reports/PropSafIndDemCollection'));
 const LevelWisePendingReport = React.lazy(() => import('@/Pages/Property/Reports/LevelWiseCollection/LevelWisePendingReport'));
 const WardWiseDetails = React.lazy(() => import('@/Pages/Property/Reports/LevelWiseCollection/WardWiseDetails'));
@@ -84,7 +84,7 @@ const WardWiseDcb = React.lazy(() => import('@/Pages/Property/Reports/WardWiseDc
 const HoldingDcb = React.lazy(() => import('@/Pages/Property/Reports/HoldingDcb'));
 const WardWiseCollectionSummary = React.lazy(() => import('@/Pages/Property/Reports/WardWiseCollectionSummary/WardWiseCollectionSummary'));
 const TaxRecieptBulkPrint = React.lazy(() => import('@/Pages/Property/Reports/TaxRecieptBulkPrint/TaxRecieptBulkPrint'));
-const HoldingWiseRebate = React.lazy(() => import('@/Pages/Property/Reports/HoldingWiseRebate/HoldingWiseRebate'));
+const HoldingWiseRebate = React.lazy(() => import('@/Pages/Property/Reports/HoldingWiseRebate/RebateInterest'));
 const ArrearCurrentCollectionSummary = React.lazy(() => import('@/Pages/Property/Reports/ArrearCurrentCollectionSummary/ArrearCurrentCollectionSummary'));
 const SafSamGeoTagging = React.lazy(() => import('@/Pages/Property/Reports/SafSamGeoTagging/SafSamGeoTagging'));
 const DecisionMakingReport = React.lazy(() => import('@/Pages/Property/Reports/DMR/DecisionMakingReport'));

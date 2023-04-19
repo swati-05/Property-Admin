@@ -5,19 +5,13 @@ import { useEffect } from 'react'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import { useState } from 'react'
-import { RotatingLines, ThreeDots } from 'react-loader-spinner'
-import { useLocation } from 'react-router-dom'
+import { ThreeDots } from 'react-loader-spinner'
 import BarLoader from '@/Components/Common/BarLoader'
-import { CSVDownload, CSVLink } from 'react-csv'
-import ListTable2 from '@/Components/Common/ListTableMargin/ListTable2'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import { RiFilter2Line } from 'react-icons/ri'
-import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConnect'
 import { indianAmount, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
-import { useStepContext } from '@mui/material'
 import CitizenApplyApiList from '@/Components/ApiList/CitizenApplyApiList'
 import { nullToNA } from '@/Components/PowerUps/PowerupFunctions'
-// import PieChart from '../PieChart'
 import ListTable from '@/Components/Common/ListTableMargin/ListTable'
 import * as yup from 'yup'
 
@@ -52,7 +46,6 @@ const DcbReport = () => {
             ulbId: nullToNA(ulbId) == 'NA' ? '' : ulbId,
             wardId: '',
             fiYear: yearData != null && yearData[0],
-            // reportType : 'wardWise',
             withHh : '0',
             withCe : '0'
         },
@@ -87,9 +80,6 @@ const DcbReport = () => {
         })
 
     })
-
-    // console.log('withHH => ', formik.values.withHh , isHH, '\n withCe => ', formik.values.withCe, isCe)
-
     const searchFun = (values) => {
 
         setloader(true)
@@ -109,22 +99,18 @@ const DcbReport = () => {
             }
         }
 
-        console.log('data before hitting api => ', body)
-
         axios.post(
             searchWardWiseDcb, body, ApiHeader())
             .then((res) => {
                 if (res?.data?.status == true) {
-                    console.log('search success => ', res)
                     setdataList(res?.data?.data?.dcb)
                     settotalData(res?.data?.data)
                 } else {
-                    console.log('error while search => ', res)
                 }
 
                 setloader(false)
             })
-            .catch((err) => (console.log('error while search => ', err), setloader(false)))
+            .catch((err) => setloader(false))
 
     }
 
@@ -136,65 +122,52 @@ const DcbReport = () => {
         .then((res) => {
 
             if (res?.data?.status == true) {
-                console.log("getting pie chart data => ", res)
                 setpieChartData(res?.data?.data)
             } else {
-                console.log("error getting pie chart data", res)
             }
 
         })
-        .catch(err => console.log("error getting pie chart data", err))
+        .catch(err => {})
         .finally(() => setloader2(false))
 
         axios.get(get_MasterData, ApiHeader())
             .then((res) => {
 
                 if (res?.data?.status == true) {
-                    console.log("getting master list data => ", res)
                     setwardList(res?.data?.data?.ward_master)
                 } else {
-                    console.log("error getting master list", res)
                 }
 
             })
-            .catch(err => console.log("error getting master list", err))
+            .catch(err => {})
 
         axios.post(yearList,{}, ApiHeader())
         .then((res) => {
 
             if(res?.data?.status == true){
-                console.log("year list data => ", res)
                 setyearData(res?.data?.data)
             } else {
-                console.log("error year list", res)
             }
             
         })
-        .catch(err => console.log("error year list", err))
+        .catch(err => {})
 
         axios.get(api_getAllUlb, ApiHeader())
         .then((res) => {
 
             if(res?.data?.status == true){
-                console.log("year list data => ", res)
                 setulbList(res?.data?.data)
             } else {
-                console.log("error year list", res)
             }
             
         })
-        .catch(err => console.log("error year list", err))
+        .catch(err => {})
 
     }, [])
 
     const handleHHChange = (e) => {
         const name = e.target.name
         const checkValue = e.target.checked;
-
-        console.log("checkValue", checkValue)
-
-        // {name == 'withHh' && checkValue ? formik.setFieldValue('withHh', '1') : formik.setFieldValue('withHh', '0')}
-        // {name == 'withCe' && checkValue ? formik.setFieldValue('withCe', '1') : formik.setFieldValue('withCe', '0')}
     }
 
     const byWardahscColumn = [
@@ -1099,21 +1072,14 @@ const DcbReport = () => {
                             // onClick={() => setisHH(!isHH)} 
                             />
                         </div>
-                        {/* <div className="col-span-6"> */}
-                            {/* <input type="checkbox" name="withHh" value={1} id="yes" /> */}
-                        {/* </div> */}
                     </div>
 
                     <div className="flex flex-col justify-center w-full md:w-[20%]">
                         <div className="col-span-12 font-semibold flex items-center justify-center mt-4">
                             <label htmlFor="withCe" className='mr-2'>With Collection Efficiency : </label>
                             <input type="checkbox" name="withCe" id="withCe" className='w-4 h-4 rounded' onChange={handleHHChange} 
-                            // onClick={() => setisHH(!isHH)} 
                             />
                         </div>
-                        {/* <div className="col-span-6"> */}
-                            {/* <input type="checkbox" name="withHh" value={1} id="yes" /> */}
-                        {/* </div> */}
                     </div>
 
                     <div className="w-full md:w-[20%] flex justify-start items-end">

@@ -11,7 +11,6 @@ import { useLocation, useParams } from 'react-router-dom'
 import useSetTitle from '@/Components/GlobalData/useSetTitle'
 import {RiFilter2Line} from 'react-icons/ri'
 import moment from 'moment'
-// import PaymentModeWiseSummaryTable from './PaymentModeWiseSummaryTable'
 
 const PaymentModeWiseSummaryTable = React.lazy(() => import('./PaymentModeWiseSummaryTable'))
 
@@ -31,9 +30,6 @@ const PaymentModeWiseSummary = () => {
     const [dataList, setdataList] = useState()
     const [loader, setloader] = useState(false)
     const [isProperty, setisProperty] = useState(true)
-    const [yearData, setyearData] = useState()
-
-    useSetTitle('Ward Wise Holding Report')
 
     const commonInputStyle = `form-control block w-full px-2 py-1 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md`
 
@@ -42,9 +38,6 @@ const PaymentModeWiseSummary = () => {
     const validationSchema = yup.object({
         fromDate : yup.string().required('Field Required'),
         uptoDate : yup.string().required('Field Required'),
-        // wardId : yup.string().required('Field Required'),
-        // userId : yup.string().required('Field Required'),
-        // paymentMode : yup.string().required('Field Required'),
     })
 
     const formik = useFormik({
@@ -112,14 +105,12 @@ const PaymentModeWiseSummary = () => {
         .then((res) => {
 
             if(res?.data?.status == true){
-                // console.log("getting master list data => ", res)
                 setwardList(res?.data?.data?.ward_master)
             } else {
-                // console.log("error getting master list", res)
             }
             
         })
-        .catch(err => console.log("error getting master list", err))
+        .catch(err => {})
     }
 
     const gettingCollectorList = (e) => {
@@ -130,14 +121,12 @@ const PaymentModeWiseSummary = () => {
         .then((res) => {
 
             if(res?.data?.status == true){
-                // console.log("getting collector list => ", res)
                 setcollectorList(res?.data?.data)
             } else {
-                // console.log('error getting collector list => ', res)
             }
             setloader(false)
         })
-        .catch(err => (console.log('error getting collector list => ', err), setloader(false)))
+        .catch(err => setloader(false))
     }
       
   return (
@@ -186,9 +175,6 @@ const PaymentModeWiseSummary = () => {
                             }
                         </select>
                     </div>
-                    {/* <div className="col-span-12 text-end">
-                        {formik.touched.wardId && formik.errors.wardId && <><span className="text-red-600 text-xs">{formik.errors.wardId}</span></>}
-                    </div> */}
                 </div>
 
                 {

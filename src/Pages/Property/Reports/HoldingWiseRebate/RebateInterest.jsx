@@ -16,11 +16,11 @@ import ListTableConnect from '@/Components/Common/ListTableCustom/ListTableConne
 import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerUps/PowerupFunctions'
 import moment from 'moment'
 
-const HoldingWiseRebate = (props) => {
+const RebateInterest = (props) => {
 
-    const { get_MasterData, searchHoldingWiseRebate, yearList } = PropertyApiList()
+    const { get_MasterData, searchRebatePenalty, yearList } = PropertyApiList()
 
-    useSetTitle('Rebate and Interest')
+    useSetTitle('Rebate and Interest Report')
 
     const [wardList, setwardList] = useState()
     const [dataList, setdataList] = useState(null)
@@ -45,7 +45,7 @@ const HoldingWiseRebate = (props) => {
         onSubmit: (values) => {
             console.log("submitting report search values => ", values)
             setrequestBody({
-                reportType: formik.values.collType,
+                reportType: formik.values.reportType,
                 fromDate: formik.values.fromDate,
                 uptoDate: formik.values.uptoDate,
                 wardId: formik.values.wardId,
@@ -273,18 +273,18 @@ const HoldingWiseRebate = (props) => {
                 </div>
             </form>
 
-            { dataList != null && 
+            { (dataList != null && dataList?.data?.length > 0) && 
                 <div className='bg-white p-2 rounded-md shadow-md mb-4 flex flex-wrap justify-evenly gap-y-2 gap-x-4'>
 
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Holding :</span><span className='font-semibold col-span-6'>{nullToZero(totalData?.total_holding_no)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Demand :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_demand_amt)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Amount Paid :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_paid_amount)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total First Quarter Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_first_qtr_rebate)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total JSK Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_jsk_rebate_amt)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Special Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_special_rebate_amt)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Online Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_online_rebate_amt)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total Rebate :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_total_rebate)}</span></div>
-                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-6'>Total 1% Monthly Interest :</span><span className='font-semibold col-span-6'>{indianAmount(totalData?.total_penalty_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Holding :</span><span className='font-semibold col-span-5'>{nullToZero(totalData?.total_holding_no)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Demand :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_demand_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Amount Paid :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_paid_amount)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total First Quarter Rebate :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_first_qtr_rebate)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total JSK Rebate :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_jsk_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Special Rebate :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_special_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Online Rebate :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_online_rebate_amt)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total Rebate :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_total_rebate)}</span></div>
+                    <div className='grid grid-cols-12 items-center gap-2 w-full sm:w-1/3 md:w-1/4 '><span className='text-sm col-span-7'>Total 1% Monthly Interest :</span><span className='font-semibold col-span-5'>{indianAmount(totalData?.total_penalty_amt)}</span></div>
                 </div>
             }
 
@@ -294,7 +294,7 @@ const HoldingWiseRebate = (props) => {
                     getData={true}
                     allData={(data) => setdataList(data)}
                     type='old' // if pagination is from laravel
-                    api={searchHoldingWiseRebate} // sending api
+                    api={searchRebatePenalty} // sending api
                     columns={COLUMNS} // sending column
                     requestBody={requestBody} // sending body
                     changeData={changeData} // send action for new payload
@@ -307,4 +307,4 @@ const HoldingWiseRebate = (props) => {
     )
 }
 
-export default HoldingWiseRebate
+export default RebateInterest

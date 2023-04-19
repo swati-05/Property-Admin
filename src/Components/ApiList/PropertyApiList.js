@@ -238,7 +238,7 @@ export default function PropertyApiList() {
     yearList: baseUrl + '/api/property/reports/list-fy',
 
     searchCollection : baseUrl + '/api/property/reports/prop/saf/collection',
-    getCollectionData : baseUrl + '',
+    searchRebatePenalty : baseUrl + '/api/property/reports/rebate/penalty',
 
     // ==================Report API End========================
 
