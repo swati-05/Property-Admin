@@ -1,6 +1,8 @@
 # Changes in admin modules for modules switching
 
 > <h1>Step 1 - TransferPage.js (Create a file TransferPage.jsx and add the following code)</h1>
+
+```
 import React,{useState,useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
