@@ -111,7 +111,6 @@ const SafPaymentReceiptIndex = React.lazy(() => import('@/Pages/Property/Citizen
 const ClusterPaymentReceiptIndex = React.lazy(() => import('@/Pages/Property/Reports/TaxRecieptBulkPrint/ClusterPaymentReceiptIndex'));
 const CitizenPropSafApplicationFormIndex = React.lazy(() => import('./Pages/Property/CitizenSafForm2updated/CitizenPropSafApplicationFormIndex'));
 const UlbWorkflowRolesIndex = React.lazy(() => import('@/Pages/Masters/UlbManage/UlbWorkflowRoles/UlbWorkflowRolesIndex'));
-const NavigatePage = React.lazy(() => import('./Pages/NavigatePage'));
 const SafApplyCard = React.lazy(() => import('./Pages/Workflow/Property/SafApplyCard/SafApplyCard'));
 const GBSAFDetailsEntry = React.lazy(() => import('./Pages/Property/DetailsFactory/GBSAFDetailsEntry/GBSAFDetailsEntry'));
 const GbSafPaymentReceiptIndex = React.lazy(() => import('@/Pages/PaymentScreen/Reciept/GbSafReciept/GbSafPaymentReceiptIndex'))
