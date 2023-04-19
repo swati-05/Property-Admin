@@ -1,14 +1,19 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import BarLoader from '@/Components/Common/BarLoader'
 import ProjectApiList from '@/Components/ApiList/ProjectApiList'
+import { setLocalStorageItemStrigified } from '@/Components/Common/localstorage'
+import { contextVar } from '@/Components/Context/Context';
+
 
 function TransferPage() {
   const [isLoading, setisLoading] = useState(false)
   const navigate = useNavigate()
   const { api_getFreeMenuList } = ProjectApiList()
+  const {  setmenuList } = useContext(contextVar)
+
 
   useEffect(() => {
     let token = window.localStorage.getItem('token')
@@ -33,14 +38,23 @@ function TransferPage() {
         console.log('fetched menu list.....', response)
         // return
         if (response.data.status == true) {
-          window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
-          window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-          window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.roles))
+          setLocalStorageItemStrigified('menuList',response?.data?.data?.permission)
+          setLocalStorageItemStrigified('userName',response?.data?.data?.userDetails?.userName)
+          setLocalStorageItemStrigified('roles',response?.data?.data?.userDetails?.roles)
+          setLocalStorageItemStrigified('userUlbName',response?.data?.data?.userDetails?.ulb)
+          setLocalStorageItemStrigified('userMobile',response?.data?.data?.userDetails?.mobileNo)
+          setLocalStorageItemStrigified('userEmail',response?.data?.data?.userDetails?.email)
+          setLocalStorageItemStrigified('userImage',response?.data?.data?.userDetails?.imageUrl)
+          setmenuList(response?.data?.data?.permission)
 
-          window.localStorage.setItem('userUlbName', JSON.stringify(response?.data?.data?.userDetails?.ulb))
-          window.localStorage.setItem('userMobile', JSON.stringify(response?.data?.data?.userDetails?.mobileNo))
-          window.localStorage.setItem('userEmail', JSON.stringify(response?.data?.data?.userDetails?.email))
-          window.localStorage.setItem('userImage', JSON.stringify(response?.data?.data?.userDetails?.imageUrl))
+          // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
+          // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
+          // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.roles))
+
+          // window.localStorage.setItem('userUlbName', JSON.stringify(response?.data?.data?.userDetails?.ulb))
+          // window.localStorage.setItem('userMobile', JSON.stringify(response?.data?.data?.userDetails?.mobileNo))
+          // window.localStorage.setItem('userEmail', JSON.stringify(response?.data?.data?.userDetails?.email))
+          // window.localStorage.setItem('userImage', JSON.stringify(response?.data?.data?.userDetails?.imageUrl))
 
 
           // setmenuList(response?.data?.data?.permission)

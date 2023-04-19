@@ -1,200 +1,93 @@
-# Changes in admin modules for single login redirect
+# Changes in admin modules for modules switching
 
-> <h1>Step 1 - App.js (Adjust these codes)</h1>
-Add state variable to track menulist fetching
-```
- const [menuFetchStatus, setmenuFetchStatus] = useState(false);
+> <h1>Step 1 - TransferPage.js (Create a file TransferPage.jsx and add the following code)</h1>
 
 ```
-
-To manage auto login and auto logout (make sure to add BrowserRouter to your index.js or main.jsx page)
-```
- const navigate = useNavigate()
-  let token = window.localStorage.getItem('token')
-  console.log("token save from login ", token);
-  if (token != null) {
-    console.log('===token defined............')
-
-    props.LOGIN();
-  }
-  if (token == null) {
-    navigate('/login/fresh')
-  }
-
-```
-
-Create a file Named NavigatePage and give index route just above login route
-```
- <Route index element={<NavigatePage />} />
-
-```
-
-```
-import React from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
+import ApiHeader from '@/Components/ApiList/ApiHeader'
+import axios from 'axios'
+import BarLoader from '@/Components/Common/BarLoader'
+import ProjectApiList from '@/Components/ApiList/ProjectApiList'
+import { setLocalStorageItemStrigified } from '@/Components/Common/localstorage'
+import { contextVar } from '@/Components/Context/Context';
+import BrandLoader from '@/Components/Common/BrandLoader'
 
-function NavigatePage() {
-    const navigate = useNavigate()
-    navigate('/home')
+
+function TransferPage() {
+  const [isLoading, setisLoading] = useState(false)
+  const navigate = useNavigate()
+  const { api_getFreeMenuList } = ProjectApiList()
+  const {  setmenuList } = useContext(contextVar)
+
+
+  useEffect(() => {
+    let token = window.localStorage.getItem('token')
+    setisLoading(true)
+    if (token == null) {
+      navigate('/')
+      return
+    }
+    fetchMenuList()
+
+  }, [])
+
+  // 3 CHANGE FOR SINGLE AUTH
+  const fetchMenuList = () => {
+    let requestBody = {
+      moduleId: 1
+    }
+
+    console.log('api header to login...')
+    axios.post(api_getFreeMenuList, requestBody, ApiHeader())
+      .then(function (response) {
+        console.log('fetched menu list.....', response)
+        // return
+        if (response.data.status == true) {
+          setLocalStorageItemStrigified('menuList',response?.data?.data?.permission)
+          setLocalStorageItemStrigified('userName',response?.data?.data?.userDetails?.userName)
+          setLocalStorageItemStrigified('roles',response?.data?.data?.userDetails?.roles)
+          setLocalStorageItemStrigified('userUlbName',response?.data?.data?.userDetails?.ulb)
+          setLocalStorageItemStrigified('userMobile',response?.data?.data?.userDetails?.mobileNo)
+          setLocalStorageItemStrigified('userEmail',response?.data?.data?.userDetails?.email)
+          setLocalStorageItemStrigified('userImage',response?.data?.data?.userDetails?.imageUrl)
+          setmenuList(response?.data?.data?.permission)
+          navigate('/home')
+
+        } else {
+          console.log('false...')
+          // seterrorMsg(response.data.message)
+          // notify(response.data.message, 'error') //toast message if wrong credentails
+        }
+        setisLoading(true)
+      })
+      .catch(function (error) {
+        // setLoaderStatus(false)
+        // seterroState(true)
+        console.log('--2--login error...', error)
+        setisLoading(true)
+      })
+
+
+  }
+
+  if (isLoading) {
+    return (
+      <BrandLoader />
+    )
+  }
 }
 
-export default NavigatePage
+export default TransferPage
 ```
+ 
 
-
-Adjust your login route
+> <h1>Step 2 - App.jsx (Add a route /transfer to App.jsx)</h1>
 ```
-  <Route path='/login/:tokenPassed' element={<Login menuFetchStatus={menuFetchStatus} setmenuFetchStatus={setmenuFetchStatus} />} />
-
-```
-
-
-
-<div style="margin-top:30px"></div>
-
-> <h1>Step 2 - Login.js (Adjust these codes)</h1>
-Add these codes just above your login jsx (we dont need jsk view)
-```
-  // 3 CHANGE FOR SINGLE AUTH
-      const { tokenPassed } = useParams()
-    const fetchMenuList = () => {
-        props?.setmenuFetchStatus(true)
-        let requestBody = {
-            roleId: 6
-        }
-
-        console.log('api header to login...',ApiHeader())
-        axios.post(api_getFreeMenuList, requestBody, ApiHeader())
-            .then(function (response) {
-                console.log('fetched menu list.....', response)
-                // return
-                if (response.data.status == true) {
-                    window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data))
-                    // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
-                    // window.localStorage.setItem('roles', JSON.stringify(response?.data?.data?.userDetails?.role))
-
-                    setmenuList(response?.data?.data)
-                    // setuserName(response?.data?.data?.userDetails?.userName)
-                    // setroles(response?.data?.data?.userDetails?.role)
-
-                } else {
-                    console.log('false...')
-                    setLoaderStatus(false)
-                    // seterrorMsg(response.data.message)
-                    notify(response.data.message, 'error') //toast message if wrong credentails
-                }
-                props?.setmenuFetchStatus(false)
-            })
-            .catch(function (error) {
-                setLoaderStatus(false)
-                seterroState(true)
-                console.log('--2--login error...', error)
-                props?.setmenuFetchStatus(false)
-                notify('Something went wrongg!! ', 'error') //catching the error
-            })
-
-
-    }
-
-    // 2 CHANGE FOR SINGLE AUTH
-    const setAuthState = () => {
-        if (tokenPassed == 'fresh') {
-            // PRODUCTION CASE WHEN ALL MODULES ARE HOSTED AT SINGLE PORT
-            // navigate(`/admin-login`)
-
-            // DEVELOPMENT CASE ONLY FOR DEVELOPMENT
-            window.location.href = "http://127.0.0.1:5173/admin-login"
-            return
-        }
-
-        console.log('token not defined......')
-        window.localStorage.setItem('token', tokenPassed)
-        fetchMenuList()
-        navigate(`/state-dashboard`)
-    }
-
-    // 1 CHANGE FOR SINGLE AUTH
-    useEffect(() => {
-
-        console.log('routes... parama via naviate.', tokenPassed)
-        setAuthState()
-    }, [])
-
-    return
+   <Route path='/transfer' element={<TransferPage/>} />
 
 ```
 
 
 
 
-
-> <h3>Step 3 - Header.js (Adjust these codes)</h3>
-Add module selectbox to the view
-```
-   <form className="hidden sm:inline-block md:inline-block mx-5 ml-20">
-              <div className="flex flex-wrap items-stretch w-full relative">
-                <select onChange={(e) => setmodule(e.target.value)} className="font-semibold flex-shrink flex-grow max-w-full leading-5 relative text-sm py-2 px-4 ltr:rounded-l rtl:rounded-r text-gray-800 bg-gray-100 overflow-x-auto focus:outline-none border border-gray-100 focus:border-gray-200 focus:ring-0 darks:text-gray-400 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600 cursor-pointer" placeholder="Search…" aria-label="Search" >
-                  <option value="property">Property</option>
-                  <option value="water">Water</option>
-                  <option value="trade">Trade</option>
-                  <option value="advertisement">Advertisement</option>
-                  <option value="dashboard">Dashboard</option>
-                </select>
-                <div className="flex -mr-px">
-                  <button onClick={() => navigateModule()} className="flex items-center py-2 px-4 ltr:-ml-1 rtl:-mr-1 ltr:rounded-r rtl:rounded-l leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0" type="button">
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2="16.65" y2="16.65" /></svg> */}
-                    <TiArrowRightThick className='text-white inline' />
-                  </button>
-                </div>
-              </div>
-            </form>
-
-```
-
-Adjust the logout function
-```
-  const logOutUser = () => {
-    closeModal()
-    window.localStorage.removeItem('menuList')
-    window.localStorage.removeItem('userName')
-    window.localStorage.removeItem('roles')
-    window.localStorage.removeItem('token')
-    props.LOGOUT()
-   // PRODUCTION CASE WHEN ALL MODULES ARE HOSTED AT SINGLE PORT
-    // navigate(`/admin-login`)
-
-    // DEVELOPMENT CASE ONLY FOR DEVELOPMENT
-    window.location.href = "http://127.0.0.1:5173/admin-login"
-  }
-
-```
-
-create navigateModule function and add these codes
-```
-
-  const [module, setmodule] = useState('property')
-
-  const navigateModule = () => {
-    // PRODUCTION CASE WHEN ALL MODULES ARE HOSTED AT SINGLE PORT
-    // navigate(`/${module}`)
-
-    // DEVELOPMENT CASE ONLY FOR DEVELOPMENT
-    let token = window.localStorage.getItem('token')
-    if (module == 'property') {
-      window.location.href = `http://localhost:3000/property/login/${token}`
-    }
-    if (module == 'dashboard') {
-      window.location.href = `http://localhost:5174/dashboard/login/${token}`
-    }
-  }
-
-```
-
-> <h1>You need to uncomment url as per production or development mode (because we have different url's for production and development mode)</h1>
-
-```
-1 - Login.js (at setAuthState function)
-2 - Header.js (at logout function)
-3 - Header.js (at navigateModule function)
-4 - Login.js (at authUser function after login response in admin-login project)
-```

@@ -22,6 +22,7 @@ import ApiHeader from '@/Components/ApiList/ApiHeader';
 import ProjectApiList from '@/Components/ApiList/ProjectApiList';
 import axios from 'axios';
 import { RotatingLines } from "react-loader-spinner";
+import { getLocalStorageItemJsonParsed } from '../localstorage';
 
 
 function Sidebar(props) {
@@ -33,7 +34,9 @@ function Sidebar(props) {
 
   useEffect(() => {
     // return
-    let lMenuList = menuList == '' ? JSON.parse(window.localStorage.getItem('menuList')) : menuList
+    // let lMenuList = menuList == '' ? JSON.parse(window.localStorage.getItem('menuList')) : menuList
+    let lMenuList = menuList == '' ? getLocalStorageItemJsonParsed('menuList') : menuList
+
     console.log('menu at console....', lMenuList)
     setmenuList(lMenuList)
 

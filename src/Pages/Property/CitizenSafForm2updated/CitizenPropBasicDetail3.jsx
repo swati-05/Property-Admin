@@ -411,7 +411,7 @@ function CitizenPropBasicDetail3(props) {
                             {/* // APT-1 IN CASE OF FLAT/MULTI STORED BUILDING */}
                             {props?.apartmentStatus && <div className={`form-group col-span-12 md:col-span-3 mb-4 md:px-2`}>
                                 <label className={`form-label inline-block mb-1 text-gray-600 text-sm font-semibold`}>Apartment<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
-                                <select disabled={inputConditionState?.apartment?.readOnly} {...formik.getFieldProps('apartment')} className={`${commonInputStyle} cursor-pointer cypress_apartment ${inputConditionState?.apartment?.style}`}
+                                <select onClick={()=>{props?.apartmentList?.length==0 && props?.activateBottomErrorCard(true,'Ward no 40 does not have apartments')}} disabled={inputConditionState?.apartment?.readOnly} {...formik.getFieldProps('apartment')} className={`${commonInputStyle} cursor-pointer cypress_apartment ${inputConditionState?.apartment?.style}`}
                                 >
                                     <option value="" >Select</option>
                                     {props?.apartmentList?.length !== 0 &&

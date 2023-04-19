@@ -165,7 +165,7 @@ function Header(props) {
           <div className='flex items-center'>
             <div class=" text-center py-3">
               <a href="#" class="relative">
-                <h2 class="text-2xl font-semibold text-gray-200 px-4 max-h-9 overflow-hidden hidden-compact">
+                <h2 class="text-2xl font-semibold text-gray-200 md:px-4 max-h-9 overflow-hidden hidden-compact">
                   <span class="text-gray-700 darks:text-gray-200">UD&HD</span>
                 </h2>
                 <h2 class="text-3xl font-semibold mx-auto logo-compact hidden">
@@ -226,7 +226,7 @@ function Header(props) {
               {/* <i class="text-2xl fas fa-bars"></i> */}
             </button>
             
-            <div className='ml-20'><span onClick={()=> openModal2() } className='bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md'>Modules</span> </div>
+            <div className='ml-2 md:ml-20'><span onClick={()=> openModal2() } className='bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md'>Modules</span> </div>
           </div>
          
 
@@ -249,7 +249,7 @@ function Header(props) {
                 <span className="sr-only">Customizer</span>
                 <Tooltip anchorId='logout_button' />
                 {/* ONLY FOR CYPRESS TESTING */}
-                <span  onClick={openModal} className="cypress_logout inline text-2xl font-semibold" >lOGOUT</span>
+                {/* <span  onClick={openModal} className="cypress_logout inline text-2xl font-semibold" >lOGOUT</span> */}
                 <BiLogOutCircle id='logout_button' data-tooltip-content=" Click to Logout User." onClick={openModal} className="inline text-2xl font-semibold" />
                 {/* <i class="text-2xl fas fa-cog"></i> */}
               </a>
