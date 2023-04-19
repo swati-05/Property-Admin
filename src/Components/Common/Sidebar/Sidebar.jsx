@@ -35,7 +35,7 @@ function Sidebar(props) {
   useEffect(() => {
     // return
     // let lMenuList = menuList == '' ? JSON.parse(window.localStorage.getItem('menuList')) : menuList
-    let lMenuList =  getLocalStorageItemJsonParsed('menuList')
+    let lMenuList = menuList == '' ? getLocalStorageItemJsonParsed('menuList') : menuList
 
     console.log('menu at console....', lMenuList)
     setmenuList(lMenuList)

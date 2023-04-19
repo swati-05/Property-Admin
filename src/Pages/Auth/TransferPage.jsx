@@ -1,15 +1,19 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ApiHeader from '@/Components/ApiList/ApiHeader'
 import axios from 'axios'
 import BarLoader from '@/Components/Common/BarLoader'
 import ProjectApiList from '@/Components/ApiList/ProjectApiList'
 import { setLocalStorageItemStrigified } from '@/Components/Common/localstorage'
+import { contextVar } from '@/Components/Context/Context';
+
 
 function TransferPage() {
   const [isLoading, setisLoading] = useState(false)
   const navigate = useNavigate()
   const { api_getFreeMenuList } = ProjectApiList()
+  const {  setmenuList } = useContext(contextVar)
+
 
   useEffect(() => {
     let token = window.localStorage.getItem('token')
@@ -41,6 +45,7 @@ function TransferPage() {
           setLocalStorageItemStrigified('userMobile',response?.data?.data?.userDetails?.mobileNo)
           setLocalStorageItemStrigified('userEmail',response?.data?.data?.userDetails?.email)
           setLocalStorageItemStrigified('userImage',response?.data?.data?.userDetails?.imageUrl)
+          setmenuList(response?.data?.data?.permission)
 
           // window.localStorage.setItem('menuList', JSON.stringify(response?.data?.data?.permission))
           // window.localStorage.setItem('userName', JSON.stringify(response?.data?.data?.userDetails?.userName))
