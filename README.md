@@ -1,7 +1,7 @@
 # Changes in admin modules for single login redirect
 
 > <h1>Step 1 - App.js (Adjust these codes)</h1>
-Add state variable to track menulist fetching
+sidebar is checking menuList(global state) first otherwise picks up the data from localstorage
 ```
  const [menuFetchStatus, setmenuFetchStatus] = useState(false);
 
