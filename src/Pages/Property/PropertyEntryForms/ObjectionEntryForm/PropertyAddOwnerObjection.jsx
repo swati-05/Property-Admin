@@ -225,7 +225,7 @@ function PropertyAddOwnerObjection(props) {
         }
 
         if(document == null){
-            toast.error('Select Document !!!')
+            toast.error('Upload Document !!!')
             return
         }
 

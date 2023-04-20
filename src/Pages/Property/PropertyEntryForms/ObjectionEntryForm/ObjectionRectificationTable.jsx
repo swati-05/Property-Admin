@@ -25,6 +25,7 @@ import { FiMinusCircle } from "react-icons/fi";
 import { BsPlusCircle } from "react-icons/bs";
 import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 import { nullToNA } from "@/Components/PowerUps/PowerupFunctions";
+import OtpCard from "@/Pages/Workflow/Property/CitizenAuth/OtpCard";
 
 const ObjectionRectificationTable = (props) => {
   const navigate = useNavigate();
@@ -66,9 +67,9 @@ const ObjectionRectificationTable = (props) => {
   const [mobileCardStatus, setmobileCardStatus] = useState(false);
   const [otpCardStatus, setotpCardStatus] = useState(false);
   const [verifedMobileNo, setverifedMobileNo] = useState(null);
-  const [erroState, seterroState] = useState(false);
+  const [errorState, seterrorState] = useState(false);
   const [isLoading2, setisLoading2] = useState(false);
-  const [erroMessage, seterroMessage] = useState(null);
+  const [errorMsg, seterrorMsg] = useState(null);
 
   useEffect(() => {
     console.log("Api Header => ", ApiHeader());
@@ -164,10 +165,79 @@ const ObjectionRectificationTable = (props) => {
 
     onSubmit: (values) => {
       console.log("--4-- application data => ", values);
-      submitData(values);
+      let ruleOk = checkRuleSet(values)
+      ruleOk && submitData(values);
     },
     // validationSchema,
   });
+
+  const activateBottomErrorCard = (state, msg) => {
+    seterrorMsg(msg)
+    seterrorState(state)
+  }
+
+  const checkRuleSet = (values) => {
+
+    if (nameStatus) {
+      if (values.ownerName == '' || values.ownerName == undefined) {
+        activateBottomErrorCard(true, 'Please enter name')
+        return false
+      }
+      if (values.nameCode == '') {
+        activateBottomErrorCard(true, 'Please select document')
+        return false
+      }
+      if (values.nameDoc == '') {
+        activateBottomErrorCard(true, 'Please upload name proof')
+        return false
+      }
+    }
+
+    if (mobileStatus) {
+      if (values.mobileNo == '' || values.mobileNo == undefined) {
+        activateBottomErrorCard(true, 'Please enter mobile no.')
+        return false
+      }
+    }
+
+    if (addressStatus) {
+
+      if(values.corrLocality == '' || values.corrLocality == undefined){
+        activateBottomErrorCard(true, 'Please enter locality')
+        return false
+      }
+      if (values.corrCity == '' || values.corrCity == undefined) {
+        activateBottomErrorCard(true, 'Please enter city')
+        return false
+      }
+      if (values.corrDist == '' || values.corrDist == undefined) {
+        activateBottomErrorCard(true, 'Please enter district')
+        return false
+      }
+      if (values.corrState == '' || values.corrState == undefined) {
+        activateBottomErrorCard(true, 'Please enter state')
+        return false
+      }
+      if (values.corrPinCode == '' || values.corrPinCode == undefined) {
+        activateBottomErrorCard(true, 'Please enter pincode')
+        return false
+      } else if ((values.corrPinCode).toString().length != 6 ){
+        activateBottomErrorCard(true, 'Pincode must be 6 digits')
+        return false
+      }
+      if (values.addrCode == '' || values.addrCode == undefined) {
+        activateBottomErrorCard(true, 'Please select document')
+        return false
+      }
+      if (values.addressDoc == '' || values.addressDoc == undefined) {
+        activateBottomErrorCard(true, 'Please upload address proof')
+        return false
+      }
+    }
+
+    return true;
+
+  }
 
   const submitData = (values) => {
     setisLoading2(true);
@@ -326,14 +396,16 @@ const ObjectionRectificationTable = (props) => {
   };
 
   const mobileVerify = () => {
-    if (
-      formik.values.mobileNo >= 1000000000 &&
-      formik.values.mobileNo <= 9999999999
-    ) {
+    console.log("mobile no. => ",formik.values.mobileNo)
+    if (formik.values.mobileNo == '' || formik.values.mobileNo == undefined) {
+      activateBottomErrorCard(true, 'Please enter your mobile no.')
+      return false
+    } else if((formik.values.mobileNo).toString().length != 10){
+      activateBottomErrorCard(true, 'Please check your mobile no.')
+      return false
+    } else {
       setotpCardStatus(true);
       console.log("getting status from clerical in main => ", openOtpScreen);
-    } else {
-      toast.error("Check your mobile number !!!");
     }
   };
 
@@ -352,11 +424,6 @@ const ObjectionRectificationTable = (props) => {
     setverifyStatus(true);
   };
 
-  const activateBottomErrorCard = (state, msg) => {
-    seterroMessage(msg)
-    seterroState(state)
-
-  }
 
   if (otpCardStatus) {
     return (
@@ -373,7 +440,7 @@ const ObjectionRectificationTable = (props) => {
   return (
     <>
       {isLoading2 && <BarLoader />}
-      {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
+      {errorState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={errorMsg} />}
 
       <ToastContainer position="top-right" autoClose={2000} />
 
@@ -686,7 +753,7 @@ const ObjectionRectificationTable = (props) => {
                               className={commonInputStyle + ` poppins `}
                               disabled={verifyStatus}
                               name="mobileNo"
-                              maxLength="10"
+                              maxLength={10}
                               value={formik.values.mobileNo}
                               id=""
                               placeholder="Type your correct mobile No...."
@@ -721,7 +788,8 @@ const ObjectionRectificationTable = (props) => {
                     {/* Address Card */}{" "}
                     {addressStatus &&
                       ownerDetails?.corr_address == "" ||
-                      ownerDetails?.corr_address == undefined && (
+                      ownerDetails?.corr_address == undefined && 
+                      (
                         <div className="animate__animated animate__fadeIn animate__faster grid grid-cols-12 gap-y-2 gap-x-2 sm:gap-x-0 text-sm px-2 sm:px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2">
                           <div className="col-span-12 md:col-span-3 poppins pr-4  2xl:text-base text-xs">
                             Corresponding Address : <br />

@@ -27,7 +27,7 @@ import BottomErrorCard from "@/Components/Common/BottomErrorCard";
 function ConcessionForm(props) {
   const { getConcessionOwners, postConcessionForm, getDocMaster } = apiList();
 
-  const {id} = useParams()
+  const { id } = useParams()
   console.log("id in concession => ", id)
 
   // console.log("header => ", ApiHeader2());
@@ -62,13 +62,15 @@ function ConcessionForm(props) {
   const [speciallyId, setspeciallyId] = useState()
   const [speciallyName, setspeciallyName] = useState()
   const [ulbId, setulbId] = useState()
+  const [errorState, seterrorState] = useState(false)
+  const [errorMsg, seterrorMsg] = useState('')
 
   const navigate = useNavigate();
 
   const closeModal = () => {
     navigate(`/holdingPropertyDetails/${id}`)
   }
-  
+
   // Getting owner list
   useEffect(() => {
     setopenSubmit(false)
@@ -196,7 +198,7 @@ function ConcessionForm(props) {
 
   const formik = useFormik({
     initialValues: {
-      gender: "2",
+      genders: "",
       dob: "",
       speciallyAbled: true,
       speciallyAbledPercentage: '',
@@ -214,11 +216,89 @@ function ConcessionForm(props) {
     enableReinitialize: true,
 
     onSubmit: (values) => {
-      console.log("--1-- values => ", values);
-      submitData(values);
+      console.log("submitting values => ", values);
+      let ruleOk = checkRuleSet(values)
+      ruleOk && submitData(values);
     },
     // validationSchema,
   });
+
+  const activateBottomErrorCard = (state, msg) => {
+    seterrorMsg(msg)
+    seterrorState(state)
+  }
+
+  // console.log('error data => ', errorMsg, errorState, genderStatus, formik.values.genders)
+
+  const checkRuleSet = (values) => {
+
+    if (genderStatus) {
+      if (values.genders == '') {
+        activateBottomErrorCard(true, 'Please select gender')
+        return false
+      }
+      if (values.genderCode == '') {
+        activateBottomErrorCard(true, 'Please select gender document')
+        return false
+      }
+      if (values.genderDoc == '') {
+        activateBottomErrorCard(true, 'Please upload gender proof')
+        return false
+      }
+    }
+
+    if (seniorStatus) {
+      if (values.dob == '') {
+        activateBottomErrorCard(true, 'Please enter dob')
+        return false
+      } else
+      if((moment().diff(moment(values.dob), 'years') >= 60) == false) {
+        activateBottomErrorCard(true, 'You must be atleast 60 years of age')
+        return false
+      }
+      if (values.dobCode == '') {
+        activateBottomErrorCard(true, 'Please select dob document')
+        return false
+      }
+      if (values.dobDoc == '') {
+        activateBottomErrorCard(true, 'Please upload dob proof')
+        return false
+      }
+    }
+
+    if (speciallyStatus) {
+      if (values.speciallyAbledPercentage == '') {
+        activateBottomErrorCard(true, 'Please enter Specially-Abled percentage')
+        return false
+      } else 
+      if(values.speciallyAbledPercentage < 40){
+        activateBottomErrorCard(true, 'Specially-Abled Percentage should be atleast 40%')
+        return false
+      }
+      if (values.speciallyAbledCode == '') {
+        activateBottomErrorCard(true, 'Please select Specially-Abled document')
+        return false
+      }
+      if (values.speciallyAbledDoc == '') {
+        activateBottomErrorCard(true, 'Please upload Specially-Abled proof')
+        return false
+      }
+    }
+
+    if (armedStatus) {
+      if (values.armedForceCode == '') {
+        activateBottomErrorCard(true, 'Please select armed force document')
+        return false
+      }
+      if (values.armedForceDoc == '') {
+        activateBottomErrorCard(true, 'Please upload armed force proof')
+        return false
+      }
+    }
+
+    return true;
+
+  }
 
   const submitData = (values) => {
 
@@ -234,7 +314,7 @@ function ConcessionForm(props) {
     fd.append('ownerId', ownerList?.data?.ownerId)
 
     if (genderStatus == true) {
-      fd.append("gender", values.gender);
+      fd.append("gender", values.genders);
       fd.append("genderDoc", genderUpload);
       // fd.append("genderCode", genderId)
       // fd.append("genderRefName", genderName)
@@ -275,29 +355,29 @@ function ConcessionForm(props) {
     }, 10000);
 
     axios
-    .post(postConcessionForm, fd, ApiHeader())
-    .then((res) => {
-      if (res?.data?.status == true) {
-        console.log(
-          "successfully posted => ",
-          res,
-          "\n result data =>",
-          fd
-        );
-        toast.success("Concession Applied Successfully!!");
-        setappId(res?.data?.data)
-        setopenSubmit(true)
-      } else {
+      .post(postConcessionForm, fd, ApiHeader())
+      .then((res) => {
+        if (res?.data?.status == true) {
+          console.log(
+            "successfully posted => ",
+            res,
+            "\n result data =>",
+            fd
+          );
+          toast.success("Concession Applied Successfully!!");
+          setappId(res?.data?.data)
+          setopenSubmit(true)
+        } else {
+          activateBottomErrorCard(true, 'Error occured in submitting Concession application. Please try again later.')
+        }
+        setisLoading(false)
+
+
+      }).catch((err) => {
+        setisLoading(false)
         activateBottomErrorCard(true, 'Error occured in submitting Concession application. Please try again later.')
-      }
-      setisLoading(false)
 
-
-    }).catch((err) => {
-      setisLoading(false)
-      activateBottomErrorCard(true, 'Error occured in submitting Concession application. Please try again later.')
-
-    })
+      })
   };
 
   const submitCon = (appId) => {
@@ -348,7 +428,7 @@ function ConcessionForm(props) {
       setspeciallyStatus(true)
     }
 
-    if (name != 'declaration' && checkValue) { 
+    if (name != 'declaration' && checkValue) {
       setisLoading(true)
       axios.post(getDocMaster, { doc: e.target.name }, ApiHeader())
         .then((res) => {
@@ -375,7 +455,7 @@ function ConcessionForm(props) {
           }
         })
         .finally(() => setisLoading(false))
-      }
+    }
 
     // if (name != 'declaration') {
     //   setisLoading(true)
@@ -436,6 +516,8 @@ function ConcessionForm(props) {
 
   return (
     <>
+
+  { errorState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={errorMsg} /> }
 
       <ToastContainer position="top-right" autoClose={2000} />
 
@@ -603,17 +685,17 @@ px-6 py-2 mt-2 shadow-sm font-base poppins bg-zinc-50 rounded-sm mb-2 gap-x-6">
                       Gender
                     </label>
                     <select onChange={formik.handleChange}
-                      {...formik.getFieldProps("gender")}
-                      value={formik.values.gender}
+                      {...formik.getFieldProps("genders")}
+                      value={formik.values.genders}
                       className="form-control block poppins w-full px-3 py-1.5 2xl:text-sm text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md"
                     >
-                      <option value="" selected>--Select--</option>
+                      <option value="">--Select--</option>
                       <option value="Female">Female</option>
                       <option value="Transgender">Transgender</option>
                     </select>
                     <span className="text-red-600  text-xs">
-                      {formik.touched.gender && formik.errors.gender
-                        ? formik.errors.gender
+                      {formik.touched.genders && formik.errors.genders
+                        ? formik.errors.genders
                         : null}
                     </span>
                   </div>

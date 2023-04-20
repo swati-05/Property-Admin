@@ -143,10 +143,64 @@ function ObjectionEntryForm(props) {
     onSubmit: (values) => {
       // console.log("electricity ", values);
       // formik.setFieldValue('floor', allfloor)
-      submitFun(values);
+      let ruleOk = checkRuleSet(values)
+      ruleOk && submitFun(values);
     },
-    validationSchema,
+    // validationSchema,
   });
+
+  const checkRuleSet = (values) => {
+
+    if(values.harvestingToggleStatus == false && values.roadWidthToggleStatus == false && values.propertyTypeToggleStatus == false && values.plotAreaToggleStatus == false && values.mobileTowerToggleStatus == false &&values.hoardingToggleStatus == false && values.floorToggleStatus == false ){
+      activateBottomErrorCard(true, 'You have not selected any field to change')
+      return false
+    }
+
+    if (values.harvestingToggleStatus) {
+      if (values.isWaterHarvesting == '' || values.isWaterHarvesting == undefined) {
+        activateBottomErrorCard(true, 'Please change Water Harvesting details')
+        return false
+      }
+    }
+
+    if (values.roadWidthToggleStatus) {
+      if (values.roadType == '' || values.roadType == undefined) {
+        activateBottomErrorCard(true, 'Please change Road Type details')
+        return false
+      }
+    }
+
+    if (values.propertyTypeToggleStatus) {
+      if (values.propertyType == '' || values.propertyType == undefined) {
+        activateBottomErrorCard(true, 'Please change Property Type details')
+        return false
+      }
+    }
+
+    if (values.plotAreaToggleStatus) {
+      if (values.areaOfPlot == '' || values.areaOfPlot == undefined) {
+        activateBottomErrorCard(true, 'Please change Area of Plot details')
+        return false
+      }
+    }
+
+    if (values.mobileTowerToggleStatus) {
+      if (values.isMobileTower == '' || values.isMobileTower == undefined) {
+        activateBottomErrorCard(true, 'Please change Mobile Tower details')
+        return false
+      }
+    }
+
+    if (values.hoardingToggleStatus) {
+      if (values.isHoarding == '' || values.isHoarding == undefined) {
+        activateBottomErrorCard(true, 'Please change Hoarding details')
+        return false
+      }
+    }
+
+    return true;
+
+  }
 
   const handleChangeImage = (e) => {
     if (e.target.name == "objFormDoc") {
