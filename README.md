@@ -92,6 +92,8 @@ export default TransferPage
 
 > <h1>Step 3 - Add View for modules list to switch in header.jsx</h1>
 ```
+  <div className='ml-2 md:ml-20'><span onClick={()=> openModal2() } className='bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md'>Modules</span> </div>
+  ---------------------------------------------------------------------------------------------
  <Modal
         isOpen={modalIsOpen2}
         onRequestClose={closeModal2}
